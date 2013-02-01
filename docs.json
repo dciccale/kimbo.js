@@ -2,6 +2,6 @@
   "title": "Kimbo.js API Documentation",
   "options": {
     "output": "api/index.html",
-    "source": "../dist/kimbo.js"
+    "source": "dist/kimbo.js"
   }
 }
