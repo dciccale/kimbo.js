@@ -1,0 +1,7 @@
+node_modules
+src/resources
+demo
+dist
+css
+js
+*.html

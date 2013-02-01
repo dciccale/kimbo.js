@@ -1,0 +1,31 @@
+{
+  "name": "kimbo",
+  "description": "The only ECMAScript 5 compatible JavaScript library",
+  "version": "1.0.0",
+  "author": "Denis Ciccale (@tdecs)",
+  "homepage": "http://kimbojs.com",
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/dciccale/kimbo.js.git"
+    }
+  ],
+  "bugs": {
+    "url": "http://github.com/dciccale/kimbo.js/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/dciccale/kimbo.js/blob/master/LICENSE.txt"
+    }
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "0.3.x",
+    "grunt-contrib-stylus": "0.3.x",
+    "grunt-contrib-jade": "0.3.x",
+    "grunt-contrib-mincss": "0.3.x",
+    "grunt-contrib-coffee": "0.3.x"
+  },
+  "keywords": ["javascript", "library", "ecmascript", "kimbo"]
+}

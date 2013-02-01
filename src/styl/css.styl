@@ -1,0 +1,232 @@
+@import mixins
+
+body
+  background #ececec
+  padding-top 30px
+  font-family arial
+
+a
+  color #4c9242
+  text-decoration none
+
+  &:hover
+    color #3a7532
+
+em
+  font-style italic
+
+strong
+  font-weight bold
+
+#logo
+  text-align center
+
+h1
+  font-family 'Dosis', sans-serif
+  font-size 1.9em
+  text-align center
+  color #4F634D
+  margin-top 10px
+  padding 20px 0 40px 0
+  text-shadow 1px 1px white
+  font-weight 700
+  background-linear-gradient rgba(255, 255, 255, 0), #fff
+
+#social
+  position fixed
+  font-size 1.8em
+  top 20px
+  right 20px
+  a
+    margin 0 0 0 16px
+
+#nav
+  background rgba(76, 146, 66, .3)
+  box-shadow inset 0 1px rgba(76,146,66,.3), inset 0 2px rgba(255,255,255,0.6), inset 0 -1px 2px rgba(0,0,0,0.3)
+  text-align center
+  padding 6px 0
+  margin-bottom 40px
+  li
+    list-style-type none
+    display inline
+    &.more
+      font-size 10px
+    a
+      $color = #476942
+      font-family 'Dosis',sans-serif
+      text-transform uppercase
+      text-decoration none
+      display inline-block
+      padding 2px 8px
+      margin 0 10px
+      font-size 14px
+      font-weight 500
+      color #23281b
+      border-radius 3px
+      &:hover
+        //background-color lighten($color, 20%)
+        color black
+        text-decoration underline
+      &.current
+        text-decoration none
+        cursor default
+        background-color $color
+        box-shadow 0px 0px 0px 1px #2D442A, inset 0 0 5px 2px rgba(0, 0, 0, .3)
+        color #E3EBA2
+
+#banner
+  box-shadow inset 0px 3px 10px rgba(0, 0, 0, 0.4), inset 0px -3px 10px rgba(0, 0, 0, 0.4)
+  background #3c3c3c
+  overflow hidden
+  padding-bottom 10px
+  margin-bottom 60px
+  min-width 500px
+  width 100%
+  position relative
+  z-index 1
+  text-shadow 1px 1px black
+  .col
+    position relative
+    width 24%
+    padding 2% 4%
+    float left
+  h2
+    font-family 'Yanone Kaffeesatz', sans-serif
+    font-size 36px
+    color #fff
+    text-transform uppercase
+    margin 0
+    margin-bottom 10px
+    text-align center
+    &.normal
+      font-weight 400
+    &.light
+      font-weight 100
+      em
+        margin-right 5px
+  p
+    font-family 'Yanone Kaffeesatz', sans-serif
+    font-weight 100
+    font-size 18px
+    text-align justify
+    color #eef2be
+    margin 0
+    margin-bottom 10px
+    a
+      cursor pointer
+      font-family Dosis
+      font-weight bold
+      color #F6FACA
+      text-decoration underline
+      &:hover
+        text-decoration none
+
+#download
+  text-align center
+  .btn
+    padding 10px 30px
+    font-family 'Dosis', sans-serif
+    font-weight bold
+    font-size 36px
+    display inline-block
+
+.btn
+  background-color #7fbf4d
+  background-linear-gradient #7fbf4d, #63a62f
+  border 1px solid #63a62f
+  border-bottom 1px solid #5b992b
+  border-radius 3px
+  box-shadow inset 0 1px 0 0 #96ca6d
+  color #fff
+  padding 7px 0 8px 0
+  text-align center
+  text-shadow 1px 1px black
+
+  &:hover
+    color #fff
+    background-color #76b347
+    background-linear-gradient #76b347, #5e9e2e
+    box-shadow inset 0 1px 0 0 #8dbf67
+
+  &:active
+    border 1px solid #5b992b
+    border-bottom 1px solid #538c27
+    box-shadow inset 0 0 8px 4px #548c29, 0 1px 0 0 #eeeeee
+
+span.size
+  display block
+  font-family 'Yanone Kaffeesatz', sans-serif
+  font-size 15px
+  margin-top 5px
+  color #444
+  text-shadow 0px 0px 5px #fff
+
+
+.perfContainer
+  background-color rgba(255,255,255,0.6)
+  border-top 1px solid rgba(0,0,0,0.1)
+  border-bottom 1px solid rgba(0,0,0,0.1)
+  padding-bottom 60px
+  margin-top 50px
+  padding-top 30px
+
+h2.medium
+  font-family 'Yanone Kaffeesatz', sans-serif
+  font-size 2em
+  text-align center
+  margin-bottom 30px
+  color #444
+  text-shadow 1px 1px #fff
+
+$graph-width = 600px
+#iframe
+  width $graph-width
+  height 513px
+  margin 0 auto
+  display block
+  border 0
+  border-radius 8px
+  box-shadow 0px 0px 30px 5px rgba(0,0,0,0.3)
+
+
+// performance chart page
+.performance-chart
+  background-color white
+  padding 0
+  overflow hidden
+  p
+    display none
+  p.show
+    display block
+    padding 10px
+    border-bottom 1px solid rgba(0,0,0,0.3)
+    text-align right
+    font-size 0.7em
+
+.bs-rt-message
+  color #333
+  margin-top 20px
+  font-size 0.8em
+  text-align center
+  display block
+
+#charts,
+#filters,
+#bs-logo,
+#bs-ua
+  display none
+
+#bs-results
+  width $graph-width
+  margin 0 auto
+
+
+.author
+  padding-top 20px
+  padding-bottom 50px
+  text-align center
+#footer
+  padding 50px 0
+  font-size 10px
+  text-align center
+

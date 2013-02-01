@@ -1,0 +1,40 @@
+prefix(prop, val)
+  -webkit-{prop} val
+  -moz-{prop} val
+  -ms-{prop} val
+  -o-{prop} val
+  {prop} val
+
+box-shadow()
+  prefix('box-shadow', arguments)
+
+border-radius()
+  prefix('border-radius', arguments)
+
+transition()
+  prefix('transition', arguments)
+
+opacity(val)
+  opacity val
+  filter unquote('alpha(opacity=' + val * 100 + ')')
+
+background-linear-gradient(topColor, bottomColor)
+  background-image -webkit-linear-gradient(top, topColor, bottomColor)
+  background-image -moz-linear-gradient(top, topColor, bottomColor)
+  background-image -ms-linear-gradient(top, topColor, bottomColor)
+  background-image -o-linear-gradient(top, topColor, bottomColor)
+  background-image linear-gradient(top, topColor, bottomColor)
+
+user-select()
+  prefix('user-select', arguments)
+
+// utilities
+.clear:before, .clear:after
+  content " "
+  display table
+
+.clear:after
+  clear both
+
+.clear
+  *zoom 1

@@ -1,0 +1,18 @@
+!!!5
+meta(charset="utf-8")
+title Performance test: #{title}
+link(href="http://yui.yahooapis.com/3.8.1/build/cssreset/cssreset-min.css", rel="stylesheet")
+link(href="css/css.css", rel="stylesheet")
+
+body.performance-chart
+
+  p.show
+    a(href="http://jsperf.com/#{url}", target="_blank") Run tests in jsperf.com
+  #bs-results
+
+  script(src="http://a.jsperf.com/benchmark-2.js")
+  script
+    (function () {
+      ui.browserscope.key = '#{key}';
+      ui.browserscope.render({ chart: 'column' });
+    }());
