@@ -1,9 +1,5 @@
-dist
 node_modules
 demo
 dist
-api
-*.html
-js
-css
 src
+www
