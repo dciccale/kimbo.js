@@ -2,41 +2,48 @@
 module.exports = function (grunt) {
 
   grunt.initConfig({
+    outputDir: 'www',
+
     stylus: {
       compile: {
         files: {
-          'css/css.css': ['src/styl/*.styl']
+          '<%= outputDir %>/css/css.min.css': ['src/styl/*.styl']
         }
       }
     },
+
     mincss: {
       dist: {
-        src: ['css/css.css'],
-        dest: 'css/css.css'
+        src: ['src/styl/tuktuk.icon.css', '<%= outputDir %>/css/css.min.css'],
+        dest: '<%= outputDir %>/css/css.min.css'
       }
     },
+
     jade: {
       html: {
         src: ['src/jade/*.jade'],
-        dest: './',
+        dest: '<%= outputDir %>',
         options: {
           client: false
         }
       }
     },
+
     coffee: {
       compile: {
         files: {
-          'js/scripts.js': 'src/coffee/*.coffee'
+          '<%= outputDir %>/js/scripts.js': 'src/coffee/*.coffee'
         }
       }
     },
+
     min: {
       dist: {
-        src: ['js/scripts.js'],
-        dest: 'js/scripts.js'
+        src: ['<%= outputDir %>/js/scripts.js'],
+        dest: '<%= outputDir %>/js/scripts.js'
       }
     },
+
     watch: {
       stylus: {
         files: ['src/styl/*.styl'],
