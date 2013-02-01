@@ -203,8 +203,10 @@ function _addEvent(element, type, callback, data, selector) {
     // array of events for the current type
     handlers = events[type] = [];
     handlers.delegateCount = 0;
-    // add event (save bytes without passing 'useCapture', see https://developer.mozilla.org/en-US/docs/DOM/element.removeEventListener)
-    element.addEventListener(type, handler);
+    // add event
+    if (element.addEventListener) {
+      element.addEventListener(type, handler, false);
+    }
   }
 
   // add to handlers hash, delegates first
