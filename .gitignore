@@ -1,4 +1,9 @@
 dist
 node_modules
 demo
-web
+dist
+api
+*.html
+js
+css
+src
