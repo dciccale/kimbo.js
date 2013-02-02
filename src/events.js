@@ -6,8 +6,20 @@ var _guid = 1,
   keyEventProps = ['char', 'charCode', 'key', 'keyCode'],
   mouseEventProps = ['button', 'buttons', 'clientX', 'clientY', 'fromElement', 'offsetX', 'offsetY', 'screenX', 'screenY', 'toElement'],
   fixEventProps = {},
-  specialEvents = {};
+  specialEvents = {},
+  gestures_fallback = {};
 
+// gestures fallback for not mobile environment
+if (!Kimbo.isMobile()) {
+  gestures_fallback = {
+    touchstart: 'mousedown',
+    touchmove: 'mousemove',
+    touchend: 'mouseup',
+    touch: 'click',
+    doubletap: 'dblclick',
+    orientationchange: 'resize'
+  };
+}
 
 function _returnFalse() {
   return false;
@@ -435,7 +447,7 @@ Kimbo.fn.extend({
    - callback (function) A callback function to execute when the event is triggered.
    > Usage
    * Suppose a button element:
-   | <button id="btn">click me</button>
+   | <button id='btn'>click me</button>
    * Register a click event handler
    | $('#btn').on('click', function (event) {
    |   console.log('clicked!', event);
@@ -479,6 +491,8 @@ Kimbo.fn.extend({
       return this;
     }
 
+    type = gestures_fallback[type] || type;
+
     // add the event
     return this.each(function () {
       _addEvent(this, type, callback, data, selector);
@@ -495,7 +509,7 @@ Kimbo.fn.extend({
    - callback (function) #optional A specific callback function if there are multiple registered under the same event type
    > Usage
    * Suppose a button element:
-   | <button id="btn">click me</button>
+   | <button id='btn'>click me</button>
    * Register a click event handler
    | $('#btn').on('click', function (event) {
    |   console.log('clicked!', event);
@@ -535,7 +549,7 @@ Kimbo.fn.extend({
    - data (any) #optional Additional parameters to be passed to the handler in `event.data` when an event is triggered.
    > Usage
    * Suppose a button element:
-   | <button id="btn">click me</button>
+   | <button id='btn'>click me</button>
    * Register a click event handler
    | $('#btn').on('click', function (event, data) {
    |   console.log('name', data.name);
@@ -567,7 +581,7 @@ Kimbo.fn.extend({
    - fnOut (function) #optional A function to execute when the cursor leaves the element.
    > Usage
    * Suppose a div element:
-   | <div id="box"></div>
+   | <div id='box'></div>
    * Register hover event
    | var fnOver = function () { console.log('enter'); };
    | var fnOut = function () { console.log('leave'); };
