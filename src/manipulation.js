@@ -2,7 +2,6 @@
 var cssNumber = { fontWeight: true, lineHeight: true, opacity: true, zIndex: true },
   r_space = /\s+/;
 
-
 // user native classList
 function _hasClass(elem, name) {
   return (elem.nodeType === 1 && elem.classList.contains(name)) ? 1 : -1;
@@ -13,6 +12,15 @@ function _getComputedStyle(element, property) {
   // support both camelCase and dashed property names
   property = property.replace(/([A-Z])/g, '-$1').toLowerCase();
   return window.getComputedStyle(element, null).getPropertyValue(property);
+}
+
+// insertBefore helper
+function _insertBefore(elem, value, isPrepend) {
+  if (isPrepend) {
+    elem.insertBefore(value, elem.firstChild);
+  } else {
+    elem.insertBefore(value);
+  }
 }
 
 /*\
@@ -157,7 +165,7 @@ Kimbo.forEach(['add', 'remove'], function (method) {
         if (elem.nodeType === 1) {
           Kimbo.forEach(classNames, function (className) {
             // call add/remove (native check before calling the function)
-            elem.classList[ method ](className);
+            elem.classList[method](className);
           });
         }
       });
@@ -170,15 +178,6 @@ Kimbo.forEach(['add', 'remove'], function (method) {
     return this;
   };
 });
-
-// insertBefore helper
-function _insertBefore(elem, value, isPrepend) {
-  if (isPrepend) {
-    elem.insertBefore(value, elem.firstChild);
-  } else {
-    elem.insertBefore(value);
-  }
-}
 
 /*\
  * $(…).append
@@ -239,13 +238,13 @@ function _insertBefore(elem, value, isPrepend) {
 \*/
 
 // generate append and prepend methods
-Kimbo.forEach(['append', 'prepend'], function (method) {
-  var isPrepend = method === 'prepend';
+Kimbo.forEach(['append', 'prepend'], function (method, i) {
+  var isPrepend = i > 0;
 
-  Kimbo.fn[ method ] = function (value) {
+  Kimbo.fn[method] = function (value) {
     var div, fn;
 
-    // quick exit if no value passed
+    // exit if no value passed
     if (!value) {
       return this;
     }
@@ -568,7 +567,7 @@ Kimbo.fn.extend({
       });
     }
 
-    // return true if has the exact classes passed
+    // return true if has all classes
     return has === classNames.length;
   }
 });
@@ -620,7 +619,7 @@ Kimbo.forEach(['width', 'height'], function (dimension) {
     if (!value) {
       return parseInt(this.css(dimension), 10);
     }
-    this.css(dimension, value);
+    return this.css(dimension, value);
   };
 });
 
