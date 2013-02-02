@@ -26,13 +26,11 @@ function _unique(array) {
 
 function _sibling(node, elem) {
   var result = [];
-
   for (; node; node = node.nextSibling) {
     if (node.nodeType === 1 && node !== elem ) {
       result.push(node);
     }
   }
-
   return result;
 }
 
@@ -266,13 +264,13 @@ Kimbo.fn.extend({
     var i, l, length, n, r, result, elems;
 
     // make new empty kimbo collection
-    result = this.constructor();
+    result = Kimbo();
 
     // could use Kimbo.forEach, but this is a bit faster..
     for (i = 0, l = this.length; i < l; i++) {
       length = result.length;
       // get elements
-      elems = query(this[i], selector);
+      elems = _query(this[i], selector);
       // push them to current kimbo collection
       push.apply(result, elems);
 
@@ -419,6 +417,7 @@ Kimbo.fn.extend({
 });
 
 Kimbo.forEach({
+
   /*\
    * $(…).parent
    [ method ]

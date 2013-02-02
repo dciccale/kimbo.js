@@ -3,34 +3,34 @@ var r_id = /^#([\w\-]+)$/,
   r_tag = /^[\w\-]+$/,
   r_name = /^\[name=["']?([\w\-]+)["']?\]$/;
 
+
 // use querySelectoAll but optimize for id, class, tagName and name
 // much, much faster than only using querySelectorAll
-function query(element, selector) {
-  var els = [];
+function _query(element, selector) {
+  var els = [], sel;
 
   // #id
-  if (element === document && r_id.test(selector)) {
-    els = element.getElementById(selector.replace(/#/, ''));
-  }
+  if (element === document && (sel = r_id.exec(selector))) {
+    els = element.getElementById(sel[1]);
 
   // .class
-  if (r_class.test(selector)) {
-    els = element.getElementsByClassName(selector.replace(/\./, ''));
+  } else if ((sel = r_class.exec(selector))) {
+    els = element.getElementsByClassName(sel[1]);
 
   // tag
   } else if (r_tag.test(selector)) {
     els = element.getElementsByTagName(selector);
 
   // [name=val]
-  } else if (r_name.test(selector)) {
-    els = element.getElementsByName(selector.match(r_name)[1]);
+  } else if ((sel = r_name.exec(selector))) {
+    els = element.getElementsByName(sel[1]);
 
-  // css selector
+  // any other css selector
   } else {
     els = element.querySelectorAll(selector);
   }
 
-  // return node or NodeList as an array
+  // return NodeList/Node as an array
   return slice.call(els);
 }
 
