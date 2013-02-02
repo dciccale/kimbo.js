@@ -2,7 +2,9 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
     pkg: '<json:package.json>',
+
     distPath: 'dist/<%= pkg.name %>',
+
     meta: {
       banner: '/*!\n' +
         ' * <%= pkg.name %> v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
@@ -13,6 +15,7 @@ module.exports = function (grunt) {
         ' */',
       bannerMin: '/*! <%= pkg.name %> v<%= pkg.version %> | <%= pkg.homepage %> | <%= pkg.licenses[0].url %> */'
     },
+
     concat: {
       dist: {
         src: [
@@ -32,16 +35,20 @@ module.exports = function (grunt) {
         dest: '<%= distPath %>.js'
       }
     },
+
     min: {
       dist: {
         src: ['<banner:meta.bannerMin>', '<%= distPath %>.js'],
         dest: '<%= distPath %>.min.js'
       }
     },
+
     lint: {
-      files: ['grunt.js', '<config:concat.dist.dest>']
+      files: ['grunt.js', '<%= distPath %>.js']
     },
+
     jshint: grunt.file.readJSON('.jshintrc'),
+
     watch: {
       files: ['src/*.js'],
       tasks: 'default'
