@@ -1,10 +1,21 @@
+var objectTypes = {},
+  mobile_os = {
+    Android: /(Android)\s+([\d.]+)/,
+    Blackberry: /(BlackBerry|BB10|Playbook).*Version\/([\d.]+)/,
+    FirefoxOS: /(Mozilla).*Mobile[^\/]*\/([\d\.]*)/,
+    ipad: /(iPad).*OS\s([\d_]+)/,
+    iphone: /(iPhone\sOS)\s([\d_]+)/,
+    webOS: /(web|hpw)OS[\s\/]([\d.]+)/
+  },
+  isMobile = null;
+
 // map object types
-Kimbo.forEach(['Array', 'Boolean', 'Date', 'Function', 'Number', 'Object', 'RegExp', 'String'], function (val) {
-  objectTypes['[object ' + val + ']'] = val.toLowerCase();
+Kimbo.forEach(['Array', 'Boolean', 'Date', 'Function', 'Number', 'Object', 'RegExp', 'String'], function (type) {
+  objectTypes['[object ' + type + ']'] = type.toLowerCase();
 });
 
-
 Kimbo.extend({
+
   /*\
    * $.typeOf
    [ method ]
@@ -27,69 +38,6 @@ Kimbo.extend({
   \*/
   typeOf: function (obj) {
     return obj === null || obj === undefined ? String(obj) : objectTypes[Object.prototype.toString.call(obj)] || 'object';
-  },
-
-  /*\
-   * $.isFunction
-   [ method ]
-   * Determine if the parameter passed is a Javascript function object.
-   > Parameters
-   - obj (object) Object to test if its a function.
-   = (boolean) According wether or not it is a function.
-   > Usage
-   | var myFunction = function () {};
-   | $.isFunction(myFunction); // true
-   | var something = ['lala', 'jojo'];
-   | $.isFunction(something); // false
-  \*/
-  isFunction: function (obj) {
-    return Kimbo.typeOf(obj) === 'function';
-  },
-
-  /*\
-   * $.isFunction
-   [ method ]
-   * Determine if the parameter passed is a Javascript plain object.
-   > Parameters
-   - obj (object) Object to test if its a plain object.
-   = (boolean) According wether or not it is a plain object.
-   > Usage
-   | $.isObject({}); // true
-   | $.isObject([]); // false
-   | $.isObject('test'); // false
-  \*/
-  isObject: function (obj) {
-    return Kimbo.typeOf(obj) === 'object';
-  },
-
-  /*\
-   * $.isString
-   [ method ]
-   * Determine if the parameter passed is a string.
-   > Parameters
-   - obj (object) Object to test if its a string.
-   = (boolean) According wether or not it is a string.
-   > Usage
-   | $.isString('test'); // true
-   | $.isString({ name: 'asd' }); // false
-  \*/
-  isString: function (obj) {
-    return Kimbo.typeOf(obj) === 'string';
-  },
-
-  /*\
-   * $.isBoolean
-   [ method ]
-   * Determine if the parameter passed is boolean.
-   > Parameters
-   - obj (object) Object to test if its boolean..
-   = (boolean) According wether or not it is boolean.
-   > Usage
-   | $.isBoolean(false); // true
-   | $.isBoolean(3); // false
-  \*/
-  isBoolean: function (obj) {
-    return Kimbo.typeOf(obj) === 'boolean';
   },
 
   /*\
@@ -165,14 +113,34 @@ Kimbo.extend({
   \*/
   isEmptyObject: function (obj) {
     var key;
-
     for (key in obj) {
       if (obj.hasOwnProperty(key)) {
         return false;
       }
     }
-
     return true;
+  },
+
+  /*\
+   * $.isMobile
+   [ method ]
+   * Determine if the current platform is a mobile device, (otherwise is a desktop browser).
+   > Parameters
+   = (boolean) According wether or not is a mobile device.
+   > Usage
+   | $.isMobile(); // false
+  \*/
+  isMobile: function () {
+    if (isMobile === null) {
+      isMobile = false;
+      Kimbo.forEach(mobile_os, function (name, regex) {
+        if (regex.test(navigator.userAgent)) {
+          // set to true and break the loop
+          return !(isMobile = true);
+        }
+      });
+    }
+    return isMobile;
   },
 
   /*\
@@ -340,6 +308,63 @@ Kimbo.extend({
 
   // unique reference for the current instance of Kimbo
   ref: 'kimbo' + ('1' + Math.random()).replace(/\D/g, '')
+});
+
+/*\
+ * $.isFunction
+ [ method ]
+ * Determine if the parameter passed is a Javascript function object.
+ > Parameters
+ - obj (object) Object to test if its a function.
+ = (boolean) According wether or not it is a function.
+ > Usage
+ | var myFunction = function () {};
+ | $.isFunction(myFunction); // true
+ | var something = ['lala', 'jojo'];
+ | $.isFunction(something); // false
+\*/
+
+/*\
+ * $.isObject
+ [ method ]
+ * Determine if the parameter passed is a Javascript plain object.
+ > Parameters
+ - obj (object) Object to test if its a plain object.
+ = (boolean) According wether or not it is a plain object.
+ > Usage
+ | $.isObject({}); // true
+ | $.isObject([]); // false
+ | $.isObject('test'); // false
+\*/
+
+/*\
+ * $.isString
+ [ method ]
+ * Determine if the parameter passed is a string.
+ > Parameters
+ - obj (object) Object to test if its a string.
+ = (boolean) According wether or not it is a string.
+ > Usage
+ | $.isString('test'); // true
+ | $.isString({ name: 'asd' }); // false
+\*/
+
+/*\
+ * $.isBoolean
+ [ method ]
+ * Determine if the parameter passed is boolean.
+ > Parameters
+ - obj (object) Object to test if its boolean..
+ = (boolean) According wether or not it is boolean.
+ > Usage
+ | $.isBoolean(false); // true
+ | $.isBoolean(3); // false
+\*/
+Kimbo.forEach(['Function', 'Object', 'String', 'Boolean'], function (method) {
+  var m = method.toLowerCase();
+  Kimbo['is' + method] = function (obj) {
+    return Kimbo.typeOf(obj) === m;
+  };
 });
 
 // save reference to document
