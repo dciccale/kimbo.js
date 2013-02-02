@@ -9,76 +9,76 @@
  * Kimbo object collection.
  * All methods called from a Kimbo collection affects all elements in it.
 \*/
-var Kimbo = function (selector, context) {
-    return new Kimbo.fn.init(selector, context);
-  },
-  ArrayProto = Array.prototype,
-  push = ArrayProto.push,
-  slice = ArrayProto.slice,
-  splice = ArrayProto.splice,
-  concat = ArrayProto.concat,
-  filter = ArrayProto.filter,
-  win = window,
-  document = win.document,
-  objectTypes = {},
-  rootContext;
+function Kimbo(selector, context) {
+  if (!(this instanceof Kimbo)) {
+    return new Kimbo(selector, context);
+  }
 
+  var elem, match;
 
-Kimbo.fn = Kimbo.prototype = {
-  constructor: Kimbo,
+  // no selector, return empty Kimbo object
+  if (!selector) {
+    return this;
+  }
 
-  // handle the use of Kimbo $(...)
-  init: function (selector, context) {
+  // already a dom element
+  if (selector.nodeType) {
+    this[0] = selector;
+    this.length = 1;
+    return this;
+  }
 
-    // no selector, return empty Kimbo object
-    if (!selector) {
-      return this;
-    }
+  // asume a css selector, query the dom
+  if (typeof selector === 'string') {
 
-    // already a dom element
-    if (selector.nodeType) {
-      this[0] = selector;
+    // optimize finding body or head elements
+    if (!context && /^(body|head)$/.test(selector)) {
+      this[0] = document[selector];
       this.length = 1;
       return this;
     }
 
-    // asume a css selector, query the dom
-    //if (Kimbo.isString(selector)) {
-    if (typeof selector === 'string') {
+    match = r_id.exec(selector);
 
-      // optimize finding body or head elements
-      if (!context && (selector === 'body' || selector === 'head')) {
-        this[0] = document[selector];
+    // fast handle $('#id');
+    if (match && match[1]) {
+      elem = document.getElementById(match[1]);
+
+      if (elem) {
+        this[0] = elem;
         this.length = 1;
-        return this;
       }
 
-      var match = /^#([\w\-]+)$/.exec(selector);
-      // fast handle $('#id');
-      if (match && match[1]) {
-        this[0] = document.getElementById(match[1]);
-        this.length = 1;
-        return this;
-      }
-
-      // if no context find it on document
-      // or on the specified Kimbo context
-      if (!context || context.kimbo) {
-        return (context || rootContext).find(selector);
-
-      // create new Kimbo object with the specified context
-      } else if (context) {
-        return this.constructor(context).find(selector);
-      }
-
-    // is a function, call it when DOM is ready
-    } else if (Kimbo.isFunction(selector)) {
-      return rootContext.ready(selector);
+      return this;
     }
 
-    // handle kimbo object, plain objects or other objects
-    return Kimbo.makeArray(selector, this);
-  },
+    // if no context find it on document
+    // or on the specified Kimbo context
+    if (!context || context.kimbo) {
+      return (context || rootContext).find(selector);
+
+    // create new Kimbo object with the specified context
+    } else if (context) {
+      return Kimbo(context).find(selector);
+    }
+
+  // is a function, call it when DOM is ready
+  } else if (Kimbo.isFunction(selector)) {
+    return rootContext.ready(selector);
+  }
+
+  // handle kimbo object, plain objects or other objects
+  return Kimbo.makeArray(selector, this);
+}
+
+var push = Array.prototype.push,
+  slice = Array.prototype.slice,
+  filter = Array.prototype.filter,
+  document = window.document,
+  rootContext;
+
+
+Kimbo.fn = Kimbo.prototype = {
 
   /*\
    * $(…).length
@@ -113,7 +113,7 @@ Kimbo.fn = Kimbo.prototype = {
   \*/
   ready: function (callback) {
     // first check if already loaded
-    if (/complete|loaded|interactive/.test(document.readyState)) {
+    if (/complete|interactive/.test(document.readyState)) {
       callback.call(document);
 
     // listen when it loads
@@ -148,22 +148,14 @@ Kimbo.fn = Kimbo.prototype = {
   },
 
   // array helper methods
-  splice: splice,
-  slice: slice,
-  concat: concat,
+  splice: Array.prototype.slice,
 
   // pushes a collection to current Kimbo and return a new instance
   pushStack: function (elems) {
-    // create a new collection with elements
-    var ret = Kimbo.merge(this.constructor(), elems);
-
-    return ret;
+    // return a new Kimbo collection
+    return Kimbo.merge(Kimbo(), elems);
   }
 };
-
-// give Kimbo.init the Kimbo prototype
-Kimbo.fn.init.prototype = Kimbo.fn;
-
 
 /*\
  * $.forEach
