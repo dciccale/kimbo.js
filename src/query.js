@@ -34,7 +34,8 @@ function _query(element, selector) {
   return slice.call(els);
 }
 
-// DOM Level 4 contains
+// a better DOM Level 4 contains
+// http://webdecs.wordpress.com/2012/08/05/mejorando-el-metodo-contains-dom4-javascript/
 function _contains(el1, el2) {
   return (el1 === window && (el2 && (el2 === window || el2.nodeType))) || ((el1 && el1.nodeType) && (el2 && el2.nodeType)) ? (el1.contains ? el1.contains(el2) : true) : false;
 }
