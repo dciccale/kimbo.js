@@ -4,7 +4,7 @@ var cssNumber = { fontWeight: true, lineHeight: true, opacity: true, zIndex: tru
 
 // user native classList
 function _hasClass(elem, name) {
-  return (elem.nodeType === 1 && elem.classList.contains(name)) ? 1 : -1;
+  return (elem.nodeType === 1 && elem.classList.contains(name));
 }
 
 // wrap native to extend behavoiur
@@ -154,7 +154,9 @@ Kimbo.forEach({
 // use native classList
 // mdn: https://developer.mozilla.org/en-US/docs/DOM/element.classList
 // spec: http://www.whatwg.org/specs/web-apps/current-work/multipage/elements.html#dom-classlist
-Kimbo.forEach(['add', 'remove'], function (method) {
+Kimbo.forEach(['add', 'remove'], function (method, i) {
+  var isRemove = i > 0;
+
   Kimbo.fn[method + 'Class'] = function (name) {
     var classNames;
 
@@ -171,7 +173,7 @@ Kimbo.forEach(['add', 'remove'], function (method) {
       });
 
     // remove all element classes if no classname specified
-    } else if (!name && method === 'remove') {
+    } else if (!name && isRemove) {
       this.removeAttr('class');
     }
 
@@ -255,38 +257,18 @@ Kimbo.forEach(['append', 'prepend'], function (method, i) {
       div = document.createElement('div');
 
       // prepend method
-      if (isPrepend) {
-        fn = function (elem) {
-          div.innerHTML = value;
-          _insertBefore(elem, div.firstChild, isPrepend);
-        };
-
-      // append method
-      } else {
-        fn = function (elem) {
-          div.innerHTML = value;
-          elem.appendChild(div.firstChild);
-        };
-      }
+      fn = function (elem) {
+        div.innerHTML = value;
+        _insertBefore(elem, div.firstChild, isPrepend);
+      };
 
     // already a dom node or kimbo collection, just insert it
     } else if (value.nodeType || Kimbo.isKimbo(value)) {
       fn = function (elem) {
-        // is a kimbo collection
-        if (Kimbo.isKimbo(value)) {
-          value.each(function () {
-            _insertBefore(elem, this, isPrepend);
-          });
-
-        // single dom node
-        } else {
-          _insertBefore(elem, value, isPrepend);
-        }
+        Kimbo(value).each(function () {
+          _insertBefore(elem, this, isPrepend);
+        });
       };
-
-    // exit if no valid input
-    } else {
-      return this;
     }
 
     return this.each(function () {
@@ -437,6 +419,65 @@ Kimbo.fn.extend({
   },
 
   /*\
+   * $(…).data
+   [ method ]
+   * Store or retrieve elements dataset.
+   > Parameters
+   - name (string) Name of the data attribute to to set.
+   - value (string) #optional Value to store in dataset.
+   = (object) Original matched collection.
+   > Usage
+   | <div id="panel"></div>
+   * Set some data to the panel:
+   | $('#panel').data('isOpen', true);
+   * No a data-* attribute was added
+   | <div id="panel" data-isOpen="true"></div>
+   * We can retrieve the data
+   | $('#panel').data('isOpen'); // 'true'
+  \*/
+  data: function (name, value) {
+    name = Kimbo.camelCase(name);
+
+    if (!this.length || !Kimbo.isString(name)) {
+      return this;
+    }
+
+    if (value === undefined) {
+      return this[0].dataset[name];
+    } else {
+      return this.each(function () {
+        this.dataset[name] = value;
+      });
+    }
+  },
+
+  /*\
+   * $(…).removeData
+   [ method ]
+   * Remove data from the element dataset.
+   > Parameters
+   - name (string) Name of the data attribute to to remove.
+   = (object) Original matched collection.
+   > Usage
+   | <div id="panel" data-isOpen="true"></div>
+   | $('#panel').removeData('isOpen');
+   | <div id="panel"></div>
+   * Now data-isOpen is undefined
+   | $('#panel').data('isOpen'); // undefined
+  \*/
+  removeData: function (name) {
+    name = Kimbo.camelCase(name);
+
+    if (!this.length || !Kimbo.isString(name)) {
+      return this;
+    }
+
+    return this.each(function () {
+      delete this.dataset[name];
+    });
+  },
+
+  /*\
    * $(…).css
    [ method ]
    * Get the css value of a property from one element or set a css property to all matched elements.
@@ -486,7 +527,7 @@ Kimbo.fn.extend({
       properties = properties || property;
       Kimbo.forEach(properties, function (name, value) {
         // if it's a number add 'px' except for some properties
-        if (Kimbo.typeOf(value) === 'number' && !cssNumber[Kimbo.camelCase(property)]) {
+        if (Kimbo.isNumeric(value) && !cssNumber[Kimbo.camelCase(property)]) {
           value += 'px';
         }
 
@@ -542,33 +583,30 @@ Kimbo.fn.extend({
    = (object) Original matched collection.
    > Usage
    | <p class="asd foo qwe">Lorem ipsum.</p>
-   | <script>
-   | $('p').hasClass('foo');
-   | </script>
-   * The `p` element has the class foo so it will return `true`
+   * Check if the element has the class 'foo'
+   | $('p').hasClass('foo'); // true
    * You could also check if it has multiple classes
-   | $('p').hasClass('asd foo'); // true
+   | $('p').hasClass('qwe asd'); // true
   \*/
   hasClass: function (name) {
-    name += '';
-    var has = 0, classNames = name.split(r_space);
+    var has = false,
+      classNames;
 
-    if (name && Kimbo.isString(name)) {
+    if (this.length && name && Kimbo.isString(name)) {
+      classNames = name.trim().split(r_space);
       this.each(function (elem) {
         // classList.contains only accepts one class parameter
         Kimbo.forEach(classNames, function (name) {
-          has += _hasClass(elem, name);
+          has = _hasClass(elem, name);
+          // if one doesn't exists break the loop and return false
+          if (!has) {
+            return false;
+          }
         });
-
-        // break the loop if it matches 100%
-        if (has === classNames.length) {
-          return false;
-        }
       });
     }
 
-    // return true if has all classes
-    return has === classNames.length;
+    return has;
   }
 });
 
