@@ -23,6 +23,56 @@ function _insertBefore(elem, value, isPrepend) {
   }
 }
 
+var _data = (function() {
+  var cache = {},
+    data_id = 1;
+
+  return {
+    get: function(dom, name) {
+      var dom_cache = cache[dom.__data],
+        value;
+
+      // look first in cached data
+      if (dom_cache) {
+        value = dom_cache[name];
+      }
+
+      // if none, try dataset
+      if (!value) {
+        value = dom.dataset[name];
+        this.set(dom, name, value);
+      }
+
+      return value;
+    },
+
+    set: function (dom, name, value) {
+      var dom_data = dom.__data,
+        dom_cache;
+
+      if (!dom_data) {
+        dom_data = dom.__data = data_id++;
+      }
+
+      dom_cache = cache[dom_data];
+      if (!dom_cache) {
+        dom_cache = cache[dom_data] = {};
+      }
+
+      // set data
+      dom_cache[name] = value;
+    },
+
+    remove: function (dom, name) {
+      delete cache[dom.__data][name];
+      if (Kimbo.isEmptyObject(cache[dom.__data])) {
+        delete cache[dom.__data];
+        delete dom.__data;
+      }
+    }
+  };
+}());
+
 /*\
  * $(…).text
  [ method ]
@@ -40,7 +90,7 @@ function _insertBefore(elem, value, isPrepend) {
  | $('p').text('Another text');
  * Now the text content was replaced:
  | <p>Another text</p>
-\*/
+ \*/
 
 /*\
  * $(…).html
@@ -59,7 +109,7 @@ function _insertBefore(elem, value, isPrepend) {
  | $('p').html('<strong>Another content</strong>');
  * Now the text content was replaced:
  | <p><strong>Another content</strong></p>
-\*/
+ \*/
 
 /*\
  * $(…).val
@@ -78,11 +128,11 @@ function _insertBefore(elem, value, isPrepend) {
  | $('input').val('blue');
  * Now the value was changed:
  | $('input').val(); // 'blue'
-\*/
+ \*/
 Kimbo.forEach({
   text: 'textContent',
-  html: 'innerHTML',
-  val: 'value'
+html: 'innerHTML',
+val: 'value'
 }, function (method, prop) {
   Kimbo.fn[ method ] = function (value) {
 
@@ -95,7 +145,7 @@ Kimbo.forEach({
     if (value === undefined) {
       return this[0][prop];
 
-    // set
+      // set
     } else {
       return this.each(function () {
         this[prop] = value;
@@ -125,7 +175,7 @@ Kimbo.forEach({
  | </script>
  * All classes added and they won't be repetead if you try to add an existing one
  | <p class="green big width100">Add classes to me</p>
-\*/
+ \*/
 
 /*\
  * $(…).removeClass
@@ -148,7 +198,7 @@ Kimbo.forEach({
  | </script>
  * All classes were removed
  | <p>Remove all classes</p>
-\*/
+ \*/
 
 // generate addClass and removeClass methods
 // use native classList
@@ -172,7 +222,7 @@ Kimbo.forEach(['add', 'remove'], function (method, i) {
         }
       });
 
-    // remove all element classes if no classname specified
+      // remove all element classes if no classname specified
     } else if (!name && isRemove) {
       this.removeAttr('class');
     }
@@ -208,7 +258,7 @@ Kimbo.forEach(['add', 'remove'], function (method, i) {
  |   <p class="lorem">Lorem</p>
  |   <p class="ipsum">Ipsum</p>
  | </div>
-\*/
+ \*/
 
 /*\
  * $(…).prepend
@@ -237,7 +287,7 @@ Kimbo.forEach(['add', 'remove'], function (method, i) {
  |   <p class="lorem">Lorem</p>
  |   <p class="lorem">Lorem</p>
  | </div>
-\*/
+ \*/
 
 // generate append and prepend methods
 Kimbo.forEach(['append', 'prepend'], function (method, i) {
@@ -262,7 +312,7 @@ Kimbo.forEach(['append', 'prepend'], function (method, i) {
         _insertBefore(elem, div.firstChild, isPrepend);
       };
 
-    // already a dom node or kimbo collection, just insert it
+      // already a dom node or kimbo collection, just insert it
     } else if (value.nodeType || Kimbo.isKimbo(value)) {
       fn = function (elem) {
         Kimbo(value).each(function () {
@@ -378,7 +428,7 @@ Kimbo.fn.extend({
    | <a href="http://kimbojs.com">Go to Kimbojs.com</a>
    * Get href attribute
    | $('a').attr('href'); // http://kimbojs.com
-    * Set a new attribute
+   * Set a new attribute
    | $('a').attr('title', 'Go to Kimbojs.com');
    * Now element has a title attribute
    | <a href="http://kimbojs.com" title="Go to Kimbojs.com">Go to Kimbojs.com</a>
@@ -438,15 +488,11 @@ Kimbo.fn.extend({
   data: function (name, value) {
     name = Kimbo.camelCase(name);
 
-    if (!this.length || !Kimbo.isString(name)) {
-      return this;
-    }
-
     if (value === undefined) {
-      return this[0].dataset[name];
+      return _data.get(this[0], name);
     } else {
       return this.each(function () {
-        this.dataset[name] = value;
+        _data.set(this, name, value);
       });
     }
   },
@@ -468,14 +514,14 @@ Kimbo.fn.extend({
    | $('#panel').data('isOpen'); // undefined
   \*/
   removeData: function (name) {
-    name = Kimbo.camelCase(name);
-
     if (!this.length || !Kimbo.isString(name)) {
       return this;
     }
 
+    name = Kimbo.camelCase(name);
+
     return this.each(function () {
-      delete this.dataset[name];
+      _data.remove(this, name);
     });
   },
 
@@ -504,7 +550,7 @@ Kimbo.fn.extend({
   \*/
   css: function (property, value) {
     var properties,
-      that = this;
+        that = this;
 
     if (Kimbo.isString(property)) {
       // no value to set, return current
@@ -513,7 +559,7 @@ Kimbo.fn.extend({
         if (this.length === 0) {
           return undefined;
 
-        // get value from style dom prop when possible, or computedStyle
+          // get value from style dom prop when possible, or computedStyle
         } else {
           return this[0].style[property] || _getComputedStyle(this[0], property);
         }
@@ -592,7 +638,7 @@ Kimbo.fn.extend({
   \*/
   hasClass: function (name) {
     var has = false,
-      classNames;
+    classNames;
 
     if (this.length && name && Kimbo.isString(name)) {
       classNames = name.trim().split(r_space);
