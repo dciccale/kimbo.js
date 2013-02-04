@@ -460,9 +460,11 @@ Kimbo.fn.extend({
    = (object) Original matched collection.
    > Usage
    | <div id="panel" data-isOpen="true"></div>
+   * Remove data associated to the panel div:
    | $('#panel').removeData('isOpen');
+   * Data attribute and value was removed:
    | <div id="panel"></div>
-   * Now data-isOpen is undefined
+   * data-isOpen is undefined
    | $('#panel').data('isOpen'); // undefined
   \*/
   removeData: function (name) {
