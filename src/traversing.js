@@ -412,7 +412,7 @@ Kimbo.fn.extend({
    | });
   \*/
   is: function (selector) {
-    return this.filter(selector).length > 0;
+    return this.length > 0 && this.filter(selector).length > 0;
   }
 });
 
