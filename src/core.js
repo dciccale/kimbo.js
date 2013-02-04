@@ -10,11 +10,11 @@
  * All methods called from a Kimbo collection affects all elements in it.
 \*/
 function Kimbo(selector, context) {
-  if (!(this instanceof Kimbo)) {
+  var elem, match;
+
+  if (!Kimbo.isKimbo(this)) {
     return new Kimbo(selector, context);
   }
-
-  var elem, match;
 
   // no selector, return empty Kimbo object
   if (!selector) {
@@ -40,7 +40,7 @@ function Kimbo(selector, context) {
 
     match = r_id.exec(selector);
 
-    // fast handle $('#id');
+    // handle $('#id');
     if (match && match[1]) {
       elem = document.getElementById(match[1]);
 
