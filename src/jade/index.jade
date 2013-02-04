@@ -45,11 +45,11 @@ p#download
 .perfContainer
   h2.medium Performance tests
 
-  - var jsperfTests = ['id', 'addclass', 'closest', 'each', 'siblings', 'find', 'css']
+  - var jsperfTests = ['id', 'addclass', 'closest', 'each', 'siblings', 'find', 'css', 'data', 'iterator', 'object-iterator']
   ul#nav
     each test in jsperfTests
       li
-        a(href="jsperf-#{test}.html", target="iframe") #{test}
+        a(href="jsperf-#{test}.html", target="iframe", id="jsperf-#{test}") #{test}
     li.more More to come...
 
   iframe#iframe
@@ -62,7 +62,7 @@ p#download
     script
       !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
 
-script(src="js/kimbo.min.js")
+script(src="http://kimbojs.com/dist/kimbo.min.js")
 script(src="js/scripts.js")
 script
   var _gaq = _gaq || [];
