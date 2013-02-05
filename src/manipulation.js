@@ -486,6 +486,10 @@ Kimbo.fn.extend({
    | $('#panel').data('isOpen'); // 'true'
   \*/
   data: function (name, value) {
+    if (!this.length || !Kimbo.isString(name)) {
+      return this;
+    }
+
     name = Kimbo.camelCase(name);
 
     if (value === undefined) {
@@ -555,14 +559,7 @@ Kimbo.fn.extend({
     if (Kimbo.isString(property)) {
       // no value to set, return current
       if (value === undefined) {
-        // return undefined if no element
-        if (this.length === 0) {
-          return undefined;
-
-          // get value from style dom prop when possible, or computedStyle
-        } else {
-          return this[0].style[property] || _getComputedStyle(this[0], property);
-        }
+        return this.length > 0 ? _getComputedStyle(this[0], property) : undefined;
       } else {
         // set props to aux object
         properties = {};
@@ -608,7 +605,7 @@ Kimbo.fn.extend({
   toggleClass: function (name, state) {
     var classNames;
 
-    if (name && Kimbo.isString(name)) {
+    if (this.length && name && Kimbo.isString(name)) {
       classNames = name.split(r_space);
       this.each(function (elem) {
         Kimbo.forEach(classNames, function (name) {
