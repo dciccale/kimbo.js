@@ -14,15 +14,6 @@ function _getComputedStyle(element, property) {
   return window.getComputedStyle(element, null).getPropertyValue(property);
 }
 
-// insertBefore helper
-function _insertBefore(elem, value, isPrepend) {
-  if (isPrepend) {
-    elem.insertBefore(value, elem.firstChild);
-  } else {
-    elem.insertBefore(value);
-  }
-}
-
 var _data = (function() {
   var cache = {},
     data_id = 1;
@@ -294,10 +285,10 @@ Kimbo.forEach(['append', 'prepend'], function (method, i) {
   var isPrepend = i > 0;
 
   Kimbo.fn[method] = function (value) {
-    var div, fn;
+    var div;
 
     // exit if no value passed
-    if (!value) {
+    if (!this.length || !value) {
       return this;
     }
 
@@ -305,29 +296,21 @@ Kimbo.forEach(['append', 'prepend'], function (method, i) {
     if (Kimbo.isString(value)) {
       // placeholder element
       div = document.createElement('div');
-
-      // prepend method
-      fn = function (elem) {
-        div.innerHTML = value;
-        _insertBefore(elem, div.firstChild, isPrepend);
-      };
-
-      // already a dom node or kimbo collection, just insert it
-    } else if (value.nodeType || Kimbo.isKimbo(value)) {
-      fn = function (elem) {
-        Kimbo(value).each(function () {
-          _insertBefore(elem, this, isPrepend);
-        });
-      };
+      div.innerHTML = value;
+      value = div.firstChild;
     }
 
-    return this.each(function () {
-      // be sure we can append the element
-      if (this.nodeType === 1 || this.nodeType === 11) {
-        // call specific function passing the element
-        fn(this);
-      }
-    });
+    // already a dom node or kimbo collection, just insert it
+    if (value.nodeType || Kimbo.isKimbo(value)) {
+      return this.each(function (elem) {
+        // be sure we can append/prepend to the element
+        if (this.nodeType === 1 || this.nodeType === 11) {
+          Kimbo(value).each(function () {
+            elem.insertBefore(this, isPrepend ? elem.firstChild : null);
+          });
+        }
+      });
+    }
   };
 });
 
