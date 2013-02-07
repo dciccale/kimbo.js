@@ -635,6 +635,14 @@ Kimbo.fn.extend({
     }
 
     return has;
+  },
+
+  clone: function () {
+    var res = [];
+    this.each(function () {
+      res.push(this.cloneNode(true));
+    });
+    return Kimbo(res);
   }
 });
 
