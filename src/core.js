@@ -106,7 +106,7 @@ Kimbo.fn = Kimbo.prototype = {
   \*/
   ready: function (callback) {
     // first check if already loaded
-    if (/complete|interactive/.test(document.readyState)) {
+    if (/t/.test(document.readyState)) {
       callback.call(document);
 
     // listen when it loads
