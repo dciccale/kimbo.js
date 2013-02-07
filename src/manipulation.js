@@ -122,8 +122,8 @@ var _data = (function() {
  \*/
 Kimbo.forEach({
   text: 'textContent',
-html: 'innerHTML',
-val: 'value'
+  html: 'innerHTML',
+  val: 'value'
 }, function (method, prop) {
   Kimbo.fn[ method ] = function (value) {
 
@@ -176,19 +176,19 @@ val: 'value'
  - name (string) Name of the class to remove.
  = (object) Original matched collection.
  > Usage
- | <p class="green">I don't want to have a class</p>
- | <script>
+ | <p class="big green title float-rigth">Lorem ipsum</p>
+ * Remove a specific class from the paragraph:
  | $('p').removeClass('green');
- | </script>
- * Now it's removed
- | <p>I want to be green</p>
- * You can remove multiple classes just calling removeAttr() without Parameters
- | <p class="green big width100">Remove all classes</p>
- | <script>
+ * The specified class was removed:
+ | <p class="big title float-right">Lorem ipsum</p>
+ * You can remove multiple classes separating them by a space when calling the function:
+ | $('p').removeClass('big title');
+ * Now only one class left:
+ | <p class="float-right">Lorem ipsum</p>
+ * You can remove all classes just calling .removeClass() without parameters
  | $('p').removeClass();
- | </script>
- * All classes were removed
- | <p>Remove all classes</p>
+ * All classes were removed including the class attribute:
+ | <p>Lorem ipsum</p>
  \*/
 
 // generate addClass and removeClass methods
@@ -204,10 +204,10 @@ Kimbo.forEach(['add', 'remove'], function (method, i) {
     if (name && Kimbo.isString(name)) {
       classNames = name.split(r_space);
       this.each(function (elem) {
-        // only "actual" nodes (skip comments, text, etc)
+        // skip comments, text, etc
         if (elem.nodeType === 1) {
+          // iterate through all class names passed
           Kimbo.forEach(classNames, function (className) {
-            // call add/remove (native check before calling the function)
             elem.classList[method](className);
           });
         }
