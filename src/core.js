@@ -4,6 +4,12 @@
  * Global namespace for using Kimbo functions
 \*/
 
+var _push = Array.prototype.push,
+  _slice = Array.prototype.slice,
+  _filter = Array.prototype.filter,
+  document = window.document,
+  rootContext;
+
 /*\
  * $(…)
  * Kimbo object collection.
@@ -63,13 +69,6 @@ function Kimbo(selector, context) {
   // handle kimbo object, plain objects or other objects
   return Kimbo.makeArray(selector, this);
 }
-
-var push = Array.prototype.push,
-  slice = Array.prototype.slice,
-  filter = Array.prototype.filter,
-  document = window.document,
-  rootContext;
-
 
 Kimbo.fn = Kimbo.prototype = {
 
@@ -137,11 +136,11 @@ Kimbo.fn = Kimbo.prototype = {
    | $('li').get(-1); // <li id="bar">
   \*/
   get: function (index) {
-    return (!arguments.length) ? slice.call(this) : (index < 0 ? this[this.length + index] : Kimbo(this[index]));
+    return (!arguments.length) ? _slice.call(this) : (index < 0 ? this[this.length + index] : Kimbo(this[index]));
   },
 
   // needed to have an array-like object
-  splice: Array.prototype.slice
+  splice: Array.prototype.splice
 };
 
 /*\
@@ -232,7 +231,7 @@ Kimbo.extend = Kimbo.fn.extend = function () {
 
   // make an array from the arguments
   // removing unnecessary objects
-  objs = slice.call(objs, cut);
+  objs = _slice.call(objs, cut);
 
   // loop through the objects
   Kimbo.forEach(objs, function (source) {

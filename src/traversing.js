@@ -83,7 +83,7 @@ Kimbo.fn.extend({
     var result, ret;
 
     // filter collection
-    result = filter.call(this, function (elem, i) {
+    result = _filter.call(this, function (elem, i) {
       if (Kimbo.isFunction(selector)) {
         ret = !!selector.call(elem, i, elem);
       } else if (Kimbo.isString(selector)) {
@@ -181,7 +181,7 @@ Kimbo.fn.extend({
    | $('li').slice(-2, -1).addClass('selected');
   \*/
   slice: function () {
-    return Kimbo(slice.apply(this, arguments));
+    return Kimbo(_slice.apply(this, arguments));
   },
 
   /*\
@@ -272,7 +272,7 @@ Kimbo.fn.extend({
       // get elements
       elems = _query(this[i], selector);
       // push them to current kimbo collection
-      push.apply(result, elems);
+      _push.apply(result, elems);
 
       if (i > 0) {
         // make results unique

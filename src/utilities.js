@@ -247,7 +247,7 @@ Kimbo.extend({
       if (Kimbo.isArray(obj) || Kimbo.isKimbo(obj) || obj instanceof NodeList) {
         results = Kimbo.merge(results, obj);
       } else {
-        push.call(results, obj);
+        _push.call(results, obj);
       }
     }
 

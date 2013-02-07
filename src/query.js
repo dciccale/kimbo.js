@@ -31,7 +31,7 @@ function _query(element, selector) {
   }
 
   // return NodeList/Node as an array
-  return slice.call(els);
+  return _slice.call(els);
 }
 
 // a better DOM Level 4 contains

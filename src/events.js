@@ -314,7 +314,7 @@ function _dispatchEvent(event) {
   var element_id = _getElementId(this),
     handlers = _getHandlers(element_id, event.type),
     delegateCount = handlers.delegateCount,
-    args = slice.call(arguments, 0),
+    args = _slice.call(arguments, 0),
     handlerQueue = [],
     currentElement, ret, selMatch, matches, handleObj, selector, i;
 
