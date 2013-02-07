@@ -1,3 +1,10 @@
+var isUnique = {
+  children: true,
+  contents: true,
+  next: true,
+  prev: true
+};
+
 // wrap native to use correct method and extend behaviour
 var _matchesSelector = (function () {
   var elem = document.createElement('div'),
@@ -10,13 +17,6 @@ var _matchesSelector = (function () {
     return matchesSelector.call(elem, selector);
   };
 }());
-
-var isUnique = {
-  children: true,
-  contents: true,
-  next: true,
-  prev: true
-};
 
 function _unique(array) {
   return array.filter(function (item, index) {
@@ -540,7 +540,7 @@ Kimbo.forEach({
    | $('iframe').contents().find('body');
   \*/
   contents: function (elem) {
-    return elem.nodeName.toLowerCase() === 'iframe' ? elem.contentDocument || elem.contentWindow.document : Kimbo.makeArray(elem.childNodes);
+    return elem.nodeName.toLowerCase() === 'iframe' ? elem.contentDocument || elem.contentWindow[document] : Kimbo.makeArray(elem.childNodes);
   }
 }, function (name, fn) {
   Kimbo.fn[name] = function (selector) {
