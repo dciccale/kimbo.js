@@ -148,13 +148,7 @@ Kimbo.fn = Kimbo.prototype = {
   },
 
   // needed to have an array-like object
-  splice: Array.prototype.slice,
-
-  // pushes a collection to current Kimbo and return a new instance
-  pushStack: function (elems) {
-    // return a new Kimbo collection
-    return Kimbo.merge(Kimbo(), elems);
-  }
+  splice: Array.prototype.slice
 };
 
 /*\

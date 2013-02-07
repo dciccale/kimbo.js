@@ -96,7 +96,7 @@ Kimbo.fn.extend({
       return ret;
     });
 
-    return this.pushStack(result);
+    return Kimbo(result);
   },
 
   /*\
@@ -181,7 +181,7 @@ Kimbo.fn.extend({
    | $('li').slice(-2, -1).addClass('selected');
   \*/
   slice: function () {
-    return this.pushStack(slice.apply(this, arguments));
+    return Kimbo(slice.apply(this, arguments));
   },
 
   /*\
@@ -236,7 +236,7 @@ Kimbo.fn.extend({
    | "item1,item2,item3"
   \*/
   map: function (callback) {
-    return this.pushStack(Kimbo.map(this, function (elem, i) {
+    return Kimbo(Kimbo.map(this, function (elem, i) {
       return callback.call(elem, elem, i);
     }));
   },
@@ -333,7 +333,7 @@ Kimbo.fn.extend({
     // only unique results
     result = result.length > 1 ? _unique(result) : result;
 
-    return this.pushStack(result);
+    return Kimbo(result);
   },
 
   /*\
@@ -388,7 +388,7 @@ Kimbo.fn.extend({
     var set = Kimbo.isString(selector) ? Kimbo(selector, context) : Kimbo.makeArray(selector && selector.nodeType ? [selector] : selector),
       all = Kimbo.merge(this, set);
 
-    return this.pushStack(all);
+    return Kimbo(all);
   },
 
   /*\
@@ -553,6 +553,6 @@ Kimbo.forEach({
       ret = Kimbo(ret).filter(selector);
     }
 
-    return this.pushStack(ret);
+    return Kimbo(ret);
   };
 });
