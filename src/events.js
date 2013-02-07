@@ -7,11 +7,8 @@ var _guid = 1,
   mouseEventProps = ['button', 'buttons', 'clientX', 'clientY', 'fromElement', 'offsetX', 'offsetY', 'screenX', 'screenY', 'toElement'],
   fixEventProps = {},
   specialEvents = {},
-  gestures_fallback = {};
-
-// gestures fallback for not mobile environment
-if (!Kimbo.isMobile()) {
-  gestures_fallback = {
+  // gestures fallback for not mobile environment
+  gestures_fallback = Kimbo.isMobile() ? {} : {
     touchstart: 'mousedown',
     touchmove: 'mousemove',
     touchend: 'mouseup',
@@ -19,6 +16,44 @@ if (!Kimbo.isMobile()) {
     doubletap: 'dblclick',
     orientationchange: 'resize'
   };
+
+function _fix(event) {
+  // already fixed
+  if (event[Kimbo.ref]) {
+    return event;
+  }
+
+  // get event properties
+  var originalEvent = event,
+    eventProps = fixEventProps[event.type] || [],
+    props = defaultEventProps.concat(eventProps);
+
+  // create a Kimbo.Event
+  event = Kimbo.Event(originalEvent);
+
+  // set event props to Kimbo.Event object
+  Kimbo.forEach(props, function (prop) {
+    event[prop] = originalEvent[prop];
+  });
+
+  return event;
+}
+
+// return element id
+function _getElementId(element) {
+  return element._guid || (element._guid = _guid++);
+}
+
+
+// get element handlers for the specified type
+function _getHandlers(element_id, type) {
+  var events = ((handlersHash[element_id] || {}).events || {});
+  return (type ? events[type] : events) || [];
+}
+
+// quick is() to check if event target matches when events are delegated
+function _is(target, selector, element) {
+  return (target.nodeName.toLowerCase() === selector || Kimbo(target).closest(selector, element)[0]);
 }
 
 function _returnFalse() {
@@ -90,83 +125,13 @@ Kimbo.Event.prototype = {
   isImmediatePropagationStopped: _returnFalse
 };
 
-function _fix(event) {
-  // already fixed
-  if (event[Kimbo.ref]) {
-    return event;
-  }
-
-  // get event properties
-  var originalEvent = event,
-    eventProps = fixEventProps[event.type] || [],
-    props = defaultEventProps.concat(eventProps);
-
-  // create a Kimbo.Event
-  event = Kimbo.Event(originalEvent);
-
-  // set event props to Kimbo.Event object
-  Kimbo.forEach(props, function (prop) {
-    event[prop] = originalEvent[prop];
-  });
-
-  return event;
-}
-
-// return element id
-function _getElementId(element) {
-  return element._guid || (element._guid = _guid++);
-}
-
-// quick is() to check if event target matches when events are delegated
-function _is(target, selector, element) {
-  return (target.nodeName.toLowerCase() === selector || Kimbo(target).closest(selector, element)[0]);
-}
-
-// fix mouseover and mouseout events
-// to use mouseenter mouseleaver
-Kimbo.forEach({
-  mouseenter: 'mouseover',
-  mouseleave: 'mouseout'
-}, function (orig, fix) {
-  specialEvents[orig] = {
-    origType: fix,
-
-    handle: function (event) {
-      var target = this,
-        related = event.relatedTarget,
-        handleObj = event.handleObj,
-        ret;
-
-      // for mouse(enter/leave) call the handler if 'related' is outside the target
-      // no 'related' if the mouse left/entered the browser window
-      if (!related || (related !== target && !_contains(target, related))) {
-        event.type = handleObj.origType;
-        ret = handleObj.callback.apply(this, arguments);
-        event.type = fix;
-      }
-
-      return ret;
-    }
-  };
-});
-
-
-// get element handlers for the specified type
-function _getHandlers(element_id, type) {
-  var events = ((handlersHash[element_id] || {}).events || {});
-  return (type ? events[type] : events) || [];
-}
-
 // register events to dom elements
 function _addEvent(element, type, callback, data, selector) {
   // TODO: element should use Kimbo.ref and the handler the _guid
   var element_id = _getElementId(element),
     elementhandlersHash = handlersHash[element_id],
     origType = type,
-    events,
-    handlers,
-    handleObj,
-    handler;
+    events, handlers, handleObj, handler;
 
   // could be a special type like mouseenter/mouseleave
   type = specialEvents[type] ? specialEvents[type].origType : type;
@@ -351,13 +316,7 @@ function _dispatchEvent(event) {
     delegateCount = handlers.delegateCount,
     args = slice.call(arguments, 0),
     handlerQueue = [],
-    currentElement,
-    ret,
-    selMatch,
-    matches,
-    handleObj,
-    selector,
-    i;
+    currentElement, ret, selMatch, matches, handleObj, selector, i;
 
   // set the native event to be the fixed Kimbo.Event
   args[0] = event;
@@ -430,6 +389,7 @@ function _dispatchEvent(event) {
 }
 
 Kimbo.fn.extend({
+
   /*\
    * $(…).on
    [ method ]
@@ -609,3 +569,32 @@ Kimbo.forEach(['blur', 'change', 'click', 'contextmenu', 'dblclick', 'error',
   // set event props for the specific type
   fixEventProps[type] = r_key_event.test(type) ? keyEventProps : r_mouse_event.test(type) ? mouseEventProps : null;
 });
+
+// fix mouseover and mouseout events
+// to use mouseenter mouseleave
+Kimbo.forEach({
+  mouseenter: 'mouseover',
+  mouseleave: 'mouseout'
+}, function (orig, fix) {
+  specialEvents[orig] = {
+    origType: fix,
+
+    handle: function (event) {
+      var target = this,
+        related = event.relatedTarget,
+        handleObj = event.handleObj,
+        ret;
+
+      // for mouse(enter/leave) call the handler if 'related' is outside the target
+      // no 'related' if the mouse left/entered the browser window
+      if (!related || (related !== target && !_contains(target, related))) {
+        event.type = handleObj.origType;
+        ret = handleObj.callback.apply(this, arguments);
+        event.type = fix;
+      }
+
+      return ret;
+    }
+  };
+});
+
