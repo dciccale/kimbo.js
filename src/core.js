@@ -147,7 +147,7 @@ Kimbo.fn = Kimbo.prototype = {
     return (!arguments.length) ? slice.call(this) : (index < 0 ? this[this.length + index] : Kimbo(this[index]));
   },
 
-  // array helper methods
+  // needed to have an array-like object
   splice: Array.prototype.slice,
 
   // pushes a collection to current Kimbo and return a new instance
