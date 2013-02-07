@@ -114,13 +114,7 @@ function _fix(event) {
 
 // return element id
 function _getElementId(element) {
-  return element._guid;
-}
-
-// if the element has no id, set one
-function _setElementId(element) {
-  element._guid = element._guid || _guid++;
-  return element._guid;
+  return element._guid || (element._guid = _guid++);
 }
 
 // quick is() to check if event target matches when events are delegated
@@ -166,7 +160,7 @@ function _getHandlers(element_id, type) {
 // register events to dom elements
 function _addEvent(element, type, callback, data, selector) {
   // TODO: element should use Kimbo.ref and the handler the _guid
-  var element_id = _setElementId(element),
+  var element_id = _getElementId(element),
     elementhandlersHash = handlersHash[element_id],
     origType = type,
     events,
