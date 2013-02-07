@@ -31,13 +31,6 @@ function Kimbo(selector, context) {
   // asume a css selector, query the dom
   if (typeof selector === 'string') {
 
-    // optimize finding body or head elements
-    if (!context && /^(body|head)$/.test(selector)) {
-      this[0] = document[selector];
-      this.length = 1;
-      return this;
-    }
-
     match = r_id.exec(selector);
 
     // handle $('#id');
