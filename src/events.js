@@ -28,8 +28,8 @@ function _fix(event) {
     eventProps = fixEventProps[event.type] || [],
     props = defaultEventProps.concat(eventProps);
 
-  // create a Kimbo.Event
-  event = Kimbo.Event(originalEvent);
+  // create a new event writable custom event object
+  event = new Kimbo.Event(originalEvent);
 
   // set event props to Kimbo.Event object
   Kimbo.forEach(props, function (prop) {
@@ -43,7 +43,6 @@ function _fix(event) {
 function _getElementId(element) {
   return element._guid || (element._guid = _guid++);
 }
-
 
 // get element handlers for the specified type
 function _getHandlers(element_id, type) {
@@ -76,11 +75,6 @@ function _eventMethod(event, method, boolMethod) {
 }
 
 Kimbo.Event = function (event) {
-  // create a new instance without the 'new' keyword
-  if (!(this instanceof Kimbo.Event)) {
-    return new Kimbo.Event(event);
-  }
-
   // is event object
   if (event && event.type) {
     this.originalEvent = event;
@@ -106,7 +100,7 @@ Kimbo.Event = function (event) {
   this[Kimbo.ref] = true;
 };
 
-// Kimbo.Event: DOM-Level-3-Events compliant
+// DOM-Level-3-Events compliant
 Kimbo.Event.prototype = {
   preventDefault: function () {
     _eventMethod(this, 'preventDefault', 'isDefaultPrevented');
@@ -161,10 +155,7 @@ function _addEvent(element, type, callback, data, selector) {
     origType: origType,
     data: data,
     callback: callback,
-    selector: selector,
-    proxy: handler,
-    element: element,
-    index: events.length // change for _guid: handler._guid
+    selector: selector
   };
 
   // only add an event listener one time
@@ -215,7 +206,6 @@ function _removeEvent(element, type, callback, selector) {
     // remove handlers that match
     for (i = 0; i < handlers.length; i++) {
       handleObj = handlers[i];
-      // TODO: change .index by ._guid! (see _addEvent)
       if ((!callback || callback === handleObj.callback) && (!selector || selector === handleObj.selector)) {
         // remove current handler from stack
         handlers.splice(i--, 1);
@@ -258,8 +248,8 @@ function _triggerEvent(element, type, data) {
     } catch (e) {}
   }
 
-  // create a Kimbo.Event writable object
-  event = Kimbo.Event(type);
+  // create a new writable custom event object
+  event = new Kimbo.Event(type);
 
   // triggered programatically
   event.isTrigger = true;
@@ -308,7 +298,7 @@ function _triggerEvent(element, type, data) {
 
 // own defined dispatchEvent()
 function _dispatchEvent(event) {
-  // make a writable Kimbo.Event from the native event object
+  // use own event object
   event = _fix(event);
 
   var element_id = _getElementId(this),
@@ -318,7 +308,7 @@ function _dispatchEvent(event) {
     handlerQueue = [],
     currentElement, ret, selMatch, matches, handleObj, selector, i;
 
-  // set the native event to be the fixed Kimbo.Event
+  // set the native event to be the fixed event
   args[0] = event;
 
   // save the delegate target element
@@ -489,6 +479,8 @@ Kimbo.fn.extend({
       callback = selector;
       selector = undefined;
     }
+
+    // remove the event
     return this.each(function () {
       _removeEvent(this, type, callback, selector);
     });
