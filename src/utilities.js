@@ -92,7 +92,7 @@ Kimbo.extend({
    - obj (object) Object to test if its a Kimbo object.
    = (boolean) According wether or not it is a Kimbo object.
    > Usage
-   | $.isKimbo($('p')); // true
+   | $.isKimbo(Kimbo('p')); // true
    | $.isKimbo(jQuery('p')); // false
   \*/
   isKimbo: function (obj) {
@@ -268,9 +268,6 @@ Kimbo.extend({
    | ['a', 'b', 'c', 'd']
   \*/
   merge: function (first, second) {
-    var l = second.length,
-      i = first.length,
-      j = 0;
 
     // concat is very fast, use it if we can
     if (Kimbo.isArray(first)) {
@@ -278,20 +275,16 @@ Kimbo.extend({
 
     // Kimbo object, just loop merge
     } else {
-      for (; j < l; j++) {
-        first[i++] = second[j];
-      }
-      first.length = i;
+      _push.apply(first, second);
     }
 
     return first;
   },
 
-  // camelize any dashed separated string
   /*\
    * $.camelCase
    [ method ]
-   * Camelize any fashed separated string
+   * Camelize any dashed separated string
    > Parameters
    - str (string) A dashed separated string value to transform into camelCase.
    = (string) camelCase string
