@@ -21,7 +21,7 @@
   ],
   "dependencies": {},
   "devDependencies": {
-    "grunt": "0.3.x"
+    "grunt": "0.4.x"
   },
   "keywords": ["javascript", "library", "ecmascript", "kimbo"]
 }
