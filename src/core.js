@@ -27,13 +27,6 @@ function Kimbo(selector, context) {
     return this;
   }
 
-  // already a dom element
-  if (selector.nodeType) {
-    this[0] = selector;
-    this.length = 1;
-    return this;
-  }
-
   // asume a css selector, query the dom
   if (typeof selector === 'string') {
 
@@ -60,6 +53,12 @@ function Kimbo(selector, context) {
     } else if (context) {
       return Kimbo(context).find(selector);
     }
+
+  // already a dom element
+  } else if (selector.nodeType) {
+    this[0] = selector;
+    this.length = 1;
+    return this;
 
   // is a function, call it when DOM is ready
   } else if (Kimbo.isFunction(selector)) {
