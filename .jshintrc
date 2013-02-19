@@ -1,18 +1,17 @@
 {
-  "options": {
-    "curly": true,
-    "eqeqeq": true,
-    "forin": true,
-    "immed": true,
-    "noarg": true,
-    "quotmark": "single",
-    "undef": true,
-    "unused": true,
-    "trailing": true,
-    "browser": true,
-    "expr": true,
-    "debug": true
-  },
+  "curly": true,
+  "eqeqeq": true,
+  "forin": true,
+  "immed": true,
+  "noarg": true,
+  "quotmark": "single",
+  "undef": true,
+  "unused": true,
+  "trailing": true,
+  "browser": true,
+  "expr": true,
+  "debug": true,
+
   "globals": {
     "Kimbo": true,
     "define": true,
