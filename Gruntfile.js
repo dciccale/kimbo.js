@@ -22,12 +22,13 @@ module.exports = function (grunt) {
 
     jade: {
       compile: {
-        files: grunt.file.expandMapping(['*.jade'], '<%= outputDir %>/', {
+        files: [{
+          expand: true,
           cwd: 'src/jade',
-          rename: function(dest, src) {
-            return dest + src.replace(/\.jade$/, '.html');
-          }
-        })
+          src: '*.jade',
+          ext: '.html',
+          dest: '<%= outputDir %>'
+        }]
       }
     },
 
