@@ -50,17 +50,17 @@ module.exports = function (grunt) {
     watch: {
       stylus: {
         files: ['src/styl/*.styl'],
-        tasks: 'stylus cssmin'
+        tasks: ['stylus', 'cssmin']
       },
 
       jade: {
         files: ['src/jade/**/*.jade'],
-        tasks: 'jade'
+        tasks: ['jade']
       },
 
       coffee: {
         files: ['src/coffee/*.coffee'],
-        tasks: 'coffee uglify'
+        tasks: ['coffee', 'uglify']
       }
     }
   });
