@@ -1,4 +1,6 @@
 {
+  "latedef": true,
+  "noempty": true,
   "curly": true,
   "eqeqeq": true,
   "forin": true,
@@ -9,14 +11,12 @@
   "unused": true,
   "trailing": true,
   "browser": true,
-  "expr": true,
   "debug": true,
 
   "globals": {
     "Kimbo": true,
     "define": true,
     "NodeList": true,
-    "exports": true,
-    "module": false
+    "module": true
   }
 }
