@@ -11,10 +11,7 @@ var _matchesSelector = (function () {
     matchesSelector = elem.webkitMatchesSelector || elem.mozMatchesSelector || elem.oMatchesSelector || elem.matchesSelector;
 
   return function (elem, selector) {
-    if (!elem || elem.nodeType !== 1 || !Kimbo.isString(selector)) {
-      return false;
-    }
-    return matchesSelector.call(elem, selector);
+    return (!elem || elem.nodeType !== 1) ? false : matchesSelector.call(elem, selector);
   };
 }());
 
@@ -315,23 +312,34 @@ Kimbo.fn.extend({
    * This will return `ul.level-2` element
   \*/
   closest: function (selector, context) {
-    var result = [];
+    var node,
+      l = this.length,
+      result = [],
+      setNode = function (node) {
+        // check selector match and grab the element
+        while (node && !_matchesSelector(node, selector)) {
+          node = node !== context && node !== document && node.parentNode;
+        }
+        return node;
+      };
 
-    // a normal for loop would be faster
-    Kimbo.forEach(this, function (node) {
+    // get closest only for one element
+    if (l === 1) {
+      node = this[0];
+      result = setNode(node);
 
-      // check selector match and grab the element
-      while (node && !_matchesSelector(node, selector)) {
-        node = (node !== context && node !== document && node.parentNode);
-      }
+    // get closest from all elements in the set
+    } else {
+      Kimbo.forEach(this, function (node) {
+        node = setNode(node);
+        if (node) {
+          result.push(node);
+        }
+      });
 
-      if (node) {
-        result.push(node);
-      }
-    });
-
-    // only unique results
-    result = result.length > 1 ? _unique(result) : result;
+      // only unique results
+      result = result.length > 1 ? _unique(result) : result;
+    }
 
     return Kimbo(result);
   },
