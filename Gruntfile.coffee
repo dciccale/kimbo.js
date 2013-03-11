@@ -23,7 +23,7 @@ module.exports = (grunt) ->
         banner: '/*!\n' +
           ' * <%= pkg.name %> v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
           ' * <%= pkg.homepage %>\n' +
-          ' * Copyright (c) <%= grunt.template.today(\'yyyy\') %> <%= pkg.author %>\n' +
+          ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
           ' * Released under the <%= pkg.licenses[0].type %> license\n' +
           ' * <%= pkg.licenses[0].url %>\n' +
           ' */\n'
