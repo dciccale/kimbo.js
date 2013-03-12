@@ -82,7 +82,7 @@ Kimbo.fn = Kimbo.prototype = {
    | <p>two</p>
    | <p>three</p>
    * Grab them and check for the length property:
-   | $('p').length; // 2
+   | $('p').length; // 3
   \*/
   length: 0,
 
