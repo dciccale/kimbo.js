@@ -69,6 +69,10 @@ describe 'manipulation', ->
       $li_first.addClass('uno')
       expect(getClass($li_first)).toEqual(['first', 'active', 'uno'])
 
+    it 'should only add a class if the nodeType is 1 (ELEMENT_NODE)', ->
+      textNode = $($li_first[0].firstChild) # nodeType is 3
+      expect(textNode.addClass('text_node')).toEqual(textNode)
+
     it 'should add multiple classes to an element', ->
       $li_second.addClass('dos two due')
       expect(getClass($li_second)).toEqual(['dos', 'two', 'due'])
@@ -86,10 +90,6 @@ describe 'manipulation', ->
       expect(-> $li_second.addClass(true)).not.toThrow()
       expect(-> $li_second.addClass([])).not.toThrow()
       expect(-> $li_second.addClass({})).not.toThrow()
-
-    it 'should only add a class if the nodeType is 1 (ELEMENT_NODE)', ->
-      textNode = $($li_first[0].firstChild) # nodeType is 3
-      expect(textNode.addClass('text_node')).toEqual(textNode)
 
     it 'should do nothing when called with wierd or without arguments', ->
       currentClasses = getClass($li_first)
@@ -114,6 +114,10 @@ describe 'manipulation', ->
     it 'should remove a class from an element', ->
       $li_first.removeClass('uno')
       expect(getClass($li_first)).toEqual(['first', 'active'])
+
+    it 'should only add a class if the nodeType is 1 (ELEMENT_NODE)', ->
+      textNode = $($li_first[0].firstChild) # nodeType is 3
+      expect(textNode.removeClass('text_node')).toEqual(textNode)
 
     it 'should remove multiple classes from an element', ->
       $li_second.removeClass('dos due')
