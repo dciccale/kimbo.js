@@ -3,3 +3,4 @@ demo
 dist
 src/resources
 www
+test/spec/*.js
