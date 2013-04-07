@@ -1,11 +1,11 @@
 var objectTypes = {},
   mobile_os = {
-    Android: /(Android)\s+([\d.]+)/,
-    Blackberry: /(BlackBerry|BB10|Playbook).*Version\/([\d.]+)/,
-    FirefoxOS: /(Mozilla).*Mobile[^\/]*\/([\d\.]*)/,
+    android: /(Android)\s+([\d.]+)/,
+    blackberry: /(BlackBerry|BB10|Playbook).*Version\/([\d.]+)/,
+    firefoxos: /(Mozilla).*Mobile[^\/]*\/([\d\.]*)/,
     ipad: /(iPad).*OS\s([\d_]+)/,
     iphone: /(iPhone\sOS)\s([\d_]+)/,
-    webOS: /(web|hpw)OS[\s\/]([\d.]+)/
+    webos: /(web|hpw)OS[\s\/]([\d.]+)/
   },
   isMobile = null;
 
