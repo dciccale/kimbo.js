@@ -547,14 +547,8 @@ Kimbo.fn.extend({
 Kimbo.forEach(['blur', 'change', 'click', 'contextmenu', 'dblclick', 'error',
   'focus', 'keydown', 'keypress', 'keyup', 'load', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove',
   'mouseout', 'mouseup', 'mouseover', 'resize', 'scroll', 'select', 'submit', 'unload'], function (type) {
-  Kimbo.fn[type] = function (data, callback) {
-    // prepare arguments
-    if (!callback) {
-      callback = data;
-      data = null;
-    }
 
-    // add the event or trigger it if no args passed
+  Kimbo.fn[type] = function (data, callback) {
     return arguments.length > 0 ? this.on(type, null, data, callback) : this.trigger(type);
   };
 
