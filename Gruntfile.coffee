@@ -53,7 +53,7 @@ module.exports = (grunt) ->
 
 
     watch:
-      files: ['Gruntfile.js', 'src/*.js']
+      files: ['Gruntfile.js', 'src/*.js', 'test/spec/*.coffee']
       tasks: ['default']
 
   grunt.loadNpmTasks 'grunt-contrib-concat'
@@ -62,4 +62,4 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
 
-  grunt.registerTask 'default', ['concat', 'jshint', 'uglify']
+  grunt.registerTask 'default', ['concat', 'jshint', 'uglify', 'coffee']
