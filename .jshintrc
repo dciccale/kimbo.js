@@ -12,7 +12,6 @@
   "trailing": true,
   "browser": true,
   "debug": true,
-
   "globals": {
     "Kimbo": true,
     "define": true,
