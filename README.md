@@ -10,14 +10,42 @@ Give it a try and start using a robust, light-weight and modern library today.
 ## API Documentation
 Please [visit the documentation](http://api.kimbojs.com) to see how easy is to use with its jQuery compatible API.
 
+## Build
+In order to run the build task you'll need [NodeJS](http://nodejs.org/) and [Grunt.js](http://gruntjs.com/).
+
+After installing NodeJS, clone the project by running:
+```bash
+$ git clone git://github.com/dciccale/kimbo.js.git
+```
+
+Install grunt-cli:
+
+```bash
+$ npm install -g grunt-cli
+```
+
+Enter kimbo.js directory and install local dependencies:
+
+```bash
+$ cd kimbo.js && npm install
+```
+
+Now to run the full build task just run:
+
+```bash
+$ grunt
+```
+
+A `dist/` folder will be created containing development and production build of kimbo.js including a source map file.
+
 ## Running the Unit Tests
 
-Run grunt coffee task to compile `.coffee` spec files:
+Run `grunt coffee` task to compile `.coffee` spec files:
 ```bash
 $ grunt coffee
 ```
 
-And the open `test/SpecRunner.html` in your browser.
+And then open `test/SpecRunner.html` in your browser.
 
 ## Current status
 The current version is the first release that even it works pritty well, is still under heavy development.
