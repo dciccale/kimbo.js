@@ -16,7 +16,7 @@ For now there isn't a browser compatibility table but have in mind it is intende
 
 ### Next
 **Coming asap:**
-- Tests
+- Tests ([in progress](https://github.com/dciccale/kimbo.js/tree/master/test))
 - Gestures
 - Touch events
 - XHR2
