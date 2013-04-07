@@ -42,6 +42,7 @@ module.exports = (grunt) ->
       options:
         banner: '/*! <%= pkg.name %> v<%= pkg.version %> | <%= pkg.homepage %> | <%= pkg.licenses[0].url %> */\n'
         sourceMap: '<%= distPath %>.sourcemap.js'
+        report: 'gzip'
 
     coffee:
       compile:
