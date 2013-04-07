@@ -11,6 +11,7 @@ describe 'manipulation', ->
     $li_second = $('li#second')
     $input = $('#name')
 
+
   describe 'text()', ->
     it 'should not fail when called on an empty set', ->
       expect(-> $('#noexists').text()).not.toThrow()
@@ -24,6 +25,7 @@ describe 'manipulation', ->
     it 'should set the textContent of an element', ->
       $li_first.text('one')
       expect($li_first.text()).toEqual('one')
+
 
   describe 'html()', ->
     it 'should not fail when called on an empty set', ->
@@ -41,6 +43,7 @@ describe 'manipulation', ->
       $li_second.html(content)
       expect($li_second.html()).toEqual(content)
 
+
   describe 'val()', ->
     it 'should not fail when called on an empty set', ->
       expect(-> $('#noexists').val()).not.toThrow()
@@ -56,6 +59,7 @@ describe 'manipulation', ->
       content = 'changed'
       $input.val(content)
       expect($input[0].value).toEqual(content)
+
 
   describe 'addClass()', ->
     it 'should not fail when called on an empty set', ->
@@ -82,6 +86,10 @@ describe 'manipulation', ->
       expect(-> $li_second.addClass(true)).not.toThrow()
       expect(-> $li_second.addClass([])).not.toThrow()
       expect(-> $li_second.addClass({})).not.toThrow()
+
+    it 'should only add a class if the nodeType is 1 (ELEMENT_NODE)', ->
+      textNode = $($li_first[0].firstChild) # nodeType is 3
+      expect(textNode.addClass('text_node')).toEqual(textNode)
 
     it 'should do nothing when called with wierd or without arguments', ->
       currentClasses = getClass($li_first)
@@ -142,6 +150,7 @@ describe 'manipulation', ->
       $li_second[0].className = 'has multiple classes'
       $li_second.removeClass(0)
       expect(getClass($li_second)).toEqual([''])
+
 
   describe 'hasClass()', ->
     it 'should not fail when called on an empty set', ->
