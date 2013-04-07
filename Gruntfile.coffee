@@ -43,6 +43,15 @@ module.exports = (grunt) ->
         banner: '/*! <%= pkg.name %> v<%= pkg.version %> | <%= pkg.homepage %> | <%= pkg.licenses[0].url %> */\n'
         sourceMap: '<%= distPath %>.sourcemap.js'
 
+    coffee:
+      compile:
+        expand: true
+        cwd: 'test/spec'
+        src: ['*.coffee']
+        dest: 'test/spec/'
+        ext: '.js'
+
+
     watch:
       files: ['Gruntfile.js', 'src/*.js']
       tasks: ['default']
@@ -50,6 +59,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-concat'
   grunt.loadNpmTasks 'grunt-contrib-jshint'
   grunt.loadNpmTasks 'grunt-contrib-uglify'
+  grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
 
   grunt.registerTask 'default', ['concat', 'jshint', 'uglify']

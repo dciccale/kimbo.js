@@ -23,9 +23,10 @@
   "devDependencies": {
     "grunt": "0.4.x",
     "grunt-contrib-concat": "0.1.x",
-    "grunt-contrib-jshint": "0.1.x",
-    "grunt-contrib-uglify": "0.1.x",
-    "grunt-contrib-watch": "0.1.x"
+    "grunt-contrib-jshint": "0.4.x",
+    "grunt-contrib-uglify": "0.2.x",
+    "grunt-contrib-coffee": "0.6.x",
+    "grunt-contrib-watch": "0.3.x"
   },
   "keywords": ["javascript", "library", "ecmascript", "kimbo"]
 }
