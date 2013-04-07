@@ -271,7 +271,7 @@ Kimbo.fn.extend({
       // push them to current kimbo collection
       _push.apply(result, elems);
 
-      if (i > 0) {
+      if (i) {
         // make results unique
         for (n = length; n < result.length; n++) {
           for (r = 0; r < length; r++) {
@@ -420,7 +420,7 @@ Kimbo.fn.extend({
    | });
   \*/
   is: function (selector) {
-    return this.length > 0 && this.filter(selector).length > 0;
+    return this.length && this.filter(selector).length;
   }
 });
 
