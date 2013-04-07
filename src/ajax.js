@@ -322,7 +322,7 @@ Kimbo.extend({
   - callback (function) A callback function to execute if the request succeeds.
   - type (string) #optional String with the type of the data to send (intelligent guess by default).
   > Usage
-  | $.post('url/test.json', { id: '2' }, function (data) {
+  | $.getJSON('url/test.json', { id: '2' }, function (data) {
   |   // success
   |   console.log('response:', data);
   | });
