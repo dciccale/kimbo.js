@@ -109,7 +109,11 @@ Kimbo.fn = Kimbo.prototype = {
 
     // listen when it loads
     } else {
-      document.addEventListener('DOMContentLoaded', callback, false);
+      var completed = function() {
+        document.removeEventListener('DOMContentLoaded', completed, false);
+        callback();
+      };
+      document.addEventListener('DOMContentLoaded', completed, false);
     }
 
     return rootContext;
@@ -137,6 +141,9 @@ Kimbo.fn = Kimbo.prototype = {
   get: function (index) {
     return (!arguments.length) ? _slice.call(this) : (index < 0 ? this[this.length + index] : Kimbo(this[index]));
   },
+
+  // unique reference for the current instance of Kimbo
+  ref: 'kimbo' + ('1' + Math.random()).replace(/\D/g, ''),
 
   // needed to have an array-like object
   splice: Array.prototype.splice
