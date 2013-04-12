@@ -44,13 +44,26 @@ A `dist/` folder will be created containing development and production build of 
 
 Run `grunt coffee` task to compile `.coffee` spec files and open `test/SpecRunner.html`.
 
+```bash
+$ grunt coffee && open test/SpecRunner.html
+```
+
 ### In PhantomJS
 
 Run `grunt test` and you will see the output.
 
+
+```bash
+$ grunt test
+```
+
 ### Developing
 
 Run `grunt watch` to work with the library, build and test will be run automatically.
+
+```bash
+$ grunt watch
+```
 
 ## Current status
 The current version is the first release that even it works pritty well, is still under heavy development.
