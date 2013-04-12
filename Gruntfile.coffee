@@ -59,7 +59,6 @@ module.exports = ->
       options:
         banner: '/*! <%= pkg.name %> v<%= pkg.version %> | <%= pkg.homepage %> | <%= pkg.licenses[0].url %> */\n'
         sourceMap: '<%= distPath %>.sourcemap.js'
-        report: 'gzip'
 
     watch:
       gruntfile:
@@ -81,5 +80,6 @@ module.exports = ->
   @loadNpmTasks 'grunt-contrib-uglify'
   @loadNpmTasks 'grunt-contrib-watch'
 
-  @registerTask 'test', ['coffee', 'jasmine']
-  @registerTask 'default', ['concat', 'jshint', 'test', 'uglify']
+  @registerTask 'build', ['concat', 'uglify']
+  @registerTask 'test', ['build', 'coffee', 'jasmine']
+  @registerTask 'default', ['build', 'jshint', 'test']
