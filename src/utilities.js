@@ -273,9 +273,9 @@ Kimbo.extend({
     if (Kimbo.isArray(first)) {
       first = first.concat(second);
 
-    // Kimbo object, just loop merge
+    // Kimbo object do a consecutive push
     } else {
-      _push.apply(first, second);
+      _push.apply(first, _slice.call(second));
     }
 
     return first;
