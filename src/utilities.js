@@ -297,10 +297,7 @@ Kimbo.extend({
     return str.replace(/-+(.)?/g, function (wholeMatch, character) {
       return character.toUpperCase();
     });
-  },
-
-  // unique reference for the current instance of Kimbo
-  ref: 'kimbo' + ('1' + Math.random()).replace(/\D/g, '')
+  }
 });
 
 /*\
