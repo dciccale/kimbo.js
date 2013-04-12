@@ -19,6 +19,9 @@
       "url": "https://github.com/dciccale/kimbo.js/blob/master/LICENSE.txt"
     }
   ],
+  "scripts": {
+    "test": "grunt jasmine --verbose"
+  },
   "dependencies": {},
   "devDependencies": {
     "grunt": "0.4.x",
