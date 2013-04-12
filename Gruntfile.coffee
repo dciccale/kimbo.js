@@ -82,3 +82,4 @@ module.exports = ->
   @loadNpmTasks 'grunt-contrib-watch'
 
   @registerTask 'default', ['concat', 'jshint', 'coffee', 'jasmine', 'uglify']
+  @registerTask 'travis', ['coffee', 'jasmine']

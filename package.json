@@ -20,7 +20,7 @@
     }
   ],
   "scripts": {
-    "test": "grunt jasmine --verbose"
+    "test": "grunt travis --verbose"
   },
   "dependencies": {},
   "devDependencies": {
