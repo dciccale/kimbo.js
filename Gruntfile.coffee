@@ -72,7 +72,7 @@ module.exports = ->
 
       test:
         files: ['test/spec/*.coffee']
-        tasks: ['coffee', 'jasmine']
+        tasks: ['test']
 
   @loadNpmTasks 'grunt-contrib-concat'
   @loadNpmTasks 'grunt-contrib-jshint'
@@ -81,5 +81,5 @@ module.exports = ->
   @loadNpmTasks 'grunt-contrib-uglify'
   @loadNpmTasks 'grunt-contrib-watch'
 
-  @registerTask 'default', ['concat', 'jshint', 'coffee', 'jasmine', 'uglify']
-  @registerTask 'travis', ['coffee', 'jasmine']
+  @registerTask 'test', ['coffee', 'jasmine']
+  @registerTask 'default', ['concat', 'jshint', 'test', 'uglify']
