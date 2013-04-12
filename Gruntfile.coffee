@@ -1,6 +1,7 @@
-module.exports = (grunt) ->
-  grunt.initConfig
-    pkg: grunt.file.readJSON('package.json')
+module.exports = ->
+
+  @initConfig
+    pkg: @file.readJSON('package.json')
 
     distPath: 'dist/<%= pkg.name %>'
 
@@ -19,6 +20,7 @@ module.exports = (grunt) ->
           'src/outro.js'
         ]
         dest: '<%= distPath %>.js'
+
       options:
         banner: '/*!\n' +
           ' * <%= pkg.name %> v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
@@ -32,7 +34,22 @@ module.exports = (grunt) ->
     jshint:
       files: ['Gruntfile.js', '<%= distPath %>.js']
       options:
-        jshintrc: '.jshintrc'
+        jshintrc: ['.jshintrc']
+
+    coffee:
+      compile:
+        expand: true
+        cwd: 'test/spec'
+        src: ['*.coffee']
+        dest: 'test/spec/'
+        ext: '.js'
+
+    jasmine:
+      test:
+        src: ['<%= distPath %>.js']
+        options:
+          specs: ['test/spec/*Spec.js']
+          template: __dirname + '/test/SpecRunner.tmpl'
 
     uglify:
       dest:
@@ -44,23 +61,24 @@ module.exports = (grunt) ->
         sourceMap: '<%= distPath %>.sourcemap.js'
         report: 'gzip'
 
-    coffee:
-      compile:
-        expand: true
-        cwd: 'test/spec'
-        src: ['*.coffee']
-        dest: 'test/spec/'
-        ext: '.js'
-
-
     watch:
-      files: ['Gruntfile.js', 'src/*.js', 'test/spec/*.coffee']
-      tasks: ['default']
+      gruntfile:
+        files: ['Gruntfile.coffee']
+        tasks: ['jshint']
 
-  grunt.loadNpmTasks 'grunt-contrib-concat'
-  grunt.loadNpmTasks 'grunt-contrib-jshint'
-  grunt.loadNpmTasks 'grunt-contrib-uglify'
-  grunt.loadNpmTasks 'grunt-contrib-coffee'
-  grunt.loadNpmTasks 'grunt-contrib-watch'
+      lib:
+        files: ['src/*.js']
+        tasks: ['default']
 
-  grunt.registerTask 'default', ['concat', 'jshint', 'uglify', 'coffee']
+      test:
+        files: ['test/spec/*.coffee']
+        tasks: ['coffee', 'jasmine']
+
+  @loadNpmTasks 'grunt-contrib-concat'
+  @loadNpmTasks 'grunt-contrib-jshint'
+  @loadNpmTasks 'grunt-contrib-coffee'
+  @loadNpmTasks 'grunt-contrib-jasmine'
+  @loadNpmTasks 'grunt-contrib-uglify'
+  @loadNpmTasks 'grunt-contrib-watch'
+
+  @registerTask 'default', ['concat', 'jshint', 'coffee', 'jasmine', 'uglify']
