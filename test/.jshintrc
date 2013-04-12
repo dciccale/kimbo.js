@@ -1,0 +1,21 @@
+{
+  "boss": true,
+  "latedef": true,
+  "noempty": true,
+  "curly": true,
+  "immed": true,
+  "noarg": true,
+  "undef": true,
+  "unused": true,
+  "trailing": true,
+  "browser": true,
+  "globals": {
+    "jasmine": true,
+    "describe": true,
+    "it": true,
+    "expect": true,
+    "beforeEach": true,
+    "Kimbo": true,
+    "$": true
+  }
+}

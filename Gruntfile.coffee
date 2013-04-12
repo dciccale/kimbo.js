@@ -32,9 +32,20 @@ module.exports = ->
         separator: '\n\n'
 
     jshint:
-      files: ['Gruntfile.js', '<%= distPath %>.js']
-      options:
-        jshintrc: ['.jshintrc']
+      gruntfile:
+        src: ['Gruntfile.js']
+        options:
+          jshintrc: '.jshintrc'
+
+      lib:
+        src: ['<%= distPath %>.js']
+        options:
+          jshintrc: 'src/.jshintrc'
+
+      tests:
+        src: ['test/spec/*.js']
+        options:
+          jshintrc: 'test/.jshintrc'
 
     coffee:
       compile:

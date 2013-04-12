@@ -3,11 +3,19 @@
   "noempty": true,
   "curly": true,
   "eqeqeq": true,
+  "forin": true,
   "immed": true,
   "noarg": true,
   "quotmark": "single",
   "undef": true,
   "unused": true,
   "trailing": true,
-  "node": true
+  "browser": true,
+  "debug": true,
+  "globals": {
+    "Kimbo": true,
+    "define": true,
+    "NodeList": true,
+    "module": true
+  }
 }
