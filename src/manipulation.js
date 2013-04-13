@@ -14,7 +14,7 @@ function _getComputedStyle(element, property) {
   return window.getComputedStyle(element, null).getPropertyValue(property);
 }
 
-var _data = (function() {
+var _data = (function () {
   var cache = {},
     data_id = 1;
 
