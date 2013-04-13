@@ -1,4 +1,5 @@
 {
+  "onevar": true,
   "boss": true,
   "latedef": true,
   "noempty": true,
