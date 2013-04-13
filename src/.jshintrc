@@ -1,4 +1,5 @@
 {
+  "es5": true,
   "latedef": true,
   "noempty": true,
   "curly": true,
