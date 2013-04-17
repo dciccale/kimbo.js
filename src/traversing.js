@@ -1,19 +1,17 @@
-var isUnique = {
-  children: true,
-  contents: true,
-  next: true,
-  prev: true
-};
-
-// wrap native to use correct method and extend behaviour
-var _matchesSelector = (function () {
-  var elem = document.createElement('div'),
-    matchesSelector = elem.webkitMatchesSelector || elem.mozMatchesSelector || elem.oMatchesSelector || elem.matchesSelector;
-
-  return function (elem, selector) {
-    return (!elem || elem.nodeType !== 1) ? false : matchesSelector.call(elem, selector);
+var _matchesSelector = document.documentElement.webkitMatchesSelector ||
+  document.documentElement.mozMatchesSelector ||
+  document.documentElement.oMatchesSelector ||
+  document.documentElement.matchesSelector,
+  _matches = function (elem, selector) {
+    return (!elem || elem.nodeType !== 1) ? false : _matchesSelector.call(elem, selector);
+  },
+  isUnique = {
+    children: true,
+    contents: true,
+    next: true,
+    prev: true
   };
-}());
+
 
 function _unique(array) {
   return array.filter(function (item, index) {
@@ -84,7 +82,7 @@ Kimbo.fn.extend({
       if (Kimbo.isFunction(selector)) {
         ret = !!selector.call(elem, i, elem);
       } else if (Kimbo.isString(selector)) {
-        ret = _matchesSelector(elem, selector);
+        ret = _matches(elem, selector);
       } else if (selector.nodeType) {
         ret = elem === selector;
       } else if (Kimbo.isKimbo(selector)) {
@@ -317,7 +315,7 @@ Kimbo.fn.extend({
       result = [],
       setNode = function (node) {
         // check selector match and grab the element
-        while (node && !_matchesSelector(node, selector)) {
+        while (node && !_matches(node, selector)) {
           node = node !== context && node !== document && node.parentNode;
         }
         return node;
