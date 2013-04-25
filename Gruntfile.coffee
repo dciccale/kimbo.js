@@ -74,15 +74,15 @@ module.exports = ->
     watch:
       gruntfile:
         files: ['Gruntfile.coffee']
-        tasks: ['jshint']
+        tasks: ['jshint:gruntfile']
 
       lib:
         files: ['src/*.js']
-        tasks: ['default']
+        tasks: ['build', 'jshint:lib', 'test']
 
       test:
         files: ['test/spec/*.coffee']
-        tasks: ['test']
+        tasks: ['test', 'jshint:tests']
 
   @loadNpmTasks 'grunt-contrib-concat'
   @loadNpmTasks 'grunt-contrib-jshint'
