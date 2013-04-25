@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "author": "Denis Ciccale (@tdecs)",
   "homepage": "http://kimbojs.com",
+  "readmeFilename": "README.md",
   "repositories": [
     {
       "type": "git",
