@@ -1,25 +1,28 @@
 module.exports = ->
 
   @initConfig
-    pkg: @file.readJSON('package.json')
+    SRC_DIR: 'src/'
+    TESTS_DIR: 'test/'
+    SPEC_DIR: '<%= TESTS_DIR %>spec/'
+    DIST_FILE: 'dist/<%= pkg.name %>'
 
-    distPath: 'dist/<%= pkg.name %>'
+    pkg: @file.readJSON('package.json')
 
     concat:
       dist:
         src: [
-          'src/intro.js',
-          'src/core.js',
-          'src/query.js',
-          'src/manipulation.js',
-          'src/traversing.js',
-          'src/utilities.js',
-          'src/events.js',
-          'src/ajax.js',
-          'src/exports.js',
-          'src/outro.js'
+          '<%= SRC_DIR %>intro.js',
+          '<%= SRC_DIR %>core.js',
+          '<%= SRC_DIR %>query.js',
+          '<%= SRC_DIR %>manipulation.js',
+          '<%= SRC_DIR %>traversing.js',
+          '<%= SRC_DIR %>utilities.js',
+          '<%= SRC_DIR %>events.js',
+          '<%= SRC_DIR %>ajax.js',
+          '<%= SRC_DIR %>exports.js',
+          '<%= SRC_DIR %>outro.js'
         ]
-        dest: '<%= distPath %>.js'
+        dest: '<%= DIST_FILE %>.js'
 
       options:
         banner: '/*!\n' +
@@ -38,38 +41,38 @@ module.exports = ->
           jshintrc: '.jshintrc'
 
       lib:
-        src: ['<%= distPath %>.js']
+        src: ['<%= DIST_FILE %>.js']
         options:
-          jshintrc: 'src/.jshintrc'
+          jshintrc: '<%= SRC_DIR %>.jshintrc'
 
       tests:
-        src: ['test/spec/*.js']
+        src: ['<%= TESTS_DIR %><%= SPEC_DIR %>/*.js']
         options:
-          jshintrc: 'test/.jshintrc'
+          jshintrc: '<%= TESTS_DIR %>/.jshintrc'
 
     coffee:
       compile:
         expand: true
-        cwd: 'test/spec'
+        cwd: '<%= TESTS_DIR %><%= SPEC_DIR %>'
         src: ['*.coffee']
-        dest: 'test/spec/'
+        dest: '<%= TESTS_DIR %><%= SPEC_DIR %>/'
         ext: '.js'
 
     jasmine:
       test:
-        src: ['<%= distPath %>.js']
+        src: ['<%= DIST_FILE %>.js']
         options:
-          specs: ['test/spec/*Spec.js']
-          template: __dirname + '/test/SpecRunner.tmpl'
+          specs: ['<%= SPEC_DIR %>/*Spec.js']
+          template: '<%= TESTS_DIR %>SpecRunner.tmpl'
 
     uglify:
       dest:
         files:
-          '<%= distPath %>.min.js': ['<%= distPath %>.js']
+          '<%= DIST_FILE %>.min.js': ['<%= DIST_FILE %>.js']
 
       options:
         banner: '/*! <%= pkg.name %> v<%= pkg.version %> | <%= pkg.homepage %> | <%= pkg.licenses[0].url %> */\n'
-        sourceMap: '<%= distPath %>.sourcemap.js'
+        sourceMap: '<%= DIST_FILE %>.sourcemap.js'
 
     watch:
       gruntfile:
@@ -77,11 +80,11 @@ module.exports = ->
         tasks: ['jshint:gruntfile']
 
       lib:
-        files: ['src/*.js']
+        files: ['<%= SRC_DIR %>*.js']
         tasks: ['build', 'jshint:lib', 'test']
 
       test:
-        files: ['test/spec/*.coffee']
+        files: ['<%= TESTS_DIR %><%= SPEC_DIR %>/*.coffee']
         tasks: ['test', 'jshint:tests']
 
   @loadNpmTasks 'grunt-contrib-concat'
