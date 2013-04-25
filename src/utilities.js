@@ -244,7 +244,7 @@ Kimbo.extend({
     results = results || [];
 
     if (obj) {
-      if (Kimbo.isArray(obj) || Kimbo.isKimbo(obj) || obj instanceof NodeList) {
+      if (Kimbo.isArray(obj) || Kimbo.isKimbo(obj) || obj instanceof window.NodeList) {
         results = Kimbo.merge(results, obj);
       } else {
         _push.call(results, obj);
