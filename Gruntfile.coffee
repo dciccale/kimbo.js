@@ -4,9 +4,8 @@ module.exports = ->
     SRC_DIR: 'src/'
     TESTS_DIR: 'test/'
     SPEC_DIR: '<%= TESTS_DIR %>spec/'
-    DIST_FILE: 'dist/<%= pkg.name %>'
-
-    pkg: @file.readJSON('package.json')
+    DIST_FILE: 'dist/<%= PKG.name %>'
+    PKG: @file.readJSON('package.json')
 
     concat:
       dist:
@@ -26,11 +25,11 @@ module.exports = ->
 
       options:
         banner: '/*!\n' +
-          ' * <%= pkg.name %> v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
-          ' * <%= pkg.homepage %>\n' +
-          ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
-          ' * Released under the <%= pkg.licenses[0].type %> license\n' +
-          ' * <%= pkg.licenses[0].url %>\n' +
+          ' * <%= PKG.name %> v<%= PKG.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
+          ' * <%= PKG.homepage %>\n' +
+          ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= PKG.author %>\n' +
+          ' * Released under the <%= PKG.licenses[0].type %> license\n' +
+          ' * <%= PKG.licenses[0].url %>\n' +
           ' */\n'
         separator: '\n\n'
 
@@ -71,7 +70,7 @@ module.exports = ->
           '<%= DIST_FILE %>.min.js': ['<%= DIST_FILE %>.js']
 
       options:
-        banner: '/*! <%= pkg.name %> v<%= pkg.version %> | <%= pkg.homepage %> | <%= pkg.licenses[0].url %> */\n'
+        banner: '/*! <%= PKG.name %> v<%= PKG.version %> | <%= PKG.homepage %> | <%= PKG.licenses[0].url %> */\n'
         sourceMap: '<%= DIST_FILE %>.sourcemap.js'
 
     watch:
