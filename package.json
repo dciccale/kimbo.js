@@ -30,5 +30,6 @@
     "grunt-contrib-livereload": "0.1.x",
     "grunt-contrib-watch": "0.4.x"
   },
-  "keywords": ["javascript", "library", "ecmascript", "kimbo"]
+  "keywords": ["javascript", "library", "ecmascript", "kimbo"],
+  "private": true
 }
