@@ -149,6 +149,9 @@
      | $('li').get(-1); // <li id="bar">
     \*/
     get: function (index) {
+      if (!this.length) {
+        return;
+      }
       return (!arguments.length) ? _.slice.call(this) : (index < 0 ? this[this.length + index] : this.constructor(this[index]));
     },
 
