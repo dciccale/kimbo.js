@@ -49,7 +49,7 @@ Kimbo.require('data', function () {
   }
 
 
-  Kimbo.extend({
+  Kimbo.fn.extend({
     /*\
      * $(…).data
      [ method ]

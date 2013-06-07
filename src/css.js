@@ -14,7 +14,7 @@ Kimbo.define('css', function () {
     return window.getComputedStyle(element, null).getPropertyValue(property);
   }
 
-  Kimbo.extend({
+  Kimbo.fn.extend({
     /*\
      * $(…).show
      [ method ]
