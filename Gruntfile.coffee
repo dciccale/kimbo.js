@@ -10,16 +10,15 @@ module.exports = ->
     concat:
       dist:
         src: [
-          '<%= SRC_DIR %>intro.js',
           '<%= SRC_DIR %>core.js',
           '<%= SRC_DIR %>query.js',
+          '<%= SRC_DIR %>data.js',
+          '<%= SRC_DIR %>css.js',
           '<%= SRC_DIR %>manipulation.js',
           '<%= SRC_DIR %>traversing.js',
           '<%= SRC_DIR %>utilities.js',
           '<%= SRC_DIR %>events.js',
-          '<%= SRC_DIR %>ajax.js',
-          '<%= SRC_DIR %>exports.js',
-          '<%= SRC_DIR %>outro.js'
+          '<%= SRC_DIR %>ajax.js'
         ]
         dest: '<%= DIST_FILE %>.js'
 
@@ -35,37 +34,37 @@ module.exports = ->
 
     jshint:
       gruntfile:
-        src: ['Gruntfile.js']
         options:
           jshintrc: '.jshintrc'
+        src: ['Gruntfile.js']
 
       lib:
-        src: ['<%= DIST_FILE %>.js']
         options:
           jshintrc: '<%= SRC_DIR %>.jshintrc'
+        src: ['<%= DIST_FILE %>.js']
 
       tests:
-        src: ['<%= TESTS_DIR %><%= SPEC_DIR %>/*.js']
         options:
           jshintrc: '<%= TESTS_DIR %>/.jshintrc'
+        src: ['<%= TESTS_DIR %><%= SPEC_DIR %>/*.js']
 
     coffee:
       compile:
-        expand: true
-        cwd: '<%= TESTS_DIR %><%= SPEC_DIR %>'
         src: ['*.coffee']
-        dest: '<%= TESTS_DIR %><%= SPEC_DIR %>/'
+        cwd: '<%= TESTS_DIR %><%= SPEC_DIR %>'
         ext: '.js'
+        expand: true
+        dest: '<%= TESTS_DIR %><%= SPEC_DIR %>/'
 
     jasmine:
       test:
-        src: ['<%= DIST_FILE %>.js']
         options:
           specs: ['<%= SPEC_DIR %>/*Spec.js']
           template: '<%= TESTS_DIR %>SpecRunner.tmpl'
+        src: ['<%= DIST_FILE %>.js']
 
     uglify:
-      dest:
+      dist:
         files:
           '<%= DIST_FILE %>.min.js': ['<%= DIST_FILE %>.js']
 
@@ -80,7 +79,7 @@ module.exports = ->
 
       lib:
         files: ['<%= SRC_DIR %>*.js']
-        tasks: ['build', 'jshint:lib', 'test']
+        tasks: ['concat', 'jshint:lib', 'test']
 
       test:
         files: ['<%= TESTS_DIR %><%= SPEC_DIR %>/*.coffee']
