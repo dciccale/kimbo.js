@@ -319,26 +319,27 @@ Kimbo.define('traversing', function (_) {
      * This will return `ul.level-2` element
     \*/
     closest: function (selector, context) {
-      var node,
-        l = this.length,
-        result = [],
-        setNode = function (node) {
-          // check selector match and grab the element
-          while (node && !_matches(node, selector)) {
-            node = node !== context && node !== document && node.parentNode;
-          }
-          return node;
-        };
+      var l = this.length;
+      var result = [];
+      var closest = function (node) {
+        // check selector match and grab the element
+        while (node && !_matches(node, selector)) {
+          node = node !== context && node !== document && node.parentNode;
+        }
+        return node;
+      };
+
+      if (!l) {
+        return this;
 
       // get closest only for one element
-      if (l === 1) {
-        node = this[0];
-        result = setNode(node);
+      } else if (l === 1) {
+        result = closest(this[0]);
 
       // get closest from all elements in the set
       } else {
         Kimbo.forEach(this, function (node) {
-          node = setNode(node);
+          node = closest(node);
           if (node) {
             result.push(node);
           }
