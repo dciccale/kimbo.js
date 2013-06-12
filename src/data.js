@@ -24,8 +24,8 @@ Kimbo.require('data', function () {
   }
 
   function _set(dom, name, value) {
-    var domData = dom.__data,
-      domCache;
+    var domData = dom.__data;
+    var domCache;
 
     if (!domData) {
       domData = dom.__data = dataId++;
@@ -110,7 +110,6 @@ Kimbo.require('data', function () {
         _remove(this, name);
       });
     }
-
   });
 
   return {
