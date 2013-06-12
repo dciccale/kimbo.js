@@ -5,9 +5,9 @@ Kimbo.define('manipulation', function (_) {
   var SPACE_RE = /\s+/;
 
   // browser native classList
-  var _hasClass = function (elem, name) {
+  function _hasClass (elem, name) {
     return (elem.nodeType === 1 && elem.classList.contains(name));
-  };
+  }
 
   /*\
    * $(…).text
@@ -412,8 +412,8 @@ Kimbo.define('manipulation', function (_) {
      | $('p').hasClass('qwe asd'); // true
     \*/
     hasClass: function (name) {
-      var has = false,
-      classNames;
+      var has = false;
+      var classNames;
 
       if (this.length && name && Kimbo.isString(name)) {
         classNames = name.trim().split(SPACE_RE);
