@@ -28,7 +28,7 @@ Kimbo.define('traversing', function (_) {
     });
   }
 
-  function _sibling (node, elem) {
+  function _sibling(node, elem) {
     var result = [];
     for (; node; node = node.nextSibling) {
       if (node.nodeType === 1 && node !== elem ) {
