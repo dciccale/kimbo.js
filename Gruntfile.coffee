@@ -1,16 +1,17 @@
-# ./nodejuice ~/git/kimbo.js/web/
-module.exports = (grunt) ->
-  grunt.initConfig
-    outputDir: 'www'
+module.exports = ->
+
+  @initConfig
+    OUTPUT_DIR: 'www'
+
     stylus:
       compile:
         files:
-          '<%= outputDir %>/css/css.min.css': ['src/styl/*.styl']
+          '<%= OUTPUT_DIR %>/css/css.min.css': ['src/styl/*.styl']
 
     cssmin:
       compress:
         files:
-          '<%= outputDir %>/css/css.min.css': ['src/styl/tuktuk.icon.css', '<%= outputDir %>/css/css.min.css']
+          '<%= OUTPUT_DIR %>/css/css.min.css': ['src/styl/tuktuk.icon.css', '<%= OUTPUT_DIR %>/css/css.min.css']
 
     jade:
       compile:
@@ -19,18 +20,18 @@ module.exports = (grunt) ->
           cwd: 'src/jade'
           src: '*.jade'
           ext: '.html'
-          dest: '<%= outputDir %>'
+          dest: '<%= OUTPUT_DIR %>'
         ]
 
     coffee:
       compile:
         files:
-          '<%= outputDir %>/js/scripts.js': ['src/coffee/*.coffee']
+          '<%= OUTPUT_DIR %>/js/scripts.js': ['src/coffee/*.coffee']
 
     uglify:
       target:
         files:
-          '<%= outputDir %>/js/scripts.js': ['<%= outputDir %>/js/scripts.js']
+          '<%= OUTPUT_DIR %>/js/scripts.js': ['<%= OUTPUT_DIR %>/js/scripts.js']
 
     watch:
       stylus:
@@ -45,10 +46,11 @@ module.exports = (grunt) ->
         files: ['src/coffee/*.coffee']
         tasks: ['coffee', 'uglify']
 
-  grunt.loadNpmTasks 'grunt-contrib-stylus'
-  grunt.loadNpmTasks 'grunt-contrib-cssmin'
-  grunt.loadNpmTasks 'grunt-contrib-jade'
-  grunt.loadNpmTasks 'grunt-contrib-coffee'
-  grunt.loadNpmTasks 'grunt-contrib-uglify'
-  grunt.loadNpmTasks 'grunt-contrib-watch'
-  grunt.registerTask 'default', ['stylus', 'cssmin', 'jade', 'coffee', 'uglify']
+  @loadNpmTasks 'grunt-contrib-stylus'
+  @loadNpmTasks 'grunt-contrib-cssmin'
+  @loadNpmTasks 'grunt-contrib-jade'
+  @loadNpmTasks 'grunt-contrib-coffee'
+  @loadNpmTasks 'grunt-contrib-uglify'
+  @loadNpmTasks 'grunt-contrib-watch'
+
+  @registerTask 'default', ['stylus', 'cssmin', 'jade', 'coffee', 'uglify']
