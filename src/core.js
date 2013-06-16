@@ -103,7 +103,7 @@
      | $(document).ready(function () {
      |   console.log('the DOM is loaded!');
      | });
-     * Or using the shortcut
+     * Or using the shortcut (recommended)
      | $(function () {
      |   console.log('the DOM is loaded!);
      | });
