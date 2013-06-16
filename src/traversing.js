@@ -84,10 +84,11 @@ Kimbo.define('traversing', function (_) {
      | $('li').filter($('#id'));
     \*/
     filter: function (selector) {
-      var result, ret;
+      var result;
 
       // filter collection
       result = _.filter.call(this, function (elem, i) {
+        var ret;
         if (Kimbo.isFunction(selector)) {
           ret = !!selector.call(elem, i, elem);
         } else if (Kimbo.isString(selector)) {
@@ -121,7 +122,7 @@ Kimbo.define('traversing', function (_) {
      | $('li').eq(2); // Item 3
     \*/
     eq: function (i) {
-      return i === -1 ? this.slice(i) : this.slice(i, i + 1);
+      return this.length && i === -1 ? this.slice(i) : this.slice(i, i + 1);
     },
 
     /*\
@@ -185,7 +186,7 @@ Kimbo.define('traversing', function (_) {
      | $('li').slice(-2, -1).addClass('selected');
     \*/
     slice: function () {
-      return _.kimbo(_.slice.apply(this, arguments));
+      return this.length && _.kimbo(_.slice.apply(this, arguments));
     },
 
     /*\
@@ -428,7 +429,7 @@ Kimbo.define('traversing', function (_) {
      | });
     \*/
     is: function (selector) {
-      return this.length && this.filter(selector).length;
+      return !!(this.length && this.filter(selector).length);
     }
   });
 
@@ -560,6 +561,10 @@ Kimbo.define('traversing', function (_) {
     }
   }, function (name, fn) {
     Kimbo.fn[name] = function (selector) {
+      if (!this.length) {
+        return this;
+      }
+
       var ret = Kimbo.map(this, fn);
 
       // clean collection
