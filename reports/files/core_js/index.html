@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap-3.0.0-wip.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome-ie7.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="brand" href="http://github.com/jsoverson/plato">Plato on Github</a>
+    <ul class="nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>core.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="span6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
+      <p class="stat">64.78</p>
+    </div>
+    <div class="span6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
+      <p class="stat">291</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="span6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="span6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
+      <p class="stat">47.22</p>
+    </div>
+    <div class="span6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
+      <p class="stat">1.28</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="span6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="span6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="span12">(function (window) {
+
+  'use strict';
+
+  /*\
+   * $
+   [ object ]
+   * Global namespace for using Kimbo functions
+  \*/
+
+  // kimbo modules
+  var modules = {};
+  var document = window.document;
+
+  // common helpers
+  var _ = {
+    push: Array.prototype.push,
+    slice: Array.prototype.slice,
+    rootContext: document,
+    // returns a new kimbo set
+    kimbo: function (element) {
+      return new Kimbo(element);
+    }
+  };
+
+  /*\
+   * $(…)
+   * Kimbo object collection.
+   * All methods called from a Kimbo collection affects all elements in it.
+  \*/
+  function Kimbo(selector, context) {
+    var match;
+
+    if (!Kimbo.isKimbo(this)) {
+      return new Kimbo(selector, context);
+    }
+
+    // no selector, return empty Kimbo object
+    if (!selector) {
+      return this;
+    }
+
+    // asume a css selector, query the dom
+    if (typeof selector === 'string') {
+
+      // handle faster $('#id');
+      match = _.ID_RE.exec(selector);
+      if (match && match[1]) {
+        match = document.getElementById(match[1]);
+
+        if (match) {
+          this[0] = match;
+          this.length = 1;
+        }
+
+        return this;
+      }
+
+      // all other selectors
+      context = context ? _.kimbo(context) : _.rootContext;
+      return context.find(selector);
+
+    // already a dom element
+    } else if (selector.nodeType) {
+      this[0] = selector;
+      this.length = 1;
+      return this;
+
+    // is a function, call it when DOM is ready
+    } else if (Kimbo.isFunction(selector)) {
+      return _.rootContext.ready(selector);
+    }
+
+    // handle kimbo object, plain objects or other objects
+    return Kimbo.makeArray(selector, this);
+  }
+
+  Kimbo.fn = Kimbo.prototype = {
+
+    /*\
+     * $(…).length
+     [ property ]
+     * The length of the current Kimbo collection.
+     = (number) Integer representing the lenght of the current collection.
+     > Usage
+     * Having these paragraphs:
+     | <p>one</p>
+     | <p>two</p>
+     | <p>three</p>
+     * Grab them and check for the length property:
+     | $('p').length; // 3
+    \*/
+    length: 0,
+
+    /*\
+     * $(…).ready
+     [ method ]
+     * Execute a callback after de DOM is completely loaded
+     > Parameters
+     - callback (function) A function to call after de DOM is ready
+     = (object) The original element
+     > Usage
+     | $(document).ready(function () {
+     |   console.log('the DOM is loaded!');
+     | });
+     * Or using the shortcut
+     | $(function () {
+     |   console.log('the DOM is loaded!);
+     | });
+    \*/
+    ready: function (callback) {
+      // first check if already loaded
+      if (/t/.test(document.readyState)) {
+        callback.call(document);
+
+      // listen when it loads
+      } else {
+        var completed = function() {
+          // when completed remove the listener
+          document.removeEventListener('DOMContentLoaded', completed, false);
+          callback();
+        };
+        document.addEventListener('DOMContentLoaded', completed, false);
+      }
+
+      return _.rootContext;
+    },
+
+    /*\
+     * $(…).get
+     [ method ]
+     * Retrieve native DOM elements from the current collection
+     > Parameters
+     - index (number) #optional A zero-based integer indicating which element to retrieve, supports going backwards with negative index.
+     = (array|object) An array of the native DOM elements or the specified element by index matched by Kimbo.
+     > Usage
+     | <ul>
+     |   <li id="foo"></li>
+     |   <li id="bar"></li>
+     | </ul>
+     * Get standard array of elements
+     | $('li').get(); // [<li id="foo">, <li id="bar">]
+     * Get the first element
+     | $('li').get(0); // <li id="foo">
+     * Get the last element
+     | $('li').get(-1); // <li id="bar">
+    \*/
+    get: function (index) {
+      if (!this.length) {
+        return;
+      }
+      return (!arguments.length) ? _.slice.call(this) : (index < 0 ? this[this.length + index] : this.constructor(this[index]));
+    },
+
+    // needed to have an array-like object
+    splice: Array.prototype.splice
+  };
+
+  /*\
+   * $.forEach
+   [ method ]
+   * Iterator function that can be used to seamlessly iterate over both objects and arrays.
+   > Parameters
+   - obj (object) Object or array to iterate
+   - callback (function) Function that will be executed on each iteration
+   = (object) The original array or object
+   > Usage
+   | // iterating array
+   | $.forEach(['a', 'b', 'c'], function (index, value) {
+   |   alert(index + ': ' + value);
+   | });
+   |
+   | // iterating object
+   | $.forEach({name: 'Denis', surname: 'Ciccale'}, function (key, value) {
+   |   alert(key + ': ' + value);
+   | });
+  \*/
+  Kimbo.forEach = function (obj, callback) {
+    var l = obj.length;
+    var isObj = l === undefined || typeof obj === 'function';
+    var i;
+
+    if (isObj) {
+      for (i in obj) {
+        if (obj.hasOwnProperty(i) && callback.call(obj[i], i, obj[i], obj) === false) {
+          break;
+        }
+      }
+    } else {
+      for (i = 0; i < l; i++) {
+        if (callback.call(obj[i], obj[i], i, obj) === false) {
+          break;
+        }
+      }
+    }
+
+    // return original obj
+    return obj;
+  };
+
+
+  /*\
+   * $.extend
+   [ method ]
+   * Merge the contents of two or more objects together into the first object.
+   > Parameters
+   - target (object|boolean) Object that will receive the merged properties if objects are passed, or target will extend Kimbo object. If target is `true` the passed objects will be recursively merged.
+   - objectN (object) #optional One or more objects with additional properties.
+   = (object) The extended target or a new copy if target is an empty object.
+   > Usage
+   * When passing two or more objects, all properties will be merged into the target object.
+   | var obj1 = { msg: 'hi', info: { from: 'Denis' }};
+   | var obj2 = { msg: 'Hi!', info: { time: '22:00PM' }};
+   |
+   | // merge obj1 into obj2
+   | $.extend(obj1, obj2);
+   |
+   | // now obj1 is equal to:
+   | { msg: 'Hi!', info: { time: '22:00PM' }}
+   * If an empty target object is passed, none of the other objects will be directly modified
+   | // pass an empty target
+   | var obj3 = $.extend({}, obj1, obj);
+   * To do a recursive merge, pass true as first argument, then the objects to merge
+   | $.extend(true, obj1, obj2);
+   | // obj1 will be:
+   | { msg: 'Hi!', info: { from: 'Denis', time: '22:00PM' }}
+  \*/
+  Kimbo.extend = Kimbo.fn.extend = function () {
+    var objs = arguments;
+    var target = objs[0] || {};
+    var deep = (target === true);
+    var cut = 1;
+
+    // check for deep copy
+    if (deep) {
+      target = objs[1] || {};
+      cut = 2;
+
+    // extend Kimbo itself if only one argument is passed
+    } else if (objs.length === 1) {
+      target = this;
+      cut = 0;
+    }
+
+    // make an array from the arguments
+    // removing unnecessary objects
+    objs = _.slice.call(objs, cut);
+
+    // loop through the objects
+    Kimbo.forEach(objs, function (source) {
+      // populate target from source
+      Kimbo.forEach(source, function (key, value) {
+        var src;
+
+        if (deep && (Kimbo.isObject(value) || Kimbo.isArray(value))) {
+          src = target[key];
+          target[key] = Kimbo.extend(deep, src, value);
+
+        } else if (value !== undefined) {
+          target[key] = value;
+        }
+      });
+    });
+
+    return target;
+  };
+
+  Kimbo.extend({
+    require: function (module) {
+      return modules[module];
+    },
+
+    define: function (module, fn) {
+      modules[module] = fn(_);
+    },
+
+    // unique reference for the current instance of Kimbo
+    ref: 'kimbo' + ('1' + Math.random()).replace(/\D/g, '')
+  });
+
+  // expose Kimbo to global object
+  window.Kimbo = window.$ = Kimbo;
+
+  // expose Kimbo as an AMD module
+  if (typeof window.define === 'function' && window.define.amd) {
+    window.define('kimbo', [], function () {
+      return window.Kimbo;
+    });
+  }
+
+}(window));</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ complexity.cyclomatic }} <br>
+    Length : {{ complexity.halstead.length }} <br>
+    Difficulty : {{ complexity.halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ complexity.halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>
