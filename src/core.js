@@ -8,14 +8,16 @@
    * Global namespace for using Kimbo functions
   \*/
 
+  // kimbo modules
   var modules = {};
   var document = window.document;
 
-  // common helper methods
+  // common helpers
   var _ = {
     push: Array.prototype.push,
     slice: Array.prototype.slice,
     rootContext: document,
+    // returns a new kimbo set
     kimbo: function (element) {
       return new Kimbo(element);
     }
@@ -27,7 +29,7 @@
    * All methods called from a Kimbo collection affects all elements in it.
   \*/
   function Kimbo(selector, context) {
-    var elem, match;
+    var match;
 
     if (!Kimbo.isKimbo(this)) {
       return new Kimbo(selector, context);
@@ -41,28 +43,22 @@
     // asume a css selector, query the dom
     if (typeof selector === 'string') {
 
+      // handle faster $('#id');
       match = _.ID_RE.exec(selector);
-
-      // handle $('#id');
       if (match && match[1]) {
-        elem = document.getElementById(match[1]);
+        match = document.getElementById(match[1]);
 
-        if (elem) {
-          this[0] = elem;
+        if (match) {
+          this[0] = match;
           this.length = 1;
         }
 
         return this;
       }
 
-      // if no context find it on document
-      if (!context) {
-        return _.rootContext.find(selector);
-
-      // create new Kimbo object with the specified context
-      } else if (context) {
-        return _.kimbo(context).find(selector);
-      }
+      // all other selectors
+      context = context ? _.kimbo(context) : _.rootContext;
+      return context.find(selector);
 
     // already a dom element
     } else if (selector.nodeType) {
@@ -120,6 +116,7 @@
       // listen when it loads
       } else {
         var completed = function() {
+          // when completed remove the listener
           document.removeEventListener('DOMContentLoaded', completed, false);
           callback();
         };
@@ -132,7 +129,7 @@
     /*\
      * $(…).get
      [ method ]
-     * Retrieve native DOM elements
+     * Retrieve native DOM elements from the current collection
      > Parameters
      - index (number) #optional A zero-based integer indicating which element to retrieve, supports going backwards with negative index.
      = (array|object) An array of the native DOM elements or the specified element by index matched by Kimbo.
@@ -154,9 +151,6 @@
       }
       return (!arguments.length) ? _.slice.call(this) : (index < 0 ? this[this.length + index] : this.constructor(this[index]));
     },
-
-    // unique reference for the current instance of Kimbo
-    ref: 'kimbo' + ('1' + Math.random()).replace(/\D/g, ''),
 
     // needed to have an array-like object
     splice: Array.prototype.splice
@@ -182,9 +176,9 @@
    | });
   \*/
   Kimbo.forEach = function (obj, callback) {
-    var i,
-      l = obj.length,
-      isObj = l === undefined || typeof obj === 'function';
+    var l = obj.length;
+    var isObj = l === undefined || typeof obj === 'function';
+    var i;
 
     if (isObj) {
       for (i in obj) {
@@ -232,10 +226,10 @@
    | { msg: 'Hi!', info: { from: 'Denis', time: '22:00PM' }}
   \*/
   Kimbo.extend = Kimbo.fn.extend = function () {
-    var objs = arguments,
-      target = objs[0] || {},
-      deep = (target === true),
-      cut = 1;
+    var objs = arguments;
+    var target = objs[0] || {};
+    var deep = (target === true);
+    var cut = 1;
 
     // check for deep copy
     if (deep) {
@@ -271,13 +265,18 @@
     return target;
   };
 
-  Kimbo.require = function (module) {
-    return modules[module];
-  };
+  Kimbo.extend({
+    require: function (module) {
+      return modules[module];
+    },
 
-  Kimbo.define = function (module, fn) {
-    modules[module] = fn(_);
-  };
+    define: function (module, fn) {
+      modules[module] = fn(_);
+    },
+
+    // unique reference for the current instance of Kimbo
+    ref: 'kimbo' + ('1' + Math.random()).replace(/\D/g, '')
+  });
 
   // expose Kimbo to global object
   window.Kimbo = window.$ = Kimbo;
