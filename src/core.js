@@ -109,13 +109,15 @@
      | });
     \*/
     ready: function (callback) {
+      var completed;
+
       // first check if already loaded
       if (/t/.test(document.readyState)) {
         callback.call(document);
 
-      // listen when it loads
+      // listen for when it loads
       } else {
-        var completed = function() {
+        completed = function () {
           // when completed remove the listener
           document.removeEventListener('DOMContentLoaded', completed, false);
           callback();
