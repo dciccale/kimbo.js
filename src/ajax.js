@@ -5,7 +5,7 @@ Kimbo.define('ajax', function () {
   var MIME_TYPES = {
     html: 'text/html',
     json: 'application/json',
-    script: 'text/javascript, application/javascript, application/ecmascript',
+    script: 'text/javascript, application/javascript',
     text: 'text/plain',
     xml: 'application/xml, text/xml'
   };
@@ -345,17 +345,17 @@ Kimbo.define('ajax', function () {
 
   // getJSONP internal use
   function _getJSONP(settings) {
-    var jsonpCallback = Kimbo.ref + '_' + Date.now(),
-      script = document.createElement('script'),
-      head = document.head,
-      abortTimeout,
-      xhr = {
-        abort: function () {
-          window.clearTimeout(abortTimeout);
-          head.removeChild(script);
-          delete window[jsonpCallback];
-        }
-      };
+    var jsonpCallback = Kimbo.ref + '_' + Date.now();
+    var script = document.createElement('script');
+    var head = document.head;
+    var xhr = {
+      abort: function () {
+        window.clearTimeout(abortTimeout);
+        head.removeChild(script);
+        delete window[jsonpCallback];
+      }
+    };
+    var abortTimeout;
 
     // user specified timeout
     if (settings.timeout > 0) {
@@ -381,6 +381,7 @@ Kimbo.define('ajax', function () {
       // success
       xhrCallbacks.success(response, xhr, settings);
     };
+    window.console.log(settings);
 
     // set settings headers
     _setHeaders(settings);
