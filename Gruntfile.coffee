@@ -17,7 +17,7 @@ module.exports = ->
           '<%= SRC_DIR %>manipulation.js',
           '<%= SRC_DIR %>traversing.js',
           '<%= SRC_DIR %>utilities.js',
-          '<%= SRC_DIR %>events.js',
+          '<%= SRC_DIR %>event.js',
           '<%= SRC_DIR %>ajax.js'
         ]
         dest: '<%= DIST_FILE %>.js'
@@ -33,10 +33,10 @@ module.exports = ->
         separator: '\n\n'
 
     jshint:
-      gruntfile:
+      src:
         options:
-          jshintrc: '.jshintrc'
-        src: ['Gruntfile.js']
+          jshintrc: '<%= SRC_DIR %>.jshintrc'
+        src: ['<%= SRC_DIR %>*.js']
 
       lib:
         options:
@@ -46,15 +46,15 @@ module.exports = ->
       tests:
         options:
           jshintrc: '<%= TESTS_DIR %>/.jshintrc'
-        src: ['<%= TESTS_DIR %><%= SPEC_DIR %>/*.js']
+        src: ['<%= SPEC_DIR %>*.js']
 
     coffee:
       compile:
         src: ['*.coffee']
-        cwd: '<%= TESTS_DIR %><%= SPEC_DIR %>'
+        cwd: '<%= SPEC_DIR %>'
         ext: '.js'
         expand: true
-        dest: '<%= TESTS_DIR %><%= SPEC_DIR %>/'
+        dest: '<%= SPEC_DIR %>/'
 
     jasmine:
       test:
@@ -73,17 +73,20 @@ module.exports = ->
         sourceMap: '<%= DIST_FILE %>.sourcemap.js'
 
     watch:
-      gruntfile:
-        files: ['Gruntfile.coffee']
-        tasks: ['jshint:gruntfile']
-
-      lib:
+      src:
         files: ['<%= SRC_DIR %>*.js']
-        tasks: ['concat', 'jshint:lib', 'test']
+        tasks: ['jshint:src', 'concat', 'test']
 
       test:
         files: ['<%= TESTS_DIR %><%= SPEC_DIR %>/*.coffee']
         tasks: ['test', 'jshint:tests']
+
+    plato:
+      src:
+        options:
+          jshint: @file.readJSON 'src/.jshintrc'
+        files:
+          'reports': ['<%= SRC_DIR %>*.js']
 
   @loadNpmTasks 'grunt-contrib-concat'
   @loadNpmTasks 'grunt-contrib-jshint'
@@ -91,7 +94,8 @@ module.exports = ->
   @loadNpmTasks 'grunt-contrib-jasmine'
   @loadNpmTasks 'grunt-contrib-uglify'
   @loadNpmTasks 'grunt-contrib-watch'
+  @loadNpmTasks 'grunt-plato'
 
   @registerTask 'build', ['concat', 'uglify']
-  @registerTask 'test', ['build', 'coffee', 'jasmine']
+  @registerTask 'test', ['concat', 'coffee', 'jasmine']
   @registerTask 'default', ['build', 'jshint', 'test']
