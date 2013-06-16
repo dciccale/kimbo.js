@@ -3,17 +3,14 @@
 <head>
   <meta charset="utf-8">
   <title>Jasmine Spec Runner</title>
-
   <% css.forEach(function (style) { %>
-    <link rel="stylesheet" type="text/css" href="<%= style %>">
+    <link rel="stylesheet" href="<%= style %>">
   <% }) %>
-
 </head>
 
 <body>
 
   <!-- DEMO HTML -->
-
   <section>
     <form>
       <input type="text" name="name" id="name" value="test">
@@ -31,8 +28,7 @@
       <li>three</li>
     </ul>
   </section>
-
-  <!-- DEMO HTML -->
+  <!-- /DEMO HTML -->
 
   <!-- scripts -->
   <% [].concat(scripts.jasmine, scripts.vendor, scripts.helpers, scripts.src,
