@@ -5,7 +5,7 @@ module.exports = ->
     TESTS_DIR: 'test/'
     SPEC_DIR: '<%= TESTS_DIR %>spec/'
     DIST_FILE: 'dist/<%= PKG.name %>'
-    PKG: @file.readJSON('package.json')
+    PKG: @file.readJSON 'package.json'
 
     concat:
       dist:
