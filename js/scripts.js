@@ -1,0 +1,1 @@
+(function(){var a,n;a=$("#nav"),n=(window.location.hash?$(window.location.hash):a.find("a").first()).addClass("current").attr("href"),$("#iframe").attr("src",n),a.on("click","a",function(){return $(this).addClass("current").parent().siblings().find("a").removeClass("current"),window.location.hash="#"+this.id})}).call(this);
