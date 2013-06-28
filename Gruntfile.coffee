@@ -98,4 +98,4 @@ module.exports = ->
 
   @registerTask 'build', ['concat', 'uglify']
   @registerTask 'test', ['concat', 'coffee', 'jasmine']
-  @registerTask 'default', ['build', 'jshint', 'test']
+  @registerTask 'default', ['build', 'jshint', 'test', 'plato']
