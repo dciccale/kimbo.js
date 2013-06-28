@@ -16,9 +16,9 @@ module.exports = ->
     jade:
       compile:
         files: [
-          expand: true
-          cwd: 'src/jade'
           src: '*.jade'
+          cwd: 'src/jade'
+          expand: true
           ext: '.html'
           dest: '<%= OUTPUT_DIR %>'
         ]
