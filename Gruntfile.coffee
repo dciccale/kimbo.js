@@ -81,6 +81,10 @@ module.exports = ->
         files: ['<%= TESTS_DIR %><%= SPEC_DIR %>/*.coffee']
         tasks: ['test', 'jshint:tests']
 
+    committers:
+      options:
+        email: true
+
     plato:
       src:
         options:
@@ -94,8 +98,9 @@ module.exports = ->
   @loadNpmTasks 'grunt-contrib-jasmine'
   @loadNpmTasks 'grunt-contrib-uglify'
   @loadNpmTasks 'grunt-contrib-watch'
+  @loadNpmTasks 'grunt-git-committers'
   @loadNpmTasks 'grunt-plato'
 
   @registerTask 'build', ['concat', 'uglify']
   @registerTask 'test', ['concat', 'coffee', 'jasmine']
-  @registerTask 'default', ['build', 'jshint', 'test', 'plato']
+  @registerTask 'default', ['build', 'jshint', 'test', 'committers', 'plato']
