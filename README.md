@@ -1,4 +1,6 @@
-# [kimbo.js](http://kimbojs.com) [![Build Status](https://travis-ci.org/dciccale/kimbo.js.png?branch=master)](https://travis-ci.org/dciccale/kimbo.js)
+### [kimbo.js](http://kimbojs.com) [![Build Status](https://travis-ci.org/dciccale/kimbo.js.png?branch=master)](https://travis-ci.org/dciccale/kimbo.js) 
+
+<a href="http://kimbojs.com"><img src="http://kimbojs.com/img/logo.png" width="409" height="120" alt="kimbo.js logo"></a>
 
 ### An ECMAScript 5 only-compatible JavaScript library
 
@@ -8,7 +10,7 @@ Taking advantage of amazing native speed, of course only in modern browsers, and
 Give it a try and start using a robust, light-weight and modern library today.
 
 ## API Documentation
-Please [visit the documentation](http://api.kimbojs.com) to see how easy is to use with its jQuery compatible API.
+Please [visit the documentation](http://api.kimbojs.com) to see how easy is to use with its jQuery-like API.
 
 ## Build
 In order to run the build task you'll need [NodeJS](http://nodejs.org/) and [Grunt.js](http://gruntjs.com/).
@@ -59,7 +61,7 @@ $ grunt test
 
 ### Developing
 
-Run `grunt watch` to work with the library, build and test will be run automatically.
+Run `grunt watch` to work with the library, build and tests will be run automatically.
 
 ```bash
 $ grunt watch
@@ -77,10 +79,10 @@ For now there isn't a browser compatibility table but have in mind it is intende
 
 
 ### Next steps
-- Unit tests ([in progress](https://github.com/dciccale/kimbo.js/tree/master/test))
-- Gestures module
-- Touch events module
-- XHR2 APIs
+- Increase code coverage ([in progress](https://github.com/dciccale/kimbo.js/tree/master/test))
+- Create gestures module
+- Create touch events module
+- Use XHR2 APIs
 
 Follow [@kimbojs](http://twitter.com/kimbojs) on twitter to get the latest news.
 
