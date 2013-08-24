@@ -2,14 +2,11 @@
   ui.browserscope.key = 'agt1YS1wcm9maWxlcnINCxIEVGVzdBiYvu8TDA';
   ui.browserscope.render();
   
-  var $iframe = $('#iframe');
-  var correctStyles = function () {
-    $iframe.contents().find('#bs-chart-frame').contents().find('body').css({
+  window.setTimeout(function () {
+    $('#iframe').contents().find('#bs-chart-frame').contents().find('body').css({
       'background': '#fff',
       'padding': '0px',
       'margin': '0px'
     });
-  };
-  correctStyles();
-  window.correctStyles = correctStyles;
+  }, 500);
 }());</script></body>
