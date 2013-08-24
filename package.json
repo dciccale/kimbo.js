@@ -31,7 +31,7 @@
     "grunt-contrib-coffee": "0.7.x",
     "grunt-contrib-jasmine": "0.5.x",
     "grunt-contrib-uglify": "0.2.x",
-    "grunt-contrib-watch": "0.4.x",
+    "grunt-contrib-watch": "0.5.x",
     "grunt-git-committers": "0.1.x",
     "grunt-plato": "0.2.x"
   },
