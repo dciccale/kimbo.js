@@ -1,7 +1,4 @@
 <!DOCTYPE html><meta charset="utf-8"><title>Performance test: Kimbo vs jQuery id selector</title><link href="http://yui.yahooapis.com/3.8.1/build/cssreset/cssreset-min.css" rel="stylesheet"><link href="css/css.min.css" rel="stylesheet"><body class="performance-chart"><p class="show"><span>Kimbo 1.0.0, jQuery 2.0.0pre and Zepto 1.0rc1</span><a href="http://jsperf.com/kimbo-vs-jquery-id-selector/4" target="_blank">Run tests in jsperf.com</a></p><div id="bs-results"></div><script src="http://kimbojs.com/dist/kimbo.min.js"></script><script src="http://a.jsperf.com/benchmark-2.js"></script><script>(function () {
-  ui.browserscope.key = 'agt1YS1wcm9maWxlcnINCxIEVGVzdBjFsO4TDA';
-  ui.browserscope.render();
-  
   window.setTimeout(function () {
     $('#iframe').contents().find('#bs-chart-frame').contents().find('body').css({
       'background': '#fff',
@@ -10,4 +7,6 @@
     });
     console.log('done');
   }, 500);
+  ui.browserscope.key = 'agt1YS1wcm9maWxlcnINCxIEVGVzdBjFsO4TDA';
+  ui.browserscope.render();
 }());</script></body>
