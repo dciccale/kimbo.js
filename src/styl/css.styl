@@ -190,6 +190,10 @@ $graph-width = 600px
   box-shadow 0px 0px 30px 5px rgba(0,0,0,0.3)
 
 
+iframe
+  body
+    background #fff
+
 // performance chart page
 .performance-chart
   background-color white
@@ -204,6 +208,11 @@ $graph-width = 600px
     font-size 0.7em
     span
       float left
+
+  body
+    margin 0
+    padding 0
+    background #fff
 
 .bs-rt-message
   color #333
@@ -221,6 +230,14 @@ $graph-width = 600px
 #bs-results
   width $graph-width
   margin 0 auto
+
+#bs-chart-frame
+  min-height 600px
+  width 100%
+
+  body
+    margin 0
+    padding 0
 
 
 .author
