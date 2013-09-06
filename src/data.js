@@ -40,11 +40,10 @@ Kimbo.define('data', function () {
       domCache[name] = value;
     },
     remove: function (el, name) {
-      delete cache[el.__dataId][name];
-      if (Kimbo.isEmptyObject(cache[el.__dataId])) {
-        delete cache[el.__dataId];
-        delete el.__dataId;
-        dataId--;
+      if (name === undefined) {
+        cache[el.__dataId] = {};
+      } else {
+        delete cache[el.__dataId][name];
       }
     }
   };
@@ -100,11 +99,11 @@ Kimbo.define('data', function () {
      | $('#panel').data('isOpen'); // undefined
     \*/
     removeData: function (name) {
-      if (!this.length || !Kimbo.isString(name)) {
+      if (!this.length) {
         return this;
       }
 
-      name = Kimbo.camelCase(name);
+      name = name && Kimbo.camelCase(name);
 
       return this.each(function (el) {
         data.remove(el, name);
