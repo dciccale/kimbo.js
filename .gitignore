@@ -1,6 +1,7 @@
-node_modules
-demo
-dist
-src/resources
-www
+node_modules/
+demo/
+dist/
+src/resources/
+www/
 test/spec/*.js
+reports/
