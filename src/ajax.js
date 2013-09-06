@@ -2,6 +2,7 @@ Kimbo.define('ajax', function () {
 
   'use strict';
 
+  var JSONP_RE = /(\=)\?(&|$)|\?\?/i;
   var MIME_TYPES = {
     html: 'text/html',
     json: 'application/json',
@@ -9,7 +10,6 @@ Kimbo.define('ajax', function () {
     text: 'text/plain',
     xml: 'application/xml, text/xml'
   };
-  var JSONP_RE = /(\=)\?(&|$)|\?\?/i;
   var dataParse = {
     json: Kimbo.parseJSON,
     xml: Kimbo.parseXML
@@ -48,7 +48,6 @@ Kimbo.define('ajax', function () {
       _setHeaders(settings);
     }
 
-    // handle response
     try {
       response = _getResponse(xhr.responseText, settings.dataType);
     } catch (e) {
@@ -60,7 +59,6 @@ Kimbo.define('ajax', function () {
   }
 
   function _setHeaders(settings) {
-    // must have this headers
     if (!settings.crossDomain && !settings.headers['X-Requested-With']) {
       settings.headers['X-Requested-With'] = 'XMLHttpRequest';
     }
@@ -103,12 +101,12 @@ Kimbo.define('ajax', function () {
     context: null,
     headers: {},
     data: null,
+    crossDomain: false,
+    timeout: 0,
+    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
     xhr: function () {
       return new window.XMLHttpRequest();
     },
-    crossDomain: false,
-    timeout: 0,
-    contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
   };
 
 
@@ -154,7 +152,8 @@ Kimbo.define('ajax', function () {
 
     // add data to url
     if (settings.data) {
-      settings.url += (/\?/.test(settings.url) ? '&' : '?') + Kimbo.param(settings.data);
+      settings.url += (/\?/.test(settings.url) ? '&' : '?') +
+        Kimbo.param(settings.data);
       delete settings.data;
     }
 
@@ -381,7 +380,6 @@ Kimbo.define('ajax', function () {
       // success
       xhrCallbacks.success(response, xhr, settings);
     };
-    window.console.log(settings);
 
     // set settings headers
     _setHeaders(settings);
@@ -414,6 +412,9 @@ Kimbo.define('ajax', function () {
       params = data;
     }
 
-    return window.encodeURIComponent(params).replace(/%20/g, '+').replace(/%\d[D6F]/g, window.unescape).replace(/^\?|&$/g, '');
+    return window.encodeURIComponent(params)
+      .replace(/%20/g, '+')
+      .replace(/%\d[D6F]/g, window.unescape)
+      .replace(/^\?|&$/g, '');
   };
 });
