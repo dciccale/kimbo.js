@@ -5,8 +5,8 @@ Kimbo.define('manipulation', function (_) {
   var SPACE_RE = /\s+/;
 
   // browser native classList
-  function _hasClass (elem, name) {
-    return (elem.nodeType === 1 && elem.classList.contains(name));
+  function _hasClass (el, name) {
+    return (el.nodeType === 1 && el.classList.contains(name));
   }
 
   /*\
@@ -83,8 +83,8 @@ Kimbo.define('manipulation', function (_) {
 
         // set
       } else {
-        return this.each(function () {
-          this[prop] = value;
+        return this.each(function (el) {
+          el[prop] = value;
         });
       }
     };
@@ -148,12 +148,12 @@ Kimbo.define('manipulation', function (_) {
 
       if (name && Kimbo.isString(name)) {
         classNames = name.split(SPACE_RE);
-        this.each(function (elem) {
+        this.each(function (el) {
           // skip comments, text, etc
-          if (elem.nodeType === 1) {
+          if (el.nodeType === 1) {
             // iterate through all class names passed
             Kimbo.forEach(classNames, function (className) {
-              elem.classList[method](className);
+              el.classList[method](className);
             });
           }
         });
@@ -247,11 +247,11 @@ Kimbo.define('manipulation', function (_) {
 
       // already a dom node or kimbo collection, just insert it
       if (value.nodeType || Kimbo.isKimbo(value)) {
-        return this.each(function (elem) {
+        return this.each(function (el) {
           // be sure we can append/prepend to the element
-          if (this.nodeType === 1 || this.nodeType === 11) {
-            _.kimbo(value).each(function () {
-              elem.insertBefore(this, isPrepend ? elem.firstChild : null);
+          if (el.nodeType === 1 || el.nodeType === 11) {
+            _.kimbo(value).each(function (_el) {
+              el.insertBefore(_el, isPrepend ? el.firstChild : null);
             });
           }
         });
@@ -277,9 +277,9 @@ Kimbo.define('manipulation', function (_) {
      | <div class="container"></div>
     \*/
     empty: function () {
-      return this.each(function () {
-        while (this.hasChildNodes()) {
-          this.removeChild(this.childNodes[0]);
+      return this.each(function (el) {
+        while (el.hasChildNodes()) {
+          el.removeChild(el.childNodes[0]);
         }
       });
     },
@@ -303,9 +303,9 @@ Kimbo.define('manipulation', function (_) {
      | </div>
     \*/
     remove: function () {
-      return this.each(function () {
-        if (this.parentNode) {
-          this.parentNode.removeChild(this);
+      return this.each(function (el) {
+        if (el.parentNode) {
+          el.parentNode.removeChild(el);
         }
       });
     },
@@ -338,8 +338,8 @@ Kimbo.define('manipulation', function (_) {
       if (Kimbo.isString(name) && value === undefined) {
         return this[0].getAttribute(name);
       } else {
-        return this.each(function () {
-          this.setAttribute(name, value);
+        return this.each(function (el) {
+          el.setAttribute(name, value);
         });
       }
     },
@@ -359,8 +359,8 @@ Kimbo.define('manipulation', function (_) {
      | <a href="http://kimbojs.com">Go to Kimbojs.com</a>
     \*/
     removeAttr: function (name) {
-      return this.each(function () {
-        this.removeAttribute(name);
+      return this.each(function (el) {
+        el.removeAttribute(name);
       });
     },
 
@@ -385,11 +385,11 @@ Kimbo.define('manipulation', function (_) {
 
       if (this.length && name && Kimbo.isString(name)) {
         classNames = name.split(SPACE_RE);
-        this.each(function (elem) {
+        this.each(function (el) {
           Kimbo.forEach(classNames, function (name) {
             // use custom toggle (anyway it uses classList.add/remove)
-            state = Kimbo.isBoolean(state) ? state : !_hasClass(elem, name);
-            _.kimbo(elem)[state ? 'addClass' : 'removeClass'](name);
+            state = Kimbo.isBoolean(state) ? state : !_hasClass(el, name);
+            _.kimbo(el)[state ? 'addClass' : 'removeClass'](name);
           });
         });
       }
@@ -417,10 +417,10 @@ Kimbo.define('manipulation', function (_) {
 
       if (this.length && name && Kimbo.isString(name)) {
         classNames = name.trim().split(SPACE_RE);
-        this.each(function (elem) {
+        this.each(function (el) {
           // classList.contains only accepts one class parameter
           Kimbo.forEach(classNames, function (name) {
-            has = _hasClass(elem, name);
+            has = _hasClass(el, name);
             // if one doesn't exists break the loop and return false
             if (!has) {
               return false;
@@ -433,8 +433,8 @@ Kimbo.define('manipulation', function (_) {
     },
 
     clone: function () {
-      return this.map(function () {
-        return this.cloneNode(true);
+      return this.map(function (el) {
+        return el.cloneNode(true);
       });
     }
   });

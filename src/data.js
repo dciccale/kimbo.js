@@ -77,8 +77,8 @@ Kimbo.define('data', function () {
       if (value === undefined) {
         return _get(this[0], name);
       } else {
-        return this.each(function () {
-          _set(this, name, value);
+        return this.each(function (el) {
+          _set(el, name, value);
         });
       }
     },
@@ -106,8 +106,8 @@ Kimbo.define('data', function () {
 
       name = Kimbo.camelCase(name);
 
-      return this.each(function () {
-        _remove(this, name);
+      return this.each(function (el) {
+        _remove(el, name);
       });
     }
   });

@@ -28,9 +28,9 @@ Kimbo.define('css', function () {
      | <p style="display: block;">Lorem</p>
     \*/
     show: function () {
-      return this.each(function () {
-        var _display = data.get(this, '_display');
-        this.style.display = _display || 'block';
+      return this.each(function (el) {
+        var _display = data.get(el, '_display');
+        el.style.display = _display || 'block';
       });
     },
 
@@ -47,18 +47,18 @@ Kimbo.define('css', function () {
      | <p style="display: none;">Lorem</p>
     \*/
     hide: function () {
-      return this.each(function () {
-        var _display = data.get(this, '_display');
+      return this.each(function (el) {
+        var _display = data.get(el, '_display');
         if (!_display) {
-          _display = _getComputedStyle(this, 'display');
-          data.set(this, '_display', _display);
+          _display = _getComputedStyle(el, 'display');
+          data.set(el, '_display', _display);
         } else {
-          _display = this.style.display;
+          _display = el.style.display;
         }
 
         // only hide if not already hidden
         if (_display !== 'none') {
-          this.style.display = 'none';
+          el.style.display = 'none';
         }
       });
     },

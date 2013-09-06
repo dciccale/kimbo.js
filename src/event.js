@@ -458,8 +458,8 @@ Kimbo.define('events', function (_) {
       type = GESTURES_FALLBACK[type] || type;
 
       // add the event
-      return this.each(function () {
-        _addEvent(this, type, callback, data, selector);
+      return this.each(function (el) {
+        _addEvent(el, type, callback, data, selector);
       });
     },
 
@@ -501,8 +501,8 @@ Kimbo.define('events', function (_) {
       }
 
       // remove the event
-      return this.each(function () {
-        _removeEvent(this, type, callback, selector);
+      return this.each(function (el) {
+        _removeEvent(el, type, callback, selector);
       });
     },
 
@@ -533,8 +533,8 @@ Kimbo.define('events', function (_) {
      | // last ciccale
     \*/
     trigger: function (type, data) {
-      return this.each(function () {
-        _triggerEvent(this, type, data);
+      return this.each(function (el) {
+        _triggerEvent(el, type, data);
       });
     },
 
