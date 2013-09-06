@@ -5,49 +5,49 @@ Kimbo.define('data', function () {
   var cache = {};
   var dataId = 1;
 
-  function _get(dom, name) {
-    var domCache = cache[dom.__data];
-    var value;
+  var data = {
+    get: function (el, name) {
+      var domCache = cache[el.__dataId];
+      var value;
 
-    // look first in cached data
-    if (domCache) {
-      value = domCache[name];
+      // look first in cached data
+      if (domCache) {
+        value = domCache[name];
+      }
+
+      // if none, try dataset
+      if (!value) {
+        value = el.dataset[name];
+        this.set(el, name, value);
+      }
+
+      return value;
+    },
+    set: function (el, name, value) {
+      var domData = el.__dataId;
+      var domCache;
+
+      if (!domData) {
+        domData = el.__dataId = dataId++;
+      }
+
+      domCache = cache[domData];
+      if (!domCache) {
+        domCache = cache[domData] = {};
+      }
+
+      // set data
+      domCache[name] = value;
+    },
+    remove: function (el, name) {
+      delete cache[el.__dataId][name];
+      if (Kimbo.isEmptyObject(cache[el.__dataId])) {
+        delete cache[el.__dataId];
+        delete el.__dataId;
+        dataId--;
+      }
     }
-
-    // if none, try dataset
-    if (!value) {
-      value = dom.dataset[name];
-      _set(dom, name, value);
-    }
-
-    return value;
-  }
-
-  function _set(dom, name, value) {
-    var domData = dom.__data;
-    var domCache;
-
-    if (!domData) {
-      domData = dom.__data = dataId++;
-    }
-
-    domCache = cache[domData];
-    if (!domCache) {
-      domCache = cache[domData] = {};
-    }
-
-    // set data
-    domCache[name] = value;
-  }
-
-  function _remove(dom, name) {
-    delete cache[dom.__data][name];
-    if (Kimbo.isEmptyObject(cache[dom.__data])) {
-      delete cache[dom.__data];
-      delete dom.__data;
-    }
-  }
-
+  };
 
   Kimbo.fn.extend({
     /*\
@@ -75,10 +75,10 @@ Kimbo.define('data', function () {
       name = Kimbo.camelCase(name);
 
       if (value === undefined) {
-        return _get(this[0], name);
+        return data.get(this[0], name);
       } else {
         return this.each(function (el) {
-          _set(el, name, value);
+          data.set(el, name, value);
         });
       }
     },
@@ -107,13 +107,10 @@ Kimbo.define('data', function () {
       name = Kimbo.camelCase(name);
 
       return this.each(function (el) {
-        _remove(el, name);
+        data.remove(el, name);
       });
     }
   });
 
-  return {
-    get: _get,
-    set: _set
-  };
+  return data;
 });
