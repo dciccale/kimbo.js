@@ -1,4 +1,4 @@
-Kimbo.require('data', function () {
+Kimbo.define('data', function () {
 
   'use strict';
 
