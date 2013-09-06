@@ -110,13 +110,12 @@ Kimbo.define('css', function () {
             value += 'px';
           }
 
-          that.each(function () {
-            this.style[name] = value;
+          that.each(function (el) {
+            el.style[name] = value;
           });
         });
       }
 
-      // return collection
       return this;
     }
   });
