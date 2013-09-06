@@ -5,6 +5,7 @@ module.exports = ->
     TESTS_DIR: 'test/'
     SPEC_DIR: '<%= TESTS_DIR %>spec/'
     DIST_FILE: 'dist/<%= PKG.name %>'
+    WEB_DIR: 'www/'
     PKG: @file.readJSON 'package.json'
 
     concat:
@@ -90,7 +91,7 @@ module.exports = ->
         options:
           jshint: @file.readJSON 'src/.jshintrc'
         files:
-          'reports': ['<%= SRC_DIR %>*.js']
+          '<%= WEB_DIR %>reports': ['<%= SRC_DIR %>*.js']
 
   @loadNpmTasks 'grunt-contrib-concat'
   @loadNpmTasks 'grunt-contrib-jshint'
