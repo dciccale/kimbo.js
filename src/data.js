@@ -6,24 +6,25 @@ Kimbo.define('data', function () {
   var dataId = 1;
 
   var data = {
-    get: function (el, name) {
+    get: function (el, key) {
       var domCache = cache[el.__dataId];
       var value;
 
       // look first in cached data
       if (domCache) {
-        value = domCache[name];
-      }
+        value = domCache[key];
 
       // if none, try dataset
-      if (!value) {
-        value = el.dataset[name];
-        this.set(el, name, value);
+      } else {
+        value = el.dataset[key];
+        if (value) {
+          this.set(el, key, value);
+        }
       }
 
       return value;
     },
-    set: function (el, name, value) {
+    set: function (el, key, value) {
       var domData = el.__dataId;
       var domCache;
 
@@ -36,14 +37,13 @@ Kimbo.define('data', function () {
         domCache = cache[domData] = {};
       }
 
-      // set data
-      domCache[name] = value;
+      domCache[key] = value;
     },
-    remove: function (el, name) {
-      if (name === undefined) {
+    remove: function (el, key) {
+      if (key === undefined) {
         cache[el.__dataId] = {};
       } else {
-        delete cache[el.__dataId][name];
+        delete cache[el.__dataId][key];
       }
     }
   };
@@ -54,7 +54,7 @@ Kimbo.define('data', function () {
      [ method ]
      * Store or retrieve elements dataset.
      > Parameters
-     - name (string) Name of the data attribute to to set.
+     - key (string) Key of the data attribute to to set.
      - value (string) #optional Value to store in dataset.
      = (object) Original matched collection.
      > Usage
@@ -66,18 +66,18 @@ Kimbo.define('data', function () {
      * We can retrieve the data
      | $('#panel').data('isOpen'); // 'true'
     \*/
-    data: function (name, value) {
-      if (!this.length || !Kimbo.isString(name)) {
+    data: function (key, value) {
+      if (!this.length || !Kimbo.isString(key)) {
         return this;
       }
 
-      name = Kimbo.camelCase(name);
+      key = Kimbo.camelCase(key);
 
       if (value === undefined) {
-        return data.get(this[0], name);
+        return data.get(this[0], key);
       } else {
         return this.each(function (el) {
-          data.set(el, name, value);
+          data.set(el, key, value);
         });
       }
     },
@@ -87,7 +87,7 @@ Kimbo.define('data', function () {
      [ method ]
      * Remove data from the element dataset.
      > Parameters
-     - name (string) Name of the data attribute to to remove.
+     - key (string) Key of the data attribute to to remove.
      = (object) Original matched collection.
      > Usage
      | <div id="panel" data-isOpen="true"></div>
@@ -98,15 +98,15 @@ Kimbo.define('data', function () {
      * data-isOpen is undefined
      | $('#panel').data('isOpen'); // undefined
     \*/
-    removeData: function (name) {
+    removeData: function (key) {
       if (!this.length) {
         return this;
       }
 
-      name = name && Kimbo.camelCase(name);
+      key = key && Kimbo.camelCase(key);
 
       return this.each(function (el) {
-        data.remove(el, name);
+        data.remove(el, key);
       });
     }
   });
