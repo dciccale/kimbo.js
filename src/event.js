@@ -138,7 +138,7 @@ Kimbo.define('events', function (_) {
   function _addEvent(element, type, callback, data, selector) {
     // TODO: element should use Kimbo.ref and the handler the _guid
     var elementId = _getElementId(element);
-    var elementhandlersHash = handlersHash[elementId];
+    var elementHandlers = handlersHash[elementId];
     var origType = type;
     var events, handlers, handleObj, handler;
 
@@ -146,20 +146,20 @@ Kimbo.define('events', function (_) {
     type = specialEvents[type] ? specialEvents[type].origType : type;
 
     // create hash for this element if first init
-    if (!elementhandlersHash) {
-      handlersHash[elementId] = elementhandlersHash = {};
+    if (!elementHandlers) {
+      handlersHash[elementId] = elementHandlers = {};
     }
 
     // create events object if first init
-    events = elementhandlersHash.events;
+    events = elementHandlers.events;
     if (!events) {
-      elementhandlersHash.events = events = {};
+      elementHandlers.events = events = {};
     }
 
     // create the handler for this element if first init
-    handler = elementhandlersHash.handler;
+    handler = elementHandlers.handler;
     if (!handler) {
-      elementhandlersHash.handler = handler = function () {
+      elementHandlers.handler = handler = function () {
         return _dispatchEvent.apply(element, arguments);
       };
     }
@@ -303,7 +303,7 @@ Kimbo.define('events', function (_) {
       event.type = branch[1];
 
       // get element id
-      elementId = _getElementId(currentElement);
+      elementId = currentElement._guid;
 
       // if the current element has events of the specified type, dispatch them
       if (elementId && _getHandlers(elementId, type)) {
