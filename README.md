@@ -2,11 +2,13 @@
 
 ---
 
-***Website is being updated***
+***Website domain is being updated***
+
+Please visit http://denis.io/kimbo.js instead
 
 ---
 
-<a href="http://kimbojs.com"><img src="http://kimbojs.com/img/logo.png" width="409" height="120" alt="kimbo.js logo"></a>
+<a href="http://denis.io/kimbo.js/"><img src="http://denis.io/kimbo.js/img/logo.png" width="409" height="120" alt="kimbo.js logo"></a>
 
 ### An ECMAScript 5 only-compatible JavaScript library
 
@@ -16,7 +18,7 @@ Taking advantage of amazing native speed, of course only in modern browsers, and
 Give it a try and start using a robust, light-weight and modern library today.
 
 ## API Documentation
-Please [visit the documentation](http://api.kimbojs.com) to see how easy is to use with its jQuery-like API.
+Please [visit the documentation](http://denis.io/kimbo.js/api) to see how easy is to use with its jQuery-like API.
 
 ## Build
 In order to run the build task you'll need [NodeJS](http://nodejs.org/) and [Grunt.js](http://gruntjs.com/).
