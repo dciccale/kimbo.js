@@ -1,13 +1,5 @@
 ### [kimbo.js](http://kimbojs.com) [![Build Status](https://travis-ci.org/dciccale/kimbo.js.png?branch=master)](https://travis-ci.org/dciccale/kimbo.js) 
 
----
-
-***Website domain is being updated***
-
-Please visit http://denis.io/kimbo.js instead
-
----
-
 <a href="http://denis.io/kimbo.js/"><img src="http://denis.io/kimbo.js/img/logo.png" width="409" height="120" alt="kimbo.js logo"></a>
 
 ### An ECMAScript 5 only-compatible JavaScript library
