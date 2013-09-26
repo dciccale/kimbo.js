@@ -2,7 +2,7 @@
 
 body
   background #ececec
-  padding-top 30px
+  padding-top 50px
   font-family arial
 
 a
@@ -20,6 +20,11 @@ strong
 
 #logo
   text-align center
+  @media (max-width: 500px)
+    padding 0 20px
+    img
+      max-width 100%
+      height auto
 
 h1
   font-family 'Dosis', sans-serif
@@ -34,10 +39,15 @@ h1
 
 #social
   position fixed
-  font-size 1.8em
-  top 20px
-  right 20px
+  top 0
+  right 0
+  left 0
   z-index 2
+  font-size 1.8em
+  text-align right
+  padding-top 10px
+  padding-right 20px
+  background rgba(255, 255, 255, 0.3)
   a
     margin 0 0 0 16px
 
@@ -81,16 +91,18 @@ h1
   overflow hidden
   padding-bottom 10px
   margin-bottom 60px
-  min-width 500px
-  width 100%
+  @media (min-width: 500px)
+    min-width 500px
+    width 100%
   position relative
   z-index 1
   text-shadow 1px 1px black
   .col
     position relative
-    width 24%
     padding 2% 4%
-    float left
+    @media (min-width: 500px)
+      width 24%
+      float left
   h2
     font-family 'Yanone Kaffeesatz', sans-serif
     font-size 36px
@@ -182,6 +194,8 @@ h2.medium
 $graph-width = 600px
 #iframe
   width $graph-width
+  @media (max-width: 500px)
+    width 400px
   min-height 600px
   margin 0 auto
   display block
