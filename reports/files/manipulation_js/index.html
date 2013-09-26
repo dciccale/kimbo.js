@@ -45,7 +45,7 @@
   <div class="row">
     <div class="span6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
-      <p class="stat">77.48</p>
+      <p class="stat">77.46</p>
     </div>
     <div class="span6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
@@ -63,11 +63,11 @@
   <div class="row">
     <div class="span6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
-      <p class="stat">35.35</p>
+      <p class="stat">35.71</p>
     </div>
     <div class="span6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
-      <p class="stat">1.33</p>
+      <p class="stat">1.35</p>
     </div>
   </div>
 </div>
@@ -97,8 +97,8 @@
   var SPACE_RE = /\s+/;
 
   // browser native classList
-  function _hasClass (elem, name) {
-    return (elem.nodeType === 1 && elem.classList.contains(name));
+  function _hasClass (el, name) {
+    return (el.nodeType === 1 && el.classList.contains(name));
   }
 
   /*\
@@ -175,8 +175,8 @@
 
         // set
       } else {
-        return this.each(function () {
-          this[prop] = value;
+        return this.each(function (el) {
+          el[prop] = value;
         });
       }
     };
@@ -240,12 +240,12 @@
 
       if (name && Kimbo.isString(name)) {
         classNames = name.split(SPACE_RE);
-        this.each(function (elem) {
+        this.each(function (el) {
           // skip comments, text, etc
-          if (elem.nodeType === 1) {
+          if (el.nodeType === 1) {
             // iterate through all class names passed
             Kimbo.forEach(classNames, function (className) {
-              elem.classList[method](className);
+              el.classList[method](className);
             });
           }
         });
@@ -339,11 +339,11 @@
 
       // already a dom node or kimbo collection, just insert it
       if (value.nodeType || Kimbo.isKimbo(value)) {
-        return this.each(function (elem) {
+        return this.each(function (el) {
           // be sure we can append/prepend to the element
-          if (this.nodeType === 1 || this.nodeType === 11) {
-            _.kimbo(value).each(function () {
-              elem.insertBefore(this, isPrepend ? elem.firstChild : null);
+          if (el.nodeType === 1 || el.nodeType === 11) {
+            _.kimbo(value).each(function (_el) {
+              el.insertBefore(_el, isPrepend ? el.firstChild : null);
             });
           }
         });
@@ -369,9 +369,9 @@
      | <div class="container"></div>
     \*/
     empty: function () {
-      return this.each(function () {
-        while (this.hasChildNodes()) {
-          this.removeChild(this.childNodes[0]);
+      return this.each(function (el) {
+        while (el.hasChildNodes()) {
+          el.removeChild(el.childNodes[0]);
         }
       });
     },
@@ -395,9 +395,9 @@
      | </div>
     \*/
     remove: function () {
-      return this.each(function () {
-        if (this.parentNode) {
-          this.parentNode.removeChild(this);
+      return this.each(function (el) {
+        if (el.parentNode) {
+          el.parentNode.removeChild(el);
         }
       });
     },
@@ -430,8 +430,8 @@
       if (Kimbo.isString(name) && value === undefined) {
         return this[0].getAttribute(name);
       } else {
-        return this.each(function () {
-          this.setAttribute(name, value);
+        return this.each(function (el) {
+          el.setAttribute(name, value);
         });
       }
     },
@@ -451,8 +451,8 @@
      | <a href="http://kimbojs.com">Go to Kimbojs.com</a>
     \*/
     removeAttr: function (name) {
-      return this.each(function () {
-        this.removeAttribute(name);
+      return this.each(function (el) {
+        el.removeAttribute(name);
       });
     },
 
@@ -477,11 +477,11 @@
 
       if (this.length && name && Kimbo.isString(name)) {
         classNames = name.split(SPACE_RE);
-        this.each(function (elem) {
+        this.each(function (el) {
           Kimbo.forEach(classNames, function (name) {
             // use custom toggle (anyway it uses classList.add/remove)
-            state = Kimbo.isBoolean(state) ? state : !_hasClass(elem, name);
-            _.kimbo(elem)[state ? 'addClass' : 'removeClass'](name);
+            state = Kimbo.isBoolean(state) ? state : !_hasClass(el, name);
+            _.kimbo(el)[state ? 'addClass' : 'removeClass'](name);
           });
         });
       }
@@ -509,10 +509,10 @@
 
       if (this.length && name && Kimbo.isString(name)) {
         classNames = name.trim().split(SPACE_RE);
-        this.each(function (elem) {
+        this.each(function (el) {
           // classList.contains only accepts one class parameter
           Kimbo.forEach(classNames, function (name) {
-            has = _hasClass(elem, name);
+            has = _hasClass(el, name);
             // if one doesn't exists break the loop and return false
             if (!has) {
               return false;
@@ -525,8 +525,8 @@
     },
 
     clone: function () {
-      return this.map(function () {
-        return this.cloneNode(true);
+      return this.map(function (el) {
+        return el.cloneNode(true);
       });
     }
   });

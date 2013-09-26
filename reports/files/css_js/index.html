@@ -45,11 +45,11 @@
   <div class="row">
     <div class="span6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
-      <p class="stat">71.55</p>
+      <p class="stat">71.52</p>
     </div>
     <div class="span6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
-      <p class="stat">123</p>
+      <p class="stat">122</p>
     </div>
   </div>
   <div class="row historical">
@@ -63,11 +63,11 @@
   <div class="row">
     <div class="span6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
-      <p class="stat">23.00</p>
+      <p class="stat">23.07</p>
     </div>
     <div class="span6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
-      <p class="stat">0.52</p>
+      <p class="stat">0.53</p>
     </div>
   </div>
 </div>
@@ -120,9 +120,9 @@
      | <p style="display: block;">Lorem</p>
     \*/
     show: function () {
-      return this.each(function () {
-        var _display = data.get(this, '_display');
-        this.style.display = _display || 'block';
+      return this.each(function (el) {
+        var _display = data.get(el, '_display');
+        el.style.display = _display || 'block';
       });
     },
 
@@ -139,18 +139,18 @@
      | <p style="display: none;">Lorem</p>
     \*/
     hide: function () {
-      return this.each(function () {
-        var _display = data.get(this, '_display');
+      return this.each(function (el) {
+        var _display = data.get(el, '_display');
         if (!_display) {
-          _display = _getComputedStyle(this, 'display');
-          data.set(this, '_display', _display);
+          _display = _getComputedStyle(el, 'display');
+          data.set(el, '_display', _display);
         } else {
-          _display = this.style.display;
+          _display = el.style.display;
         }
 
         // only hide if not already hidden
         if (_display !== 'none') {
-          this.style.display = 'none';
+          el.style.display = 'none';
         }
       });
     },
@@ -202,13 +202,12 @@
             value += 'px';
           }
 
-          that.each(function () {
-            this.style[name] = value;
+          that.each(function (el) {
+            el.style[name] = value;
           });
         });
       }
 
-      // return collection
       return this;
     }
   });

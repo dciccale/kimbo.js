@@ -63,11 +63,11 @@
   <div class="row">
     <div class="span6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
-      <p class="stat">56.47</p>
+      <p class="stat">56.38</p>
     </div>
     <div class="span6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
-      <p class="stat">3.80</p>
+      <p class="stat">3.81</p>
     </div>
   </div>
 </div>
@@ -230,7 +230,7 @@
   function _addEvent(element, type, callback, data, selector) {
     // TODO: element should use Kimbo.ref and the handler the _guid
     var elementId = _getElementId(element);
-    var elementhandlersHash = handlersHash[elementId];
+    var elementHandlers = handlersHash[elementId];
     var origType = type;
     var events, handlers, handleObj, handler;
 
@@ -238,20 +238,20 @@
     type = specialEvents[type] ? specialEvents[type].origType : type;
 
     // create hash for this element if first init
-    if (!elementhandlersHash) {
-      handlersHash[elementId] = elementhandlersHash = {};
+    if (!elementHandlers) {
+      handlersHash[elementId] = elementHandlers = {};
     }
 
     // create events object if first init
-    events = elementhandlersHash.events;
+    events = elementHandlers.events;
     if (!events) {
-      elementhandlersHash.events = events = {};
+      elementHandlers.events = events = {};
     }
 
     // create the handler for this element if first init
-    handler = elementhandlersHash.handler;
+    handler = elementHandlers.handler;
     if (!handler) {
-      elementhandlersHash.handler = handler = function () {
+      elementHandlers.handler = handler = function () {
         return _dispatchEvent.apply(element, arguments);
       };
     }
@@ -395,7 +395,7 @@
       event.type = branch[1];
 
       // get element id
-      elementId = _getElementId(currentElement);
+      elementId = currentElement._guid;
 
       // if the current element has events of the specified type, dispatch them
       if (elementId && _getHandlers(elementId, type)) {
@@ -550,8 +550,8 @@
       type = GESTURES_FALLBACK[type] || type;
 
       // add the event
-      return this.each(function () {
-        _addEvent(this, type, callback, data, selector);
+      return this.each(function (el) {
+        _addEvent(el, type, callback, data, selector);
       });
     },
 
@@ -593,8 +593,8 @@
       }
 
       // remove the event
-      return this.each(function () {
-        _removeEvent(this, type, callback, selector);
+      return this.each(function (el) {
+        _removeEvent(el, type, callback, selector);
       });
     },
 
@@ -625,8 +625,8 @@
      | // last ciccale
     \*/
     trigger: function (type, data) {
-      return this.each(function () {
-        _triggerEvent(this, type, data);
+      return this.each(function (el) {
+        _triggerEvent(el, type, data);
       });
     },
 

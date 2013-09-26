@@ -45,11 +45,11 @@
   <div class="row">
     <div class="span6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
-      <p class="stat">67.80</p>
+      <p class="stat">67.89</p>
     </div>
     <div class="span6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
-      <p class="stat">419</p>
+      <p class="stat">420</p>
     </div>
   </div>
   <div class="row historical">
@@ -63,11 +63,11 @@
   <div class="row">
     <div class="span6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
-      <p class="stat">44.78</p>
+      <p class="stat">45.08</p>
     </div>
     <div class="span6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
-      <p class="stat">2.02</p>
+      <p class="stat">2.00</p>
     </div>
   </div>
 </div>
@@ -94,6 +94,7 @@
 
   'use strict';
 
+  var JSONP_RE = /(\=)\?(&|$)|\?\?/i;
   var MIME_TYPES = {
     html: 'text/html',
     json: 'application/json',
@@ -101,7 +102,6 @@
     text: 'text/plain',
     xml: 'application/xml, text/xml'
   };
-  var JSONP_RE = /(\=)\?(&|$)|\?\?/i;
   var dataParse = {
     json: Kimbo.parseJSON,
     xml: Kimbo.parseXML
@@ -140,7 +140,6 @@
       _setHeaders(settings);
     }
 
-    // handle response
     try {
       response = _getResponse(xhr.responseText, settings.dataType);
     } catch (e) {
@@ -152,7 +151,6 @@
   }
 
   function _setHeaders(settings) {
-    // must have this headers
     if (!settings.crossDomain && !settings.headers['X-Requested-With']) {
       settings.headers['X-Requested-With'] = 'XMLHttpRequest';
     }
@@ -195,12 +193,12 @@
     context: null,
     headers: {},
     data: null,
+    crossDomain: false,
+    timeout: 0,
+    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
     xhr: function () {
       return new window.XMLHttpRequest();
     },
-    crossDomain: false,
-    timeout: 0,
-    contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
   };
 
 
@@ -246,7 +244,8 @@
 
     // add data to url
     if (settings.data) {
-      settings.url += (/\?/.test(settings.url) ? '&' : '?') + Kimbo.param(settings.data);
+      settings.url += (/\?/.test(settings.url) ? '&' : '?') +
+        Kimbo.param(settings.data);
       delete settings.data;
     }
 
@@ -473,7 +472,6 @@
       // success
       xhrCallbacks.success(response, xhr, settings);
     };
-    window.console.log(settings);
 
     // set settings headers
     _setHeaders(settings);
@@ -506,7 +504,10 @@
       params = data;
     }
 
-    return window.encodeURIComponent(params).replace(/%20/g, '+').replace(/%\d[D6F]/g, window.unescape).replace(/^\?|&$/g, '');
+    return window.encodeURIComponent(params)
+      .replace(/%20/g, '+')
+      .replace(/%\d[D6F]/g, window.unescape)
+      .replace(/^\?|&$/g, '');
   };
 });</textarea>
   </div>

@@ -45,11 +45,11 @@
   <div class="row">
     <div class="span6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
-      <p class="stat">70.04</p>
+      <p class="stat">69.95</p>
     </div>
     <div class="span6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
-      <p class="stat">119</p>
+      <p class="stat">115</p>
     </div>
   </div>
   <div class="row historical">
@@ -63,7 +63,7 @@
   <div class="row">
     <div class="span6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
-      <p class="stat">29.77</p>
+      <p class="stat">35.31</p>
     </div>
     <div class="span6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
@@ -97,49 +97,48 @@
   var cache = {};
   var dataId = 1;
 
-  function _get(dom, name) {
-    var domCache = cache[dom.__data];
-    var value;
+  var data = {
+    get: function (el, key) {
+      var domCache = cache[el.__dataId];
+      var value;
 
-    // look first in cached data
-    if (domCache) {
-      value = domCache[name];
+      // look first in cached data
+      if (domCache) {
+        value = domCache[key];
+
+      // if none, try dataset
+      } else {
+        value = el.dataset[key];
+        if (value) {
+          this.set(el, key, value);
+        }
+      }
+
+      return value;
+    },
+    set: function (el, key, value) {
+      var domData = el.__dataId;
+      var domCache;
+
+      if (!domData) {
+        domData = el.__dataId = dataId++;
+      }
+
+      domCache = cache[domData];
+      if (!domCache) {
+        domCache = cache[domData] = {};
+      }
+
+      domCache[key] = value;
+    },
+    remove: function (el, key) {
+      if (key === undefined) {
+        cache[el.__dataId] = {};
+      } else {
+        delete cache[el.__dataId][key];
+      }
     }
-
-    // if none, try dataset
-    if (!value) {
-      value = dom.dataset[name];
-      _set(dom, name, value);
-    }
-
-    return value;
-  }
-
-  function _set(dom, name, value) {
-    var domData = dom.__data;
-    var domCache;
-
-    if (!domData) {
-      domData = dom.__data = dataId++;
-    }
-
-    domCache = cache[domData];
-    if (!domCache) {
-      domCache = cache[domData] = {};
-    }
-
-    // set data
-    domCache[name] = value;
-  }
-
-  function _remove(dom, name) {
-    delete cache[dom.__data][name];
-    if (Kimbo.isEmptyObject(cache[dom.__data])) {
-      delete cache[dom.__data];
-      delete dom.__data;
-    }
-  }
-
+  };
 
   Kimbo.fn.extend({
     /*\
@@ -147,7 +146,7 @@
      [ method ]
      * Store or retrieve elements dataset.
      > Parameters
-     - name (string) Name of the data attribute to to set.
+     - key (string) Key of the data attribute to to set.
      - value (string) #optional Value to store in dataset.
      = (object) Original matched collection.
      > Usage
@@ -159,18 +158,18 @@
      * We can retrieve the data
      | $('#panel').data('isOpen'); // 'true'
     \*/
-    data: function (name, value) {
-      if (!this.length || !Kimbo.isString(name)) {
+    data: function (key, value) {
+      if (!this.length || !Kimbo.isString(key)) {
         return this;
       }
 
-      name = Kimbo.camelCase(name);
+      key = Kimbo.camelCase(key);
 
       if (value === undefined) {
-        return _get(this[0], name);
+        return data.get(this[0], key);
       } else {
-        return this.each(function () {
-          _set(this, name, value);
+        return this.each(function (el) {
+          data.set(el, key, value);
         });
       }
     },
@@ -180,7 +179,7 @@
      [ method ]
      * Remove data from the element dataset.
      > Parameters
-     - name (string) Name of the data attribute to to remove.
+     - key (string) Key of the data attribute to to remove.
      = (object) Original matched collection.
      > Usage
      | <div id="panel" data-isOpen="true"></div>
@@ -191,23 +190,20 @@
      * data-isOpen is undefined
      | $('#panel').data('isOpen'); // undefined
     \*/
-    removeData: function (name) {
-      if (!this.length || !Kimbo.isString(name)) {
+    removeData: function (key) {
+      if (!this.length) {
         return this;
       }
 
-      name = Kimbo.camelCase(name);
+      key = key && Kimbo.camelCase(key);
 
-      return this.each(function () {
-        _remove(this, name);
+      return this.each(function (el) {
+        data.remove(el, key);
       });
     }
   });
 
-  return {
-    get: _get,
-    set: _set
-  };
+  return data;
 });</textarea>
   </div>
 </div>
