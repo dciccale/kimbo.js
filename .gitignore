@@ -4,3 +4,4 @@ demo
 dist
 www
 test/
+npm-debug.log
