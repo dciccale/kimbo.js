@@ -79,7 +79,7 @@ module.exports = ->
         tasks: ['jshint:src', 'concat', 'test']
 
       test:
-        files: ['<%= TESTS_DIR %><%= SPEC_DIR %>/*.coffee']
+        files: ['<%= SPEC_DIR %>/*.coffee']
         tasks: ['test', 'jshint:tests']
 
     committers:

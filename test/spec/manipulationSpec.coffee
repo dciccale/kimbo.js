@@ -11,7 +11,6 @@ describe 'manipulation', ->
     $li_second = $('li#second')
     $input = $('#name')
 
-
   describe 'text()', ->
     it 'should not fail when called on an empty set', ->
       expect(-> $('#noexists').text()).not.toThrow()
@@ -120,8 +119,9 @@ describe 'manipulation', ->
       expect(textNode.removeClass('text_node')).toEqual(textNode)
 
     it 'should remove multiple classes from an element', ->
+      $li_second[0].className = 'dos due'
       $li_second.removeClass('dos due')
-      expect(getClass($li_second)).toEqual(['two'])
+      expect(getClass($li_second)).toEqual([''])
 
     it 'should remove all classes from an element if called without arguments', ->
       $li_second[0].className = 'test multiple'
@@ -188,6 +188,7 @@ describe 'manipulation', ->
       expect(getClass($li_second)).toEqual(['toggle'])
 
     it 'should remove the class if the element has that class', ->
+      $li_second[0].className = 'toggle'
       $li_second.toggleClass('toggle')
       expect(getClass($li_second)).toEqual([''])
 
@@ -196,6 +197,7 @@ describe 'manipulation', ->
       expect(getClass($li_second)).toEqual(['toggle', 'toggle2', 'toggle3'])
 
     it 'should remove toggle multiple classes', ->
+      $li_second[0].className = 'toggle toggle2 toggle3'
       $li_second.toggleClass('toggle toggle2 toggle3')
       expect(getClass($li_second)).toEqual([''])
 

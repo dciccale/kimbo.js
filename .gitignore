@@ -5,3 +5,4 @@ src/resources/
 www/
 test/spec/*.js
 reports/
+npm-debug.log

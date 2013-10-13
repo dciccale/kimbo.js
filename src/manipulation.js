@@ -433,7 +433,7 @@ Kimbo.define('manipulation', function (_) {
     },
 
     clone: function () {
-      return this.map(function (el) {
+      return this.each(function (el) {
         return el.cloneNode(true);
       });
     }
