@@ -1,8 +1,6 @@
 {
   "title": "Kimbo.js API Documentation",
-  "options": {
-    "output": "www/api/index.html",
-    "source": "dist/kimbo.js",
-    "ga_trackingID": "UA-24098807-11"
-  }
+  "output": "www/api/index.html",
+  "source": "dist/kimbo.js",
+  "trackingID": "UA-24098807-11"
 }
