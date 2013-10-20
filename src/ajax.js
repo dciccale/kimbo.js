@@ -106,7 +106,7 @@ Kimbo.define('ajax', function () {
     contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
     xhr: function () {
       return new window.XMLHttpRequest();
-    },
+    }
   };
 
 

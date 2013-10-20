@@ -130,8 +130,7 @@ Kimbo.define('events', function (_) {
       if (!this.isTrigger) {
         this.originalEvent.stopImmediatePropagation();
       }
-    },
-
+    }
   };
 
   // register events to dom elements
