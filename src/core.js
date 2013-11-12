@@ -1,4 +1,4 @@
-(function (window) {
+(function (window, document) {
 
   'use strict';
 
@@ -10,7 +10,6 @@
 
   // kimbo modules
   var modules = {};
-  var document = window.document;
 
   // common helpers
   var _ = {
@@ -44,7 +43,7 @@
     if (typeof selector === 'string') {
 
       // handle faster $('#id');
-      match = _.ID_RE.exec(selector);
+      match = /^#([\w\-]+)$/.exec(selector);
       if (match && match[1]) {
         match = document.getElementById(match[1]);
 
@@ -59,21 +58,31 @@
       // all other selectors
       context = context ? _.kimbo(context) : _.rootContext;
       return context.find(selector);
+    }
 
     // already a dom element
-    } else if (selector.nodeType) {
+    if (selector.nodeType) {
       this[0] = selector;
       this.length = 1;
       return this;
+    }
 
     // is a function, call it when DOM is ready
-    } else if (Kimbo.isFunction(selector)) {
+    if (Kimbo.isFunction(selector)) {
       return _.rootContext.ready(selector);
     }
 
     // handle kimbo object, plain objects or other objects
     return Kimbo.makeArray(selector, this);
   }
+
+  Kimbo.require = function (module) {
+    return modules[module];
+  };
+
+  Kimbo.define = function (module, fn) {
+    modules[module] = fn(_);
+  };
 
   Kimbo.fn = Kimbo.prototype = {
 
@@ -120,7 +129,7 @@
         completed = function () {
           // when completed remove the listener
           document.removeEventListener('DOMContentLoaded', completed, false);
-          callback();
+          callback.call(document);
         };
         document.addEventListener('DOMContentLoaded', completed, false);
       }
@@ -151,7 +160,9 @@
       if (!this.length) {
         return;
       }
-      return (!arguments.length) ? _.slice.call(this) : (index < 0 ? this[this.length + index] : this.constructor(this[index]));
+      return (!arguments.length) ?
+        _.slice.call(this) :
+        (index < 0 ? this[this.length + index] : this[index]);
     },
 
     // needed to have an array-like object
@@ -267,18 +278,8 @@
     return target;
   };
 
-  Kimbo.extend({
-    require: function (module) {
-      return modules[module];
-    },
-
-    define: function (module, fn) {
-      modules[module] = fn(_);
-    },
-
-    // unique reference for the current instance of Kimbo
-    ref: 'kimbo' + ('1' + Math.random()).replace(/\D/g, '')
-  });
+  // unique reference for the current instance of Kimbo
+  Kimbo.ref = 'kimbo' + ('1' + Math.random()).replace(/\D/g, '');
 
   // expose Kimbo as an AMD module
   if (typeof window.define === 'function' && window.define.amd) {
@@ -290,4 +291,4 @@
   // expose Kimbo to global object
   window.Kimbo = window.$ = Kimbo;
 
-}(window));
+}(window, window.document));

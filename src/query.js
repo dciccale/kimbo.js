@@ -2,7 +2,7 @@ Kimbo.define('query', function (_) {
 
   'use strict';
 
-  var ID_RE = _.ID_RE = /^#([\w\-]+)$/;
+  var ID_RE = /^#([\w\-]+)$/;
   var CLASS_RE = /^\.([\w\-]+)$/;
   var TAG_RE = /^[\w\-]+$/;
   var NAME_RE = /^\[name=["']?([\w\-]+)["']?\]$/;

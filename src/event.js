@@ -199,50 +199,51 @@ Kimbo.define('events', function (_) {
     var elementId = _getElementId(element);
     var handleObj, handlers, name, i;
 
-    // noly if this element ever had an event attached
-    if (elementId) {
-      handlers = _getHandlers(elementId, type);
+    if (!elementId) {
+      return;
+    }
 
-      // return if no handlers for the current event type
-      if (type && !handlers.length) {
-        return;
-      }
+    handlers = _getHandlers(elementId, type);
 
-      // remove all handlers if no type provided
-      if (!type) {
-        for (name in handlers) {
-          if (handlers.hasOwnProperty(name)) {
-            return _removeEvent(element, name, callback, selector);
-          }
+    // return if no handlers for the current event type
+    if (type && !handlers.length) {
+      return;
+    }
+
+    // remove all handlers if no type provided
+    if (!type) {
+      for (name in handlers) {
+        if (handlers.hasOwnProperty(name)) {
+          _removeEvent(element, name, callback, selector);
         }
-      }
-
-      // remove handlers that match
-      for (i = 0; i < handlers.length; i++) {
-        handleObj = handlers[i];
-        if ((!callback || callback === handleObj.callback) && (!selector || selector === handleObj.selector)) {
-          // remove current handler from stack
-          handlers.splice(i--, 1);
-          // decrement delegate count
-          if (handleObj.selector) {
-            handlers.delegateCount--;
-          }
-        }
-      }
-
-      // if no more events for the current type delete its hash
-      if (!handlers.length) {
-        // remove event handler
-        element.removeEventListener(type, handlersHash[elementId].handler, false);
-        delete handlersHash[elementId].events[type];
-      }
-
-      // remove kimbo reference if element have no more events
-      if (Kimbo.isEmptyObject(handlersHash[elementId].events)) {
-        delete handlersHash[elementId];
-        delete element._guid;
       }
     }
+
+    // remove handlers that match
+    for (i = 0; i < handlers.length; i++) {
+      handleObj = handlers[i];
+      if ((!callback || callback === handleObj.callback) && (!selector || selector === handleObj.selector)) {
+        // remove current handler from stack
+        handlers.splice(i--, 1);
+        // decrement delegate count
+        if (handleObj.selector) {
+          handlers.delegateCount--;
+        }
+      }
+    }
+
+    // if no more events for the current type delete its hash
+    if (!handlers.length) {
+      // remove event handler
+      element.removeEventListener(type, handlersHash[elementId].handler, false);
+      delete handlersHash[elementId].events[type];
+    }
+
+    // remove kimbo reference if element have no more events
+    // if (Kimbo.isEmptyObject(handlersHash[elementId].events)) {
+    //   delete handlersHash[elementId];
+    //   delete element._guid;
+    // }
   }
 
   // triggers a provided event type
@@ -321,7 +322,7 @@ Kimbo.define('events', function (_) {
     var elementId = _getElementId(this);
     var handlers = _getHandlers(elementId, event.type);
     var delegateCount = handlers.delegateCount;
-    var args = _.slice.call(arguments, 0);
+    var args = _.slice.call(arguments);
     var handlerQueue = [];
     var currentElement, ret, selMatch, matches, handleObj, selector, i;
 
