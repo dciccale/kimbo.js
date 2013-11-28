@@ -259,7 +259,7 @@ Kimbo.define('utilities', function (_) {
     },
 
     /*\
-     * $.makeArray
+     * $.merge
      [ method ]
      * Merge the contents of two arrays into the first array passed.
      > Parameters
