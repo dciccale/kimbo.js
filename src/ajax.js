@@ -297,7 +297,7 @@ Kimbo.define('ajax', function () {
     - url (string) A string containing the URL to which the request is sent.
     - callback (function) A callback function to execute if the request succeeds.
     > Usage
-    | $.post('url/script.js', function (data) {
+    | $.getScript('url/script.js', function (data) {
     |   // success
     |   console.log('response:', data);
     | });
