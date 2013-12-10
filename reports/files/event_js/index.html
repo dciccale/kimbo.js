@@ -45,11 +45,11 @@
   <div class="row">
     <div class="span6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
-      <p class="stat">63.61</p>
+      <p class="stat">63.60</p>
     </div>
     <div class="span6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
-      <p class="stat">605</p>
+      <p class="stat">614</p>
     </div>
   </div>
   <div class="row historical">
@@ -63,11 +63,11 @@
   <div class="row">
     <div class="span6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
-      <p class="stat">55.99</p>
+      <p class="stat">56.74</p>
     </div>
     <div class="span6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
-      <p class="stat">3.76</p>
+      <p class="stat">3.84</p>
     </div>
   </div>
 </div>
@@ -122,7 +122,7 @@
   var fixEventProps = {};
   var specialEvents = {};
 
-  function _fix(event) {
+  var _fix = function (event) {
     var originalEvent, eventProps, props;
 
     // already fixed
@@ -144,31 +144,31 @@
     });
 
     return event;
-  }
+  };
 
   // return element id
-  function _getElementId(element) {
+  var _getElementId = function (element) {
     return element._guid || (element._guid = _guid++);
-  }
+  };
 
   // get element handlers for the specified type
-  function _getHandlers(elementId, type) {
+  var _getHandlers = function (elementId, type) {
     var events = ((handlersHash[elementId] || {}).events || {});
     return (type ? events[type] : events) || [];
-  }
+  };
 
   // quick is() to check if event target matches when events are delegated
-  function _is(target, selector, element) {
-    return (target.nodeName.toLowerCase() === selector || _.kimbo(target).closest(selector, element)[0]);
-  }
+  var _is = function (target, selector, element) {
+    return (target.nodeName.toLowerCase() === selector && _.kimbo(target).closest(selector, element)[0]);
+  };
 
-  function _returnFalse() {
+  var _returnFalse = function () {
     return false;
-  }
+  };
 
-  function _returnTrue() {
+  var _returnTrue = function () {
     return true;
-  }
+  };
 
   Kimbo.Event = function (event) {
     // is event object
@@ -226,7 +226,7 @@
   };
 
   // register events to dom elements
-  function _addEvent(element, type, callback, data, selector) {
+  var _addEvent = function (element, type, callback, data, selector) {
     // TODO: element should use Kimbo.ref and the handler the _guid
     var elementId = _getElementId(element);
     var elementHandlers = handlersHash[elementId];
@@ -279,15 +279,17 @@
 
     // add to handlers hash, delegates first
     if (selector) {
-      handlers.delegateCount++;
-      handlers.unshift(handleObj);
+      // handlers.delegateCount++;
+      // handlers.unshift(handleObj);
+      handlers.splice(handlers.delegateCount++, 0, handleObj);
+
     } else {
       handlers.push(handleObj);
     }
-  }
+  };
 
   // unregister events from dom elements
-  function _removeEvent(element, type, callback, selector) {
+  var _removeEvent = function (element, type, callback, selector) {
     var elementId = _getElementId(element);
     var handleObj, handlers, name, i;
 
@@ -336,10 +338,10 @@
     //   delete handlersHash[elementId];
     //   delete element._guid;
     // }
-  }
+  };
 
   // triggers a provided event type
-  function _triggerEvent(element, type, data) {
+  var _triggerEvent = function (element, type, data) {
     /* jshint validthis: true */
     var currentElement, lastElement, eventTree, elementId, event;
 
@@ -402,11 +404,11 @@
         handlersHash[elementId].handler.apply(currentElement, data);
       }
     });
-  }
+  };
 
   // own defined dispatchEvent()
-  function _dispatchEvent(event) {
-    /* jshint validthis: true */
+  var _dispatchEvent = function (event) {
+    /* jshint -W040 */
 
     // use own event object
     event = _fix(event);
@@ -434,10 +436,13 @@
         if (currentElement.disabled !== true || event.type !== 'click') {
           selMatch = {};
           matches = [];
+
           // loop throgh delegated events
           for (i = 0; i < delegateCount; i++) {
+
             // get its handler
             handleObj = handlers[i];
+
             // get its selector
             selector = handleObj.selector;
 
@@ -464,11 +469,13 @@
 
     // fire callbacks queue
     Kimbo.forEach(handlerQueue, function (handler) {
+
       // only fire handler if event wasnt stopped
       if (!event.isPropagationStopped()) {
         event.currentTarget = handler.elem;
 
         Kimbo.forEach(handler.matches, function (handleObj) {
+
           // only fire bubble if not stopped
           if (!event.isImmediatePropagationStopped()) {
             event.data = handleObj.data;
@@ -486,7 +493,9 @@
         });
       }
     });
-  }
+
+    /* jshint +W040 */
+  };
 
   Kimbo.fn.extend({
 
