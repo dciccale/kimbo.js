@@ -1,11 +1,11 @@
 /*!
- * kimbo v1.0.3 - 2013-09-09
+ * kimbo v1.0.4 - 2013-12-10
  * http://kimbojs.com
  * Copyright (c) 2013 Denis Ciccale (@tdecs)
  * Released under the MIT license
  * https://github.com/dciccale/kimbo.js/blob/master/LICENSE.txt
  */
-(function (window) {
+(function (window, document) {
 
   'use strict';
 
@@ -17,7 +17,6 @@
 
   // kimbo modules
   var modules = {};
-  var document = window.document;
 
   // common helpers
   var _ = {
@@ -51,7 +50,7 @@
     if (typeof selector === 'string') {
 
       // handle faster $('#id');
-      match = _.ID_RE.exec(selector);
+      match = /^#([\w\-]+)$/.exec(selector);
       if (match && match[1]) {
         match = document.getElementById(match[1]);
 
@@ -66,21 +65,31 @@
       // all other selectors
       context = context ? _.kimbo(context) : _.rootContext;
       return context.find(selector);
+    }
 
     // already a dom element
-    } else if (selector.nodeType) {
+    if (selector.nodeType) {
       this[0] = selector;
       this.length = 1;
       return this;
+    }
 
     // is a function, call it when DOM is ready
-    } else if (Kimbo.isFunction(selector)) {
+    if (Kimbo.isFunction(selector)) {
       return _.rootContext.ready(selector);
     }
 
     // handle kimbo object, plain objects or other objects
     return Kimbo.makeArray(selector, this);
   }
+
+  Kimbo.require = function (module) {
+    return modules[module];
+  };
+
+  Kimbo.define = function (module, fn) {
+    modules[module] = fn(_);
+  };
 
   Kimbo.fn = Kimbo.prototype = {
 
@@ -127,7 +136,7 @@
         completed = function () {
           // when completed remove the listener
           document.removeEventListener('DOMContentLoaded', completed, false);
-          callback();
+          callback.call(document);
         };
         document.addEventListener('DOMContentLoaded', completed, false);
       }
@@ -158,7 +167,9 @@
       if (!this.length) {
         return;
       }
-      return (!arguments.length) ? _.slice.call(this) : (index < 0 ? this[this.length + index] : this.constructor(this[index]));
+      return (!arguments.length) ?
+        _.slice.call(this) :
+        (index < 0 ? this[this.length + index] : this[index]);
     },
 
     // needed to have an array-like object
@@ -274,18 +285,8 @@
     return target;
   };
 
-  Kimbo.extend({
-    require: function (module) {
-      return modules[module];
-    },
-
-    define: function (module, fn) {
-      modules[module] = fn(_);
-    },
-
-    // unique reference for the current instance of Kimbo
-    ref: 'kimbo' + ('1' + Math.random()).replace(/\D/g, '')
-  });
+  // unique reference for the current instance of Kimbo
+  Kimbo.ref = 'kimbo' + ('1' + Math.random()).replace(/\D/g, '');
 
   // expose Kimbo as an AMD module
   if (typeof window.define === 'function' && window.define.amd) {
@@ -297,14 +298,14 @@
   // expose Kimbo to global object
   window.Kimbo = window.$ = Kimbo;
 
-}(window));
+}(window, window.document));
 
 
 Kimbo.define('query', function (_) {
 
   'use strict';
 
-  var ID_RE = _.ID_RE = /^#([\w\-]+)$/;
+  var ID_RE = /^#([\w\-]+)$/;
   var CLASS_RE = /^\.([\w\-]+)$/;
   var TAG_RE = /^[\w\-]+$/;
   var NAME_RE = /^\[name=["']?([\w\-]+)["']?\]$/;
@@ -1027,7 +1028,7 @@ Kimbo.define('manipulation', function (_) {
     },
 
     clone: function () {
-      return this.map(function (el) {
+      return this.each(function (el) {
         return el.cloneNode(true);
       });
     }
@@ -1929,7 +1930,7 @@ Kimbo.define('utilities', function (_) {
     },
 
     /*\
-     * $.makeArray
+     * $.merge
      [ method ]
      * Merge the contents of two arrays into the first array passed.
      > Parameters
@@ -2068,7 +2069,7 @@ Kimbo.define('events', function (_) {
   var fixEventProps = {};
   var specialEvents = {};
 
-  function _fix(event) {
+  var _fix = function (event) {
     var originalEvent, eventProps, props;
 
     // already fixed
@@ -2090,31 +2091,31 @@ Kimbo.define('events', function (_) {
     });
 
     return event;
-  }
+  };
 
   // return element id
-  function _getElementId(element) {
+  var _getElementId = function (element) {
     return element._guid || (element._guid = _guid++);
-  }
+  };
 
   // get element handlers for the specified type
-  function _getHandlers(elementId, type) {
+  var _getHandlers = function (elementId, type) {
     var events = ((handlersHash[elementId] || {}).events || {});
     return (type ? events[type] : events) || [];
-  }
+  };
 
   // quick is() to check if event target matches when events are delegated
-  function _is(target, selector, element) {
-    return (target.nodeName.toLowerCase() === selector || _.kimbo(target).closest(selector, element)[0]);
-  }
+  var _is = function (target, selector, element) {
+    return (target.nodeName.toLowerCase() === selector && _.kimbo(target).closest(selector, element)[0]);
+  };
 
-  function _returnFalse() {
+  var _returnFalse = function () {
     return false;
-  }
+  };
 
-  function _returnTrue() {
+  var _returnTrue = function () {
     return true;
-  }
+  };
 
   Kimbo.Event = function (event) {
     // is event object
@@ -2168,12 +2169,11 @@ Kimbo.define('events', function (_) {
       if (!this.isTrigger) {
         this.originalEvent.stopImmediatePropagation();
       }
-    },
-
+    }
   };
 
   // register events to dom elements
-  function _addEvent(element, type, callback, data, selector) {
+  var _addEvent = function (element, type, callback, data, selector) {
     // TODO: element should use Kimbo.ref and the handler the _guid
     var elementId = _getElementId(element);
     var elementHandlers = handlersHash[elementId];
@@ -2226,66 +2226,69 @@ Kimbo.define('events', function (_) {
 
     // add to handlers hash, delegates first
     if (selector) {
-      handlers.delegateCount++;
-      handlers.unshift(handleObj);
+      // handlers.delegateCount++;
+      // handlers.unshift(handleObj);
+      handlers.splice(handlers.delegateCount++, 0, handleObj);
+
     } else {
       handlers.push(handleObj);
     }
-  }
+  };
 
   // unregister events from dom elements
-  function _removeEvent(element, type, callback, selector) {
+  var _removeEvent = function (element, type, callback, selector) {
     var elementId = _getElementId(element);
     var handleObj, handlers, name, i;
 
-    // noly if this element ever had an event attached
-    if (elementId) {
-      handlers = _getHandlers(elementId, type);
+    if (!elementId) {
+      return;
+    }
 
-      // return if no handlers for the current event type
-      if (type && !handlers.length) {
-        return;
-      }
+    handlers = _getHandlers(elementId, type);
 
-      // remove all handlers if no type provided
-      if (!type) {
-        for (name in handlers) {
-          if (handlers.hasOwnProperty(name)) {
-            return _removeEvent(element, name, callback, selector);
-          }
+    // return if no handlers for the current event type
+    if (type && !handlers.length) {
+      return;
+    }
+
+    // remove all handlers if no type provided
+    if (!type) {
+      for (name in handlers) {
+        if (handlers.hasOwnProperty(name)) {
+          _removeEvent(element, name, callback, selector);
         }
-      }
-
-      // remove handlers that match
-      for (i = 0; i < handlers.length; i++) {
-        handleObj = handlers[i];
-        if ((!callback || callback === handleObj.callback) && (!selector || selector === handleObj.selector)) {
-          // remove current handler from stack
-          handlers.splice(i--, 1);
-          // decrement delegate count
-          if (handleObj.selector) {
-            handlers.delegateCount--;
-          }
-        }
-      }
-
-      // if no more events for the current type delete its hash
-      if (!handlers.length) {
-        // remove event handler
-        element.removeEventListener(type, handlersHash[elementId].handler, false);
-        delete handlersHash[elementId].events[type];
-      }
-
-      // remove kimbo reference if element have no more events
-      if (Kimbo.isEmptyObject(handlersHash[elementId].events)) {
-        delete handlersHash[elementId];
-        delete element._guid;
       }
     }
-  }
+
+    // remove handlers that match
+    for (i = 0; i < handlers.length; i++) {
+      handleObj = handlers[i];
+      if ((!callback || callback === handleObj.callback) && (!selector || selector === handleObj.selector)) {
+        // remove current handler from stack
+        handlers.splice(i--, 1);
+        // decrement delegate count
+        if (handleObj.selector) {
+          handlers.delegateCount--;
+        }
+      }
+    }
+
+    // if no more events for the current type delete its hash
+    if (!handlers.length) {
+      // remove event handler
+      element.removeEventListener(type, handlersHash[elementId].handler, false);
+      delete handlersHash[elementId].events[type];
+    }
+
+    // remove kimbo reference if element have no more events
+    // if (Kimbo.isEmptyObject(handlersHash[elementId].events)) {
+    //   delete handlersHash[elementId];
+    //   delete element._guid;
+    // }
+  };
 
   // triggers a provided event type
-  function _triggerEvent(element, type, data) {
+  var _triggerEvent = function (element, type, data) {
     /* jshint validthis: true */
     var currentElement, lastElement, eventTree, elementId, event;
 
@@ -2348,11 +2351,11 @@ Kimbo.define('events', function (_) {
         handlersHash[elementId].handler.apply(currentElement, data);
       }
     });
-  }
+  };
 
   // own defined dispatchEvent()
-  function _dispatchEvent(event) {
-    /* jshint validthis: true */
+  var _dispatchEvent = function (event) {
+    /* jshint -W040 */
 
     // use own event object
     event = _fix(event);
@@ -2360,7 +2363,7 @@ Kimbo.define('events', function (_) {
     var elementId = _getElementId(this);
     var handlers = _getHandlers(elementId, event.type);
     var delegateCount = handlers.delegateCount;
-    var args = _.slice.call(arguments, 0);
+    var args = _.slice.call(arguments);
     var handlerQueue = [];
     var currentElement, ret, selMatch, matches, handleObj, selector, i;
 
@@ -2380,10 +2383,13 @@ Kimbo.define('events', function (_) {
         if (currentElement.disabled !== true || event.type !== 'click') {
           selMatch = {};
           matches = [];
+
           // loop throgh delegated events
           for (i = 0; i < delegateCount; i++) {
+
             // get its handler
             handleObj = handlers[i];
+
             // get its selector
             selector = handleObj.selector;
 
@@ -2410,11 +2416,13 @@ Kimbo.define('events', function (_) {
 
     // fire callbacks queue
     Kimbo.forEach(handlerQueue, function (handler) {
+
       // only fire handler if event wasnt stopped
       if (!event.isPropagationStopped()) {
         event.currentTarget = handler.elem;
 
         Kimbo.forEach(handler.matches, function (handleObj) {
+
           // only fire bubble if not stopped
           if (!event.isImmediatePropagationStopped()) {
             event.data = handleObj.data;
@@ -2432,7 +2440,9 @@ Kimbo.define('events', function (_) {
         });
       }
     });
-  }
+
+    /* jshint +W040 */
+  };
 
   Kimbo.fn.extend({
 
@@ -2751,7 +2761,7 @@ Kimbo.define('ajax', function () {
     contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
     xhr: function () {
       return new window.XMLHttpRequest();
-    },
+    }
   };
 
 
@@ -2942,7 +2952,7 @@ Kimbo.define('ajax', function () {
     - url (string) A string containing the URL to which the request is sent.
     - callback (function) A callback function to execute if the request succeeds.
     > Usage
-    | $.post('url/script.js', function (data) {
+    | $.getScript('url/script.js', function (data) {
     |   // success
     |   console.log('response:', data);
     | });
