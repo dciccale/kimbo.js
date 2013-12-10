@@ -30,7 +30,7 @@ Kimbo.define('events', function (_) {
   var fixEventProps = {};
   var specialEvents = {};
 
-  function _fix(event) {
+  var _fix = function (event) {
     var originalEvent, eventProps, props;
 
     // already fixed
@@ -52,31 +52,31 @@ Kimbo.define('events', function (_) {
     });
 
     return event;
-  }
+  };
 
   // return element id
-  function _getElementId(element) {
+  var _getElementId = function (element) {
     return element._guid || (element._guid = _guid++);
-  }
+  };
 
   // get element handlers for the specified type
-  function _getHandlers(elementId, type) {
+  var _getHandlers = function (elementId, type) {
     var events = ((handlersHash[elementId] || {}).events || {});
     return (type ? events[type] : events) || [];
-  }
+  };
 
   // quick is() to check if event target matches when events are delegated
-  function _is(target, selector, element) {
-    return (target.nodeName.toLowerCase() === selector || _.kimbo(target).closest(selector, element)[0]);
-  }
+  var _is = function (target, selector, element) {
+    return (target.nodeName.toLowerCase() === selector && _.kimbo(target).closest(selector, element)[0]);
+  };
 
-  function _returnFalse() {
+  var _returnFalse = function () {
     return false;
-  }
+  };
 
-  function _returnTrue() {
+  var _returnTrue = function () {
     return true;
-  }
+  };
 
   Kimbo.Event = function (event) {
     // is event object
@@ -134,7 +134,7 @@ Kimbo.define('events', function (_) {
   };
 
   // register events to dom elements
-  function _addEvent(element, type, callback, data, selector) {
+  var _addEvent = function (element, type, callback, data, selector) {
     // TODO: element should use Kimbo.ref and the handler the _guid
     var elementId = _getElementId(element);
     var elementHandlers = handlersHash[elementId];
@@ -187,15 +187,17 @@ Kimbo.define('events', function (_) {
 
     // add to handlers hash, delegates first
     if (selector) {
-      handlers.delegateCount++;
-      handlers.unshift(handleObj);
+      // handlers.delegateCount++;
+      // handlers.unshift(handleObj);
+      handlers.splice(handlers.delegateCount++, 0, handleObj);
+
     } else {
       handlers.push(handleObj);
     }
-  }
+  };
 
   // unregister events from dom elements
-  function _removeEvent(element, type, callback, selector) {
+  var _removeEvent = function (element, type, callback, selector) {
     var elementId = _getElementId(element);
     var handleObj, handlers, name, i;
 
@@ -244,10 +246,10 @@ Kimbo.define('events', function (_) {
     //   delete handlersHash[elementId];
     //   delete element._guid;
     // }
-  }
+  };
 
   // triggers a provided event type
-  function _triggerEvent(element, type, data) {
+  var _triggerEvent = function (element, type, data) {
     /* jshint validthis: true */
     var currentElement, lastElement, eventTree, elementId, event;
 
@@ -310,11 +312,11 @@ Kimbo.define('events', function (_) {
         handlersHash[elementId].handler.apply(currentElement, data);
       }
     });
-  }
+  };
 
   // own defined dispatchEvent()
-  function _dispatchEvent(event) {
-    /* jshint validthis: true */
+  var _dispatchEvent = function (event) {
+    /* jshint -W040 */
 
     // use own event object
     event = _fix(event);
@@ -342,10 +344,13 @@ Kimbo.define('events', function (_) {
         if (currentElement.disabled !== true || event.type !== 'click') {
           selMatch = {};
           matches = [];
+
           // loop throgh delegated events
           for (i = 0; i < delegateCount; i++) {
+
             // get its handler
             handleObj = handlers[i];
+
             // get its selector
             selector = handleObj.selector;
 
@@ -372,11 +377,13 @@ Kimbo.define('events', function (_) {
 
     // fire callbacks queue
     Kimbo.forEach(handlerQueue, function (handler) {
+
       // only fire handler if event wasnt stopped
       if (!event.isPropagationStopped()) {
         event.currentTarget = handler.elem;
 
         Kimbo.forEach(handler.matches, function (handleObj) {
+
           // only fire bubble if not stopped
           if (!event.isImmediatePropagationStopped()) {
             event.data = handleObj.data;
@@ -394,7 +401,9 @@ Kimbo.define('events', function (_) {
         });
       }
     });
-  }
+
+    /* jshint +W040 */
+  };
 
   Kimbo.fn.extend({
 
