@@ -3,20 +3,26 @@ Kimbo.define('events', function (_) {
   'use strict';
 
   var query = Kimbo.require('query');
+
   var _guid = 1;
+
   var MOUSE_EVENT_RE = /^(?:mouse|menu)|click/;
+
   var KEY_EVENT_RE = /^key/;
+
   var DEFAULT_EVENT_PROPS = [
     'altKey', 'bubbles', 'cancelable', 'ctrlKey', 'currentTarget', 'defaultPrevented', 'eventPhase',
     'metaKey', 'relatedTarget', 'shiftKey', 'target', 'timeStamp', 'type', 'view', 'which'
   ];
+
   var MOUSE_EVENT_PROPS = [
     'button', 'buttons', 'clientX', 'clientY', 'fromElement',
     'offsetX', 'offsetY', 'screenX', 'screenY', 'toElement'
   ];
+
   var KEY_EVENT_PROPS = ['char', 'charCode', 'key', 'keyCode'];
 
-  // gestures fallback for not mobile environment
+  // Gestures fallback for not mobile environment
   var GESTURES_FALLBACK = Kimbo.isMobile() ? {} : {
     touchstart: 'mousedown',
     touchmove: 'mousemove',
@@ -30,23 +36,23 @@ Kimbo.define('events', function (_) {
   var fixEventProps = {};
   var specialEvents = {};
 
-  var _fix = function (event) {
+  var _fixEvent = function (event) {
     var originalEvent, eventProps, props;
 
-    // already fixed
+    // Already fixed
     if (event[Kimbo.ref]) {
       return event;
     }
 
-    // get event properties
+    // Get event properties
     originalEvent = event;
     eventProps = fixEventProps[event.type] || [];
     props = DEFAULT_EVENT_PROPS.concat(eventProps);
 
-    // create a new event writable custom event object
+    // Create a new event writable custom event object
     event = new Kimbo.Event(originalEvent);
 
-    // set event props to Kimbo.Event object
+    // Set event props to Kimbo.Event object
     Kimbo.forEach(props, function (prop) {
       event[prop] = originalEvent[prop];
     });
@@ -54,18 +60,19 @@ Kimbo.define('events', function (_) {
     return event;
   };
 
-  // return element id
+  // Return element id
   var _getElementId = function (element) {
     return element._guid || (element._guid = _guid++);
   };
 
-  // get element handlers for the specified type
+  // Get element handlers for the specified type
   var _getHandlers = function (elementId, type) {
     var events = ((handlersHash[elementId] || {}).events || {});
+
     return (type ? events[type] : events) || [];
   };
 
-  // quick is() to check if event target matches when events are delegated
+  // Quick is() to check if event target matches when events are delegated
   var _is = function (target, selector, element) {
     return (target.nodeName.toLowerCase() === selector && _.kimbo(target).closest(selector, element)[0]);
   };
@@ -78,84 +85,30 @@ Kimbo.define('events', function (_) {
     return true;
   };
 
-  Kimbo.Event = function (event) {
-    // is event object
-    if (event && event.type) {
-      this.originalEvent = event;
-      this.type = event.type;
-
-      // the event may have been prevented
-      // check dom level 3 new attribute and set proper value
-      if (event.defaultPrevented) {
-        this.isDefaultPrevented = _returnTrue;
-      } else {
-        this.isDefaultPrevented = _returnFalse;
-      }
-
-    // is event type
-    } else {
-      this.type = event;
-    }
-
-    // create a timestamp if doesn't have one
-    this.timeStamp = (event && event.timeStamp) || Date.now();
-
-    // made by kimbo, yeah
-    this[Kimbo.ref] = true;
-  };
-
-  // DOM-Level-3-Events compliant
-  Kimbo.Event.prototype = {
-    isDefaultPrevented: _returnFalse,
-    isPropagationStopped: _returnFalse,
-    isImmediatePropagationStopped: _returnFalse,
-
-    preventDefault: function () {
-      this.isDefaultPrevented = _returnTrue;
-      // originalEvent is not present when trigger is called
-      if (!this.isTrigger) {
-        this.originalEvent.preventDefault();
-      }
-    },
-
-    stopPropagation: function () {
-      this.isPropagationStopped = _returnTrue;
-      if (!this.isTrigger) {
-        this.originalEvent.stopPropagation();
-      }
-    },
-
-    stopImmediatePropagation: function () {
-      this.isImmediatePropagationStopped = _returnTrue;
-      if (!this.isTrigger) {
-        this.originalEvent.stopImmediatePropagation();
-      }
-    }
-  };
-
-  // register events to dom elements
+  // Register events to dom elements
   var _addEvent = function (element, type, callback, data, selector) {
+
     // TODO: element should use Kimbo.ref and the handler the _guid
     var elementId = _getElementId(element);
     var elementHandlers = handlersHash[elementId];
     var origType = type;
     var events, handlers, handleObj, handler;
 
-    // could be a special type like mouseenter/mouseleave
+    // Could be a special type like mouseenter/mouseleave
     type = specialEvents[type] ? specialEvents[type].origType : type;
 
-    // create hash for this element if first init
+    // Create hash for this element if first init
     if (!elementHandlers) {
       handlersHash[elementId] = elementHandlers = {};
     }
 
-    // create events object if first init
+    // Create events object if first init
     events = elementHandlers.events;
     if (!events) {
       elementHandlers.events = events = {};
     }
 
-    // create the handler for this element if first init
+    // Create the handler for this element if first init
     handler = elementHandlers.handler;
     if (!handler) {
       elementHandlers.handler = handler = function () {
@@ -163,7 +116,7 @@ Kimbo.define('events', function (_) {
       };
     }
 
-    // create handler object
+    // Create handler object
     handleObj = {
       type: type,
       origType: origType,
@@ -172,23 +125,22 @@ Kimbo.define('events', function (_) {
       selector: selector
     };
 
-    // only add an event listener one time
-    // for each type of event
+    // Only add an event listener one time for each type of event
     handlers = events[type];
     if (!handlers) {
-      // array of events for the current type
+
+      // Array of events for the current type
       handlers = events[type] = [];
       handlers.delegateCount = 0;
-      // add event
+
+      // Add event
       if (element.addEventListener) {
         element.addEventListener(type, handler, false);
       }
     }
 
-    // add to handlers hash, delegates first
+    // Add to handlers hash, delegates first
     if (selector) {
-      // handlers.delegateCount++;
-      // handlers.unshift(handleObj);
       handlers.splice(handlers.delegateCount++, 0, handleObj);
 
     } else {
@@ -196,7 +148,7 @@ Kimbo.define('events', function (_) {
     }
   };
 
-  // unregister events from dom elements
+  // Unregister events from dom elements
   var _removeEvent = function (element, type, callback, selector) {
     var elementId = _getElementId(element);
     var handleObj, handlers, name, i;
@@ -207,12 +159,12 @@ Kimbo.define('events', function (_) {
 
     handlers = _getHandlers(elementId, type);
 
-    // return if no handlers for the current event type
+    // Return if no handlers for the current event type
     if (type && !handlers.length) {
       return;
     }
 
-    // remove all handlers if no type provided
+    // Remove all handlers if no type provided
     if (!type) {
       for (name in handlers) {
         if (handlers.hasOwnProperty(name)) {
@@ -221,105 +173,112 @@ Kimbo.define('events', function (_) {
       }
     }
 
-    // remove handlers that match
+    // Remove handlers that match
     for (i = 0; i < handlers.length; i++) {
       handleObj = handlers[i];
       if ((!callback || callback === handleObj.callback) && (!selector || selector === handleObj.selector)) {
-        // remove current handler from stack
+
+        // Remove current handler from stack
         handlers.splice(i--, 1);
-        // decrement delegate count
+
+        // Decrement delegate count
         if (handleObj.selector) {
           handlers.delegateCount--;
         }
       }
     }
 
-    // if no more events for the current type delete its hash
+    // If no more events for the current type delete its hash
     if (!handlers.length) {
-      // remove event handler
+
+      // Remove event handler
       element.removeEventListener(type, handlersHash[elementId].handler, false);
       delete handlersHash[elementId].events[type];
     }
 
-    // remove kimbo reference if element have no more events
-    // if (Kimbo.isEmptyObject(handlersHash[elementId].events)) {
+    // Remove kimbo reference if element have no more events
+    // If (Kimbo.isEmptyObject(handlersHash[elementId].events)) {
     //   delete handlersHash[elementId];
     //   delete element._guid;
     // }
   };
 
-  // triggers a provided event type
+  // Triggers a provided event type
   var _triggerEvent = function (element, type, data) {
+
     /* jshint validthis: true */
     var currentElement, lastElement, eventTree, elementId, event;
 
-    // don't do events if element is text or comment node
-    // or if there is no event type at all or type is not a string
+    // Don't do events if element is text or comment node
+    // Or if there is no event type at all or type is not a string
     if ((element && (element.nodeType === 3 || element.nodeType === 8)) || !type || !Kimbo.isString(type)) {
       return this;
     }
 
-    // try triggering native focus and blur events
+    // Try triggering native focus and blur events
     if (type === 'focus' || type === 'blur') {
       try {
         return element[type]();
       } catch (e) {}
     }
 
-    // create a new writable custom event object
+    // Create a new writable custom event object
     event = new Kimbo.Event(type);
 
-    // triggered programatically
+    // Triggered programatically
     event.isTrigger = true;
 
-    // set the target
+    // Set the target
     if (!event.target) {
       event.target = element;
     }
 
-    // include data if any
+    // Include data if any
     data = data ? Kimbo.makeArray(data) : [];
-    // event goes first
+    // Event goes first
     data.unshift(event);
 
-    // generate a stack of [element, event] to be triggered
+    // Generate a stack of [element, event] to be triggered
     eventTree = [[element, type]];
     if (!Kimbo.isWindow(element)) {
-      // get all parent elements to bubble event later
+
+      // Get all parent elements to bubble event later
       for (currentElement = element.parentNode; currentElement; currentElement = currentElement.parentNode) {
         eventTree.push([currentElement, type]);
         lastElement = currentElement;
       }
 
-      // only add window object if we got to document (e.g., not plain obj or detached DOM)
+      // Only add window object if we got to document (e.g., not plain obj or detached DOM)
       if (lastElement && lastElement === element.ownerDocument) {
         eventTree.push([window, type]);
       }
     }
 
-    // fire handlers up to the document (or the last element)
+    // Fire handlers up to the document (or the last element)
     Kimbo.forEach(eventTree, function (branch) {
-      // element
+
+      // Element
       currentElement = branch[0];
-      // type
+
+      // Type
       event.type = branch[1];
 
-      // get element id
+      // Get element id
       elementId = currentElement._guid;
 
-      // if the current element has events of the specified type, dispatch them
+      // If the current element has events of the specified type, dispatch them
       if (elementId && _getHandlers(elementId, type)) {
         handlersHash[elementId].handler.apply(currentElement, data);
       }
     });
   };
 
-  // own defined dispatchEvent()
+  // Own defined dispatchEvent()
   var _dispatchEvent = function (event) {
     /* jshint -W040 */
 
-    // use own event object
-    event = _fix(event);
+    // Use own event object
+    event = _fixEvent(event);
 
     var elementId = _getElementId(this);
     var handlers = _getHandlers(elementId, event.type);
@@ -328,30 +287,30 @@ Kimbo.define('events', function (_) {
     var handlerQueue = [];
     var currentElement, ret, selMatch, matches, handleObj, selector, i;
 
-    // set the native event to be the fixed event
+    // Set the native event to be the fixed event
     args[0] = event;
 
-    // save the delegate target element
+    // Save the delegate target element
     event.delegateTarget = this;
 
-    // get delegated handlers if any
+    // Get delegated handlers if any
     if (delegateCount) {
 
-      // go up to the dom finding the elements that matches the current selector from delegated event
+      // Go up to the dom finding the elements that matches the current selector from delegated event
       for (currentElement = event.target; currentElement !== this; currentElement = currentElement.parentNode || this) {
 
-        // don't do events on disabled elements
+        // Don't do events on disabled elements
         if (currentElement.disabled !== true || event.type !== 'click') {
           selMatch = {};
           matches = [];
 
-          // loop throgh delegated events
+          // Loop throgh delegated events
           for (i = 0; i < delegateCount; i++) {
 
-            // get its handler
+            // Get its handler
             handleObj = handlers[i];
 
-            // get its selector
+            // Get its selector
             selector = handleObj.selector;
 
             if (!selMatch[selector]) {
@@ -370,29 +329,29 @@ Kimbo.define('events', function (_) {
       }
     }
 
-    // add the remaining not delegated handlers
+    // Add the remaining not delegated handlers
     if (handlers.length > delegateCount) {
       handlerQueue.push({elem: this, matches: handlers.slice(delegateCount)});
     }
 
-    // fire callbacks queue
+    // Fire callbacks queue
     Kimbo.forEach(handlerQueue, function (handler) {
 
-      // only fire handler if event wasnt stopped
+      // Only fire handler if event wasnt stopped
       if (!event.isPropagationStopped()) {
         event.currentTarget = handler.elem;
 
         Kimbo.forEach(handler.matches, function (handleObj) {
 
-          // only fire bubble if not stopped
+          // Only fire bubble if not stopped
           if (!event.isImmediatePropagationStopped()) {
             event.data = handleObj.data;
             event.handleObj = handleObj;
 
-            // call original callback, check if its an special event first
+            // Call original callback, check if its an special event first
             ret = ((specialEvents[handleObj.origType] || {}).handle || handleObj.callback).apply(handler.elem, args);
 
-            // if callback returns false, stop the event
+            // If callback returns false, stop the event
             if (ret === false) {
               event.preventDefault();
               event.stopPropagation();
@@ -405,8 +364,66 @@ Kimbo.define('events', function (_) {
     /* jshint +W040 */
   };
 
-  Kimbo.fn.extend({
+  Kimbo.Event = function (event) {
 
+    // Is event object
+    if (event && event.type) {
+      this.originalEvent = event;
+      this.type = event.type;
+
+      // The event may have been prevented
+      // Check dom level 3 new attribute and set proper value
+      if (event.defaultPrevented) {
+        this.isDefaultPrevented = _returnTrue;
+      } else {
+        this.isDefaultPrevented = _returnFalse;
+      }
+
+    // Is event type
+    } else {
+      this.type = event;
+    }
+
+    // Create a timestamp if doesn't have one
+    this.timeStamp = (event && event.timeStamp) || Date.now();
+
+    // Made by kimbo, yeah
+    this[Kimbo.ref] = true;
+  };
+
+  // Dom-Level-3-Events compliant
+  Kimbo.Event.prototype = {
+    isDefaultPrevented: _returnFalse,
+    isPropagationStopped: _returnFalse,
+    isImmediatePropagationStopped: _returnFalse,
+
+    preventDefault: function () {
+      this.isDefaultPrevented = _returnTrue;
+
+      // Originalevent is not present when trigger is called
+      if (!this.isTrigger) {
+        this.originalEvent.preventDefault();
+      }
+    },
+
+    stopPropagation: function () {
+      this.isPropagationStopped = _returnTrue;
+
+      if (!this.isTrigger) {
+        this.originalEvent.stopPropagation();
+      }
+    },
+
+    stopImmediatePropagation: function () {
+      this.isImmediatePropagationStopped = _returnTrue;
+
+      if (!this.isTrigger) {
+        this.originalEvent.stopImmediatePropagation();
+      }
+    }
+  };
+
+  Kimbo.fn.extend({
     /*\
      * $(…).on
      [ method ]
@@ -429,7 +446,7 @@ Kimbo.define('events', function (_) {
      | });
      * Passing some data when registering the handler:
      | $('#btn').on('click', { name: 'denis' }, function (event) {
-     |   // data passed is inside event.data
+     |   // Data passed is inside event.data
      |   console.log('name:', event.data.name);
      | });
      * Here is a list for all the shorthand methods available:
@@ -438,7 +455,7 @@ Kimbo.define('events', function (_) {
      | 'mousemove', 'mouseout', 'mouseup', 'mouseover', 'resize', 'scroll', 'select', 'submit', 'unload'
     \*/
     on: function (type, selector, data, callback) {
-      // prepare the arguments
+      // Prepare the arguments
 
       // (type, callback)
       if (!data && !callback) {
@@ -459,14 +476,14 @@ Kimbo.define('events', function (_) {
         }
       }
 
-      // don't add events if no callback
+      // Don't add events if no callback
       if (!callback) {
         return this;
       }
 
       type = GESTURES_FALLBACK[type] || type;
 
-      // add the event
+      // Add the event
       return this.each(function (el) {
         _addEvent(el, type, callback, data, selector);
       });
@@ -501,7 +518,8 @@ Kimbo.define('events', function (_) {
      | btn.off();
     \*/
     off: function (type, selector, callback) {
-      // prepare the arguments
+
+      // Prepare the arguments
 
       // (type, callback)
       if (Kimbo.isFunction(selector)) {
@@ -509,7 +527,7 @@ Kimbo.define('events', function (_) {
         selector = undefined;
       }
 
-      // remove the event
+      // Remove the event
       return this.each(function (el) {
         _removeEvent(el, type, callback, selector);
       });
@@ -538,8 +556,8 @@ Kimbo.define('events', function (_) {
      |   console.log('last', last);
      | });
      | $('#btn').trigger('click', ['denis', 'ciccale']);
-     | // name denis
-     | // last ciccale
+     | // Name denis
+     | // Last ciccale
     \*/
     trigger: function (type, data) {
       return this.each(function (el) {
@@ -572,7 +590,7 @@ Kimbo.define('events', function (_) {
     }
   });
 
-  // shortcut methods for each event type
+  // Shortcut methods for each event type
   Kimbo.forEach(['blur', 'change', 'click', 'contextmenu', 'dblclick', 'error',
     'focus', 'keydown', 'keypress', 'keyup', 'load', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove',
     'mouseout', 'mouseup', 'mouseover', 'resize', 'scroll', 'select', 'submit', 'unload'], function (type) {
@@ -581,12 +599,11 @@ Kimbo.define('events', function (_) {
       return arguments.length > 0 ? this.on(type, null, data, callback) : this.trigger(type);
     };
 
-    // set event props for the specific type
+    // Set event props for the specific type
     fixEventProps[type] = KEY_EVENT_RE.test(type) ? KEY_EVENT_PROPS : MOUSE_EVENT_RE.test(type) ? MOUSE_EVENT_PROPS : null;
   });
 
-  // fix mouseover and mouseout events
-  // to use mouseenter mouseleave
+  // Fix mouseover and mouseout events to use mouseenter mouseleave
   Kimbo.forEach({
     mouseenter: 'mouseover',
     mouseleave: 'mouseout'

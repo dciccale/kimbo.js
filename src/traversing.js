@@ -2,9 +2,9 @@ Kimbo.define('traversing', function (_) {
 
   'use strict';
 
-  _.filter = Array.prototype.filter;
-
   var query = Kimbo.require('query');
+
+  var _filter = Array.prototype.filter;
 
   var IS_UNIQUE = {
     children: true,
@@ -13,22 +13,24 @@ Kimbo.define('traversing', function (_) {
     prev: true
   };
 
-  var _matchesSelector = document.documentElement.webkitMatchesSelector ||
-    document.documentElement.mozMatchesSelector ||
-    document.documentElement.oMatchesSelector ||
-    document.documentElement.matchesSelector;
+  // Use native matchesSelector
+  var _matchesSelector = _.document.documentElement.webkitMatchesSelector ||
+    _.document.documentElement.mozMatchesSelector ||
+    _.document.documentElement.oMatchesSelector ||
+    _.document.documentElement.matchesSelector;
 
-  function _matches(elem, selector) {
+  var _matches = function (elem, selector) {
     return (!elem || elem.nodeType !== 1) ? false : _matchesSelector.call(elem, selector);
-  }
+  };
 
-  function _unique(array) {
+  // Remove duplicates from an array
+  var _unique = function (array) {
     return array.filter(function (item, index) {
       return array.indexOf(item) === index;
     });
-  }
+  };
 
-  function _sibling(node, elem) {
+  var _sibling = function (node, elem) {
     var result = [];
     for (; node; node = node.nextSibling) {
       if (node.nodeType === 1 && node !== elem ) {
@@ -36,18 +38,17 @@ Kimbo.define('traversing', function (_) {
       }
     }
     return result;
-  }
+  };
 
-  function _singleSibling(node, prop) {
+  var _singleSibling = function (node, prop) {
     do {
       node = node[prop];
     } while (node && node.nodeType !== 1);
 
     return node;
-  }
+  };
 
   Kimbo.fn.extend({
-
     /*\
      * $(…).filter
      [ method ]
@@ -80,24 +81,26 @@ Kimbo.define('traversing', function (_) {
      > Filter by DOM or Kimbo object
      * You can also filter by a DOM or Kimbo object.
      | $('li').filter(document.getElementById('id'));
-     | // or a Kimbo object
+     | // Or a Kimbo object
      | $('li').filter($('#id'));
     \*/
     filter: function (selector) {
       var result;
 
-      // filter collection
-      result = _.filter.call(this, function (elem, i) {
+      // Filter collection
+      result = _filter.call(this, function (elem, i) {
         var ret;
+
         if (Kimbo.isFunction(selector)) {
           ret = !!selector.call(elem, i, elem);
         } else if (Kimbo.isString(selector)) {
           ret = _matches(elem, selector);
         } else if (selector.nodeType) {
           ret = elem === selector;
-        } else if (Kimbo.isKimbo(selector)) {
+        } else if (selector instanceof Kimbo) {
           ret = elem === selector[0];
         }
+
         return ret;
       });
 
@@ -268,19 +271,22 @@ Kimbo.define('traversing', function (_) {
     find: function (selector) {
       var i, l, length, n, r, result, elems;
 
-      // make new empty kimbo collection
+      // Make new empty kimbo collection
       result = _.kimbo();
 
-      // could use Kimbo.forEach, but this is a bit faster..
+      // Could use Kimbo.forEach, but this is a bit faster..
       for (i = 0, l = this.length; i < l; i++) {
         length = result.length;
-        // get elements
+
+        // Get elements
         elems = query.find(this[i], selector);
-        // push them to current kimbo collection
+
+        // Push them to current kimbo collection
         _.push.apply(result, elems);
 
         if (i) {
-          // make results unique
+
+          // Make results unique
           for (n = length; n < result.length; n++) {
             for (r = 0; r < length; r++) {
               if (result[r] === result[n]) {
@@ -323,9 +329,10 @@ Kimbo.define('traversing', function (_) {
       var l = this.length;
       var result = [];
       var closest = function (node) {
-        // check selector match and grab the element
+
+        // Check selector match and grab the element
         while (node && !_matches(node, selector)) {
-          node = node !== context && node !== document && node.parentNode;
+          node = node !== context && node !== _.document && node.parentNode;
         }
         return node;
       };
@@ -333,11 +340,11 @@ Kimbo.define('traversing', function (_) {
       if (!l) {
         return this;
 
-      // get closest only for one element
+      // Get closest only for one element
       } else if (l === 1) {
         result = closest(this[0]);
 
-      // get closest from all elements in the set
+      // Get closest from all elements in the set
       } else {
         Kimbo.forEach(this, function (node) {
           node = closest(node);
@@ -346,7 +353,7 @@ Kimbo.define('traversing', function (_) {
           }
         });
 
-        // only unique results
+        // Only unique results
         result = result.length > 1 ? _unique(result) : result;
       }
 
@@ -366,13 +373,15 @@ Kimbo.define('traversing', function (_) {
      | </div>
      | <p id="outside">Outside paragraph</p>
      * The paragraph with id "inside" is actually contained by "#container"
-     | $('#container').contains('#inside'); // true
+     | $('#container').contains('#inside'); // True
      * The paragraph ourside is not contained
      | var outside_p = $('#outside');
-     | $('#container').contains(outside_p); // false
+     | $('#container').contains(outside_p); // False
     \*/
     contains: function (element) {
-      element = Kimbo.isKimbo(element) ? element[0] : (Kimbo.isString(element) ? this.find(element)[0] : element);
+      element = (element instanceof Kimbo) ? element[0] :
+        (Kimbo.isString(element) ? this.find(element)[0] : element);
+
       return query.contains(this[0], element);
     },
 
@@ -402,7 +411,9 @@ Kimbo.define('traversing', function (_) {
      | $('#menu1 li').add($('#menu2 li'));
     \*/
     add: function (selector, context) {
-      var set = Kimbo.isString(selector) ? _.kimbo(selector, context) : Kimbo.makeArray(selector && selector.nodeType ? [selector] : selector);
+      var set = Kimbo.isString(selector) ? _.kimbo(selector, context) :
+        Kimbo.makeArray(selector && selector.nodeType ? [selector] : selector);
+
       var all = Kimbo.merge(this, set);
 
       return _.kimbo(all);
@@ -434,7 +445,6 @@ Kimbo.define('traversing', function (_) {
   });
 
   Kimbo.forEach({
-
     /*\
      * $(…).parent
      [ method ]
@@ -449,10 +459,11 @@ Kimbo.define('traversing', function (_) {
      |   <li class="item-b">Item 2</li>
      | </ul>
      * Get the parent element of `.item-a`
-     | $('.item-a').parent(); // ul
+     | $('.item-a').parent(); // Ul
     \*/
     parent: function (elem) {
       var parent = elem.parentNode;
+
       return parent && parent.nodeType !== 11 ? parent : null;
     },
 
@@ -531,7 +542,7 @@ Kimbo.define('traversing', function (_) {
      |   <p>demo.</p>
      | </div>
      * Get all children of `.demo`:
-     | $('.demo').children(); // al <p> tags inside .demo div
+     | $('.demo').children(); // Al <p> tags inside .demo div
      * Another example passing an specific selector:
      | <form>
      |   <input type="text" name="name" />
@@ -539,7 +550,7 @@ Kimbo.define('traversing', function (_) {
      |   <input type="submit" value="Send" />
      | </form>
      * Get only the children that are text type elements:
-     | $('form').children('input[type="text"]'); // only name and last inputs
+     | $('form').children('input[type="text"]'); // Only name and last inputs
     \*/
     children: function (elem) {
       return _sibling(elem.firstChild);
@@ -557,17 +568,19 @@ Kimbo.define('traversing', function (_) {
      | $('iframe').contents().find('body');
     \*/
     contents: function (elem) {
-      return elem.nodeName.toLowerCase() === 'iframe' ? elem.contentDocument || elem.contentWindow[document] : Kimbo.makeArray(elem.childNodes);
+      return elem.nodeName.toLowerCase() === 'iframe' ? elem.contentDocument || elem.contentWindow[_.document] : Kimbo.makeArray(elem.childNodes);
     }
   }, function (name, fn) {
     Kimbo.fn[name] = function (selector) {
+      var ret;
+
       if (!this.length) {
         return this;
       }
 
-      var ret = Kimbo.map(this, fn);
+      ret = Kimbo.map(this, fn);
 
-      // clean collection
+      // Clean collection
       ret = this.length > 1 && !IS_UNIQUE[name] ? _unique(ret) : ret;
 
       if (Kimbo.isString(selector)) {

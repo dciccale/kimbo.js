@@ -1,8 +1,9 @@
-Kimbo.define('ajax', function () {
+Kimbo.define('ajax', function (_) {
 
   'use strict';
 
   var JSONP_RE = /(\=)\?(&|$)|\?\?/i;
+
   var MIME_TYPES = {
     html: 'text/html',
     json: 'application/json',
@@ -10,13 +11,15 @@ Kimbo.define('ajax', function () {
     text: 'text/plain',
     xml: 'application/xml, text/xml'
   };
+
   var dataParse = {
     json: Kimbo.parseJSON,
     xml: Kimbo.parseXML
   };
+
   var xhrCallbacks = {};
 
-  // success and error callbacks
+  // Success and error callbacks
   Kimbo.forEach(['success', 'error'], function (type) {
     xhrCallbacks[type] = function (res, msg, xhr, settings) {
       settings = settings || xhr;
@@ -26,14 +29,14 @@ Kimbo.define('ajax', function () {
     };
   });
 
-  function _getResponse(response, type) {
+  var _getResponse = function (response, type) {
     return (dataParse[type] ? dataParse[type](response) : response);
-  }
+  };
 
-  function _handleResponse(xhr, settings) {
+  var _handleResponse = function (xhr, settings) {
     var response, contentType;
 
-    // set dataType if missing
+    // Set dataType if missing
     if (!settings.dataType) {
       contentType = xhr.getResponseHeader('Content-Type');
 
@@ -44,7 +47,7 @@ Kimbo.define('ajax', function () {
         }
       });
 
-      // fix settings headers
+      // Fix settings headers
       _setHeaders(settings);
     }
 
@@ -56,9 +59,9 @@ Kimbo.define('ajax', function () {
     }
 
     return response;
-  }
+  };
 
-  function _setHeaders(settings) {
+  var _setHeaders = function (settings) {
     if (!settings.crossDomain && !settings.headers['X-Requested-With']) {
       settings.headers['X-Requested-With'] = 'XMLHttpRequest';
     }
@@ -68,19 +71,19 @@ Kimbo.define('ajax', function () {
     }
 
     settings.headers.Accept = MIME_TYPES[settings.dataType] || '*/*';
-  }
+  };
 
-  function _timeout(xhr, settings) {
+  var _timeout = function (xhr, settings) {
     xhr.onreadystatechange = null;
     xhr.abort();
     xhrCallbacks.error('error', 'timeout', xhr, settings);
-  }
+  };
 
-  function _createAbortTimeout(xhr, settings) {
+  var _createAbortTimeout = function (xhr, settings) {
     return window.setTimeout(function () {
       _timeout(xhr, settings);
     }, settings.timeout);
-  }
+  };
 
   /*\
    * $.ajaxSettings
@@ -89,7 +92,7 @@ Kimbo.define('ajax', function () {
    > Usage
    * If you want to change the global and default ajax settings, change this object properties:
    | $.ajaxSettings.error = function () {
-   |   // handle any failed ajax request in your app
+   |   // Handle any failed ajax request in your app
    | };
    | $.ajaxSettings.timeout = 1000; // 1 second
   \*/
@@ -108,7 +111,6 @@ Kimbo.define('ajax', function () {
       return new window.XMLHttpRequest();
     }
   };
-
 
   /*\
    * $.ajax
@@ -139,10 +141,10 @@ Kimbo.define('ajax', function () {
    |     id: 3
    |   },
    |   success: function (response, responseMessage, xhr, settings) {
-   |     // success...
+   |     // Success...
    |   },
    |   error: function (response, responseMessage, xhr, settings) {
-   |     // error...
+   |     // Error...
    |   }
    | });
   \*/
@@ -150,43 +152,43 @@ Kimbo.define('ajax', function () {
     var settings = Kimbo.extend({}, Kimbo.ajaxSettings, options);
     var xhr, abortTimeout, callback;
 
-    // add data to url
+    // Add data to url
     if (settings.data) {
       settings.url += (/\?/.test(settings.url) ? '&' : '?') +
         Kimbo.param(settings.data);
       delete settings.data;
     }
 
-    // set default context
+    // Set default context
     if (!settings.context) {
       settings.context = settings;
     }
 
-    // check if its jsonp
+    // Check if its jsonp
     if (JSONP_RE.test(settings.url)) {
       return _getJSONP(settings);
     }
 
-    // create new instance
+    // Create new instance
     xhr = settings.xhr();
 
-    // user specified timeout
+    // User specified timeout
     if (settings.timeout > 0) {
       abortTimeout = _createAbortTimeout(xhr, settings);
     }
 
-    // on complete callback
+    // On complete callback
     callback = function () {
       var response, status;
 
-      // request complete
+      // Request complete
       if (xhr.readyState === 4) {
         status = xhr.status;
 
-        // clear timeout
+        // Clear timeout
         window.clearTimeout(abortTimeout);
 
-        // scuccess
+        // Scuccess
         if ((status >= 200 && status < 300) || status === 304) {
           if (settings.async) {
             response = _handleResponse(xhr, settings);
@@ -195,28 +197,28 @@ Kimbo.define('ajax', function () {
             }
           }
 
-        // fail
+        // Fail
         } else {
           xhrCallbacks.error('error', xhr.statusText, xhr, settings);
         }
       }
     };
 
-    // listen for response
+    // Listen for response
     xhr.onreadystatechange = callback;
 
-    // init request
+    // Init request
     xhr.open(settings.type, settings.url, settings.async);
 
-    // set settings headers
+    // Set settings headers
     _setHeaders(settings);
 
-    // set xhr headers
+    // Set xhr headers
     Kimbo.forEach(settings.headers, function (header, value) {
       xhr.setRequestHeader(header, value);
     });
 
-    // try to send request
+    // Try to send request
     xhr.send(settings.data);
 
     return (settings.async) ? xhr : callback();
@@ -233,7 +235,7 @@ Kimbo.define('ajax', function () {
    - type (string) #optional String with the type of the data to send (intelligent guess by default).
    > Usage
    | $.get('url/users.php', { id: '123' }, function (data) {
-   |   // success
+   |   // Success
    |   console.log('response:', data);
    | });
    * This method is a shorthand for the $.ajax
@@ -256,7 +258,7 @@ Kimbo.define('ajax', function () {
    - type (string) #optional String with the type of the data to send (intelligent guess by default).
    > Usage
    | $.post('url/users.php', { user: 'denis', pass: '123' }, function (data) {
-   |   // success
+   |   // Success
    |   console.log('response:', data);
    | });
    * This method is a shorthand for the $.ajax
@@ -270,14 +272,15 @@ Kimbo.define('ajax', function () {
   \*/
   Kimbo.forEach(['get', 'post'], function (method) {
     Kimbo[method] = function (url, data, callback, type) {
-      // prepare arguments
+
+      // Prepare arguments
       if (Kimbo.isFunction(data)) {
         type = type || callback;
         callback = data;
         data = null;
       }
 
-      // call ajax
+      // Call ajax
       return Kimbo.ajax({
         type: method.toUpperCase(),
         url: url,
@@ -298,7 +301,7 @@ Kimbo.define('ajax', function () {
     - callback (function) A callback function to execute if the request succeeds.
     > Usage
     | $.getScript('url/script.js', function (data) {
-    |   // success
+    |   // Success
     |   console.log('response:', data);
     | });
     * This method is a shorthand for the $.ajax
@@ -323,7 +326,7 @@ Kimbo.define('ajax', function () {
     - type (string) #optional String with the type of the data to send (intelligent guess by default).
     > Usage
     | $.getJSON('url/test.json', { id: '2' }, function (data) {
-    |   // success
+    |   // Success
     |   console.log('response:', data);
     | });
     * This method is a shorthand for the $.ajax
@@ -343,10 +346,10 @@ Kimbo.define('ajax', function () {
   });
 
   // getJSONP internal use
-  function _getJSONP(settings) {
+  var _getJSONP = function (settings) {
     var jsonpCallback = Kimbo.ref + '_' + Date.now();
-    var script = document.createElement('script');
-    var head = document.head;
+    var script = _.document.createElement('script');
+    var head = _.document.head;
     var xhr = {
       abort: function () {
         window.clearTimeout(abortTimeout);
@@ -356,20 +359,21 @@ Kimbo.define('ajax', function () {
     };
     var abortTimeout;
 
-    // user specified timeout
+    // User specified timeout
     if (settings.timeout > 0) {
       abortTimeout = _createAbortTimeout(xhr, settings);
     }
 
-    // set url
+    // Set url
     script.src = settings.url.replace(JSONP_RE, '$1' + jsonpCallback + '$2');
 
-    // JSONP callback
+    // Jsonp callback
     window[jsonpCallback] = function (response) {
-      // remove script
+
+      // Remove script
       xhr.abort();
 
-      // fake xhr
+      // Fake xhr
       Kimbo.extend(xhr, {
         statusText: 'OK',
         status: 200,
@@ -377,19 +381,19 @@ Kimbo.define('ajax', function () {
         headers: settings.headers
       });
 
-      // success
+      // Success
       xhrCallbacks.success(response, xhr, settings);
     };
 
-    // set settings headers
+    // Set settings headers
     _setHeaders(settings);
 
-    // apend script to head to make the request
+    // Apend script to head to make the request
     head.appendChild(script);
 
-    // return fake xhr object to abort manually
+    // Return fake xhr object to abort manually
     return xhr;
-  }
+  };
 
   /*\
    * $.param

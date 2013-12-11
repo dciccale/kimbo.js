@@ -7,16 +7,18 @@ Kimbo.define('data', function () {
 
   var data = {
     get: function (el, key) {
-      var domCache = cache[el.__dataId];
+      var dataCache = cache[el._dataId];
       var value;
 
-      // look first in cached data
-      if (domCache) {
-        value = domCache[key];
+      // Look first in cached data
+      if (dataCache) {
+        value = dataCache[key];
 
-      // if none, try dataset
+      // If none, try dataset
       } else {
         value = el.dataset[key];
+
+        // Cache the value
         if (value) {
           this.set(el, key, value);
         }
@@ -24,26 +26,24 @@ Kimbo.define('data', function () {
 
       return value;
     },
+
     set: function (el, key, value) {
-      var domData = el.__dataId;
-      var domCache;
+      var elementId = el._dataId || (el._dataId = dataId++);
+      var dataCache = cache[elementId];
 
-      if (!domData) {
-        domData = el.__dataId = dataId++;
+      // Create data cache for the current element if necessary
+      if (!dataCache) {
+        dataCache = cache[elementId] = {};
       }
 
-      domCache = cache[domData];
-      if (!domCache) {
-        domCache = cache[domData] = {};
-      }
-
-      domCache[key] = value;
+      dataCache[key] = value;
     },
+
     remove: function (el, key) {
       if (key === undefined) {
-        cache[el.__dataId] = {};
+        cache[el._dataId] = {};
       } else {
-        delete cache[el.__dataId][key];
+        delete cache[el._dataId][key];
       }
     }
   };
@@ -73,8 +73,11 @@ Kimbo.define('data', function () {
 
       key = Kimbo.camelCase(key);
 
+      // Get
       if (value === undefined) {
         return data.get(this[0], key);
+
+      // Set
       } else {
         return this.each(function (el) {
           data.set(el, key, value);
@@ -96,14 +99,14 @@ Kimbo.define('data', function () {
      * Data attribute and value was removed:
      | <div id="panel"></div>
      * data-isOpen is undefined
-     | $('#panel').data('isOpen'); // undefined
+     | $('#panel').data('isOpen'); // Undefined
     \*/
     removeData: function (key) {
-      if (!this.length) {
+      if (!this.length || !Kimbo.isString(key)) {
         return this;
       }
 
-      key = key && Kimbo.camelCase(key);
+      key = Kimbo.camelCase(key);
 
       return this.each(function (el) {
         data.remove(el, key);

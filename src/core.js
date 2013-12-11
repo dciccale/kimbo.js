@@ -8,15 +8,21 @@
    * Global namespace for using Kimbo functions
   \*/
 
-  // kimbo modules
+  // Kimbo modules
   var modules = {};
 
-  // common helpers
+  // Common helpers
   var _ = {
+
+    // Array methods
     push: Array.prototype.push,
     slice: Array.prototype.slice,
+
+    // Reference to the current document
+    document: document,
     rootContext: document,
-    // returns a new kimbo set
+
+    // Creates and returns a new Kimbo object
     kimbo: function (element) {
       return new Kimbo(element);
     }
@@ -27,22 +33,23 @@
    * Kimbo object collection.
    * All methods called from a Kimbo collection affects all elements in it.
   \*/
-  function Kimbo(selector, context) {
+  var Kimbo = function (selector, context) {
     var match;
 
-    if (!Kimbo.isKimbo(this)) {
+    // Auto create a new instance of Kimbo if needed
+    if (!(this instanceof Kimbo)) {
       return new Kimbo(selector, context);
     }
 
-    // no selector, return empty Kimbo object
+    // No selector, return empty Kimbo object
     if (!selector) {
       return this;
     }
 
-    // asume a css selector, query the dom
+    // Asume a css selector, query the dom
     if (typeof selector === 'string') {
 
-      // handle faster $('#id');
+      // Handle faster $('#id');
       match = /^#([\w\-]+)$/.exec(selector);
       if (match && match[1]) {
         match = document.getElementById(match[1]);
@@ -55,26 +62,27 @@
         return this;
       }
 
-      // all other selectors
+      // All other selectors
       context = context ? _.kimbo(context) : _.rootContext;
+
       return context.find(selector);
     }
 
-    // already a dom element
+    // Already a dom element
     if (selector.nodeType) {
       this[0] = selector;
       this.length = 1;
       return this;
     }
 
-    // is a function, call it when DOM is ready
+    // Is a function, call it when DOM is ready
     if (Kimbo.isFunction(selector)) {
       return _.rootContext.ready(selector);
     }
 
-    // handle kimbo object, plain objects or other objects
+    // Handle kimbo object, plain objects or other objects
     return Kimbo.makeArray(selector, this);
-  }
+  };
 
   Kimbo.require = function (module) {
     return modules[module];
@@ -84,7 +92,10 @@
     modules[module] = fn(_);
   };
 
-  Kimbo.fn = Kimbo.prototype = {
+  /*
+   * Kimbo prototype aliased as fn
+   */
+  Kimbo.prototype = Kimbo.fn = {
 
     /*\
      * $(…).length
@@ -120,20 +131,28 @@
     ready: function (callback) {
       var completed;
 
-      // first check if already loaded
+      // First check if already loaded, interactive or complete state so the t is enough
       if (/t/.test(document.readyState)) {
+
+        // Execute the callback
         callback.call(document);
 
-      // listen for when it loads
+      // If not listen for when it loads
       } else {
         completed = function () {
-          // when completed remove the listener
+
+          // When completed remove the listener
           document.removeEventListener('DOMContentLoaded', completed, false);
+
+          // Execute the callback
           callback.call(document);
         };
+
+        // Register the event
         document.addEventListener('DOMContentLoaded', completed, false);
       }
 
+      // Return the Kimbo wrapped document
       return _.rootContext;
     },
 
@@ -160,12 +179,14 @@
       if (!this.length) {
         return;
       }
-      return (!arguments.length) ?
-        _.slice.call(this) :
+
+      // If no index specified return a new set
+      // Else return the element in the specified positive index or backwards if negative
+      return (!arguments.length) ? _.slice.call(this) :
         (index < 0 ? this[this.length + index] : this[index]);
     },
 
-    // needed to have an array-like object
+    // Needed to have an array-like object
     splice: Array.prototype.splice
   };
 
@@ -178,12 +199,12 @@
    - callback (function) Function that will be executed on each iteration
    = (object) The original array or object
    > Usage
-   | // iterating array
+   | // Iterating array
    | $.forEach(['a', 'b', 'c'], function (index, value) {
    |   alert(index + ': ' + value);
    | });
    |
-   | // iterating object
+   | // Iterating object
    | $.forEach({name: 'Denis', surname: 'Ciccale'}, function (key, value) {
    |   alert(key + ': ' + value);
    | });
@@ -207,7 +228,7 @@
       }
     }
 
-    // return original obj
+    // Return original obj
     return obj;
   };
 
@@ -225,17 +246,17 @@
    | var obj1 = { msg: 'hi', info: { from: 'Denis' }};
    | var obj2 = { msg: 'Hi!', info: { time: '22:00PM' }};
    |
-   | // merge obj1 into obj2
+   | // Merge obj1 into obj2
    | $.extend(obj1, obj2);
    |
-   | // now obj1 is equal to:
+   | // Now obj1 is equal to:
    | { msg: 'Hi!', info: { time: '22:00PM' }}
    * If an empty target object is passed, none of the other objects will be directly modified
-   | // pass an empty target
+   | // Pass an empty target
    | var obj3 = $.extend({}, obj1, obj);
    * To do a recursive merge, pass true as first argument, then the objects to merge
    | $.extend(true, obj1, obj2);
-   | // obj1 will be:
+   | // Obj1 will be:
    | { msg: 'Hi!', info: { from: 'Denis', time: '22:00PM' }}
   \*/
   Kimbo.extend = Kimbo.fn.extend = function () {
@@ -244,24 +265,24 @@
     var deep = (target === true);
     var cut = 1;
 
-    // check for deep copy
+    // Check for deep copy
     if (deep) {
       target = objs[1] || {};
       cut = 2;
 
-    // extend Kimbo itself if only one argument is passed
+    // Extend Kimbo itself if only one argument is passed
     } else if (objs.length === 1) {
       target = this;
       cut = 0;
     }
 
-    // make an array from the arguments
-    // removing unnecessary objects
+    // Make an array from the arguments removing the target and/or the deep boolean
     objs = _.slice.call(objs, cut);
 
-    // loop through the objects
+    // Loop through the objects
     Kimbo.forEach(objs, function (source) {
-      // populate target from source
+
+      // Populate target from source
       Kimbo.forEach(source, function (key, value) {
         var src;
 
@@ -278,17 +299,17 @@
     return target;
   };
 
-  // unique reference for the current instance of Kimbo
+  // Unique reference for the current instance of Kimbo
   Kimbo.ref = 'kimbo' + ('1' + Math.random()).replace(/\D/g, '');
 
-  // expose Kimbo as an AMD module
+  // Expose Kimbo as an AMD module
   if (typeof window.define === 'function' && window.define.amd) {
     window.define('kimbo', [], function () {
       return Kimbo;
     });
   }
 
-  // expose Kimbo to global object
+  // Expose Kimbo to global object
   window.Kimbo = window.$ = Kimbo;
 
 }(window, window.document));

@@ -4,10 +4,10 @@ Kimbo.define('manipulation', function (_) {
 
   var SPACE_RE = /\s+/;
 
-  // browser native classList
-  function _hasClass (el, name) {
+  // Browser native classList
+  var _hasClass = function (el, name) {
     return (el.nodeType === 1 && el.classList.contains(name));
-  }
+  };
 
   /*\
    * $(…).text
@@ -72,16 +72,16 @@ Kimbo.define('manipulation', function (_) {
   }, function (method, prop) {
     Kimbo.fn[method] = function (value) {
 
-      // no element
-      if (!this[0]) {
+      // No element
+      if (!this.length) {
         return undefined;
       }
 
-      // get
+      // Get
       if (value === undefined) {
         return this[0][prop];
 
-        // set
+        // Set
       } else {
         return this.each(function (el) {
           el[prop] = value;
@@ -136,10 +136,10 @@ Kimbo.define('manipulation', function (_) {
    | <p>Lorem ipsum</p>
   \*/
 
-  // generate addClass and removeClass methods
-  // use native classList
-  // mdn: https://developer.mozilla.org/en-US/docs/DOM/element.classList
-  // spec: http://www.whatwg.org/specs/web-apps/current-work/multipage/elements.html#dom-classlist
+  // Generate addClass and removeClass methods
+  // Use native classList
+  // Mdn: https://developer.mozilla.org/en-US/docs/DOM/element.classList
+  // Spec: http://www.whatwg.org/specs/web-apps/current-work/multipage/elements.html#dom-classlist
   Kimbo.forEach(['add', 'remove'], function (method, i) {
     var isRemove = i > 0;
 
@@ -149,16 +149,18 @@ Kimbo.define('manipulation', function (_) {
       if (name && Kimbo.isString(name)) {
         classNames = name.split(SPACE_RE);
         this.each(function (el) {
-          // skip comments, text, etc
+
+          // Skip comments, text, etc
           if (el.nodeType === 1) {
-            // iterate through all class names passed
+
+            // Iterate through all class names passed
             Kimbo.forEach(classNames, function (className) {
               el.classList[method](className);
             });
           }
         });
 
-        // remove all element classes if no classname specified
+        // Remove all element classes if no classname specified
       } else if (!name && isRemove) {
         this.removeAttr('class');
       }
@@ -225,30 +227,32 @@ Kimbo.define('manipulation', function (_) {
    | </div>
   \*/
 
-  // generate append and prepend methods
+  // Generate append and prepend methods
   Kimbo.forEach(['append', 'prepend'], function (method, i) {
     var isPrepend = i > 0;
 
     Kimbo.fn[method] = function (value) {
       var div;
 
-      // exit if no value passed
+      // Exit if no value passed
       if (!this.length || !value) {
         return this;
       }
 
-      // handle html string
+      // Handle html string
       if (Kimbo.isString(value)) {
-        // placeholder element
+
+        // Placeholder element
         div = document.createElement('div');
         div.innerHTML = value;
         value = div.firstChild;
       }
 
-      // already a dom node or kimbo collection, just insert it
-      if (value.nodeType || Kimbo.isKimbo(value)) {
+      // Already a dom node or kimbo collection, just insert it
+      if (value.nodeType || (value instanceof Kimbo)) {
         return this.each(function (el) {
-          // be sure we can append/prepend to the element
+
+          // Be sure we can append/prepend to the element
           if (el.nodeType === 1 || el.nodeType === 11) {
             _.kimbo(value).each(function (_el) {
               el.insertBefore(_el, isPrepend ? el.firstChild : null);
@@ -260,7 +264,6 @@ Kimbo.define('manipulation', function (_) {
   });
 
   Kimbo.fn.extend({
-
     /*\
      * $(…).empty
      [ method ]
@@ -310,7 +313,7 @@ Kimbo.define('manipulation', function (_) {
       });
     },
 
-    // TODO: extend to accept objects and functions to set values
+    // Todo: extend to accept objects and functions to set values
     /*\
      * $(…).attr
      [ method ]
@@ -323,14 +326,13 @@ Kimbo.define('manipulation', function (_) {
      > Usage
      | <a href="http://kimbojs.com">Go to Kimbojs.com</a>
      * Get href attribute
-     | $('a').attr('href'); // http://kimbojs.com
+     | $('a').attr('href'); // Http://kimbojs.com
      * Set a new attribute
      | $('a').attr('title', 'Go to Kimbojs.com');
      * Now element has a title attribute
      | <a href="http://kimbojs.com" title="Go to Kimbojs.com">Go to Kimbojs.com</a>
     \*/
     attr: function (name, value) {
-      // no elements in the collection
       if (!this.length) {
         return this;
       }
@@ -384,10 +386,13 @@ Kimbo.define('manipulation', function (_) {
       var classNames;
 
       if (this.length && name && Kimbo.isString(name)) {
+
         classNames = name.split(SPACE_RE);
+
         this.each(function (el) {
           Kimbo.forEach(classNames, function (name) {
-            // use custom toggle (anyway it uses classList.add/remove)
+
+            // Use custom toggle (anyway it uses classList.add/remove)
             state = Kimbo.isBoolean(state) ? state : !_hasClass(el, name);
             _.kimbo(el)[state ? 'addClass' : 'removeClass'](name);
           });
@@ -407,21 +412,25 @@ Kimbo.define('manipulation', function (_) {
      > Usage
      | <p class="asd foo qwe">Lorem ipsum.</p>
      * Check if the element has the class 'foo'
-     | $('p').hasClass('foo'); // true
+     | $('p').hasClass('foo'); // True
      * You could also check if it has multiple classes
-     | $('p').hasClass('qwe asd'); // true
+     | $('p').hasClass('qwe asd'); // True
     \*/
     hasClass: function (name) {
       var has = false;
       var classNames;
 
       if (this.length && name && Kimbo.isString(name)) {
+
         classNames = name.trim().split(SPACE_RE);
+
         this.each(function (el) {
-          // classList.contains only accepts one class parameter
+
+          // Classlist.contains only accepts one class parameter
           Kimbo.forEach(classNames, function (name) {
             has = _hasClass(el, name);
-            // if one doesn't exists break the loop and return false
+
+            // When only one is missing break the loop
             if (!has) {
               return false;
             }
@@ -432,6 +441,18 @@ Kimbo.define('manipulation', function (_) {
       return has;
     },
 
+    /*\
+     * $(…).clone
+     [ method ]
+     * Clones a DOM node.
+     > Parameters
+     = (object) Original matched collection.
+     > Usage
+     | <p class="asd foo qwe">Lorem ipsum.</p>
+     | var p1 = $('p'); // Grab the p element
+     | var p2 = p1.clone(); // Clone p1 into p2
+     | console.log(p2 === p1); // False
+    \*/
     clone: function () {
       return this.each(function (el) {
         return el.cloneNode(true);
@@ -439,7 +460,7 @@ Kimbo.define('manipulation', function (_) {
     }
   });
 
-  // generate get/set .width() and .height() methods
+  // Generate get/set .width() and .height() methods
   /*\
    * $(…).width
    [ method ]
@@ -456,9 +477,9 @@ Kimbo.define('manipulation', function (_) {
    * Get the width:
    | $('div').width(); // 100
    * Change the width:
-   | $('div').width(200); // now its width is 200
+   | $('div').width(200); // Now its width is 200
    * Or passing a specific unit:
-   | $('div').width('50%'); // now its width is 50%
+   | $('div').width('50%'); // Now its width is 50%
   \*/
 
   /*\
@@ -477,15 +498,16 @@ Kimbo.define('manipulation', function (_) {
    * Get the height:
    | $('div').height(); // 100
    * Change the height:
-   | $('div').height(200); // now its height is 200
+   | $('div').height(200); // Now its height is 200
    * Or passing a specific unit:
-   | $('div').height('50%'); // now its height is 50%
+   | $('div').height('50%'); // Now its height is 50%
   \*/
   Kimbo.forEach(['width', 'height'], function (dimension) {
     Kimbo.fn[dimension] = function (value) {
       if (!value) {
         return parseInt(this.css(dimension), 10);
       }
+
       return this.css(dimension, value);
     };
   });

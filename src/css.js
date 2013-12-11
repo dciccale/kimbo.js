@@ -1,18 +1,51 @@
-Kimbo.define('css', function () {
+Kimbo.define('css', function (_) {
 
   'use strict';
 
-  var data = Kimbo.require('data');
+  // Properties without 'px' at the end
+  var CSS_NO_PX = {
+    fontWeight: true,
+    lineHeight: true,
+    opacity: true,
+    zIndex: true
+  };
 
-  // properties without 'px' at the end
-  var CSS_NO_PX = {fontWeight: true, lineHeight: true, opacity: true, zIndex: true};
+  // Wrap native to extend behavoiur
+  var _getComputedStyle = function (element, property) {
 
-  // wrap native to extend behavoiur
-  function _getComputedStyle(element, property) {
-    // support both camelCase and dashed property names
+    // Support both camelCase and dashed property names
     property = property.replace(/([A-Z])/g, '-$1').toLowerCase();
+
     return window.getComputedStyle(element, null).getPropertyValue(property);
-  }
+  };
+
+  var iframe = null;
+
+  var createIframe = function () {
+    iframe = _.document.createElement('iframe');
+    _.document.documentElement.appendChild(iframe);
+    return iframe;
+  };
+
+  var getActualDisplay = function (nodeName, doc) {
+    doc = doc || _.document;
+
+    var elem, display;
+
+    // Create and append the node
+    elem = doc.createElement(nodeName);
+    doc.body.appendChild(elem);
+
+    // Get display
+    display = _getComputedStyle(elem, 'display');
+
+    // Remove it from the dom
+    elem.parentNode.removeChild(elem);
+
+    return display;
+  };
+
+  var elementsDisplay = {};
 
   Kimbo.fn.extend({
     /*\
@@ -29,8 +62,31 @@ Kimbo.define('css', function () {
     \*/
     show: function () {
       return this.each(function (el) {
-        var _display = data.get(el, '_display');
-        el.style.display = _display || 'block';
+        var nodeName = el.nodeName;
+        var display = elementsDisplay[nodeName];
+        var doc;
+
+        if (!display) {
+          display = getActualDisplay(nodeName);
+
+          // If still fails for some css rule try creating the element in an isolated iframe
+          if (display === 'none' || !display) {
+
+            // Use the already-created iframe if possible
+            iframe = (iframe || createIframe());
+
+            doc = (iframe.contentWindow || iframe.contentDocument).document;
+            doc.write('<!doctype html><html><body>');
+            doc.close();
+            display = getActualDisplay(nodeName, doc);
+            iframe.parentNode.removeChild(iframe);
+          }
+
+          // Save the default display for this element
+          elementsDisplay[nodeName] = display;
+        }
+
+        el.style.display = display || 'block';
       });
     },
 
@@ -48,16 +104,18 @@ Kimbo.define('css', function () {
     \*/
     hide: function () {
       return this.each(function (el) {
-        var _display = data.get(el, '_display');
-        if (!_display) {
-          _display = _getComputedStyle(el, 'display');
-          data.set(el, '_display', _display);
+        var nodeName = el.nodeName;
+        var display = elementsDisplay[nodeName];
+
+        if (!display) {
+          display = _getComputedStyle(el, 'display');
+          elementsDisplay[nodeName] = display;
         } else {
-          _display = el.style.display;
+          display = el.style.display;
         }
 
-        // only hide if not already hidden
-        if (_display !== 'none') {
+        // Only hide if not already hidden
+        if (display !== 'none') {
           el.style.display = 'none';
         }
       });
@@ -74,7 +132,7 @@ Kimbo.define('css', function () {
      > Usage
      | <p>Hello dude!</p>
      * Modify some styles
-     | $('p').css('color', 'red'); // now the text is red
+     | $('p').css('color', 'red'); // Now the text is red
      * The HTML will look like this:
      | <p style="color: red;">Hello dude!</p>
      * You can also pass an object for setting multiple properties at the same time
@@ -88,32 +146,40 @@ Kimbo.define('css', function () {
     \*/
     css: function (property, value) {
       var that = this;
-      var properties;
+      var setCss;
 
-      if (Kimbo.isString(property)) {
-        // no value to set, return current
-        if (value === undefined) {
-          return this.length > 0 ? _getComputedStyle(this[0], property) : undefined;
-        } else {
-          // set props to aux object
-          properties = {};
-          properties[property] = value;
-        }
+      if (!this.length || (!Kimbo.isString(property) && !Kimbo.isObject(property))) {
+        return this;
       }
 
-      // set properties
-      if (properties || Kimbo.isObject(property)) {
-        properties = properties || property;
-        Kimbo.forEach(properties, function (name, value) {
-          // if it's a number add 'px' except for some properties
-          if (Kimbo.isNumeric(value) && !CSS_NO_PX[Kimbo.camelCase(property)]) {
-            value += 'px';
-          }
+      setCss = function (name, value) {
 
-          that.each(function (el) {
-            el.style[name] = value;
-          });
+        // If it's a number add 'px' except for some properties
+        if (Kimbo.isNumeric(value) && !CSS_NO_PX[Kimbo.camelCase(name)]) {
+          value += 'px';
+        }
+
+        // Apply styles to all elements in the set
+        that.each(function (el) {
+          el.style[name] = value;
         });
+      };
+
+      // Setting one property
+      if (Kimbo.isString(property)) {
+
+        // Get
+        if (value === undefined) {
+          return _getComputedStyle(this[0], property);
+
+        // Set
+        } else {
+          setCss(property, value);
+        }
+
+      // Multiple properties with an object
+      } else if (Kimbo.isObject(property)) {
+        Kimbo.forEach(property, setCss);
       }
 
       return this;

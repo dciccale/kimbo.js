@@ -60,7 +60,7 @@ module.exports = ->
     jasmine:
       test:
         options:
-          specs: ['<%= SPEC_DIR %>/*Spec.js']
+          specs: ['<%= SPEC_DIR %>/*.js']
           template: '<%= TESTS_DIR %>SpecRunner.tmpl'
         src: ['<%= DIST_FILE %>.js']
 
@@ -74,6 +74,10 @@ module.exports = ->
         sourceMap: '<%= DIST_FILE %>.sourcemap.js'
 
     watch:
+      dev:
+        files: ['<%= SRC_DIR %>*.js']
+        tasks: ['jshint:src', 'concat', 'jshint:lib']
+
       src:
         files: ['<%= SRC_DIR %>*.js']
         tasks: ['jshint:src', 'concat', 'test']
