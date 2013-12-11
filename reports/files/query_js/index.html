@@ -45,11 +45,11 @@
   <div class="row">
     <div class="span6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
-      <p class="stat">63.35</p>
+      <p class="stat">63.26</p>
     </div>
     <div class="span6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
-      <p class="stat">49</p>
+      <p class="stat">51</p>
     </div>
   </div>
   <div class="row historical">
@@ -63,11 +63,11 @@
   <div class="row">
     <div class="span6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
-      <p class="stat">17.69</p>
+      <p class="stat">18.27</p>
     </div>
     <div class="span6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
-      <p class="stat">0.33</p>
+      <p class="stat">0.35</p>
     </div>
   </div>
 </div>
@@ -94,18 +94,18 @@
 
   'use strict';
 
+  // Selector regexes
   var ID_RE = /^#([\w\-]+)$/;
   var CLASS_RE = /^\.([\w\-]+)$/;
   var TAG_RE = /^[\w\-]+$/;
   var NAME_RE = /^\[name=["']?([\w\-]+)["']?\]$/;
 
-  // use querySelectoAll but optimize for id, class, tagName and name
-  // much, much faster than only using querySelectorAll
-  function _find(element, selector) {
+  // Use querySelectoAll but optimize for id, class, tagName and name
+  var _find = function (element, selector) {
     var els = [], sel;
 
     // #id
-    if (element === document && (sel = ID_RE.exec(selector))) {
+    if (element === _.document && (sel = ID_RE.exec(selector))) {
       els = element.getElementById(sel[1]);
 
     // .class
@@ -120,19 +120,21 @@
     } else if ((sel = NAME_RE.exec(selector))) {
       els = element.getElementsByName(sel[1]);
 
-    // any other css selector
+    // Other CSS selectors
     } else {
       els = element.querySelectorAll(selector);
     }
 
-    // return NodeList/Node as an array
+    // Return NodeList/Node as an array
     return _.slice.call(els);
-  }
+  };
 
-  // a better DOM Level 4 contains
-  function _contains(el1, el2) {
-    return (el1 === window && (el2 && (el2 === window || el2.nodeType))) || ((el1 && el1.nodeType) && (el2 && el2.nodeType)) ? (el1.contains ? el1.contains(el2) : true) : false;
-  }
+  // DOM Level 4 contains improved
+  var _contains = function (el1, el2) {
+    return (el1 === window && (el2 && (el2 === window || el2.nodeType))) ||
+      ((el1 && el1.nodeType) &&
+     (el2 && el2.nodeType)) ? (el1.contains ? el1.contains(el2) : true) : false;
+  };
 
   return {
     find: _find,
