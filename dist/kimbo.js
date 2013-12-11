@@ -1,5 +1,5 @@
 /*!
- * kimbo v1.0.4 - 2013-12-10
+ * kimbo v1.0.4 - 2013-12-11
  * http://kimbojs.com
  * Copyright (c) 2013 Denis Ciccale (@tdecs)
  * Released under the MIT license
@@ -15,15 +15,21 @@
    * Global namespace for using Kimbo functions
   \*/
 
-  // kimbo modules
+  // Kimbo modules
   var modules = {};
 
-  // common helpers
+  // Common helpers
   var _ = {
+
+    // Array methods
     push: Array.prototype.push,
     slice: Array.prototype.slice,
+
+    // Reference to the current document
+    document: document,
     rootContext: document,
-    // returns a new kimbo set
+
+    // Creates and returns a new Kimbo object
     kimbo: function (element) {
       return new Kimbo(element);
     }
@@ -34,22 +40,23 @@
    * Kimbo object collection.
    * All methods called from a Kimbo collection affects all elements in it.
   \*/
-  function Kimbo(selector, context) {
+  var Kimbo = function (selector, context) {
     var match;
 
-    if (!Kimbo.isKimbo(this)) {
+    // Auto create a new instance of Kimbo if needed
+    if (!(this instanceof Kimbo)) {
       return new Kimbo(selector, context);
     }
 
-    // no selector, return empty Kimbo object
+    // No selector, return empty Kimbo object
     if (!selector) {
       return this;
     }
 
-    // asume a css selector, query the dom
+    // Asume a css selector, query the dom
     if (typeof selector === 'string') {
 
-      // handle faster $('#id');
+      // Handle faster $('#id');
       match = /^#([\w\-]+)$/.exec(selector);
       if (match && match[1]) {
         match = document.getElementById(match[1]);
@@ -62,26 +69,27 @@
         return this;
       }
 
-      // all other selectors
+      // All other selectors
       context = context ? _.kimbo(context) : _.rootContext;
+
       return context.find(selector);
     }
 
-    // already a dom element
+    // Already a dom element
     if (selector.nodeType) {
       this[0] = selector;
       this.length = 1;
       return this;
     }
 
-    // is a function, call it when DOM is ready
+    // Is a function, call it when DOM is ready
     if (Kimbo.isFunction(selector)) {
       return _.rootContext.ready(selector);
     }
 
-    // handle kimbo object, plain objects or other objects
+    // Handle kimbo object, plain objects or other objects
     return Kimbo.makeArray(selector, this);
-  }
+  };
 
   Kimbo.require = function (module) {
     return modules[module];
@@ -91,7 +99,10 @@
     modules[module] = fn(_);
   };
 
-  Kimbo.fn = Kimbo.prototype = {
+  /*
+   * Kimbo prototype aliased as fn
+   */
+  Kimbo.prototype = Kimbo.fn = {
 
     /*\
      * $(…).length
@@ -127,20 +138,28 @@
     ready: function (callback) {
       var completed;
 
-      // first check if already loaded
+      // First check if already loaded, interactive or complete state so the t is enough
       if (/t/.test(document.readyState)) {
+
+        // Execute the callback
         callback.call(document);
 
-      // listen for when it loads
+      // If not listen for when it loads
       } else {
         completed = function () {
-          // when completed remove the listener
+
+          // When completed remove the listener
           document.removeEventListener('DOMContentLoaded', completed, false);
+
+          // Execute the callback
           callback.call(document);
         };
+
+        // Register the event
         document.addEventListener('DOMContentLoaded', completed, false);
       }
 
+      // Return the Kimbo wrapped document
       return _.rootContext;
     },
 
@@ -167,12 +186,14 @@
       if (!this.length) {
         return;
       }
-      return (!arguments.length) ?
-        _.slice.call(this) :
+
+      // If no index specified return a new set
+      // Else return the element in the specified positive index or backwards if negative
+      return (!arguments.length) ? _.slice.call(this) :
         (index < 0 ? this[this.length + index] : this[index]);
     },
 
-    // needed to have an array-like object
+    // Needed to have an array-like object
     splice: Array.prototype.splice
   };
 
@@ -185,12 +206,12 @@
    - callback (function) Function that will be executed on each iteration
    = (object) The original array or object
    > Usage
-   | // iterating array
+   | // Iterating array
    | $.forEach(['a', 'b', 'c'], function (index, value) {
    |   alert(index + ': ' + value);
    | });
    |
-   | // iterating object
+   | // Iterating object
    | $.forEach({name: 'Denis', surname: 'Ciccale'}, function (key, value) {
    |   alert(key + ': ' + value);
    | });
@@ -214,7 +235,7 @@
       }
     }
 
-    // return original obj
+    // Return original obj
     return obj;
   };
 
@@ -232,17 +253,17 @@
    | var obj1 = { msg: 'hi', info: { from: 'Denis' }};
    | var obj2 = { msg: 'Hi!', info: { time: '22:00PM' }};
    |
-   | // merge obj1 into obj2
+   | // Merge obj1 into obj2
    | $.extend(obj1, obj2);
    |
-   | // now obj1 is equal to:
+   | // Now obj1 is equal to:
    | { msg: 'Hi!', info: { time: '22:00PM' }}
    * If an empty target object is passed, none of the other objects will be directly modified
-   | // pass an empty target
+   | // Pass an empty target
    | var obj3 = $.extend({}, obj1, obj);
    * To do a recursive merge, pass true as first argument, then the objects to merge
    | $.extend(true, obj1, obj2);
-   | // obj1 will be:
+   | // Obj1 will be:
    | { msg: 'Hi!', info: { from: 'Denis', time: '22:00PM' }}
   \*/
   Kimbo.extend = Kimbo.fn.extend = function () {
@@ -251,24 +272,24 @@
     var deep = (target === true);
     var cut = 1;
 
-    // check for deep copy
+    // Check for deep copy
     if (deep) {
       target = objs[1] || {};
       cut = 2;
 
-    // extend Kimbo itself if only one argument is passed
+    // Extend Kimbo itself if only one argument is passed
     } else if (objs.length === 1) {
       target = this;
       cut = 0;
     }
 
-    // make an array from the arguments
-    // removing unnecessary objects
+    // Make an array from the arguments removing the target and/or the deep boolean
     objs = _.slice.call(objs, cut);
 
-    // loop through the objects
+    // Loop through the objects
     Kimbo.forEach(objs, function (source) {
-      // populate target from source
+
+      // Populate target from source
       Kimbo.forEach(source, function (key, value) {
         var src;
 
@@ -285,17 +306,17 @@
     return target;
   };
 
-  // unique reference for the current instance of Kimbo
+  // Unique reference for the current instance of Kimbo
   Kimbo.ref = 'kimbo' + ('1' + Math.random()).replace(/\D/g, '');
 
-  // expose Kimbo as an AMD module
+  // Expose Kimbo as an AMD module
   if (typeof window.define === 'function' && window.define.amd) {
     window.define('kimbo', [], function () {
       return Kimbo;
     });
   }
 
-  // expose Kimbo to global object
+  // Expose Kimbo to global object
   window.Kimbo = window.$ = Kimbo;
 
 }(window, window.document));
@@ -305,18 +326,18 @@ Kimbo.define('query', function (_) {
 
   'use strict';
 
+  // Selector regexes
   var ID_RE = /^#([\w\-]+)$/;
   var CLASS_RE = /^\.([\w\-]+)$/;
   var TAG_RE = /^[\w\-]+$/;
   var NAME_RE = /^\[name=["']?([\w\-]+)["']?\]$/;
 
-  // use querySelectoAll but optimize for id, class, tagName and name
-  // much, much faster than only using querySelectorAll
-  function _find(element, selector) {
+  // Use querySelectoAll but optimize for id, class, tagName and name
+  var _find = function (element, selector) {
     var els = [], sel;
 
     // #id
-    if (element === document && (sel = ID_RE.exec(selector))) {
+    if (element === _.document && (sel = ID_RE.exec(selector))) {
       els = element.getElementById(sel[1]);
 
     // .class
@@ -331,19 +352,21 @@ Kimbo.define('query', function (_) {
     } else if ((sel = NAME_RE.exec(selector))) {
       els = element.getElementsByName(sel[1]);
 
-    // any other css selector
+    // Other CSS selectors
     } else {
       els = element.querySelectorAll(selector);
     }
 
-    // return NodeList/Node as an array
+    // Return NodeList/Node as an array
     return _.slice.call(els);
-  }
+  };
 
-  // a better DOM Level 4 contains
-  function _contains(el1, el2) {
-    return (el1 === window && (el2 && (el2 === window || el2.nodeType))) || ((el1 && el1.nodeType) && (el2 && el2.nodeType)) ? (el1.contains ? el1.contains(el2) : true) : false;
-  }
+  // DOM Level 4 contains improved
+  var _contains = function (el1, el2) {
+    return (el1 === window && (el2 && (el2 === window || el2.nodeType))) ||
+      ((el1 && el1.nodeType) &&
+     (el2 && el2.nodeType)) ? (el1.contains ? el1.contains(el2) : true) : false;
+  };
 
   return {
     find: _find,
@@ -361,16 +384,18 @@ Kimbo.define('data', function () {
 
   var data = {
     get: function (el, key) {
-      var domCache = cache[el.__dataId];
+      var dataCache = cache[el._dataId];
       var value;
 
-      // look first in cached data
-      if (domCache) {
-        value = domCache[key];
+      // Look first in cached data
+      if (dataCache) {
+        value = dataCache[key];
 
-      // if none, try dataset
+      // If none, try dataset
       } else {
         value = el.dataset[key];
+
+        // Cache the value
         if (value) {
           this.set(el, key, value);
         }
@@ -378,26 +403,24 @@ Kimbo.define('data', function () {
 
       return value;
     },
+
     set: function (el, key, value) {
-      var domData = el.__dataId;
-      var domCache;
+      var elementId = el._dataId || (el._dataId = dataId++);
+      var dataCache = cache[elementId];
 
-      if (!domData) {
-        domData = el.__dataId = dataId++;
+      // Create data cache for the current element if necessary
+      if (!dataCache) {
+        dataCache = cache[elementId] = {};
       }
 
-      domCache = cache[domData];
-      if (!domCache) {
-        domCache = cache[domData] = {};
-      }
-
-      domCache[key] = value;
+      dataCache[key] = value;
     },
+
     remove: function (el, key) {
       if (key === undefined) {
-        cache[el.__dataId] = {};
+        cache[el._dataId] = {};
       } else {
-        delete cache[el.__dataId][key];
+        delete cache[el._dataId][key];
       }
     }
   };
@@ -427,8 +450,11 @@ Kimbo.define('data', function () {
 
       key = Kimbo.camelCase(key);
 
+      // Get
       if (value === undefined) {
         return data.get(this[0], key);
+
+      // Set
       } else {
         return this.each(function (el) {
           data.set(el, key, value);
@@ -450,14 +476,14 @@ Kimbo.define('data', function () {
      * Data attribute and value was removed:
      | <div id="panel"></div>
      * data-isOpen is undefined
-     | $('#panel').data('isOpen'); // undefined
+     | $('#panel').data('isOpen'); // Undefined
     \*/
     removeData: function (key) {
-      if (!this.length) {
+      if (!this.length || !Kimbo.isString(key)) {
         return this;
       }
 
-      key = key && Kimbo.camelCase(key);
+      key = Kimbo.camelCase(key);
 
       return this.each(function (el) {
         data.remove(el, key);
@@ -469,21 +495,54 @@ Kimbo.define('data', function () {
 });
 
 
-Kimbo.define('css', function () {
+Kimbo.define('css', function (_) {
 
   'use strict';
 
-  var data = Kimbo.require('data');
+  // Properties without 'px' at the end
+  var CSS_NO_PX = {
+    fontWeight: true,
+    lineHeight: true,
+    opacity: true,
+    zIndex: true
+  };
 
-  // properties without 'px' at the end
-  var CSS_NO_PX = {fontWeight: true, lineHeight: true, opacity: true, zIndex: true};
+  // Wrap native to extend behavoiur
+  var _getComputedStyle = function (element, property) {
 
-  // wrap native to extend behavoiur
-  function _getComputedStyle(element, property) {
-    // support both camelCase and dashed property names
+    // Support both camelCase and dashed property names
     property = property.replace(/([A-Z])/g, '-$1').toLowerCase();
+
     return window.getComputedStyle(element, null).getPropertyValue(property);
-  }
+  };
+
+  var iframe = null;
+
+  var createIframe = function () {
+    iframe = _.document.createElement('iframe');
+    _.document.documentElement.appendChild(iframe);
+    return iframe;
+  };
+
+  var getActualDisplay = function (nodeName, doc) {
+    doc = doc || _.document;
+
+    var elem, display;
+
+    // Create and append the node
+    elem = doc.createElement(nodeName);
+    doc.body.appendChild(elem);
+
+    // Get display
+    display = _getComputedStyle(elem, 'display');
+
+    // Remove it from the dom
+    elem.parentNode.removeChild(elem);
+
+    return display;
+  };
+
+  var elementsDisplay = {};
 
   Kimbo.fn.extend({
     /*\
@@ -500,8 +559,31 @@ Kimbo.define('css', function () {
     \*/
     show: function () {
       return this.each(function (el) {
-        var _display = data.get(el, '_display');
-        el.style.display = _display || 'block';
+        var nodeName = el.nodeName;
+        var display = elementsDisplay[nodeName];
+        var doc;
+
+        if (!display) {
+          display = getActualDisplay(nodeName);
+
+          // If still fails for some css rule try creating the element in an isolated iframe
+          if (display === 'none' || !display) {
+
+            // Use the already-created iframe if possible
+            iframe = (iframe || createIframe());
+
+            doc = (iframe.contentWindow || iframe.contentDocument).document;
+            doc.write('<!doctype html><html><body>');
+            doc.close();
+            display = getActualDisplay(nodeName, doc);
+            iframe.parentNode.removeChild(iframe);
+          }
+
+          // Save the default display for this element
+          elementsDisplay[nodeName] = display;
+        }
+
+        el.style.display = display || 'block';
       });
     },
 
@@ -519,16 +601,18 @@ Kimbo.define('css', function () {
     \*/
     hide: function () {
       return this.each(function (el) {
-        var _display = data.get(el, '_display');
-        if (!_display) {
-          _display = _getComputedStyle(el, 'display');
-          data.set(el, '_display', _display);
+        var nodeName = el.nodeName;
+        var display = elementsDisplay[nodeName];
+
+        if (!display) {
+          display = _getComputedStyle(el, 'display');
+          elementsDisplay[nodeName] = display;
         } else {
-          _display = el.style.display;
+          display = el.style.display;
         }
 
-        // only hide if not already hidden
-        if (_display !== 'none') {
+        // Only hide if not already hidden
+        if (display !== 'none') {
           el.style.display = 'none';
         }
       });
@@ -545,7 +629,7 @@ Kimbo.define('css', function () {
      > Usage
      | <p>Hello dude!</p>
      * Modify some styles
-     | $('p').css('color', 'red'); // now the text is red
+     | $('p').css('color', 'red'); // Now the text is red
      * The HTML will look like this:
      | <p style="color: red;">Hello dude!</p>
      * You can also pass an object for setting multiple properties at the same time
@@ -559,32 +643,40 @@ Kimbo.define('css', function () {
     \*/
     css: function (property, value) {
       var that = this;
-      var properties;
+      var setCss;
 
-      if (Kimbo.isString(property)) {
-        // no value to set, return current
-        if (value === undefined) {
-          return this.length > 0 ? _getComputedStyle(this[0], property) : undefined;
-        } else {
-          // set props to aux object
-          properties = {};
-          properties[property] = value;
-        }
+      if (!this.length || (!Kimbo.isString(property) && !Kimbo.isObject(property))) {
+        return this;
       }
 
-      // set properties
-      if (properties || Kimbo.isObject(property)) {
-        properties = properties || property;
-        Kimbo.forEach(properties, function (name, value) {
-          // if it's a number add 'px' except for some properties
-          if (Kimbo.isNumeric(value) && !CSS_NO_PX[Kimbo.camelCase(property)]) {
-            value += 'px';
-          }
+      setCss = function (name, value) {
 
-          that.each(function (el) {
-            el.style[name] = value;
-          });
+        // If it's a number add 'px' except for some properties
+        if (Kimbo.isNumeric(value) && !CSS_NO_PX[Kimbo.camelCase(name)]) {
+          value += 'px';
+        }
+
+        // Apply styles to all elements in the set
+        that.each(function (el) {
+          el.style[name] = value;
         });
+      };
+
+      // Setting one property
+      if (Kimbo.isString(property)) {
+
+        // Get
+        if (value === undefined) {
+          return _getComputedStyle(this[0], property);
+
+        // Set
+        } else {
+          setCss(property, value);
+        }
+
+      // Multiple properties with an object
+      } else if (Kimbo.isObject(property)) {
+        Kimbo.forEach(property, setCss);
       }
 
       return this;
@@ -599,10 +691,10 @@ Kimbo.define('manipulation', function (_) {
 
   var SPACE_RE = /\s+/;
 
-  // browser native classList
-  function _hasClass (el, name) {
+  // Browser native classList
+  var _hasClass = function (el, name) {
     return (el.nodeType === 1 && el.classList.contains(name));
-  }
+  };
 
   /*\
    * $(…).text
@@ -667,16 +759,16 @@ Kimbo.define('manipulation', function (_) {
   }, function (method, prop) {
     Kimbo.fn[method] = function (value) {
 
-      // no element
-      if (!this[0]) {
+      // No element
+      if (!this.length) {
         return undefined;
       }
 
-      // get
+      // Get
       if (value === undefined) {
         return this[0][prop];
 
-        // set
+        // Set
       } else {
         return this.each(function (el) {
           el[prop] = value;
@@ -731,10 +823,10 @@ Kimbo.define('manipulation', function (_) {
    | <p>Lorem ipsum</p>
   \*/
 
-  // generate addClass and removeClass methods
-  // use native classList
-  // mdn: https://developer.mozilla.org/en-US/docs/DOM/element.classList
-  // spec: http://www.whatwg.org/specs/web-apps/current-work/multipage/elements.html#dom-classlist
+  // Generate addClass and removeClass methods
+  // Use native classList
+  // Mdn: https://developer.mozilla.org/en-US/docs/DOM/element.classList
+  // Spec: http://www.whatwg.org/specs/web-apps/current-work/multipage/elements.html#dom-classlist
   Kimbo.forEach(['add', 'remove'], function (method, i) {
     var isRemove = i > 0;
 
@@ -744,16 +836,18 @@ Kimbo.define('manipulation', function (_) {
       if (name && Kimbo.isString(name)) {
         classNames = name.split(SPACE_RE);
         this.each(function (el) {
-          // skip comments, text, etc
+
+          // Skip comments, text, etc
           if (el.nodeType === 1) {
-            // iterate through all class names passed
+
+            // Iterate through all class names passed
             Kimbo.forEach(classNames, function (className) {
               el.classList[method](className);
             });
           }
         });
 
-        // remove all element classes if no classname specified
+        // Remove all element classes if no classname specified
       } else if (!name && isRemove) {
         this.removeAttr('class');
       }
@@ -820,30 +914,32 @@ Kimbo.define('manipulation', function (_) {
    | </div>
   \*/
 
-  // generate append and prepend methods
+  // Generate append and prepend methods
   Kimbo.forEach(['append', 'prepend'], function (method, i) {
     var isPrepend = i > 0;
 
     Kimbo.fn[method] = function (value) {
       var div;
 
-      // exit if no value passed
+      // Exit if no value passed
       if (!this.length || !value) {
         return this;
       }
 
-      // handle html string
+      // Handle html string
       if (Kimbo.isString(value)) {
-        // placeholder element
+
+        // Placeholder element
         div = document.createElement('div');
         div.innerHTML = value;
         value = div.firstChild;
       }
 
-      // already a dom node or kimbo collection, just insert it
-      if (value.nodeType || Kimbo.isKimbo(value)) {
+      // Already a dom node or kimbo collection, just insert it
+      if (value.nodeType || (value instanceof Kimbo)) {
         return this.each(function (el) {
-          // be sure we can append/prepend to the element
+
+          // Be sure we can append/prepend to the element
           if (el.nodeType === 1 || el.nodeType === 11) {
             _.kimbo(value).each(function (_el) {
               el.insertBefore(_el, isPrepend ? el.firstChild : null);
@@ -855,7 +951,6 @@ Kimbo.define('manipulation', function (_) {
   });
 
   Kimbo.fn.extend({
-
     /*\
      * $(…).empty
      [ method ]
@@ -905,7 +1000,7 @@ Kimbo.define('manipulation', function (_) {
       });
     },
 
-    // TODO: extend to accept objects and functions to set values
+    // Todo: extend to accept objects and functions to set values
     /*\
      * $(…).attr
      [ method ]
@@ -918,14 +1013,13 @@ Kimbo.define('manipulation', function (_) {
      > Usage
      | <a href="http://kimbojs.com">Go to Kimbojs.com</a>
      * Get href attribute
-     | $('a').attr('href'); // http://kimbojs.com
+     | $('a').attr('href'); // Http://kimbojs.com
      * Set a new attribute
      | $('a').attr('title', 'Go to Kimbojs.com');
      * Now element has a title attribute
      | <a href="http://kimbojs.com" title="Go to Kimbojs.com">Go to Kimbojs.com</a>
     \*/
     attr: function (name, value) {
-      // no elements in the collection
       if (!this.length) {
         return this;
       }
@@ -979,10 +1073,13 @@ Kimbo.define('manipulation', function (_) {
       var classNames;
 
       if (this.length && name && Kimbo.isString(name)) {
+
         classNames = name.split(SPACE_RE);
+
         this.each(function (el) {
           Kimbo.forEach(classNames, function (name) {
-            // use custom toggle (anyway it uses classList.add/remove)
+
+            // Use custom toggle (anyway it uses classList.add/remove)
             state = Kimbo.isBoolean(state) ? state : !_hasClass(el, name);
             _.kimbo(el)[state ? 'addClass' : 'removeClass'](name);
           });
@@ -1002,21 +1099,25 @@ Kimbo.define('manipulation', function (_) {
      > Usage
      | <p class="asd foo qwe">Lorem ipsum.</p>
      * Check if the element has the class 'foo'
-     | $('p').hasClass('foo'); // true
+     | $('p').hasClass('foo'); // True
      * You could also check if it has multiple classes
-     | $('p').hasClass('qwe asd'); // true
+     | $('p').hasClass('qwe asd'); // True
     \*/
     hasClass: function (name) {
       var has = false;
       var classNames;
 
       if (this.length && name && Kimbo.isString(name)) {
+
         classNames = name.trim().split(SPACE_RE);
+
         this.each(function (el) {
-          // classList.contains only accepts one class parameter
+
+          // Classlist.contains only accepts one class parameter
           Kimbo.forEach(classNames, function (name) {
             has = _hasClass(el, name);
-            // if one doesn't exists break the loop and return false
+
+            // When only one is missing break the loop
             if (!has) {
               return false;
             }
@@ -1027,6 +1128,18 @@ Kimbo.define('manipulation', function (_) {
       return has;
     },
 
+    /*\
+     * $(…).clone
+     [ method ]
+     * Clones a DOM node.
+     > Parameters
+     = (object) Original matched collection.
+     > Usage
+     | <p class="asd foo qwe">Lorem ipsum.</p>
+     | var p1 = $('p'); // Grab the p element
+     | var p2 = p1.clone(); // Clone p1 into p2
+     | console.log(p2 === p1); // False
+    \*/
     clone: function () {
       return this.each(function (el) {
         return el.cloneNode(true);
@@ -1034,7 +1147,7 @@ Kimbo.define('manipulation', function (_) {
     }
   });
 
-  // generate get/set .width() and .height() methods
+  // Generate get/set .width() and .height() methods
   /*\
    * $(…).width
    [ method ]
@@ -1051,9 +1164,9 @@ Kimbo.define('manipulation', function (_) {
    * Get the width:
    | $('div').width(); // 100
    * Change the width:
-   | $('div').width(200); // now its width is 200
+   | $('div').width(200); // Now its width is 200
    * Or passing a specific unit:
-   | $('div').width('50%'); // now its width is 50%
+   | $('div').width('50%'); // Now its width is 50%
   \*/
 
   /*\
@@ -1072,15 +1185,16 @@ Kimbo.define('manipulation', function (_) {
    * Get the height:
    | $('div').height(); // 100
    * Change the height:
-   | $('div').height(200); // now its height is 200
+   | $('div').height(200); // Now its height is 200
    * Or passing a specific unit:
-   | $('div').height('50%'); // now its height is 50%
+   | $('div').height('50%'); // Now its height is 50%
   \*/
   Kimbo.forEach(['width', 'height'], function (dimension) {
     Kimbo.fn[dimension] = function (value) {
       if (!value) {
         return parseInt(this.css(dimension), 10);
       }
+
       return this.css(dimension, value);
     };
   });
@@ -1091,9 +1205,9 @@ Kimbo.define('traversing', function (_) {
 
   'use strict';
 
-  _.filter = Array.prototype.filter;
-
   var query = Kimbo.require('query');
+
+  var _filter = Array.prototype.filter;
 
   var IS_UNIQUE = {
     children: true,
@@ -1102,22 +1216,24 @@ Kimbo.define('traversing', function (_) {
     prev: true
   };
 
-  var _matchesSelector = document.documentElement.webkitMatchesSelector ||
-    document.documentElement.mozMatchesSelector ||
-    document.documentElement.oMatchesSelector ||
-    document.documentElement.matchesSelector;
+  // Use native matchesSelector
+  var _matchesSelector = _.document.documentElement.webkitMatchesSelector ||
+    _.document.documentElement.mozMatchesSelector ||
+    _.document.documentElement.oMatchesSelector ||
+    _.document.documentElement.matchesSelector;
 
-  function _matches(elem, selector) {
+  var _matches = function (elem, selector) {
     return (!elem || elem.nodeType !== 1) ? false : _matchesSelector.call(elem, selector);
-  }
+  };
 
-  function _unique(array) {
+  // Remove duplicates from an array
+  var _unique = function (array) {
     return array.filter(function (item, index) {
       return array.indexOf(item) === index;
     });
-  }
+  };
 
-  function _sibling(node, elem) {
+  var _sibling = function (node, elem) {
     var result = [];
     for (; node; node = node.nextSibling) {
       if (node.nodeType === 1 && node !== elem ) {
@@ -1125,18 +1241,17 @@ Kimbo.define('traversing', function (_) {
       }
     }
     return result;
-  }
+  };
 
-  function _singleSibling(node, prop) {
+  var _singleSibling = function (node, prop) {
     do {
       node = node[prop];
     } while (node && node.nodeType !== 1);
 
     return node;
-  }
+  };
 
   Kimbo.fn.extend({
-
     /*\
      * $(…).filter
      [ method ]
@@ -1169,24 +1284,26 @@ Kimbo.define('traversing', function (_) {
      > Filter by DOM or Kimbo object
      * You can also filter by a DOM or Kimbo object.
      | $('li').filter(document.getElementById('id'));
-     | // or a Kimbo object
+     | // Or a Kimbo object
      | $('li').filter($('#id'));
     \*/
     filter: function (selector) {
       var result;
 
-      // filter collection
-      result = _.filter.call(this, function (elem, i) {
+      // Filter collection
+      result = _filter.call(this, function (elem, i) {
         var ret;
+
         if (Kimbo.isFunction(selector)) {
           ret = !!selector.call(elem, i, elem);
         } else if (Kimbo.isString(selector)) {
           ret = _matches(elem, selector);
         } else if (selector.nodeType) {
           ret = elem === selector;
-        } else if (Kimbo.isKimbo(selector)) {
+        } else if (selector instanceof Kimbo) {
           ret = elem === selector[0];
         }
+
         return ret;
       });
 
@@ -1357,19 +1474,22 @@ Kimbo.define('traversing', function (_) {
     find: function (selector) {
       var i, l, length, n, r, result, elems;
 
-      // make new empty kimbo collection
+      // Make new empty kimbo collection
       result = _.kimbo();
 
-      // could use Kimbo.forEach, but this is a bit faster..
+      // Could use Kimbo.forEach, but this is a bit faster..
       for (i = 0, l = this.length; i < l; i++) {
         length = result.length;
-        // get elements
+
+        // Get elements
         elems = query.find(this[i], selector);
-        // push them to current kimbo collection
+
+        // Push them to current kimbo collection
         _.push.apply(result, elems);
 
         if (i) {
-          // make results unique
+
+          // Make results unique
           for (n = length; n < result.length; n++) {
             for (r = 0; r < length; r++) {
               if (result[r] === result[n]) {
@@ -1412,9 +1532,10 @@ Kimbo.define('traversing', function (_) {
       var l = this.length;
       var result = [];
       var closest = function (node) {
-        // check selector match and grab the element
+
+        // Check selector match and grab the element
         while (node && !_matches(node, selector)) {
-          node = node !== context && node !== document && node.parentNode;
+          node = node !== context && node !== _.document && node.parentNode;
         }
         return node;
       };
@@ -1422,11 +1543,11 @@ Kimbo.define('traversing', function (_) {
       if (!l) {
         return this;
 
-      // get closest only for one element
+      // Get closest only for one element
       } else if (l === 1) {
         result = closest(this[0]);
 
-      // get closest from all elements in the set
+      // Get closest from all elements in the set
       } else {
         Kimbo.forEach(this, function (node) {
           node = closest(node);
@@ -1435,7 +1556,7 @@ Kimbo.define('traversing', function (_) {
           }
         });
 
-        // only unique results
+        // Only unique results
         result = result.length > 1 ? _unique(result) : result;
       }
 
@@ -1455,13 +1576,15 @@ Kimbo.define('traversing', function (_) {
      | </div>
      | <p id="outside">Outside paragraph</p>
      * The paragraph with id "inside" is actually contained by "#container"
-     | $('#container').contains('#inside'); // true
+     | $('#container').contains('#inside'); // True
      * The paragraph ourside is not contained
      | var outside_p = $('#outside');
-     | $('#container').contains(outside_p); // false
+     | $('#container').contains(outside_p); // False
     \*/
     contains: function (element) {
-      element = Kimbo.isKimbo(element) ? element[0] : (Kimbo.isString(element) ? this.find(element)[0] : element);
+      element = (element instanceof Kimbo) ? element[0] :
+        (Kimbo.isString(element) ? this.find(element)[0] : element);
+
       return query.contains(this[0], element);
     },
 
@@ -1491,7 +1614,9 @@ Kimbo.define('traversing', function (_) {
      | $('#menu1 li').add($('#menu2 li'));
     \*/
     add: function (selector, context) {
-      var set = Kimbo.isString(selector) ? _.kimbo(selector, context) : Kimbo.makeArray(selector && selector.nodeType ? [selector] : selector);
+      var set = Kimbo.isString(selector) ? _.kimbo(selector, context) :
+        Kimbo.makeArray(selector && selector.nodeType ? [selector] : selector);
+
       var all = Kimbo.merge(this, set);
 
       return _.kimbo(all);
@@ -1523,7 +1648,6 @@ Kimbo.define('traversing', function (_) {
   });
 
   Kimbo.forEach({
-
     /*\
      * $(…).parent
      [ method ]
@@ -1538,10 +1662,11 @@ Kimbo.define('traversing', function (_) {
      |   <li class="item-b">Item 2</li>
      | </ul>
      * Get the parent element of `.item-a`
-     | $('.item-a').parent(); // ul
+     | $('.item-a').parent(); // Ul
     \*/
     parent: function (elem) {
       var parent = elem.parentNode;
+
       return parent && parent.nodeType !== 11 ? parent : null;
     },
 
@@ -1620,7 +1745,7 @@ Kimbo.define('traversing', function (_) {
      |   <p>demo.</p>
      | </div>
      * Get all children of `.demo`:
-     | $('.demo').children(); // al <p> tags inside .demo div
+     | $('.demo').children(); // Al <p> tags inside .demo div
      * Another example passing an specific selector:
      | <form>
      |   <input type="text" name="name" />
@@ -1628,7 +1753,7 @@ Kimbo.define('traversing', function (_) {
      |   <input type="submit" value="Send" />
      | </form>
      * Get only the children that are text type elements:
-     | $('form').children('input[type="text"]'); // only name and last inputs
+     | $('form').children('input[type="text"]'); // Only name and last inputs
     \*/
     children: function (elem) {
       return _sibling(elem.firstChild);
@@ -1646,17 +1771,19 @@ Kimbo.define('traversing', function (_) {
      | $('iframe').contents().find('body');
     \*/
     contents: function (elem) {
-      return elem.nodeName.toLowerCase() === 'iframe' ? elem.contentDocument || elem.contentWindow[document] : Kimbo.makeArray(elem.childNodes);
+      return elem.nodeName.toLowerCase() === 'iframe' ? elem.contentDocument || elem.contentWindow[_.document] : Kimbo.makeArray(elem.childNodes);
     }
   }, function (name, fn) {
     Kimbo.fn[name] = function (selector) {
+      var ret;
+
       if (!this.length) {
         return this;
       }
 
-      var ret = Kimbo.map(this, fn);
+      ret = Kimbo.map(this, fn);
 
-      // clean collection
+      // Clean collection
       ret = this.length > 1 && !IS_UNIQUE[name] ? _unique(ret) : ret;
 
       if (Kimbo.isString(selector)) {
@@ -1673,24 +1800,37 @@ Kimbo.define('utilities', function (_) {
 
   'use strict';
 
-  var MOBILE_OS = {
-    android: /(Android)\s+([\d.]+)/,
-    blackberry: /(BlackBerry|BB10|Playbook).*Version\/([\d.]+)/,
-    firefoxos: /(Mozilla).*Mobile[^\/]*\/([\d\.]*)/,
-    ipad: /(iPad).*OS\s([\d_]+)/,
-    iphone: /(iPhone\sOS)\s([\d_]+)/,
-    webos: /(web|hpw)OS[\s\/]([\d.]+)/
-  };
+  // Mobile userAgent escaped regexes
+  var ANDROID_RE = '(Android)\\s+([\\d.]+)';
+  var BLACKBERRY_RE = '(BlackBerry|BB10|Playbook).*Version\/([\\d.]+)';
+  var FIREFOXOS_RE = '(Mozilla).*Mobile[^\/]*\/([\\d.]*)';
+  var IPAD_RE = '(iPad).*OS\\s([\\d_]+)';
+  var IPHONE_RE = '(iPhone\\sOS)\\s([\\d_]+)';
+  var WEBOS = '(web|hpw)OS[\\s\/]([\\d.]+)';
+
+  // Full regexp to test the userAgent
+  var MOBILE_OS_RE = new RegExp(
+    ANDROID_RE + '|' +
+    BLACKBERRY_RE + '|' +
+    FIREFOXOS_RE + '|' +
+    IPHONE_RE + '|' +
+    IPAD_RE + '|' +
+    WEBOS
+  );
+
   var isMobile = null;
+
   var objectTypes = {};
 
-  // map object types
-  Kimbo.forEach(['Array', 'Boolean', 'Date', 'Function', 'Number', 'Object', 'RegExp', 'String'], function (type) {
-    objectTypes['[object ' + type + ']'] = type.toLowerCase();
-  });
+  // Map object types
+  Kimbo.forEach([ 'Array', 'Boolean', 'Date', 'Error', 'Function',
+    'Number', 'Object', 'RegExp', 'String'
+  ], function (type) {
+      objectTypes['[object ' + type + ']'] = type.toLowerCase();
+    }
+  );
 
   Kimbo.extend({
-
     /*\
      * $.typeOf
      [ method ]
@@ -1712,7 +1852,16 @@ Kimbo.define('utilities', function (_) {
      | $.typeOf(3); // 'number'
     \*/
     typeOf: function (obj) {
-      return obj === null || obj === undefined ? String(obj) : objectTypes[Object.prototype.toString.call(obj)] || 'object';
+      var type;
+
+      if (obj === null || obj === undefined) {
+        type = String(obj);
+
+      } else {
+        type = (objectTypes[Object.prototype.toString.call(obj)] || 'object');
+      }
+
+      return type;
     },
 
     /*\
@@ -1723,9 +1872,9 @@ Kimbo.define('utilities', function (_) {
      - obj (object) Object to test if its an array.
      = (boolean) According wether or not it is an array object.
      > Usage
-     | $.isArray([]); // true
-     | $.isArray({}); // false
-     | $.isArray('test'); // false
+     | $.isArray([]); // True
+     | $.isArray({}); // False
+     | $.isArray('test'); // False
     \*/
     isArray: Array.isArray,
 
@@ -1737,8 +1886,8 @@ Kimbo.define('utilities', function (_) {
      - obj (object) Object to test if its a number.
      = (boolean) According wether or not it is a number.
      > Usage
-     | $.isNumeric(3); // true
-     | $.isNumeric('3'); // false
+     | $.isNumeric(3); // True
+     | $.isNumeric('3'); // False
     \*/
     isNumeric: function (obj) {
       return !isNaN(parseFloat(obj)) && isFinite(obj);
@@ -1752,26 +1901,11 @@ Kimbo.define('utilities', function (_) {
      - obj (object) Object to test if its the window object.
      = (boolean) According wether or not it is the window object.
      > Usage
-     | $.isWindow(window); // true
-     | $.isWindow({ window: window }); // false
+     | $.isWindow(window); // True
+     | $.isWindow({ window: window }); // False
     \*/
     isWindow: function (obj) {
       return obj && obj === obj.window;
-    },
-
-    /*\
-     * $.isKimbo
-     [ method ]
-     * Determine if the parameter passed is a Kimbo object.
-     > Parameters
-     - obj (object) Object to test if its a Kimbo object.
-     = (boolean) According wether or not it is a Kimbo object.
-     > Usage
-     | $.isKimbo(Kimbo('p')); // true
-     | $.isKimbo(jQuery('p')); // false
-    \*/
-    isKimbo: function (obj) {
-      return obj instanceof Kimbo;
     },
 
     /*\
@@ -1782,17 +1916,19 @@ Kimbo.define('utilities', function (_) {
      - obj (object) Object to test if its an empty object.
      = (boolean) According wether or not it is an empty object.
      > Usage
-     | $.isEmptyObject({}); // true
-     | $.isEmptyObject([]); // true
-     | $.isEmptyObject([1, 2]); // false
+     | $.isEmptyObject({}); // True
+     | $.isEmptyObject([]); // True
+     | $.isEmptyObject([1, 2]); // False
     \*/
     isEmptyObject: function (obj) {
       var key;
+
       for (key in obj) {
         if (obj.hasOwnProperty(key)) {
           return false;
         }
       }
+
       return true;
     },
 
@@ -1803,18 +1939,15 @@ Kimbo.define('utilities', function (_) {
      > Parameters
      = (boolean) According wether or not is a mobile device.
      > Usage
-     | $.isMobile(); // false
+     | $.isMobile(); // False
     \*/
     isMobile: function () {
+
+      // Check only once for the current browser
       if (isMobile === null) {
-        isMobile = false;
-        Kimbo.forEach(MOBILE_OS, function (name, regex) {
-          if (regex.test(navigator.userAgent)) {
-            // set to true and break the loop
-            return !(isMobile = true);
-          }
-        });
+        isMobile = MOBILE_OS_RE.test(navigator.userAgent);
       }
+
       return isMobile;
     },
 
@@ -1827,10 +1960,11 @@ Kimbo.define('utilities', function (_) {
      = (object) A JavaScript object.
      > Usage
      | var obj = $.parseJSON('{"name":"Denis"}');
-     | console.log(obj.name === 'Denis'); // true
+     | console.log(obj.name === 'Denis'); // True
     \*/
     parseJSON: function (data) {
-      // use native JSON parser
+
+      // Use native JSON parser
       if (data && Kimbo.isString(data)) {
         return window.JSON.parse(data);
       }
@@ -1849,8 +1983,10 @@ Kimbo.define('utilities', function (_) {
      | $(xmlDoc).find('title'); // 'RSS Title'
     \*/
     parseXML: function (data) {
-      // use native XML (DOM) parser
-      var domparser, xml;
+
+      // Use native XML (DOM) parser
+      var domparser;
+      var xml;
 
       if (data && Kimbo.isString(data)) {
         domparser = new window.DOMParser();
@@ -1885,11 +2021,11 @@ Kimbo.define('utilities', function (_) {
      | console.log(obj); // ['a: A', 'b: B', 'c: C']
     \*/
     map: function (obj, callback) {
-      var values = [], value;
+      var values = [];
 
       if (obj) {
         Kimbo.forEach(obj, function (key, val) {
-          value = callback(key, val);
+          var value = callback(key, val);
 
           if (value !== null && value !== undefined) {
             values.push(value);
@@ -1897,7 +2033,7 @@ Kimbo.define('utilities', function (_) {
         });
       }
 
-      // flatten any nested arrays
+      // Flatten any nested arrays
       return values.concat.apply([], values);
     },
 
@@ -1912,14 +2048,14 @@ Kimbo.define('utilities', function (_) {
      | var lis = $('li'); // Kimbo object
      | var arr = $.makeArray(lis);
      |
-     | console.log($.isArray(lis)); // false
-     | console.log($.isArray(arr)); // true
+     | console.log($.isArray(lis)); // False
+     | console.log($.isArray(arr)); // True
     \*/
     makeArray: function (obj, results) {
       results = results || [];
 
       if (obj) {
-        if (Kimbo.isArray(obj) || Kimbo.isKimbo(obj) || obj instanceof window.NodeList) {
+        if (Kimbo.isArray(obj) || (obj instanceof Kimbo) || obj instanceof window.NodeList) {
           results = Kimbo.merge(results, obj);
         } else {
           _.push.call(results, obj);
@@ -1944,11 +2080,11 @@ Kimbo.define('utilities', function (_) {
     \*/
     merge: function (first, second) {
 
-      // concat is very fast, use it if we can
+      // Concat is very fast, use it if we can
       if (Kimbo.isArray(first)) {
         first = first.concat(second);
 
-      // Kimbo object do a consecutive push
+      // Kimbo object, do a consecutive push
       } else {
         _.push.apply(first, _.slice.call(second));
       }
@@ -1972,67 +2108,73 @@ Kimbo.define('utilities', function (_) {
       return str.replace(/-+(.)?/g, function (wholeMatch, character) {
         return character.toUpperCase();
       });
+    },
+
+    /*\
+     * $.isFunction
+     [ method ]
+     * Determine if the parameter passed is a Javascript function object.
+     > Parameters
+     - obj (object) Object to test if its a function.
+     = (boolean) According wether or not it is a function.
+     > Usage
+     | var myFunction = function () {};
+     | $.isFunction(myFunction); // True
+     | var something = ['lala', 'jojo'];
+     | $.isFunction(something); // False
+    \*/
+    isFunction: function (obj) {
+      return Kimbo.typeOf(obj) === 'function';
+    },
+
+    /*\
+     * $.isObject
+     [ method ]
+     * Determine if the parameter passed is a Javascript plain object.
+     > Parameters
+     - obj (object) Object to test if its a plain object.
+     = (boolean) According wether or not it is a plain object.
+     > Usage
+     | $.isObject({}); // True
+     | $.isObject([]); // False
+     | $.isObject('test'); // False
+    \*/
+    isObject: function (obj) {
+      return Kimbo.typeOf(obj) === 'object';
+    },
+
+    /*\
+     * $.isString
+     [ method ]
+     * Determine if the parameter passed is a string.
+     > Parameters
+     - obj (object) Object to test if its a string.
+     = (boolean) According wether or not it is a string.
+     > Usage
+     | $.isString('test'); // True
+     | $.isString({ name: 'asd' }); // False
+    \*/
+    isString: function (obj) {
+      return Kimbo.typeOf(obj) === 'string';
+    },
+
+    /*\
+     * $.isBoolean
+     [ method ]
+     * Determine if the parameter passed is boolean.
+     > Parameters
+     - obj (object) Object to test if its boolean..
+     = (boolean) According wether or not it is boolean.
+     > Usage
+     | $.isBoolean(false); // True
+     | $.isBoolean(3); // False
+    \*/
+    isBoolean: function (obj) {
+      return Kimbo.typeOf(obj) === 'boolean';
     }
   });
 
-  /*\
-   * $.isFunction
-   [ method ]
-   * Determine if the parameter passed is a Javascript function object.
-   > Parameters
-   - obj (object) Object to test if its a function.
-   = (boolean) According wether or not it is a function.
-   > Usage
-   | var myFunction = function () {};
-   | $.isFunction(myFunction); // true
-   | var something = ['lala', 'jojo'];
-   | $.isFunction(something); // false
-  \*/
-
-  /*\
-   * $.isObject
-   [ method ]
-   * Determine if the parameter passed is a Javascript plain object.
-   > Parameters
-   - obj (object) Object to test if its a plain object.
-   = (boolean) According wether or not it is a plain object.
-   > Usage
-   | $.isObject({}); // true
-   | $.isObject([]); // false
-   | $.isObject('test'); // false
-  \*/
-
-  /*\
-   * $.isString
-   [ method ]
-   * Determine if the parameter passed is a string.
-   > Parameters
-   - obj (object) Object to test if its a string.
-   = (boolean) According wether or not it is a string.
-   > Usage
-   | $.isString('test'); // true
-   | $.isString({ name: 'asd' }); // false
-  \*/
-
-  /*\
-   * $.isBoolean
-   [ method ]
-   * Determine if the parameter passed is boolean.
-   > Parameters
-   - obj (object) Object to test if its boolean..
-   = (boolean) According wether or not it is boolean.
-   > Usage
-   | $.isBoolean(false); // true
-   | $.isBoolean(3); // false
-  \*/
-  Kimbo.forEach(['Function', 'Object', 'String', 'Boolean'], function (method) {
-    var m = method.toLowerCase();
-    Kimbo['is' + method] = function (obj) {
-      return Kimbo.typeOf(obj) === m;
-    };
-  });
-
-  // save reference to document
+  // Save reference to Kimbo wrapped document as the default context
   _.rootContext = _.kimbo(_.rootContext);
 });
 
@@ -2042,20 +2184,26 @@ Kimbo.define('events', function (_) {
   'use strict';
 
   var query = Kimbo.require('query');
+
   var _guid = 1;
+
   var MOUSE_EVENT_RE = /^(?:mouse|menu)|click/;
+
   var KEY_EVENT_RE = /^key/;
+
   var DEFAULT_EVENT_PROPS = [
     'altKey', 'bubbles', 'cancelable', 'ctrlKey', 'currentTarget', 'defaultPrevented', 'eventPhase',
     'metaKey', 'relatedTarget', 'shiftKey', 'target', 'timeStamp', 'type', 'view', 'which'
   ];
+
   var MOUSE_EVENT_PROPS = [
     'button', 'buttons', 'clientX', 'clientY', 'fromElement',
     'offsetX', 'offsetY', 'screenX', 'screenY', 'toElement'
   ];
+
   var KEY_EVENT_PROPS = ['char', 'charCode', 'key', 'keyCode'];
 
-  // gestures fallback for not mobile environment
+  // Gestures fallback for not mobile environment
   var GESTURES_FALLBACK = Kimbo.isMobile() ? {} : {
     touchstart: 'mousedown',
     touchmove: 'mousemove',
@@ -2069,23 +2217,23 @@ Kimbo.define('events', function (_) {
   var fixEventProps = {};
   var specialEvents = {};
 
-  var _fix = function (event) {
+  var _fixEvent = function (event) {
     var originalEvent, eventProps, props;
 
-    // already fixed
+    // Already fixed
     if (event[Kimbo.ref]) {
       return event;
     }
 
-    // get event properties
+    // Get event properties
     originalEvent = event;
     eventProps = fixEventProps[event.type] || [];
     props = DEFAULT_EVENT_PROPS.concat(eventProps);
 
-    // create a new event writable custom event object
+    // Create a new event writable custom event object
     event = new Kimbo.Event(originalEvent);
 
-    // set event props to Kimbo.Event object
+    // Set event props to Kimbo.Event object
     Kimbo.forEach(props, function (prop) {
       event[prop] = originalEvent[prop];
     });
@@ -2093,18 +2241,19 @@ Kimbo.define('events', function (_) {
     return event;
   };
 
-  // return element id
+  // Return element id
   var _getElementId = function (element) {
     return element._guid || (element._guid = _guid++);
   };
 
-  // get element handlers for the specified type
+  // Get element handlers for the specified type
   var _getHandlers = function (elementId, type) {
     var events = ((handlersHash[elementId] || {}).events || {});
+
     return (type ? events[type] : events) || [];
   };
 
-  // quick is() to check if event target matches when events are delegated
+  // Quick is() to check if event target matches when events are delegated
   var _is = function (target, selector, element) {
     return (target.nodeName.toLowerCase() === selector && _.kimbo(target).closest(selector, element)[0]);
   };
@@ -2117,84 +2266,30 @@ Kimbo.define('events', function (_) {
     return true;
   };
 
-  Kimbo.Event = function (event) {
-    // is event object
-    if (event && event.type) {
-      this.originalEvent = event;
-      this.type = event.type;
-
-      // the event may have been prevented
-      // check dom level 3 new attribute and set proper value
-      if (event.defaultPrevented) {
-        this.isDefaultPrevented = _returnTrue;
-      } else {
-        this.isDefaultPrevented = _returnFalse;
-      }
-
-    // is event type
-    } else {
-      this.type = event;
-    }
-
-    // create a timestamp if doesn't have one
-    this.timeStamp = (event && event.timeStamp) || Date.now();
-
-    // made by kimbo, yeah
-    this[Kimbo.ref] = true;
-  };
-
-  // DOM-Level-3-Events compliant
-  Kimbo.Event.prototype = {
-    isDefaultPrevented: _returnFalse,
-    isPropagationStopped: _returnFalse,
-    isImmediatePropagationStopped: _returnFalse,
-
-    preventDefault: function () {
-      this.isDefaultPrevented = _returnTrue;
-      // originalEvent is not present when trigger is called
-      if (!this.isTrigger) {
-        this.originalEvent.preventDefault();
-      }
-    },
-
-    stopPropagation: function () {
-      this.isPropagationStopped = _returnTrue;
-      if (!this.isTrigger) {
-        this.originalEvent.stopPropagation();
-      }
-    },
-
-    stopImmediatePropagation: function () {
-      this.isImmediatePropagationStopped = _returnTrue;
-      if (!this.isTrigger) {
-        this.originalEvent.stopImmediatePropagation();
-      }
-    }
-  };
-
-  // register events to dom elements
+  // Register events to dom elements
   var _addEvent = function (element, type, callback, data, selector) {
+
     // TODO: element should use Kimbo.ref and the handler the _guid
     var elementId = _getElementId(element);
     var elementHandlers = handlersHash[elementId];
     var origType = type;
     var events, handlers, handleObj, handler;
 
-    // could be a special type like mouseenter/mouseleave
+    // Could be a special type like mouseenter/mouseleave
     type = specialEvents[type] ? specialEvents[type].origType : type;
 
-    // create hash for this element if first init
+    // Create hash for this element if first init
     if (!elementHandlers) {
       handlersHash[elementId] = elementHandlers = {};
     }
 
-    // create events object if first init
+    // Create events object if first init
     events = elementHandlers.events;
     if (!events) {
       elementHandlers.events = events = {};
     }
 
-    // create the handler for this element if first init
+    // Create the handler for this element if first init
     handler = elementHandlers.handler;
     if (!handler) {
       elementHandlers.handler = handler = function () {
@@ -2202,7 +2297,7 @@ Kimbo.define('events', function (_) {
       };
     }
 
-    // create handler object
+    // Create handler object
     handleObj = {
       type: type,
       origType: origType,
@@ -2211,23 +2306,22 @@ Kimbo.define('events', function (_) {
       selector: selector
     };
 
-    // only add an event listener one time
-    // for each type of event
+    // Only add an event listener one time for each type of event
     handlers = events[type];
     if (!handlers) {
-      // array of events for the current type
+
+      // Array of events for the current type
       handlers = events[type] = [];
       handlers.delegateCount = 0;
-      // add event
+
+      // Add event
       if (element.addEventListener) {
         element.addEventListener(type, handler, false);
       }
     }
 
-    // add to handlers hash, delegates first
+    // Add to handlers hash, delegates first
     if (selector) {
-      // handlers.delegateCount++;
-      // handlers.unshift(handleObj);
       handlers.splice(handlers.delegateCount++, 0, handleObj);
 
     } else {
@@ -2235,7 +2329,7 @@ Kimbo.define('events', function (_) {
     }
   };
 
-  // unregister events from dom elements
+  // Unregister events from dom elements
   var _removeEvent = function (element, type, callback, selector) {
     var elementId = _getElementId(element);
     var handleObj, handlers, name, i;
@@ -2246,12 +2340,12 @@ Kimbo.define('events', function (_) {
 
     handlers = _getHandlers(elementId, type);
 
-    // return if no handlers for the current event type
+    // Return if no handlers for the current event type
     if (type && !handlers.length) {
       return;
     }
 
-    // remove all handlers if no type provided
+    // Remove all handlers if no type provided
     if (!type) {
       for (name in handlers) {
         if (handlers.hasOwnProperty(name)) {
@@ -2260,105 +2354,112 @@ Kimbo.define('events', function (_) {
       }
     }
 
-    // remove handlers that match
+    // Remove handlers that match
     for (i = 0; i < handlers.length; i++) {
       handleObj = handlers[i];
       if ((!callback || callback === handleObj.callback) && (!selector || selector === handleObj.selector)) {
-        // remove current handler from stack
+
+        // Remove current handler from stack
         handlers.splice(i--, 1);
-        // decrement delegate count
+
+        // Decrement delegate count
         if (handleObj.selector) {
           handlers.delegateCount--;
         }
       }
     }
 
-    // if no more events for the current type delete its hash
+    // If no more events for the current type delete its hash
     if (!handlers.length) {
-      // remove event handler
+
+      // Remove event handler
       element.removeEventListener(type, handlersHash[elementId].handler, false);
       delete handlersHash[elementId].events[type];
     }
 
-    // remove kimbo reference if element have no more events
-    // if (Kimbo.isEmptyObject(handlersHash[elementId].events)) {
+    // Remove kimbo reference if element have no more events
+    // If (Kimbo.isEmptyObject(handlersHash[elementId].events)) {
     //   delete handlersHash[elementId];
     //   delete element._guid;
     // }
   };
 
-  // triggers a provided event type
+  // Triggers a provided event type
   var _triggerEvent = function (element, type, data) {
+
     /* jshint validthis: true */
     var currentElement, lastElement, eventTree, elementId, event;
 
-    // don't do events if element is text or comment node
-    // or if there is no event type at all or type is not a string
+    // Don't do events if element is text or comment node
+    // Or if there is no event type at all or type is not a string
     if ((element && (element.nodeType === 3 || element.nodeType === 8)) || !type || !Kimbo.isString(type)) {
       return this;
     }
 
-    // try triggering native focus and blur events
+    // Try triggering native focus and blur events
     if (type === 'focus' || type === 'blur') {
       try {
         return element[type]();
       } catch (e) {}
     }
 
-    // create a new writable custom event object
+    // Create a new writable custom event object
     event = new Kimbo.Event(type);
 
-    // triggered programatically
+    // Triggered programatically
     event.isTrigger = true;
 
-    // set the target
+    // Set the target
     if (!event.target) {
       event.target = element;
     }
 
-    // include data if any
+    // Include data if any
     data = data ? Kimbo.makeArray(data) : [];
-    // event goes first
+    // Event goes first
     data.unshift(event);
 
-    // generate a stack of [element, event] to be triggered
+    // Generate a stack of [element, event] to be triggered
     eventTree = [[element, type]];
     if (!Kimbo.isWindow(element)) {
-      // get all parent elements to bubble event later
+
+      // Get all parent elements to bubble event later
       for (currentElement = element.parentNode; currentElement; currentElement = currentElement.parentNode) {
         eventTree.push([currentElement, type]);
         lastElement = currentElement;
       }
 
-      // only add window object if we got to document (e.g., not plain obj or detached DOM)
+      // Only add window object if we got to document (e.g., not plain obj or detached DOM)
       if (lastElement && lastElement === element.ownerDocument) {
         eventTree.push([window, type]);
       }
     }
 
-    // fire handlers up to the document (or the last element)
+    // Fire handlers up to the document (or the last element)
     Kimbo.forEach(eventTree, function (branch) {
-      // element
+
+      // Element
       currentElement = branch[0];
-      // type
+
+      // Type
       event.type = branch[1];
 
-      // get element id
+      // Get element id
       elementId = currentElement._guid;
 
-      // if the current element has events of the specified type, dispatch them
+      // If the current element has events of the specified type, dispatch them
       if (elementId && _getHandlers(elementId, type)) {
         handlersHash[elementId].handler.apply(currentElement, data);
       }
     });
   };
 
-  // own defined dispatchEvent()
+  // Own defined dispatchEvent()
   var _dispatchEvent = function (event) {
     /* jshint -W040 */
 
-    // use own event object
-    event = _fix(event);
+    // Use own event object
+    event = _fixEvent(event);
 
     var elementId = _getElementId(this);
     var handlers = _getHandlers(elementId, event.type);
@@ -2367,30 +2468,30 @@ Kimbo.define('events', function (_) {
     var handlerQueue = [];
     var currentElement, ret, selMatch, matches, handleObj, selector, i;
 
-    // set the native event to be the fixed event
+    // Set the native event to be the fixed event
     args[0] = event;
 
-    // save the delegate target element
+    // Save the delegate target element
     event.delegateTarget = this;
 
-    // get delegated handlers if any
+    // Get delegated handlers if any
     if (delegateCount) {
 
-      // go up to the dom finding the elements that matches the current selector from delegated event
+      // Go up to the dom finding the elements that matches the current selector from delegated event
       for (currentElement = event.target; currentElement !== this; currentElement = currentElement.parentNode || this) {
 
-        // don't do events on disabled elements
+        // Don't do events on disabled elements
         if (currentElement.disabled !== true || event.type !== 'click') {
           selMatch = {};
           matches = [];
 
-          // loop throgh delegated events
+          // Loop throgh delegated events
           for (i = 0; i < delegateCount; i++) {
 
-            // get its handler
+            // Get its handler
             handleObj = handlers[i];
 
-            // get its selector
+            // Get its selector
             selector = handleObj.selector;
 
             if (!selMatch[selector]) {
@@ -2409,29 +2510,29 @@ Kimbo.define('events', function (_) {
       }
     }
 
-    // add the remaining not delegated handlers
+    // Add the remaining not delegated handlers
     if (handlers.length > delegateCount) {
       handlerQueue.push({elem: this, matches: handlers.slice(delegateCount)});
     }
 
-    // fire callbacks queue
+    // Fire callbacks queue
     Kimbo.forEach(handlerQueue, function (handler) {
 
-      // only fire handler if event wasnt stopped
+      // Only fire handler if event wasnt stopped
       if (!event.isPropagationStopped()) {
         event.currentTarget = handler.elem;
 
         Kimbo.forEach(handler.matches, function (handleObj) {
 
-          // only fire bubble if not stopped
+          // Only fire bubble if not stopped
           if (!event.isImmediatePropagationStopped()) {
             event.data = handleObj.data;
             event.handleObj = handleObj;
 
-            // call original callback, check if its an special event first
+            // Call original callback, check if its an special event first
             ret = ((specialEvents[handleObj.origType] || {}).handle || handleObj.callback).apply(handler.elem, args);
 
-            // if callback returns false, stop the event
+            // If callback returns false, stop the event
             if (ret === false) {
               event.preventDefault();
               event.stopPropagation();
@@ -2444,8 +2545,66 @@ Kimbo.define('events', function (_) {
     /* jshint +W040 */
   };
 
-  Kimbo.fn.extend({
+  Kimbo.Event = function (event) {
 
+    // Is event object
+    if (event && event.type) {
+      this.originalEvent = event;
+      this.type = event.type;
+
+      // The event may have been prevented
+      // Check dom level 3 new attribute and set proper value
+      if (event.defaultPrevented) {
+        this.isDefaultPrevented = _returnTrue;
+      } else {
+        this.isDefaultPrevented = _returnFalse;
+      }
+
+    // Is event type
+    } else {
+      this.type = event;
+    }
+
+    // Create a timestamp if doesn't have one
+    this.timeStamp = (event && event.timeStamp) || Date.now();
+
+    // Made by kimbo, yeah
+    this[Kimbo.ref] = true;
+  };
+
+  // Dom-Level-3-Events compliant
+  Kimbo.Event.prototype = {
+    isDefaultPrevented: _returnFalse,
+    isPropagationStopped: _returnFalse,
+    isImmediatePropagationStopped: _returnFalse,
+
+    preventDefault: function () {
+      this.isDefaultPrevented = _returnTrue;
+
+      // Originalevent is not present when trigger is called
+      if (!this.isTrigger) {
+        this.originalEvent.preventDefault();
+      }
+    },
+
+    stopPropagation: function () {
+      this.isPropagationStopped = _returnTrue;
+
+      if (!this.isTrigger) {
+        this.originalEvent.stopPropagation();
+      }
+    },
+
+    stopImmediatePropagation: function () {
+      this.isImmediatePropagationStopped = _returnTrue;
+
+      if (!this.isTrigger) {
+        this.originalEvent.stopImmediatePropagation();
+      }
+    }
+  };
+
+  Kimbo.fn.extend({
     /*\
      * $(…).on
      [ method ]
@@ -2468,7 +2627,7 @@ Kimbo.define('events', function (_) {
      | });
      * Passing some data when registering the handler:
      | $('#btn').on('click', { name: 'denis' }, function (event) {
-     |   // data passed is inside event.data
+     |   // Data passed is inside event.data
      |   console.log('name:', event.data.name);
      | });
      * Here is a list for all the shorthand methods available:
@@ -2477,7 +2636,7 @@ Kimbo.define('events', function (_) {
      | 'mousemove', 'mouseout', 'mouseup', 'mouseover', 'resize', 'scroll', 'select', 'submit', 'unload'
     \*/
     on: function (type, selector, data, callback) {
-      // prepare the arguments
+      // Prepare the arguments
 
       // (type, callback)
       if (!data && !callback) {
@@ -2498,14 +2657,14 @@ Kimbo.define('events', function (_) {
         }
       }
 
-      // don't add events if no callback
+      // Don't add events if no callback
       if (!callback) {
         return this;
       }
 
       type = GESTURES_FALLBACK[type] || type;
 
-      // add the event
+      // Add the event
       return this.each(function (el) {
         _addEvent(el, type, callback, data, selector);
       });
@@ -2540,7 +2699,8 @@ Kimbo.define('events', function (_) {
      | btn.off();
     \*/
     off: function (type, selector, callback) {
-      // prepare the arguments
+
+      // Prepare the arguments
 
       // (type, callback)
       if (Kimbo.isFunction(selector)) {
@@ -2548,7 +2708,7 @@ Kimbo.define('events', function (_) {
         selector = undefined;
       }
 
-      // remove the event
+      // Remove the event
       return this.each(function (el) {
         _removeEvent(el, type, callback, selector);
       });
@@ -2577,8 +2737,8 @@ Kimbo.define('events', function (_) {
      |   console.log('last', last);
      | });
      | $('#btn').trigger('click', ['denis', 'ciccale']);
-     | // name denis
-     | // last ciccale
+     | // Name denis
+     | // Last ciccale
     \*/
     trigger: function (type, data) {
       return this.each(function (el) {
@@ -2611,7 +2771,7 @@ Kimbo.define('events', function (_) {
     }
   });
 
-  // shortcut methods for each event type
+  // Shortcut methods for each event type
   Kimbo.forEach(['blur', 'change', 'click', 'contextmenu', 'dblclick', 'error',
     'focus', 'keydown', 'keypress', 'keyup', 'load', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove',
     'mouseout', 'mouseup', 'mouseover', 'resize', 'scroll', 'select', 'submit', 'unload'], function (type) {
@@ -2620,12 +2780,11 @@ Kimbo.define('events', function (_) {
       return arguments.length > 0 ? this.on(type, null, data, callback) : this.trigger(type);
     };
 
-    // set event props for the specific type
+    // Set event props for the specific type
     fixEventProps[type] = KEY_EVENT_RE.test(type) ? KEY_EVENT_PROPS : MOUSE_EVENT_RE.test(type) ? MOUSE_EVENT_PROPS : null;
   });
 
-  // fix mouseover and mouseout events
-  // to use mouseenter mouseleave
+  // Fix mouseover and mouseout events to use mouseenter mouseleave
   Kimbo.forEach({
     mouseenter: 'mouseover',
     mouseleave: 'mouseout'
@@ -2653,11 +2812,12 @@ Kimbo.define('events', function (_) {
 });
 
 
-Kimbo.define('ajax', function () {
+Kimbo.define('ajax', function (_) {
 
   'use strict';
 
   var JSONP_RE = /(\=)\?(&|$)|\?\?/i;
+
   var MIME_TYPES = {
     html: 'text/html',
     json: 'application/json',
@@ -2665,13 +2825,15 @@ Kimbo.define('ajax', function () {
     text: 'text/plain',
     xml: 'application/xml, text/xml'
   };
+
   var dataParse = {
     json: Kimbo.parseJSON,
     xml: Kimbo.parseXML
   };
+
   var xhrCallbacks = {};
 
-  // success and error callbacks
+  // Success and error callbacks
   Kimbo.forEach(['success', 'error'], function (type) {
     xhrCallbacks[type] = function (res, msg, xhr, settings) {
       settings = settings || xhr;
@@ -2681,14 +2843,14 @@ Kimbo.define('ajax', function () {
     };
   });
 
-  function _getResponse(response, type) {
+  var _getResponse = function (response, type) {
     return (dataParse[type] ? dataParse[type](response) : response);
-  }
+  };
 
-  function _handleResponse(xhr, settings) {
+  var _handleResponse = function (xhr, settings) {
     var response, contentType;
 
-    // set dataType if missing
+    // Set dataType if missing
     if (!settings.dataType) {
       contentType = xhr.getResponseHeader('Content-Type');
 
@@ -2699,7 +2861,7 @@ Kimbo.define('ajax', function () {
         }
       });
 
-      // fix settings headers
+      // Fix settings headers
       _setHeaders(settings);
     }
 
@@ -2711,9 +2873,9 @@ Kimbo.define('ajax', function () {
     }
 
     return response;
-  }
+  };
 
-  function _setHeaders(settings) {
+  var _setHeaders = function (settings) {
     if (!settings.crossDomain && !settings.headers['X-Requested-With']) {
       settings.headers['X-Requested-With'] = 'XMLHttpRequest';
     }
@@ -2723,19 +2885,19 @@ Kimbo.define('ajax', function () {
     }
 
     settings.headers.Accept = MIME_TYPES[settings.dataType] || '*/*';
-  }
+  };
 
-  function _timeout(xhr, settings) {
+  var _timeout = function (xhr, settings) {
     xhr.onreadystatechange = null;
     xhr.abort();
     xhrCallbacks.error('error', 'timeout', xhr, settings);
-  }
+  };
 
-  function _createAbortTimeout(xhr, settings) {
+  var _createAbortTimeout = function (xhr, settings) {
     return window.setTimeout(function () {
       _timeout(xhr, settings);
     }, settings.timeout);
-  }
+  };
 
   /*\
    * $.ajaxSettings
@@ -2744,7 +2906,7 @@ Kimbo.define('ajax', function () {
    > Usage
    * If you want to change the global and default ajax settings, change this object properties:
    | $.ajaxSettings.error = function () {
-   |   // handle any failed ajax request in your app
+   |   // Handle any failed ajax request in your app
    | };
    | $.ajaxSettings.timeout = 1000; // 1 second
   \*/
@@ -2763,7 +2925,6 @@ Kimbo.define('ajax', function () {
       return new window.XMLHttpRequest();
     }
   };
-
 
   /*\
    * $.ajax
@@ -2794,10 +2955,10 @@ Kimbo.define('ajax', function () {
    |     id: 3
    |   },
    |   success: function (response, responseMessage, xhr, settings) {
-   |     // success...
+   |     // Success...
    |   },
    |   error: function (response, responseMessage, xhr, settings) {
-   |     // error...
+   |     // Error...
    |   }
    | });
   \*/
@@ -2805,43 +2966,43 @@ Kimbo.define('ajax', function () {
     var settings = Kimbo.extend({}, Kimbo.ajaxSettings, options);
     var xhr, abortTimeout, callback;
 
-    // add data to url
+    // Add data to url
     if (settings.data) {
       settings.url += (/\?/.test(settings.url) ? '&' : '?') +
         Kimbo.param(settings.data);
       delete settings.data;
     }
 
-    // set default context
+    // Set default context
     if (!settings.context) {
       settings.context = settings;
     }
 
-    // check if its jsonp
+    // Check if its jsonp
     if (JSONP_RE.test(settings.url)) {
       return _getJSONP(settings);
     }
 
-    // create new instance
+    // Create new instance
     xhr = settings.xhr();
 
-    // user specified timeout
+    // User specified timeout
     if (settings.timeout > 0) {
       abortTimeout = _createAbortTimeout(xhr, settings);
     }
 
-    // on complete callback
+    // On complete callback
     callback = function () {
       var response, status;
 
-      // request complete
+      // Request complete
       if (xhr.readyState === 4) {
         status = xhr.status;
 
-        // clear timeout
+        // Clear timeout
         window.clearTimeout(abortTimeout);
 
-        // scuccess
+        // Scuccess
         if ((status >= 200 && status < 300) || status === 304) {
           if (settings.async) {
             response = _handleResponse(xhr, settings);
@@ -2850,28 +3011,28 @@ Kimbo.define('ajax', function () {
             }
           }
 
-        // fail
+        // Fail
         } else {
           xhrCallbacks.error('error', xhr.statusText, xhr, settings);
         }
       }
     };
 
-    // listen for response
+    // Listen for response
     xhr.onreadystatechange = callback;
 
-    // init request
+    // Init request
     xhr.open(settings.type, settings.url, settings.async);
 
-    // set settings headers
+    // Set settings headers
     _setHeaders(settings);
 
-    // set xhr headers
+    // Set xhr headers
     Kimbo.forEach(settings.headers, function (header, value) {
       xhr.setRequestHeader(header, value);
     });
 
-    // try to send request
+    // Try to send request
     xhr.send(settings.data);
 
     return (settings.async) ? xhr : callback();
@@ -2888,7 +3049,7 @@ Kimbo.define('ajax', function () {
    - type (string) #optional String with the type of the data to send (intelligent guess by default).
    > Usage
    | $.get('url/users.php', { id: '123' }, function (data) {
-   |   // success
+   |   // Success
    |   console.log('response:', data);
    | });
    * This method is a shorthand for the $.ajax
@@ -2911,7 +3072,7 @@ Kimbo.define('ajax', function () {
    - type (string) #optional String with the type of the data to send (intelligent guess by default).
    > Usage
    | $.post('url/users.php', { user: 'denis', pass: '123' }, function (data) {
-   |   // success
+   |   // Success
    |   console.log('response:', data);
    | });
    * This method is a shorthand for the $.ajax
@@ -2925,14 +3086,15 @@ Kimbo.define('ajax', function () {
   \*/
   Kimbo.forEach(['get', 'post'], function (method) {
     Kimbo[method] = function (url, data, callback, type) {
-      // prepare arguments
+
+      // Prepare arguments
       if (Kimbo.isFunction(data)) {
         type = type || callback;
         callback = data;
         data = null;
       }
 
-      // call ajax
+      // Call ajax
       return Kimbo.ajax({
         type: method.toUpperCase(),
         url: url,
@@ -2953,7 +3115,7 @@ Kimbo.define('ajax', function () {
     - callback (function) A callback function to execute if the request succeeds.
     > Usage
     | $.getScript('url/script.js', function (data) {
-    |   // success
+    |   // Success
     |   console.log('response:', data);
     | });
     * This method is a shorthand for the $.ajax
@@ -2978,7 +3140,7 @@ Kimbo.define('ajax', function () {
     - type (string) #optional String with the type of the data to send (intelligent guess by default).
     > Usage
     | $.getJSON('url/test.json', { id: '2' }, function (data) {
-    |   // success
+    |   // Success
     |   console.log('response:', data);
     | });
     * This method is a shorthand for the $.ajax
@@ -2998,10 +3160,10 @@ Kimbo.define('ajax', function () {
   });
 
   // getJSONP internal use
-  function _getJSONP(settings) {
+  var _getJSONP = function (settings) {
     var jsonpCallback = Kimbo.ref + '_' + Date.now();
-    var script = document.createElement('script');
-    var head = document.head;
+    var script = _.document.createElement('script');
+    var head = _.document.head;
     var xhr = {
       abort: function () {
         window.clearTimeout(abortTimeout);
@@ -3011,20 +3173,21 @@ Kimbo.define('ajax', function () {
     };
     var abortTimeout;
 
-    // user specified timeout
+    // User specified timeout
     if (settings.timeout > 0) {
       abortTimeout = _createAbortTimeout(xhr, settings);
     }
 
-    // set url
+    // Set url
     script.src = settings.url.replace(JSONP_RE, '$1' + jsonpCallback + '$2');
 
-    // JSONP callback
+    // Jsonp callback
     window[jsonpCallback] = function (response) {
-      // remove script
+
+      // Remove script
       xhr.abort();
 
-      // fake xhr
+      // Fake xhr
       Kimbo.extend(xhr, {
         statusText: 'OK',
         status: 200,
@@ -3032,19 +3195,19 @@ Kimbo.define('ajax', function () {
         headers: settings.headers
       });
 
-      // success
+      // Success
       xhrCallbacks.success(response, xhr, settings);
     };
 
-    // set settings headers
+    // Set settings headers
     _setHeaders(settings);
 
-    // apend script to head to make the request
+    // Apend script to head to make the request
     head.appendChild(script);
 
-    // return fake xhr object to abort manually
+    // Return fake xhr object to abort manually
     return xhr;
-  }
+  };
 
   /*\
    * $.param
