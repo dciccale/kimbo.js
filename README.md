@@ -47,7 +47,7 @@ A `dist/` folder will be created containing development and production build of 
 Run `grunt coffee` task to compile `.coffee` spec files and open `test/SpecRunner.html`.
 
 ```bash
-$ grunt coffee && open test/SpecRunner.html
+$ grunt coffee && open test/index.html
 ```
 
 ### In PhantomJS
