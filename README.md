@@ -93,3 +93,7 @@ Denis Ciccale ([@tdecs](http://twitter.com/tdecs))
 
 ## License
 See [LICENSE.txt](https://raw.github.com/dciccale/kimbo.js/master/LICENSE.txt)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/dciccale/kimbo.js/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
