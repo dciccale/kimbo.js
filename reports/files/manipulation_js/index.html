@@ -45,11 +45,11 @@
   <div class="row">
     <div class="span6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
-      <p class="stat">77.42</p>
+      <p class="stat">75.67</p>
     </div>
     <div class="span6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
-      <p class="stat">514</p>
+      <p class="stat">536</p>
     </div>
   </div>
   <div class="row historical">
@@ -63,11 +63,11 @@
   <div class="row">
     <div class="span6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
-      <p class="stat">38.47</p>
+      <p class="stat">40.11</p>
     </div>
     <div class="span6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
-      <p class="stat">1.35</p>
+      <p class="stat">1.57</p>
     </div>
   </div>
 </div>
@@ -95,6 +95,11 @@
   'use strict';
 
   var SPACE_RE = /\s+/;
+
+  var BOOLEAN_ATTR = {};
+  Kimbo.forEach('multiple,selected,checked,disabled,readOnly,required,open'.split(','), function (value) {
+    BOOLEAN_ATTR[value.toLowerCase()] = value;
+  });
 
   // Browser native classList
   var _hasClass = function (el, name) {
@@ -163,6 +168,7 @@
     val: 'value'
   }, function (method, prop) {
     Kimbo.fn[method] = function (value) {
+      // TODO: If we are using html method make sure to remove events and data from all chilNnodes
 
       // No element
       if (!this.length) {
@@ -346,8 +352,8 @@
 
           // Be sure we can append/prepend to the element
           if (el.nodeType === 1 || el.nodeType === 11) {
-            _.kimbo(value).each(function (_el) {
-              el.insertBefore(_el, isPrepend ? el.firstChild : null);
+            _.kimbo(value).each(function (child) {
+              el.insertBefore(child, isPrepend ? el.firstChild : null);
             });
           }
         });
@@ -425,15 +431,31 @@
      | <a href="http://kimbojs.com" title="Go to Kimbojs.com">Go to Kimbojs.com</a>
     \*/
     attr: function (name, value) {
+      var lowercasedName = name.toLowerCase();
+      var el = this[0];
+
       if (!this.length) {
         return this;
       }
 
       if (Kimbo.isString(name) && value === undefined) {
-        return this[0].getAttribute(name);
+        if (BOOLEAN_ATTR[lowercasedName]) {
+          return (el[name] || (el.attributes.getNamedItem(name)|| {}).specified) ? lowercasedName : undefined;
+        }
+        return el.getAttribute(name);
       } else {
         return this.each(function (el) {
-          el.setAttribute(name, value);
+          if (BOOLEAN_ATTR[lowercasedName]) {
+            if (!!value) {
+              el[name] = true;
+              el.setAttribute(name, lowercasedName);
+            } else {
+              el[name] = false;
+              el.removeAttribute(name);
+            }
+          } else {
+            el.setAttribute(name, value);
+          }
         });
       }
     },

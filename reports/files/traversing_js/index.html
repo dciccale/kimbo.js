@@ -45,11 +45,11 @@
   <div class="row">
     <div class="span6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
-      <p class="stat">72.09</p>
+      <p class="stat">71.35</p>
     </div>
     <div class="span6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
-      <p class="stat">593</p>
+      <p class="stat">607</p>
     </div>
   </div>
   <div class="row historical">
@@ -63,11 +63,11 @@
   <div class="row">
     <div class="span6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
-      <p class="stat">68.40</p>
+      <p class="stat">68.10</p>
     </div>
     <div class="span6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
-      <p class="stat">2.00</p>
+      <p class="stat">2.01</p>
     </div>
   </div>
 </div>
@@ -177,10 +177,9 @@
      | $('li').filter($('#id'));
     \*/
     filter: function (selector) {
-      var result;
 
       // Filter collection
-      result = _filter.call(this, function (elem, i) {
+      var result = _filter.call(this, function (elem, i) {
         var ret;
 
         if (Kimbo.isFunction(selector)) {
@@ -361,13 +360,15 @@
      | $('.article').find('p');
     \*/
     find: function (selector) {
-      var i, l, length, n, r, result, elems;
 
       // Make new empty kimbo collection
-      result = _.kimbo();
+      var result = _.kimbo();
+      var l = this.length;
+
+      var i, length, n, r, elems;
 
       // Could use Kimbo.forEach, but this is a bit faster..
-      for (i = 0, l = this.length; i < l; i++) {
+      for (i = 0; i < l; i++) {
         length = result.length;
 
         // Get elements
@@ -471,8 +472,12 @@
      | $('#container').contains(outside_p); // False
     \*/
     contains: function (element) {
-      element = (element instanceof Kimbo) ? element[0] :
-        (Kimbo.isString(element) ? this.find(element)[0] : element);
+
+      if (Kimbo.isString(element)) {
+        element = this.find(element)[0];
+      } else if (element instanceof Kimbo) {
+        element = element[0];
+      }
 
       return query.contains(this[0], element);
     },
@@ -503,12 +508,21 @@
      | $('#menu1 li').add($('#menu2 li'));
     \*/
     add: function (selector, context) {
-      var set = Kimbo.isString(selector) ? _.kimbo(selector, context) :
-        Kimbo.makeArray(selector && selector.nodeType ? [selector] : selector);
+      var set;
 
-      var all = Kimbo.merge(this, set);
+      if (selector) {
+        if (Kimbo.isString(selector)) {
+          set = _.kimbo(selector, context);
+        } else if (selector.nodeType) {
+          set = [selector];
+        } else {
+          set = selector;
+        }
 
-      return _.kimbo(all);
+        var all = Kimbo.merge(this, set);
+
+        return _.kimbo(all);
+      }
     },
 
     /*\

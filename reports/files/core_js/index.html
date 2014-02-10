@@ -45,11 +45,11 @@
   <div class="row">
     <div class="span6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
-      <p class="stat">64.99</p>
+      <p class="stat">63.58</p>
     </div>
     <div class="span6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
-      <p class="stat">315</p>
+      <p class="stat">329</p>
     </div>
   </div>
   <div class="row historical">
@@ -63,11 +63,11 @@
   <div class="row">
     <div class="span6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
-      <p class="stat">50.52</p>
+      <p class="stat">48.71</p>
     </div>
     <div class="span6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
-      <p class="stat">1.26</p>
+      <p class="stat">1.44</p>
     </div>
   </div>
 </div>
@@ -115,8 +115,8 @@
     rootContext: document,
 
     // Creates and returns a new Kimbo object
-    kimbo: function (element) {
-      return new Kimbo(element);
+    kimbo: function (element, context) {
+      return new Kimbo(element, context);
     }
   };
 
@@ -126,7 +126,7 @@
    * All methods called from a Kimbo collection affects all elements in it.
   \*/
   var Kimbo = function (selector, context) {
-    var match;
+    var match, div, fragment;
 
     // Auto create a new instance of Kimbo if needed
     if (!(this instanceof Kimbo)) {
@@ -138,7 +138,7 @@
       return this;
     }
 
-    // Asume a css selector, query the dom
+    // Asume a css selector or html string
     if (typeof selector === 'string') {
 
       // Handle faster $('#id');
@@ -152,12 +152,25 @@
         }
 
         return this;
-      }
+
+      // Create html from string
+      } else if (selector.charAt(0) === '<') {
+        div = document.createElement('div');
+        div.innerHTML = selector;
+        this.add(div.childNodes);
+        fragment = new Kimbo(document.createDocumentFragment());
+        // Detach the elements from the temporary DOM div.
+        fragment.append(this);
+
+        return this;
 
       // All other selectors
-      context = context ? _.kimbo(context) : _.rootContext;
+      } else {
 
-      return context.find(selector);
+        context = context ? _.kimbo(context) : _.rootContext;
+
+        return context.find(selector);
+      }
     }
 
     // Already a dom element
@@ -292,8 +305,8 @@
    = (object) The original array or object
    > Usage
    | // Iterating array
-   | $.forEach(['a', 'b', 'c'], function (index, value) {
-   |   alert(index + ': ' + value);
+   | $.forEach(['a', 'b', 'c'], function (value, index) {
+   |   alert(value + ': ' + index);
    | });
    |
    | // Iterating object
@@ -303,18 +316,19 @@
   \*/
   Kimbo.forEach = function (obj, callback) {
     var l = obj.length;
-    var isObj = l === undefined || typeof obj === 'function';
+    var isArrayLike = Array.isArray(obj) || obj instanceof Kimbo || obj instanceof window.NodeList ||
+      !((l !== undefined) || !l);
     var i;
 
-    if (isObj) {
-      for (i in obj) {
-        if (obj.hasOwnProperty(i) && callback.call(obj[i], i, obj[i], obj) === false) {
+    if (isArrayLike) {
+      for (i = 0; i < l; i++) {
+        if (callback.call(obj[i], obj[i], i, obj) === false) {
           break;
         }
       }
     } else {
-      for (i = 0; i < l; i++) {
-        if (callback.call(obj[i], obj[i], i, obj) === false) {
+      for (i in obj) {
+        if (obj.hasOwnProperty(i) && callback.call(obj[i], i, obj[i], obj) === false) {
           break;
         }
       }
