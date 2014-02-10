@@ -1,8 +1,9 @@
-### [kimbo.js](http://kimbojs.com) [![Build Status](https://travis-ci.org/dciccale/kimbo.js.png?branch=master)](https://travis-ci.org/dciccale/kimbo.js) 
+<p align="right"><a href="https://travis-ci.org/dciccale/kimbo.js"><img src="https://travis-ci.org/dciccale/kimbo.js.png?branch=master" alt="Build Status" style="max-width:100%;"></a></p>
 
-<a href="http://kimbojs.com"><img src="http://kimbojs.com/img/logo.png" width="409" height="120" alt="kimbo.js logo"></a>
+<p align="center"><a href="http://kimbojs.com"><img src="http://kimbojs.com/img/logo.png" width="409" height="120" alt="kimbo.js logo"></a></p>
 
-### An ECMAScript 5 only-compatible JavaScript library
+<h3 align="center">An ECMAScript 5 only-compatible JavaScript library</h3>
+
 
 The goal of this light-weight JavaScript library is to provide a nice, shorter and extended API using latest native compliant JavaScript and DOM APIs.
 Taking advantage of amazing native speed, of course only in modern browsers, and no more adding extra bytes for older ones.
@@ -47,7 +48,7 @@ A `dist/` folder will be created containing development and production build of 
 Run `grunt coffee` task to compile `.coffee` spec files and open `test/SpecRunner.html`.
 
 ```bash
-$ grunt coffee && open test/SpecRunner.html
+$ grunt coffee && open test/index.html
 ```
 
 ### In PhantomJS
@@ -93,3 +94,7 @@ Denis Ciccale ([@tdecs](http://twitter.com/tdecs))
 
 ## License
 See [LICENSE.txt](https://raw.github.com/dciccale/kimbo.js/master/LICENSE.txt)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/dciccale/kimbo.js/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
