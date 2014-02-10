@@ -1,7 +1,7 @@
 /*!
- * kimbo v1.0.4 - 2013-12-11
+ * kimbo v1.0.6 - 2014-02-10
  * http://kimbojs.com
- * Copyright (c) 2013 Denis Ciccale (@tdecs)
+ * Copyright (c) 2014 Denis Ciccale (@tdecs)
  * Released under the MIT license
  * https://github.com/dciccale/kimbo.js/blob/master/LICENSE.txt
  */
@@ -30,8 +30,8 @@
     rootContext: document,
 
     // Creates and returns a new Kimbo object
-    kimbo: function (element) {
-      return new Kimbo(element);
+    kimbo: function (element, context) {
+      return new Kimbo(element, context);
     }
   };
 
@@ -41,7 +41,7 @@
    * All methods called from a Kimbo collection affects all elements in it.
   \*/
   var Kimbo = function (selector, context) {
-    var match;
+    var match, div, fragment;
 
     // Auto create a new instance of Kimbo if needed
     if (!(this instanceof Kimbo)) {
@@ -53,7 +53,7 @@
       return this;
     }
 
-    // Asume a css selector, query the dom
+    // Asume a css selector or html string
     if (typeof selector === 'string') {
 
       // Handle faster $('#id');
@@ -67,12 +67,25 @@
         }
 
         return this;
-      }
+
+      // Create html from string
+      } else if (selector.charAt(0) === '<') {
+        div = document.createElement('div');
+        div.innerHTML = selector;
+        this.add(div.childNodes);
+        fragment = new Kimbo(document.createDocumentFragment());
+        // Detach the elements from the temporary DOM div.
+        fragment.append(this);
+
+        return this;
 
       // All other selectors
-      context = context ? _.kimbo(context) : _.rootContext;
+      } else {
 
-      return context.find(selector);
+        context = context ? _.kimbo(context) : _.rootContext;
+
+        return context.find(selector);
+      }
     }
 
     // Already a dom element
@@ -207,8 +220,8 @@
    = (object) The original array or object
    > Usage
    | // Iterating array
-   | $.forEach(['a', 'b', 'c'], function (index, value) {
-   |   alert(index + ': ' + value);
+   | $.forEach(['a', 'b', 'c'], function (value, index) {
+   |   alert(value + ': ' + index);
    | });
    |
    | // Iterating object
@@ -218,18 +231,19 @@
   \*/
   Kimbo.forEach = function (obj, callback) {
     var l = obj.length;
-    var isObj = l === undefined || typeof obj === 'function';
+    var isArrayLike = Array.isArray(obj) || obj instanceof Kimbo || obj instanceof window.NodeList ||
+      !((l !== undefined) || !l);
     var i;
 
-    if (isObj) {
-      for (i in obj) {
-        if (obj.hasOwnProperty(i) && callback.call(obj[i], i, obj[i], obj) === false) {
+    if (isArrayLike) {
+      for (i = 0; i < l; i++) {
+        if (callback.call(obj[i], obj[i], i, obj) === false) {
           break;
         }
       }
     } else {
-      for (i = 0; i < l; i++) {
-        if (callback.call(obj[i], obj[i], i, obj) === false) {
+      for (i in obj) {
+        if (obj.hasOwnProperty(i) && callback.call(obj[i], i, obj[i], obj) === false) {
           break;
         }
       }
@@ -691,6 +705,11 @@ Kimbo.define('manipulation', function (_) {
 
   var SPACE_RE = /\s+/;
 
+  var BOOLEAN_ATTR = {};
+  Kimbo.forEach('multiple,selected,checked,disabled,readOnly,required,open'.split(','), function (value) {
+    BOOLEAN_ATTR[value.toLowerCase()] = value;
+  });
+
   // Browser native classList
   var _hasClass = function (el, name) {
     return (el.nodeType === 1 && el.classList.contains(name));
@@ -758,6 +777,7 @@ Kimbo.define('manipulation', function (_) {
     val: 'value'
   }, function (method, prop) {
     Kimbo.fn[method] = function (value) {
+      // TODO: If we are using html method make sure to remove events and data from all chilNnodes
 
       // No element
       if (!this.length) {
@@ -941,8 +961,8 @@ Kimbo.define('manipulation', function (_) {
 
           // Be sure we can append/prepend to the element
           if (el.nodeType === 1 || el.nodeType === 11) {
-            _.kimbo(value).each(function (_el) {
-              el.insertBefore(_el, isPrepend ? el.firstChild : null);
+            _.kimbo(value).each(function (child) {
+              el.insertBefore(child, isPrepend ? el.firstChild : null);
             });
           }
         });
@@ -1020,15 +1040,31 @@ Kimbo.define('manipulation', function (_) {
      | <a href="http://kimbojs.com" title="Go to Kimbojs.com">Go to Kimbojs.com</a>
     \*/
     attr: function (name, value) {
+      var lowercasedName = name.toLowerCase();
+      var el = this[0];
+
       if (!this.length) {
         return this;
       }
 
       if (Kimbo.isString(name) && value === undefined) {
-        return this[0].getAttribute(name);
+        if (BOOLEAN_ATTR[lowercasedName]) {
+          return (el[name] || (el.attributes.getNamedItem(name)|| {}).specified) ? lowercasedName : undefined;
+        }
+        return el.getAttribute(name);
       } else {
         return this.each(function (el) {
-          el.setAttribute(name, value);
+          if (BOOLEAN_ATTR[lowercasedName]) {
+            if (!!value) {
+              el[name] = true;
+              el.setAttribute(name, lowercasedName);
+            } else {
+              el[name] = false;
+              el.removeAttribute(name);
+            }
+          } else {
+            el.setAttribute(name, value);
+          }
         });
       }
     },
@@ -1288,10 +1324,9 @@ Kimbo.define('traversing', function (_) {
      | $('li').filter($('#id'));
     \*/
     filter: function (selector) {
-      var result;
 
       // Filter collection
-      result = _filter.call(this, function (elem, i) {
+      var result = _filter.call(this, function (elem, i) {
         var ret;
 
         if (Kimbo.isFunction(selector)) {
@@ -1472,13 +1507,15 @@ Kimbo.define('traversing', function (_) {
      | $('.article').find('p');
     \*/
     find: function (selector) {
-      var i, l, length, n, r, result, elems;
 
       // Make new empty kimbo collection
-      result = _.kimbo();
+      var result = _.kimbo();
+      var l = this.length;
+
+      var i, length, n, r, elems;
 
       // Could use Kimbo.forEach, but this is a bit faster..
-      for (i = 0, l = this.length; i < l; i++) {
+      for (i = 0; i < l; i++) {
         length = result.length;
 
         // Get elements
@@ -1582,8 +1619,12 @@ Kimbo.define('traversing', function (_) {
      | $('#container').contains(outside_p); // False
     \*/
     contains: function (element) {
-      element = (element instanceof Kimbo) ? element[0] :
-        (Kimbo.isString(element) ? this.find(element)[0] : element);
+
+      if (Kimbo.isString(element)) {
+        element = this.find(element)[0];
+      } else if (element instanceof Kimbo) {
+        element = element[0];
+      }
 
       return query.contains(this[0], element);
     },
@@ -1614,12 +1655,21 @@ Kimbo.define('traversing', function (_) {
      | $('#menu1 li').add($('#menu2 li'));
     \*/
     add: function (selector, context) {
-      var set = Kimbo.isString(selector) ? _.kimbo(selector, context) :
-        Kimbo.makeArray(selector && selector.nodeType ? [selector] : selector);
+      var set;
 
-      var all = Kimbo.merge(this, set);
+      if (selector) {
+        if (Kimbo.isString(selector)) {
+          set = _.kimbo(selector, context);
+        } else if (selector.nodeType) {
+          set = [selector];
+        } else {
+          set = selector;
+        }
 
-      return _.kimbo(all);
+        var all = Kimbo.merge(this, set);
+
+        return _.kimbo(all);
+      }
     },
 
     /*\
@@ -2253,19 +2303,6 @@ Kimbo.define('events', function (_) {
     return (type ? events[type] : events) || [];
   };
 
-  // Quick is() to check if event target matches when events are delegated
-  var _is = function (target, selector, element) {
-    return (target.nodeName.toLowerCase() === selector && _.kimbo(target).closest(selector, element)[0]);
-  };
-
-  var _returnFalse = function () {
-    return false;
-  };
-
-  var _returnTrue = function () {
-    return true;
-  };
-
   // Register events to dom elements
   var _addEvent = function (element, type, callback, data, selector) {
 
@@ -2310,7 +2347,7 @@ Kimbo.define('events', function (_) {
     handlers = events[type];
     if (!handlers) {
 
-      // Array of events for the current type
+      // Array of handlers for the current type
       handlers = events[type] = [];
       handlers.delegateCount = 0;
 
@@ -2369,10 +2406,8 @@ Kimbo.define('events', function (_) {
       }
     }
 
-    // If no more events for the current type delete its hash
+    // If no more events for the current type remove the listener and delete its hash
     if (!handlers.length) {
-
-      // Remove event handler
       element.removeEventListener(type, handlersHash[elementId].handler, false);
       delete handlersHash[elementId].events[type];
     }
@@ -2416,6 +2451,7 @@ Kimbo.define('events', function (_) {
 
     // Include data if any
     data = data ? Kimbo.makeArray(data) : [];
+
     // Event goes first
     data.unshift(event);
 
@@ -2495,7 +2531,7 @@ Kimbo.define('events', function (_) {
             selector = handleObj.selector;
 
             if (!selMatch[selector]) {
-              selMatch[selector] = _is(currentElement, selector, this);
+              selMatch[selector] = _.kimbo(currentElement).is(selector);
             }
 
             if (selMatch[selector]) {
@@ -2545,6 +2581,14 @@ Kimbo.define('events', function (_) {
     /* jshint +W040 */
   };
 
+  var _returnFalse = function () {
+    return false;
+  };
+
+  var _returnTrue = function () {
+    return true;
+  };
+
   Kimbo.Event = function (event) {
 
     // Is event object
@@ -2581,7 +2625,7 @@ Kimbo.define('events', function (_) {
     preventDefault: function () {
       this.isDefaultPrevented = _returnTrue;
 
-      // Originalevent is not present when trigger is called
+      // Original event is not present when trigger is called
       if (!this.isTrigger) {
         this.originalEvent.preventDefault();
       }
