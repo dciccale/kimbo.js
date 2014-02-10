@@ -23,8 +23,8 @@
     rootContext: document,
 
     // Creates and returns a new Kimbo object
-    kimbo: function (element) {
-      return new Kimbo(element);
+    kimbo: function (element, context) {
+      return new Kimbo(element, context);
     }
   };
 
@@ -34,7 +34,7 @@
    * All methods called from a Kimbo collection affects all elements in it.
   \*/
   var Kimbo = function (selector, context) {
-    var match;
+    var match, div, fragment;
 
     // Auto create a new instance of Kimbo if needed
     if (!(this instanceof Kimbo)) {
@@ -46,7 +46,7 @@
       return this;
     }
 
-    // Asume a css selector, query the dom
+    // Asume a css selector or html string
     if (typeof selector === 'string') {
 
       // Handle faster $('#id');
@@ -60,12 +60,25 @@
         }
 
         return this;
-      }
+
+      // Create html from string
+      } else if (selector.charAt(0) === '<') {
+        div = document.createElement('div');
+        div.innerHTML = selector;
+        this.add(div.childNodes);
+        fragment = new Kimbo(document.createDocumentFragment());
+        // Detach the elements from the temporary DOM div.
+        fragment.append(this);
+
+        return this;
 
       // All other selectors
-      context = context ? _.kimbo(context) : _.rootContext;
+      } else {
 
-      return context.find(selector);
+        context = context ? _.kimbo(context) : _.rootContext;
+
+        return context.find(selector);
+      }
     }
 
     // Already a dom element
@@ -200,8 +213,8 @@
    = (object) The original array or object
    > Usage
    | // Iterating array
-   | $.forEach(['a', 'b', 'c'], function (index, value) {
-   |   alert(index + ': ' + value);
+   | $.forEach(['a', 'b', 'c'], function (value, index) {
+   |   alert(value + ': ' + index);
    | });
    |
    | // Iterating object
@@ -211,18 +224,19 @@
   \*/
   Kimbo.forEach = function (obj, callback) {
     var l = obj.length;
-    var isObj = l === undefined || typeof obj === 'function';
+    var isArrayLike = Array.isArray(obj) || obj instanceof Kimbo || obj instanceof window.NodeList ||
+      !((l !== undefined) || !l);
     var i;
 
-    if (isObj) {
-      for (i in obj) {
-        if (obj.hasOwnProperty(i) && callback.call(obj[i], i, obj[i], obj) === false) {
+    if (isArrayLike) {
+      for (i = 0; i < l; i++) {
+        if (callback.call(obj[i], obj[i], i, obj) === false) {
           break;
         }
       }
     } else {
-      for (i = 0; i < l; i++) {
-        if (callback.call(obj[i], obj[i], i, obj) === false) {
+      for (i in obj) {
+        if (obj.hasOwnProperty(i) && callback.call(obj[i], i, obj[i], obj) === false) {
           break;
         }
       }

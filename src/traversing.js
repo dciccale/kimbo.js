@@ -85,10 +85,9 @@ Kimbo.define('traversing', function (_) {
      | $('li').filter($('#id'));
     \*/
     filter: function (selector) {
-      var result;
 
       // Filter collection
-      result = _filter.call(this, function (elem, i) {
+      var result = _filter.call(this, function (elem, i) {
         var ret;
 
         if (Kimbo.isFunction(selector)) {
@@ -269,13 +268,15 @@ Kimbo.define('traversing', function (_) {
      | $('.article').find('p');
     \*/
     find: function (selector) {
-      var i, l, length, n, r, result, elems;
 
       // Make new empty kimbo collection
-      result = _.kimbo();
+      var result = _.kimbo();
+      var l = this.length;
+
+      var i, length, n, r, elems;
 
       // Could use Kimbo.forEach, but this is a bit faster..
-      for (i = 0, l = this.length; i < l; i++) {
+      for (i = 0; i < l; i++) {
         length = result.length;
 
         // Get elements
@@ -379,8 +380,12 @@ Kimbo.define('traversing', function (_) {
      | $('#container').contains(outside_p); // False
     \*/
     contains: function (element) {
-      element = (element instanceof Kimbo) ? element[0] :
-        (Kimbo.isString(element) ? this.find(element)[0] : element);
+
+      if (Kimbo.isString(element)) {
+        element = this.find(element)[0];
+      } else if (element instanceof Kimbo) {
+        element = element[0];
+      }
 
       return query.contains(this[0], element);
     },
@@ -411,12 +416,21 @@ Kimbo.define('traversing', function (_) {
      | $('#menu1 li').add($('#menu2 li'));
     \*/
     add: function (selector, context) {
-      var set = Kimbo.isString(selector) ? _.kimbo(selector, context) :
-        Kimbo.makeArray(selector && selector.nodeType ? [selector] : selector);
+      var set;
 
-      var all = Kimbo.merge(this, set);
+      if (selector) {
+        if (Kimbo.isString(selector)) {
+          set = _.kimbo(selector, context);
+        } else if (selector.nodeType) {
+          set = [selector];
+        } else {
+          set = selector;
+        }
 
-      return _.kimbo(all);
+        var all = Kimbo.merge(this, set);
+
+        return _.kimbo(all);
+      }
     },
 
     /*\

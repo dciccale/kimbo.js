@@ -4,6 +4,11 @@ Kimbo.define('manipulation', function (_) {
 
   var SPACE_RE = /\s+/;
 
+  var BOOLEAN_ATTR = {};
+  Kimbo.forEach('multiple,selected,checked,disabled,readOnly,required,open'.split(','), function (value) {
+    BOOLEAN_ATTR[value.toLowerCase()] = value;
+  });
+
   // Browser native classList
   var _hasClass = function (el, name) {
     return (el.nodeType === 1 && el.classList.contains(name));
@@ -71,6 +76,7 @@ Kimbo.define('manipulation', function (_) {
     val: 'value'
   }, function (method, prop) {
     Kimbo.fn[method] = function (value) {
+      // TODO: If we are using html method make sure to remove events and data from all chilNnodes
 
       // No element
       if (!this.length) {
@@ -254,8 +260,8 @@ Kimbo.define('manipulation', function (_) {
 
           // Be sure we can append/prepend to the element
           if (el.nodeType === 1 || el.nodeType === 11) {
-            _.kimbo(value).each(function (_el) {
-              el.insertBefore(_el, isPrepend ? el.firstChild : null);
+            _.kimbo(value).each(function (child) {
+              el.insertBefore(child, isPrepend ? el.firstChild : null);
             });
           }
         });
@@ -333,15 +339,31 @@ Kimbo.define('manipulation', function (_) {
      | <a href="http://kimbojs.com" title="Go to Kimbojs.com">Go to Kimbojs.com</a>
     \*/
     attr: function (name, value) {
+      var lowercasedName = name.toLowerCase();
+      var el = this[0];
+
       if (!this.length) {
         return this;
       }
 
       if (Kimbo.isString(name) && value === undefined) {
-        return this[0].getAttribute(name);
+        if (BOOLEAN_ATTR[lowercasedName]) {
+          return (el[name] || (el.attributes.getNamedItem(name)|| {}).specified) ? lowercasedName : undefined;
+        }
+        return el.getAttribute(name);
       } else {
         return this.each(function (el) {
-          el.setAttribute(name, value);
+          if (BOOLEAN_ATTR[lowercasedName]) {
+            if (!!value) {
+              el[name] = true;
+              el.setAttribute(name, lowercasedName);
+            } else {
+              el[name] = false;
+              el.removeAttribute(name);
+            }
+          } else {
+            el.setAttribute(name, value);
+          }
         });
       }
     },

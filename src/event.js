@@ -72,19 +72,6 @@ Kimbo.define('events', function (_) {
     return (type ? events[type] : events) || [];
   };
 
-  // Quick is() to check if event target matches when events are delegated
-  var _is = function (target, selector, element) {
-    return (target.nodeName.toLowerCase() === selector && _.kimbo(target).closest(selector, element)[0]);
-  };
-
-  var _returnFalse = function () {
-    return false;
-  };
-
-  var _returnTrue = function () {
-    return true;
-  };
-
   // Register events to dom elements
   var _addEvent = function (element, type, callback, data, selector) {
 
@@ -129,7 +116,7 @@ Kimbo.define('events', function (_) {
     handlers = events[type];
     if (!handlers) {
 
-      // Array of events for the current type
+      // Array of handlers for the current type
       handlers = events[type] = [];
       handlers.delegateCount = 0;
 
@@ -188,10 +175,8 @@ Kimbo.define('events', function (_) {
       }
     }
 
-    // If no more events for the current type delete its hash
+    // If no more events for the current type remove the listener and delete its hash
     if (!handlers.length) {
-
-      // Remove event handler
       element.removeEventListener(type, handlersHash[elementId].handler, false);
       delete handlersHash[elementId].events[type];
     }
@@ -235,6 +220,7 @@ Kimbo.define('events', function (_) {
 
     // Include data if any
     data = data ? Kimbo.makeArray(data) : [];
+
     // Event goes first
     data.unshift(event);
 
@@ -314,7 +300,7 @@ Kimbo.define('events', function (_) {
             selector = handleObj.selector;
 
             if (!selMatch[selector]) {
-              selMatch[selector] = _is(currentElement, selector, this);
+              selMatch[selector] = _.kimbo(currentElement).is(selector);
             }
 
             if (selMatch[selector]) {
@@ -364,6 +350,14 @@ Kimbo.define('events', function (_) {
     /* jshint +W040 */
   };
 
+  var _returnFalse = function () {
+    return false;
+  };
+
+  var _returnTrue = function () {
+    return true;
+  };
+
   Kimbo.Event = function (event) {
 
     // Is event object
@@ -400,7 +394,7 @@ Kimbo.define('events', function (_) {
     preventDefault: function () {
       this.isDefaultPrevented = _returnTrue;
 
-      // Originalevent is not present when trigger is called
+      // Original event is not present when trigger is called
       if (!this.isTrigger) {
         this.originalEvent.preventDefault();
       }
