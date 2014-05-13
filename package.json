@@ -31,7 +31,8 @@
     "grunt-contrib-uglify": "0.4.0",
     "grunt-contrib-watch": "0.6.1",
     "grunt-git-committers": "0.1.2",
-    "grunt-plato": "1.0.0"
+    "grunt-plato": "1.0.0",
+    "load-grunt-tasks": "0.4.0"
   },
   "keywords": ["javascript", "library", "ecmascript", "kimbo"]
 }

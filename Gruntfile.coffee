@@ -1,5 +1,7 @@
 module.exports = ->
 
+  require('load-grunt-tasks')(@)
+
   @initConfig
     SRC_DIR: 'src/'
     TESTS_DIR: 'test/'
@@ -97,15 +99,6 @@ module.exports = ->
           jshint: @file.readJSON 'src/.jshintrc'
         files:
           '<%= WEB_DIR %>reports': ['<%= SRC_DIR %>*.js']
-
-  @loadNpmTasks 'grunt-contrib-concat'
-  @loadNpmTasks 'grunt-contrib-jshint'
-  @loadNpmTasks 'grunt-contrib-coffee'
-  @loadNpmTasks 'grunt-contrib-jasmine'
-  @loadNpmTasks 'grunt-contrib-uglify'
-  @loadNpmTasks 'grunt-contrib-watch'
-  @loadNpmTasks 'grunt-git-committers'
-  @loadNpmTasks 'grunt-plato'
 
   @registerTask 'build', ['concat', 'uglify']
   @registerTask 'test', ['concat', 'coffee', 'jasmine']
