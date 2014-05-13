@@ -46,7 +46,7 @@ module.exports = ->
 
       tests:
         options:
-          jshintrc: '<%= TESTS_DIR %>/.jshintrc'
+          jshintrc: '<%= TESTS_DIR %>.jshintrc'
         src: ['<%= SPEC_DIR %>*.js']
 
     coffee:
@@ -60,8 +60,9 @@ module.exports = ->
     jasmine:
       test:
         options:
-          specs: ['<%= SPEC_DIR %>/*.js']
-          template: '<%= TESTS_DIR %>SpecRunner.tmpl'
+          specs: ['<%= SPEC_DIR %>*.js']
+          helpers: '<%= TESTS_DIR %>spec-helper.js'
+          template: '<%= TESTS_DIR %>runner.tmpl'
         src: ['<%= DIST_FILE %>.js']
 
     uglify:
@@ -83,7 +84,7 @@ module.exports = ->
         tasks: ['jshint:src', 'concat', 'test']
 
       test:
-        files: ['<%= SPEC_DIR %>/*.coffee']
+        files: ['<%= SPEC_DIR %>*.coffee']
         tasks: ['test', 'jshint:tests']
 
     committers:

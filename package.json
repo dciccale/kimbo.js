@@ -24,14 +24,14 @@
   "dependencies": {},
   "devDependencies": {
     "grunt": "0.4.x",
-    "grunt-contrib-concat": "0.3.x",
-    "grunt-contrib-jshint": "0.6.0",
-    "grunt-contrib-coffee": "0.7.x",
-    "grunt-contrib-jasmine": "0.5.x",
-    "grunt-contrib-uglify": "0.2.x",
-    "grunt-contrib-watch": "0.5.x",
-    "grunt-git-committers": "0.1.x",
-    "grunt-plato": "0.2.x"
+    "grunt-contrib-concat": "0.4.0",
+    "grunt-contrib-jshint": "0.10.0",
+    "grunt-contrib-coffee": "0.10.0",
+    "grunt-contrib-jasmine": "0.6.4",
+    "grunt-contrib-uglify": "0.4.0",
+    "grunt-contrib-watch": "0.6.1",
+    "grunt-git-committers": "0.1.2",
+    "grunt-plato": "1.0.0"
   },
   "keywords": ["javascript", "library", "ecmascript", "kimbo"]
 }
