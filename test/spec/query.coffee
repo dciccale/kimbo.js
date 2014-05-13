@@ -24,6 +24,6 @@ describe 'query', ->
     el = $('#list li')
     expect(el.length).toEqual(3)
 
-  it 'should return empty set when not match found', ->
+  it 'should return empty set when no match found', ->
     el = $('#noexists')
     expect(el.length).toEqual(0)
