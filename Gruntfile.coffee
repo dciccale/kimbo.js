@@ -92,6 +92,7 @@ module.exports = ->
     committers:
       options:
         email: true
+        output: 'CONTRIBUTORS.txt'
 
     plato:
       src:
