@@ -4,5 +4,6 @@ demo
 dist
 www
 test/
+coverage/
 npm-debug.log
 .DS_Store

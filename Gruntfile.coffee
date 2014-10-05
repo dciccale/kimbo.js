@@ -1,5 +1,7 @@
 module.exports = ->
 
+  require('load-grunt-tasks')(@)
+
   @initConfig
     OUTPUT_DIR: 'www'
 
@@ -45,12 +47,5 @@ module.exports = ->
       coffee:
         files: ['src/coffee/*.coffee']
         tasks: ['coffee', 'uglify']
-
-  @loadNpmTasks 'grunt-contrib-stylus'
-  @loadNpmTasks 'grunt-contrib-cssmin'
-  @loadNpmTasks 'grunt-contrib-jade'
-  @loadNpmTasks 'grunt-contrib-coffee'
-  @loadNpmTasks 'grunt-contrib-uglify'
-  @loadNpmTasks 'grunt-contrib-watch'
 
   @registerTask 'default', ['stylus', 'cssmin', 'jade', 'coffee', 'uglify']
