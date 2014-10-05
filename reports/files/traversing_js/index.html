@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title>Plato - traversing.js</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
@@ -13,9 +13,8 @@
   <![endif]-->
 
   <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
-  <link href="../../assets/css/vendor/bootstrap-3.0.0-wip.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
   <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
-  <link href="../../assets/css/vendor/font-awesome-ie7.css" rel="stylesheet">
   <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
   <link href="../../assets/css/plato.css" rel="stylesheet">
   <link href="../../assets/css/plato-file.css" rel="stylesheet">
@@ -26,8 +25,8 @@
 
 <div class="navbar navbar-fixed-top">
   <div class="container">
-    <a class="brand" href="http://github.com/jsoverson/plato">Plato on Github</a>
-    <ul class="nav">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
       <li>
         <a href="../../index.html">Report Home</a>
       </li>
@@ -43,30 +42,30 @@
 
 <div class="container aggregate-stats">
   <div class="row">
-    <div class="span6">
-      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
       <p class="stat">71.35</p>
     </div>
-    <div class="span6">
-      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
       <p class="stat">607</p>
     </div>
   </div>
   <div class="row historical">
-    <div class="span6">
+    <div class="col-md-6">
       <p id="chart_historical_maint" class="chart"></p>
     </div>
-    <div class="span6">
+    <div class="col-md-6">
       <p id="chart_historical_sloc" class="chart"></p>
     </div>
   </div>
   <div class="row">
-    <div class="span6">
-      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
       <p class="stat">68.10</p>
     </div>
-    <div class="span6">
-      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
       <p class="stat">2.01</p>
     </div>
   </div>
@@ -77,12 +76,12 @@
     <h2 class="header">Function weight</h2>
   </div>
   <div class="row">
-    <div class="span6">
-      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity"></i></a></h3>
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
       <div id="fn-by-complexity" class="stat"></div>
     </div>
-    <div class="span6">
-      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h3>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
       <div id="fn-by-sloc" class="stat"></div>
     </div>
   </div>
@@ -90,11 +89,11 @@
 
 <div class="container">
   <div class="row">
-    <textarea id="file-source" class="span12">Kimbo.define('traversing', function (_) {
+    <textarea id="file-source" class="col-md-12">Kimbo.define(&#039;traversing&#039;, function (_) {
 
-  'use strict';
+  &#039;use strict&#039;;
 
-  var query = Kimbo.require('query');
+  var query = Kimbo.require(&#039;query&#039;);
 
   var _filter = Array.prototype.filter;
 
@@ -125,7 +124,7 @@
   var _sibling = function (node, elem) {
     var result = [];
     for (; node; node = node.nextSibling) {
-      if (node.nodeType === 1 && node !== elem ) {
+      if (node.nodeType === 1 &amp;&amp; node !== elem ) {
         result.push(node);
       }
     }
@@ -135,7 +134,7 @@
   var _singleSibling = function (node, prop) {
     do {
       node = node[prop];
-    } while (node && node.nodeType !== 1);
+    } while (node &amp;&amp; node.nodeType !== 1);
 
     return node;
   };
@@ -145,36 +144,36 @@
      * $(…).filter
      [ method ]
      * Filter element collection by the passed argument.
-     > Parameters
+     &gt; Parameters
      - selector (string|object|function) The argument by which the collection will be filtered.
      = (object) Filtered elements collection.
-     > Usage
-     | <ul>
-     |   <li>One</li>
-     |   <li>Two</li>
-     |   <li>Three</li>
-     |   <li>Four</li>
-     | </ul>
+     &gt; Usage
+     | &lt;ul&gt;
+     |   &lt;li&gt;One&lt;/li&gt;
+     |   &lt;li&gt;Two&lt;/li&gt;
+     |   &lt;li&gt;Three&lt;/li&gt;
+     |   &lt;li&gt;Four&lt;/li&gt;
+     | &lt;/ul&gt;
      * Get even items.
-     | $('li').filter(':nth-child(even)').addClass('even');
+     | $(&#039;li&#039;).filter(&#039;:nth-child(even)&#039;).addClass(&#039;even&#039;);
      * Only even items were affected.
-     | <ul>
-     |   <li>One</li>
-     |   <li class="even">Two</li>
-     |   <li>Three</li>
-     |   <li class="even">Four</li>
-     | </ul>
-     > Using a function(index, element)
+     | &lt;ul&gt;
+     |   &lt;li&gt;One&lt;/li&gt;
+     |   &lt;li class=&quot;even&quot;&gt;Two&lt;/li&gt;
+     |   &lt;li&gt;Three&lt;/li&gt;
+     |   &lt;li class=&quot;even&quot;&gt;Four&lt;/li&gt;
+     | &lt;/ul&gt;
+     &gt; Using a function(index, element)
      * You can also filter the collection using a function, receiving the current index and element in the collection.
-     | $('li').filter(function (index, element) {
+     | $(&#039;li&#039;).filter(function (index, element) {
      |   return index % 3 == 2;
-     | }).addClass('red');
-     * This will add a 'red' class to the third, sixth, ninth elements and so on...
-     > Filter by DOM or Kimbo object
+     | }).addClass(&#039;red&#039;);
+     * This will add a &#039;red&#039; class to the third, sixth, ninth elements and so on...
+     &gt; Filter by DOM or Kimbo object
      * You can also filter by a DOM or Kimbo object.
-     | $('li').filter(document.getElementById('id'));
+     | $(&#039;li&#039;).filter(document.getElementById(&#039;id&#039;));
      | // Or a Kimbo object
-     | $('li').filter($('#id'));
+     | $(&#039;li&#039;).filter($(&#039;#id&#039;));
     \*/
     filter: function (selector) {
 
@@ -202,21 +201,21 @@
      * $(…).eq
      [ method ]
      * Reduce the matched elements collection to the one at the specified index.
-     > Parameters
+     &gt; Parameters
      - index (number) An integer indicating the position of the element. Use a negative number to go backwards in the collection.
      = (object) Kimbo object at specified index.
-     > Usage
-     | <ul>
-     |   <li>Item 1</li>
-     |   <li>Item 2</li>
-     |   <li>Item 3</li>
-     |   <li>Item 4</li>
-     | </ul>
+     &gt; Usage
+     | &lt;ul&gt;
+     |   &lt;li&gt;Item 1&lt;/li&gt;
+     |   &lt;li&gt;Item 2&lt;/li&gt;
+     |   &lt;li&gt;Item 3&lt;/li&gt;
+     |   &lt;li&gt;Item 4&lt;/li&gt;
+     | &lt;/ul&gt;
      * Get 3rd element, index always start at 0, so to get the 3rd we need to pass the number 2.
-     | $('li').eq(2); // Item 3
+     | $(&#039;li&#039;).eq(2); // Item 3
     \*/
     eq: function (i) {
-      return this.length && i === -1 ? this.slice(i) : this.slice(i, i + 1);
+      return this.length &amp;&amp; i === -1 ? this.slice(i) : this.slice(i, i + 1);
     },
 
     /*\
@@ -224,14 +223,14 @@
      [ method ]
      * Reduce the matched elements collection to the first in the set.
      = (object) First Kimbo object of the collection
-     > Usage
-     | <ul>
-     |   <li>Item 1</li>
-     |   <li>Item 2</li>
-     |   <li>Item 3</li>
-     | </ul>
+     &gt; Usage
+     | &lt;ul&gt;
+     |   &lt;li&gt;Item 1&lt;/li&gt;
+     |   &lt;li&gt;Item 2&lt;/li&gt;
+     |   &lt;li&gt;Item 3&lt;/li&gt;
+     | &lt;/ul&gt;
      * Get only the first element
-     | $('li').first(); // Item 1
+     | $(&#039;li&#039;).first(); // Item 1
     \*/
     first: function () {
       return this.eq(0);
@@ -242,14 +241,14 @@
      [ method ]
      * Reduce the matched elements collection to the last in the set.
      = (object) Last Kimbo object of the collection
-     > Usage
-     | <ul>
-     |   <li>Item 1</li>
-     |   <li>Item 2</li>
-     |   <li>Item 3</li>
-     | </ul>
+     &gt; Usage
+     | &lt;ul&gt;
+     |   &lt;li&gt;Item 1&lt;/li&gt;
+     |   &lt;li&gt;Item 2&lt;/li&gt;
+     |   &lt;li&gt;Item 3&lt;/li&gt;
+     | &lt;/ul&gt;
      * Get only the last element
-     | $('li').last(); // Item 3
+     | $(&#039;li&#039;).last(); // Item 3
     \*/
     last: function () {
       return this.eq(-1);
@@ -259,47 +258,47 @@
      * $(…).slice
      [ method ]
      * Reduce the matched elements collection to a subset specified by a range of indices
-     > Parameters
+     &gt; Parameters
      - start (number) An integer indicating the position at which the elements begin to be selected. Use a negative number to go backwards in the collection.
      - end (number) #optional An integer indicating the position at which the elements stop being selected. Use a negative number to start at the end of the collection. If ommited, the range continues to the end.
      = (object) Reduced Kimbo object collection in the range specified
-     > Usage
-     | <ul>
-     |   <li>Item 1</li>
-     |   <li>Item 2</li>
-     |   <li>Item 3</li>
-     |   <li>Item 4</li>
-     |   <li>Item 5</li>
-     | </ul>
+     &gt; Usage
+     | &lt;ul&gt;
+     |   &lt;li&gt;Item 1&lt;/li&gt;
+     |   &lt;li&gt;Item 2&lt;/li&gt;
+     |   &lt;li&gt;Item 3&lt;/li&gt;
+     |   &lt;li&gt;Item 4&lt;/li&gt;
+     |   &lt;li&gt;Item 5&lt;/li&gt;
+     | &lt;/ul&gt;
      * This will add the class selected to Item 3, 4 and 5, as the index starts at 0
-     | $('li').slice(2).addClass('selected');
+     | $(&#039;li&#039;).slice(2).addClass(&#039;selected&#039;);
      * This will select only Items 3 and 4
-     | $('li').slice(2, 4).addClass('selected');
-     > Negative index
+     | $(&#039;li&#039;).slice(2, 4).addClass(&#039;selected&#039;);
+     &gt; Negative index
      * Here only Item 4 will be selected since is the only between -2 (Item 3) and -1 (Item 5)
-     | $('li').slice(-2, -1).addClass('selected');
+     | $(&#039;li&#039;).slice(-2, -1).addClass(&#039;selected&#039;);
     \*/
     slice: function () {
-      return this.length && _.kimbo(_.slice.apply(this, arguments));
+      return this.length &amp;&amp; _.kimbo(_.slice.apply(this, arguments));
     },
 
     /*\
      * $(…).each
      [ method ]
      * Iterate over a Kimbo objct, executing a function for each element.
-     > Parameters
+     &gt; Parameters
      - callback (function) A function to call for each element in the collection.
      = (object) Kimbo object
-     > Usage
+     &gt; Usage
      * Here we have an unordered list:
-     | <ul>
-     |   <li>Item 1</li>
-     |   <li>Item 2</li>
-     |   <li>Item 3</li>
-     | </ul>
+     | &lt;ul&gt;
+     |   &lt;li&gt;Item 1&lt;/li&gt;
+     |   &lt;li&gt;Item 2&lt;/li&gt;
+     |   &lt;li&gt;Item 3&lt;/li&gt;
+     | &lt;/ul&gt;
      * You can iterate over all the list items and execute a function
-     | $('li').each(function (el, index, collection) {
-     |   console.log('index of ' + $(this).text() + ' is: ' + index);
+     | $(&#039;li&#039;).each(function (el, index, collection) {
+     |   console.log(&#039;index of &#039; + $(this).text() + &#039; is: &#039; + index);
      | });
      * This will log the following message
      *
@@ -317,22 +316,22 @@
      * $(…).map
      [ method ]
      * Execute a function for each element in the collection, producing a new Kimbo set with the returned values
-     > Parameters
+     &gt; Parameters
      - callback (function) A function to call for each element in the collection.
      = (object) Kimbo object
-     > Usage
+     &gt; Usage
      * Here we have an unordered list:
-     | <ul>
-     |   <li id="item1">Item 1</li>
-     |   <li id="item2">Item 2</li>
-     |   <li id="item3">Item 3</li>
-     | </ul>
+     | &lt;ul&gt;
+     |   &lt;li id=&quot;item1&quot;&gt;Item 1&lt;/li&gt;
+     |   &lt;li id=&quot;item2&quot;&gt;Item 2&lt;/li&gt;
+     |   &lt;li id=&quot;item3&quot;&gt;Item 3&lt;/li&gt;
+     | &lt;/ul&gt;
      * You can call a function for each element to create a new Kimbo object
-     | $('li').map(function (el, index) {
+     | $(&#039;li&#039;).map(function (el, index) {
      |   return this.id;
      | }).get().join();
      * This will produce a list of the item ids.
-     | "item1,item2,item3"
+     | &quot;item1,item2,item3&quot;
     \*/
     map: function (callback) {
       return _.kimbo(Kimbo.map(this, function (elem, i) {
@@ -344,20 +343,20 @@
      * $(…).find
      [ method ]
      * Find descendant elements for each element in the current collection.
-     > Parameters
+     &gt; Parameters
      - selector (string) A string selector to match elements.
      = (object) Kimbo object
-     > Usage
+     &gt; Usage
      * Here we have some HTML
-     | <div id="container">
-     |   <p>Demo</p>
-     |   <div class="article">
-     |     <p>This is an article</p>
-     |     <p>with some paragraphs</p>
-     |   </div>
-     | </div>
+     | &lt;div id=&quot;container&quot;&gt;
+     |   &lt;p&gt;Demo&lt;/p&gt;
+     |   &lt;div class=&quot;article&quot;&gt;
+     |     &lt;p&gt;This is an article&lt;/p&gt;
+     |     &lt;p&gt;with some paragraphs&lt;/p&gt;
+     |   &lt;/div&gt;
+     | &lt;/div&gt;
      * You can find all paragraph elements inside the article:
-     | $('.article').find('p');
+     | $(&#039;.article&#039;).find(&#039;p&#039;);
     \*/
     find: function (selector) {
 
@@ -368,7 +367,7 @@
       var i, length, n, r, elems;
 
       // Could use Kimbo.forEach, but this is a bit faster..
-      for (i = 0; i < l; i++) {
+      for (i = 0; i &lt; l; i++) {
         length = result.length;
 
         // Get elements
@@ -380,8 +379,8 @@
         if (i) {
 
           // Make results unique
-          for (n = length; n < result.length; n++) {
-            for (r = 0; r < length; r++) {
+          for (n = length; n &lt; result.length; n++) {
+            for (r = 0; r &lt; length; r++) {
               if (result[r] === result[n]) {
                 result.splice(n--, 1);
                 break;
@@ -398,24 +397,24 @@
      * $(…).closest
      [ method ]
      * Get a Kimbo collection that matches the closest selector
-     > Parameters
+     &gt; Parameters
      - selector (string) A string selector to match elements.
      - context (string) #optional A DOM element within which matching elements may be found.
      = (object) Kimbo object
-     > Usage
+     &gt; Usage
      * Here we have a nested unordered lists:
-     | <ul>
-     |   <li>
+     | &lt;ul&gt;
+     |   &lt;li&gt;
      |     Item 1
-     |     <ul class="ul-level-2">
-     |       <li class="item-1-1">Item 1.1</li>
-     |       <li class="item-1-2">Item 1.2</li>
-     |     </ul>
-     |   </li>
-     |   <li>Item 2</li>
-     | </ul>
+     |     &lt;ul class=&quot;ul-level-2&quot;&gt;
+     |       &lt;li class=&quot;item-1-1&quot;&gt;Item 1.1&lt;/li&gt;
+     |       &lt;li class=&quot;item-1-2&quot;&gt;Item 1.2&lt;/li&gt;
+     |     &lt;/ul&gt;
+     |   &lt;/li&gt;
+     |   &lt;li&gt;Item 2&lt;/li&gt;
+     | &lt;/ul&gt;
      * You can find the containing ul of the items in the nested ul:
-     | $('.item-1-1').closest('ul');
+     | $(&#039;.item-1-1&#039;).closest(&#039;ul&#039;);
      * This will return `ul.level-2` element
     \*/
     closest: function (selector, context) {
@@ -424,8 +423,8 @@
       var closest = function (node) {
 
         // Check selector match and grab the element
-        while (node && !_matches(node, selector)) {
-          node = node !== context && node !== _.document && node.parentNode;
+        while (node &amp;&amp; !_matches(node, selector)) {
+          node = node !== context &amp;&amp; node !== _.document &amp;&amp; node.parentNode;
         }
         return node;
       };
@@ -447,7 +446,7 @@
         });
 
         // Only unique results
-        result = result.length > 1 ? _unique(result) : result;
+        result = result.length &gt; 1 ? _unique(result) : result;
       }
 
       return _.kimbo(result);
@@ -457,19 +456,19 @@
      * $(…).contains
      [ method ]
      * Determine whether an element is contained by the current matched element.
-     > Parameters
+     &gt; Parameters
      - element (string|object) Selector of the element or the actual DOM or Kimbo object.
      = (boolean) true if it is contained, false if not.
-     > Usage
-     | <div id="container">
-     |   <p id="inside">Inside paragraph</p>
-     | </div>
-     | <p id="outside">Outside paragraph</p>
-     * The paragraph with id "inside" is actually contained by "#container"
-     | $('#container').contains('#inside'); // True
+     &gt; Usage
+     | &lt;div id=&quot;container&quot;&gt;
+     |   &lt;p id=&quot;inside&quot;&gt;Inside paragraph&lt;/p&gt;
+     | &lt;/div&gt;
+     | &lt;p id=&quot;outside&quot;&gt;Outside paragraph&lt;/p&gt;
+     * The paragraph with id &quot;inside&quot; is actually contained by &quot;#container&quot;
+     | $(&#039;#container&#039;).contains(&#039;#inside&#039;); // True
      * The paragraph ourside is not contained
-     | var outside_p = $('#outside');
-     | $('#container').contains(outside_p); // False
+     | var outside_p = $(&#039;#outside&#039;);
+     | $(&#039;#container&#039;).contains(outside_p); // False
     \*/
     contains: function (element) {
 
@@ -486,26 +485,26 @@
      * $(…).add
      [ method ]
      * Add elements to the current Kimbo collection.
-     > Parameters
+     &gt; Parameters
      - selector (string|object) Selector of the element or the actual DOM or Kimbo object.
      - context (string|object) #optional Selector of the context element or the actual DOM or Kimbo object.
      = (object) The merged Kimbo collection.
-     > Usage
-     | <ul id="menu1">
-     |   <li>Apple</li>
-     |   <li>Orange</li>
-     | </ul>
+     &gt; Usage
+     | &lt;ul id=&quot;menu1&quot;&gt;
+     |   &lt;li&gt;Apple&lt;/li&gt;
+     |   &lt;li&gt;Orange&lt;/li&gt;
+     | &lt;/ul&gt;
      |
-     | <ul id="menu2">
-     |   <li>Lemon</li>
-     |   <li>Banana</li>
-     | </ul>
+     | &lt;ul id=&quot;menu2&quot;&gt;
+     |   &lt;li&gt;Lemon&lt;/li&gt;
+     |   &lt;li&gt;Banana&lt;/li&gt;
+     | &lt;/ul&gt;
      * Get the items from the #menu1 and add the ones from #menu2, all the following ways will produce the same collection
-     | $('#menu1 li').add('#menu2 li');
+     | $(&#039;#menu1 li&#039;).add(&#039;#menu2 li&#039;);
      * or
-     | $('#menu1 li').add('li', '#menu2');
+     | $(&#039;#menu1 li&#039;).add(&#039;li&#039;, &#039;#menu2&#039;);
      * or
-     | $('#menu1 li').add($('#menu2 li'));
+     | $(&#039;#menu1 li&#039;).add($(&#039;#menu2 li&#039;));
     \*/
     add: function (selector, context) {
       var set;
@@ -531,22 +530,22 @@
      * Check the current elements collection against a selector, object or function.
      - selector (string|object|function) The argument by which the collection will be matched against.
      = (boolean)
-     > Usage
-     | <ul>
-     |   <li>Click the <em>Apple</em></li>
-     |   <li><span>Click the Orange</span></li>
-     |   <li>Or the Banana</li>
-     | </ul>
-     * Test if the current clicked element is an `<li>` element.
-     | $('ul').click(function (event) {
+     &gt; Usage
+     | &lt;ul&gt;
+     |   &lt;li&gt;Click the &lt;em&gt;Apple&lt;/em&gt;&lt;/li&gt;
+     |   &lt;li&gt;&lt;span&gt;Click the Orange&lt;/span&gt;&lt;/li&gt;
+     |   &lt;li&gt;Or the Banana&lt;/li&gt;
+     | &lt;/ul&gt;
+     * Test if the current clicked element is an `&lt;li&gt;` element.
+     | $(&#039;ul&#039;).click(function (event) {
      |   var $target = $(event.target);
-     |   if ($target.is('li')) {
-     |     $target.css('background-color', 'red');
+     |   if ($target.is(&#039;li&#039;)) {
+     |     $target.css(&#039;background-color&#039;, &#039;red&#039;);
      |   }
      | });
     \*/
     is: function (selector) {
-      return !!(this.length && this.filter(selector).length);
+      return !!(this.length &amp;&amp; this.filter(selector).length);
     }
   });
 
@@ -558,19 +557,19 @@
      * If a selector is specified, it will return the parent element only if it matches that selector.
      - selector (string) #optional A string containing a selector expression to match elements against
      = (object) Kimbo object
-     > Usage
+     &gt; Usage
      * Suppose a page with this HTML:
-     | <ul>
-     |   <li class="item-a">Item 1</li>
-     |   <li class="item-b">Item 2</li>
-     | </ul>
+     | &lt;ul&gt;
+     |   &lt;li class=&quot;item-a&quot;&gt;Item 1&lt;/li&gt;
+     |   &lt;li class=&quot;item-b&quot;&gt;Item 2&lt;/li&gt;
+     | &lt;/ul&gt;
      * Get the parent element of `.item-a`
-     | $('.item-a').parent(); // Ul
+     | $(&#039;.item-a&#039;).parent(); // Ul
     \*/
     parent: function (elem) {
       var parent = elem.parentNode;
 
-      return parent && parent.nodeType !== 11 ? parent : null;
+      return parent &amp;&amp; parent.nodeType !== 11 ? parent : null;
     },
 
     /*\
@@ -580,17 +579,17 @@
      * If a selector is specified, it will return the element only if it matches that selector.
      - selector (string) #optional A string containing a selector expression to match elements against
      = (object) Kimbo object
-     > Usage
+     &gt; Usage
      * Suppose a page with this HTML:
-     | <ul>
-     |   <li class="item-a">Item 1</li>
-     |   <li class="item-b">Item 2</li>
-     | </ul>
+     | &lt;ul&gt;
+     |   &lt;li class=&quot;item-a&quot;&gt;Item 1&lt;/li&gt;
+     |   &lt;li class=&quot;item-b&quot;&gt;Item 2&lt;/li&gt;
+     | &lt;/ul&gt;
      * Get the parent element of `.item-a`
-     | $('.item-a').next(); // .item-b
+     | $(&#039;.item-a&#039;).next(); // .item-b
     \*/
     next: function (elem) {
-      return _singleSibling(elem, 'nextSibling');
+      return _singleSibling(elem, &#039;nextSibling&#039;);
     },
 
     /*\
@@ -600,17 +599,17 @@
      * If a selector is specified, it will return the element only if it matches that selector.
      - selector (string) #optional A string containing a selector expression to match elements against
      = (object) Kimbo object
-     > Usage
+     &gt; Usage
      * Suppose a page with this HTML:
-     | <ul>
-     |   <li class="item-a">Item 1</li>
-     |   <li class="item-b">Item 2</li>
-     | </ul>
+     | &lt;ul&gt;
+     |   &lt;li class=&quot;item-a&quot;&gt;Item 1&lt;/li&gt;
+     |   &lt;li class=&quot;item-b&quot;&gt;Item 2&lt;/li&gt;
+     | &lt;/ul&gt;
      * Get the parent element of `.item-a`
-     | $('.item-b').prev(); // .item-a
+     | $(&#039;.item-b&#039;).prev(); // .item-a
     \*/
     prev: function (elem) {
-      return _singleSibling(elem, 'previousSibling');
+      return _singleSibling(elem, &#039;previousSibling&#039;);
     },
 
     /*\
@@ -620,14 +619,14 @@
      * If a selector is specified, it will return the element only if it matches that selector.
      - selector (string) #optional A string containing a selector expression to match elements against
      = (object) Kimbo object
-     > Usage
+     &gt; Usage
      * Suppose a page with this HTML:
-     | <ul>
-     |   <li class="item-a">Item 1</li>
-     |   <li class="item-b">Item 2</li>
-     | </ul>
+     | &lt;ul&gt;
+     |   &lt;li class=&quot;item-a&quot;&gt;Item 1&lt;/li&gt;
+     |   &lt;li class=&quot;item-b&quot;&gt;Item 2&lt;/li&gt;
+     | &lt;/ul&gt;
      * Get the parent element of `.item-a`
-     | $('.item-b').prev(); // .item-a
+     | $(&#039;.item-b&#039;).prev(); // .item-a
     \*/
     siblings: function (elem) {
       return _sibling((elem.parentNode || {}).firstChild, elem);
@@ -639,24 +638,24 @@
      * Get the children of all matched elements, optionally filtered by a selector.
      - selector (string) #optional A string selector to match elements against.
      = (object) Kimbo object
-     > Usage
+     &gt; Usage
      * Suppose a page with the following HTML:
-     | <div class="demo">
-     |   <p>This</p>
-     |   <p>is</p>
-     |   <p>a</p>
-     |   <p>demo.</p>
-     | </div>
+     | &lt;div class=&quot;demo&quot;&gt;
+     |   &lt;p&gt;This&lt;/p&gt;
+     |   &lt;p&gt;is&lt;/p&gt;
+     |   &lt;p&gt;a&lt;/p&gt;
+     |   &lt;p&gt;demo.&lt;/p&gt;
+     | &lt;/div&gt;
      * Get all children of `.demo`:
-     | $('.demo').children(); // Al <p> tags inside .demo div
+     | $(&#039;.demo&#039;).children(); // Al &lt;p&gt; tags inside .demo div
      * Another example passing an specific selector:
-     | <form>
-     |   <input type="text" name="name" />
-     |   <input type="text" name="last" />
-     |   <input type="submit" value="Send" />
-     | </form>
+     | &lt;form&gt;
+     |   &lt;input type=&quot;text&quot; name=&quot;name&quot; /&gt;
+     |   &lt;input type=&quot;text&quot; name=&quot;last&quot; /&gt;
+     |   &lt;input type=&quot;submit&quot; value=&quot;Send&quot; /&gt;
+     | &lt;/form&gt;
      * Get only the children that are text type elements:
-     | $('form').children('input[type="text"]'); // Only name and last inputs
+     | $(&#039;form&#039;).children(&#039;input[type=&quot;text&quot;]&#039;); // Only name and last inputs
     \*/
     children: function (elem) {
       return _sibling(elem.firstChild);
@@ -667,14 +666,14 @@
      [ method ]
      * Get the HTML content of an iframe
      = (object) Kimbo object
-     > Usage
+     &gt; Usage
      * Suppose an iframe loading an external page:
-     | <iframe src="http://api.kimbojs.com"></iframe>
+     | &lt;iframe src=&quot;http://api.kimbojs.com&quot;&gt;&lt;/iframe&gt;
      * Find the body element of the contents of that iframe:
-     | $('iframe').contents().find('body');
+     | $(&#039;iframe&#039;).contents().find(&#039;body&#039;);
     \*/
     contents: function (elem) {
-      return elem.nodeName.toLowerCase() === 'iframe' ? elem.contentDocument || elem.contentWindow[_.document] : Kimbo.makeArray(elem.childNodes);
+      return elem.nodeName.toLowerCase() === &#039;iframe&#039; ? elem.contentDocument || elem.contentWindow[_.document] : Kimbo.makeArray(elem.childNodes);
     }
   }, function (name, fn) {
     Kimbo.fn[name] = function (selector) {
@@ -687,7 +686,7 @@
       ret = Kimbo.map(this, fn);
 
       // Clean collection
-      ret = this.length > 1 && !IS_UNIQUE[name] ? _unique(ret) : ret;
+      ret = this.length &gt; 1 &amp;&amp; !IS_UNIQUE[name] ? _unique(ret) : ret;
 
       if (Kimbo.isString(selector)) {
         ret = _.kimbo(ret).filter(selector);

@@ -47,10 +47,12 @@ $(function(){
       el.append(horizontalBar(value, Math.min(value, width), 'sloc', [400,600]));
 
       value = el.data('bugs');
-      el.append(horizontalBar(value, value * 5, 'est errors', [1,5]));
+      el.append(horizontalBar(value, Math.min(value * 5, width), 'est errors', [1,5]));
 
-      value = el.data('lint');
-      el.append(horizontalBar(value, value * 5, 'lint errors', [1,10]));
+      if (__options.flags.jshint) {
+        value = el.data('lint');
+        el.append(horizontalBar(value, Math.min(value * 5, width), 'lint errors', [1,10]));
+      }
     });
   }
 
@@ -120,6 +122,10 @@ $(function(){
     });
 
     function onGraphClick(i){
+      // If the i is not set, we jump to the last file in the list. This
+      // preserves a behavior from Morris v1. I expect Plato V1 to be deprecated
+      // and this hack is mearly to preserve the casper tests.
+      if (!i || isNaN(i)) { i = __report.reports.length - 1; }
       document.location = __report.reports[i].info.link;
     }
 

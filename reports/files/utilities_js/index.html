@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title>Plato - utilities.js</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
@@ -13,9 +13,8 @@
   <![endif]-->
 
   <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
-  <link href="../../assets/css/vendor/bootstrap-3.0.0-wip.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
   <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
-  <link href="../../assets/css/vendor/font-awesome-ie7.css" rel="stylesheet">
   <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
   <link href="../../assets/css/plato.css" rel="stylesheet">
   <link href="../../assets/css/plato-file.css" rel="stylesheet">
@@ -26,8 +25,8 @@
 
 <div class="navbar navbar-fixed-top">
   <div class="container">
-    <a class="brand" href="http://github.com/jsoverson/plato">Plato on Github</a>
-    <ul class="nav">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
       <li>
         <a href="../../index.html">Report Home</a>
       </li>
@@ -43,30 +42,30 @@
 
 <div class="container aggregate-stats">
   <div class="row">
-    <div class="span6">
-      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
       <p class="stat">72.72</p>
     </div>
-    <div class="span6">
-      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
       <p class="stat">381</p>
     </div>
   </div>
   <div class="row historical">
-    <div class="span6">
+    <div class="col-md-6">
       <p id="chart_historical_maint" class="chart"></p>
     </div>
-    <div class="span6">
+    <div class="col-md-6">
       <p id="chart_historical_sloc" class="chart"></p>
     </div>
   </div>
   <div class="row">
-    <div class="span6">
-      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
       <p class="stat">26.15</p>
     </div>
-    <div class="span6">
-      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
       <p class="stat">1.18</p>
     </div>
   </div>
@@ -77,12 +76,12 @@
     <h2 class="header">Function weight</h2>
   </div>
   <div class="row">
-    <div class="span6">
-      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity"></i></a></h3>
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
       <div id="fn-by-complexity" class="stat"></div>
     </div>
-    <div class="span6">
-      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h3>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
       <div id="fn-by-sloc" class="stat"></div>
     </div>
   </div>
@@ -90,25 +89,25 @@
 
 <div class="container">
   <div class="row">
-    <textarea id="file-source" class="span12">Kimbo.define('utilities', function (_) {
+    <textarea id="file-source" class="col-md-12">Kimbo.define(&#039;utilities&#039;, function (_) {
 
-  'use strict';
+  &#039;use strict&#039;;
 
   // Mobile userAgent escaped regexes
-  var ANDROID_RE = '(Android)\\s+([\\d.]+)';
-  var BLACKBERRY_RE = '(BlackBerry|BB10|Playbook).*Version\/([\\d.]+)';
-  var FIREFOXOS_RE = '(Mozilla).*Mobile[^\/]*\/([\\d.]*)';
-  var IPAD_RE = '(iPad).*OS\\s([\\d_]+)';
-  var IPHONE_RE = '(iPhone\\sOS)\\s([\\d_]+)';
-  var WEBOS = '(web|hpw)OS[\\s\/]([\\d.]+)';
+  var ANDROID_RE = &#039;(Android)\\s+([\\d.]+)&#039;;
+  var BLACKBERRY_RE = &#039;(BlackBerry|BB10|Playbook).*Version\/([\\d.]+)&#039;;
+  var FIREFOXOS_RE = &#039;(Mozilla).*Mobile[^\/]*\/([\\d.]*)&#039;;
+  var IPAD_RE = &#039;(iPad).*OS\\s([\\d_]+)&#039;;
+  var IPHONE_RE = &#039;(iPhone\\sOS)\\s([\\d_]+)&#039;;
+  var WEBOS = &#039;(web|hpw)OS[\\s\/]([\\d.]+)&#039;;
 
   // Full regexp to test the userAgent
   var MOBILE_OS_RE = new RegExp(
-    ANDROID_RE + '|' +
-    BLACKBERRY_RE + '|' +
-    FIREFOXOS_RE + '|' +
-    IPHONE_RE + '|' +
-    IPAD_RE + '|' +
+    ANDROID_RE + &#039;|&#039; +
+    BLACKBERRY_RE + &#039;|&#039; +
+    FIREFOXOS_RE + &#039;|&#039; +
+    IPHONE_RE + &#039;|&#039; +
+    IPAD_RE + &#039;|&#039; +
     WEBOS
   );
 
@@ -117,10 +116,10 @@
   var objectTypes = {};
 
   // Map object types
-  Kimbo.forEach([ 'Array', 'Boolean', 'Date', 'Error', 'Function',
-    'Number', 'Object', 'RegExp', 'String'
+  Kimbo.forEach([ &#039;Array&#039;, &#039;Boolean&#039;, &#039;Date&#039;, &#039;Error&#039;, &#039;Function&#039;,
+    &#039;Number&#039;, &#039;Object&#039;, &#039;RegExp&#039;, &#039;String&#039;
   ], function (type) {
-      objectTypes['[object ' + type + ']'] = type.toLowerCase();
+      objectTypes[&#039;[object &#039; + type + &#039;]&#039;] = type.toLowerCase();
     }
   );
 
@@ -129,21 +128,21 @@
      * $.typeOf
      [ method ]
      * Determine the internal JavaScript [[Class]] of an object.
-     > Parameters
+     &gt; Parameters
      - obj (object) Object to get its [[Class]] type.
      = (string) Type of the object.
-     > Usage
-     | $.typeOf('i am a string'); // 'string'
-     | $.typeOf(/(\.regexp?)/); // 'regexp'
-     | $.typeOf(null); // 'null'
-     | $.typeOf(undefined); // 'undefined'
-     | $.typeOf(window.notDefined); // 'undefined'
-     | $.typeOf(function () {}); // 'function'
-     | $.typeOf({key: 'value'}); // 'object'
-     | $.typeOf(true); // 'boolean'
-     | $.typeOf([]); // 'array'
-     | $.typeOf(new Date()); // 'date'
-     | $.typeOf(3); // 'number'
+     &gt; Usage
+     | $.typeOf(&#039;i am a string&#039;); // &#039;string&#039;
+     | $.typeOf(/(\.regexp?)/); // &#039;regexp&#039;
+     | $.typeOf(null); // &#039;null&#039;
+     | $.typeOf(undefined); // &#039;undefined&#039;
+     | $.typeOf(window.notDefined); // &#039;undefined&#039;
+     | $.typeOf(function () {}); // &#039;function&#039;
+     | $.typeOf({key: &#039;value&#039;}); // &#039;object&#039;
+     | $.typeOf(true); // &#039;boolean&#039;
+     | $.typeOf([]); // &#039;array&#039;
+     | $.typeOf(new Date()); // &#039;date&#039;
+     | $.typeOf(3); // &#039;number&#039;
     \*/
     typeOf: function (obj) {
       var type;
@@ -152,7 +151,7 @@
         type = String(obj);
 
       } else {
-        type = (objectTypes[Object.prototype.toString.call(obj)] || 'object');
+        type = (objectTypes[Object.prototype.toString.call(obj)] || &#039;object&#039;);
       }
 
       return type;
@@ -162,13 +161,13 @@
      * $.isArray
      [ method ]
      * Determine if the parameter passed is an array object.
-     > Parameters
+     &gt; Parameters
      - obj (object) Object to test if its an array.
      = (boolean) According wether or not it is an array object.
-     > Usage
+     &gt; Usage
      | $.isArray([]); // True
      | $.isArray({}); // False
-     | $.isArray('test'); // False
+     | $.isArray(&#039;test&#039;); // False
     \*/
     isArray: Array.isArray,
 
@@ -176,40 +175,40 @@
      * $.isNumeric
      [ method ]
      * Determine if the parameter passed is an number.
-     > Parameters
+     &gt; Parameters
      - obj (object) Object to test if its a number.
      = (boolean) According wether or not it is a number.
-     > Usage
+     &gt; Usage
      | $.isNumeric(3); // True
-     | $.isNumeric('3'); // False
+     | $.isNumeric(&#039;3&#039;); // False
     \*/
     isNumeric: function (obj) {
-      return !isNaN(parseFloat(obj)) && isFinite(obj);
+      return !isNaN(parseFloat(obj)) &amp;&amp; isFinite(obj);
     },
 
     /*\
      * $.isWindow
      [ method ]
      * Determine if the parameter passed is the window object.
-     > Parameters
+     &gt; Parameters
      - obj (object) Object to test if its the window object.
      = (boolean) According wether or not it is the window object.
-     > Usage
+     &gt; Usage
      | $.isWindow(window); // True
      | $.isWindow({ window: window }); // False
     \*/
     isWindow: function (obj) {
-      return obj && obj === obj.window;
+      return obj &amp;&amp; obj === obj.window;
     },
 
     /*\
      * $.isEmptyObject
      [ method ]
      * Determine if the parameter passed is an empty object.
-     > Parameters
+     &gt; Parameters
      - obj (object) Object to test if its an empty object.
      = (boolean) According wether or not it is an empty object.
-     > Usage
+     &gt; Usage
      | $.isEmptyObject({}); // True
      | $.isEmptyObject([]); // True
      | $.isEmptyObject([1, 2]); // False
@@ -230,9 +229,9 @@
      * $.isMobile
      [ method ]
      * Determine if the current platform is a mobile device, (otherwise is a desktop browser).
-     > Parameters
+     &gt; Parameters
      = (boolean) According wether or not is a mobile device.
-     > Usage
+     &gt; Usage
      | $.isMobile(); // False
     \*/
     isMobile: function () {
@@ -249,17 +248,17 @@
      * $.parseJSON
      [ method ]
      * Parses a well-formed JSON string and returns the resulting JavaScript object.
-     > Parameters
+     &gt; Parameters
      - data (string) The JSON string to parse.
      = (object) A JavaScript object.
-     > Usage
-     | var obj = $.parseJSON('{"name":"Denis"}');
-     | console.log(obj.name === 'Denis'); // True
+     &gt; Usage
+     | var obj = $.parseJSON(&#039;{&quot;name&quot;:&quot;Denis&quot;}&#039;);
+     | console.log(obj.name === &#039;Denis&#039;); // True
     \*/
     parseJSON: function (data) {
 
       // Use native JSON parser
-      if (data && Kimbo.isString(data)) {
+      if (data &amp;&amp; Kimbo.isString(data)) {
         return window.JSON.parse(data);
       }
     },
@@ -268,13 +267,13 @@
      * $.parseXML
      [ method ]
      * Parses a string into an XML document.
-     > Parameters
+     &gt; Parameters
      - data (string) The JSON string to parse.
      = (object) A JavaScript object.
-     > Usage
-     | var xml = "<rss version='2.0'><channel><title>RSS Title</title></channel></rss>"
+     &gt; Usage
+     | var xml = &quot;&lt;rss version=&#039;2.0&#039;&gt;&lt;channel&gt;&lt;title&gt;RSS Title&lt;/title&gt;&lt;/channel&gt;&lt;/rss&gt;&quot;
      | var xmlDoc = $.parseXML(xml);
-     | $(xmlDoc).find('title'); // 'RSS Title'
+     | $(xmlDoc).find(&#039;title&#039;); // &#039;RSS Title&#039;
     \*/
     parseXML: function (data) {
 
@@ -282,12 +281,12 @@
       var domparser;
       var xml;
 
-      if (data && Kimbo.isString(data)) {
+      if (data &amp;&amp; Kimbo.isString(data)) {
         domparser = new window.DOMParser();
-        xml = domparser.parseFromString(data, 'text/xml');
+        xml = domparser.parseFromString(data, &#039;text/xml&#039;);
 
-        if (xml.getElementsByTagName('parsererror').length) {
-          throw new Error('Invalid XML: ' + data);
+        if (xml.getElementsByTagName(&#039;parsererror&#039;).length) {
+          throw new Error(&#039;Invalid XML: &#039; + data);
         }
 
         return xml;
@@ -298,21 +297,21 @@
      * $.map
      [ method ]
      * Translate all items in an array or object to new array of items.
-     > Parameters
+     &gt; Parameters
      - obj (array|object) The Array or Object to translate.
      = (array) A new array.
-     > Usage
-     | var arr = ['a', 'b', 'c'];
+     &gt; Usage
+     | var arr = [&#039;a&#039;, &#039;b&#039;, &#039;c&#039;];
      | arr = $.map(arr, function (element, index) {
      |   return element.toUpperCase() + index;
      | });
-     | console.log(arr); // ['A0', 'B1', 'C2']
+     | console.log(arr); // [&#039;A0&#039;, &#039;B1&#039;, &#039;C2&#039;]
      * Or wit an object
-     | var obj = {a: 'a', b: 'b', c: 'c'};
+     | var obj = {a: &#039;a&#039;, b: &#039;b&#039;, c: &#039;c&#039;};
      | obj = $.map(arr, function (key, value) {
-     |   return key + ': ' + value.toUpperCase();
+     |   return key + &#039;: &#039; + value.toUpperCase();
      | });
-     | console.log(obj); // ['a: A', 'b: B', 'c: C']
+     | console.log(obj); // [&#039;a: A&#039;, &#039;b: B&#039;, &#039;c: C&#039;]
     \*/
     map: function (obj, callback) {
       var values = [];
@@ -321,7 +320,7 @@
         Kimbo.forEach(obj, function (key, val) {
           var value = callback(key, val);
 
-          if (value !== null && value !== undefined) {
+          if (value !== null &amp;&amp; value !== undefined) {
             values.push(value);
           }
         });
@@ -335,11 +334,11 @@
      * $.makeArray
      [ method ]
      * Create an Array from the given object
-     > Parameters
+     &gt; Parameters
      - obj (array|object) The Array or Object to make an array from.
      = (array) A new array.
-     > Usage
-     | var lis = $('li'); // Kimbo object
+     &gt; Usage
+     | var lis = $(&#039;li&#039;); // Kimbo object
      | var arr = $.makeArray(lis);
      |
      | console.log($.isArray(lis)); // False
@@ -363,14 +362,14 @@
      * $.merge
      [ method ]
      * Merge the contents of two arrays into the first array passed.
-     > Parameters
+     &gt; Parameters
      - first (array) The first array to merge the contents of the second.
      - second (array|string) The second array to merge into the first.
      = (array) The first array merged with the second.
-     > Usage
-     | $.merge(['a', 'b'], ['c', 'd']);
+     &gt; Usage
+     | $.merge([&#039;a&#039;, &#039;b&#039;], [&#039;c&#039;, &#039;d&#039;]);
      * Result:
-     | ['a', 'b', 'c', 'd']
+     | [&#039;a&#039;, &#039;b&#039;, &#039;c&#039;, &#039;d&#039;]
     \*/
     merge: function (first, second) {
 
@@ -390,13 +389,13 @@
      * $.camelCase
      [ method ]
      * Camelize any dashed separated string
-     > Parameters
+     &gt; Parameters
      - str (string) A dashed separated string value to transform into camelCase.
      = (string) camelCase string
-     > Usage
-     | $.camelCase('background-color');
+     &gt; Usage
+     | $.camelCase(&#039;background-color&#039;);
      * Result:
-     | 'backgroundColor'
+     | &#039;backgroundColor&#039;
     \*/
     camelCase: function (str) {
       return str.replace(/-+(.)?/g, function (wholeMatch, character) {
@@ -408,63 +407,63 @@
      * $.isFunction
      [ method ]
      * Determine if the parameter passed is a Javascript function object.
-     > Parameters
+     &gt; Parameters
      - obj (object) Object to test if its a function.
      = (boolean) According wether or not it is a function.
-     > Usage
+     &gt; Usage
      | var myFunction = function () {};
      | $.isFunction(myFunction); // True
-     | var something = ['lala', 'jojo'];
+     | var something = [&#039;lala&#039;, &#039;jojo&#039;];
      | $.isFunction(something); // False
     \*/
     isFunction: function (obj) {
-      return Kimbo.typeOf(obj) === 'function';
+      return Kimbo.typeOf(obj) === &#039;function&#039;;
     },
 
     /*\
      * $.isObject
      [ method ]
      * Determine if the parameter passed is a Javascript plain object.
-     > Parameters
+     &gt; Parameters
      - obj (object) Object to test if its a plain object.
      = (boolean) According wether or not it is a plain object.
-     > Usage
+     &gt; Usage
      | $.isObject({}); // True
      | $.isObject([]); // False
-     | $.isObject('test'); // False
+     | $.isObject(&#039;test&#039;); // False
     \*/
     isObject: function (obj) {
-      return Kimbo.typeOf(obj) === 'object';
+      return Kimbo.typeOf(obj) === &#039;object&#039;;
     },
 
     /*\
      * $.isString
      [ method ]
      * Determine if the parameter passed is a string.
-     > Parameters
+     &gt; Parameters
      - obj (object) Object to test if its a string.
      = (boolean) According wether or not it is a string.
-     > Usage
-     | $.isString('test'); // True
-     | $.isString({ name: 'asd' }); // False
+     &gt; Usage
+     | $.isString(&#039;test&#039;); // True
+     | $.isString({ name: &#039;asd&#039; }); // False
     \*/
     isString: function (obj) {
-      return Kimbo.typeOf(obj) === 'string';
+      return Kimbo.typeOf(obj) === &#039;string&#039;;
     },
 
     /*\
      * $.isBoolean
      [ method ]
      * Determine if the parameter passed is boolean.
-     > Parameters
+     &gt; Parameters
      - obj (object) Object to test if its boolean..
      = (boolean) According wether or not it is boolean.
-     > Usage
+     &gt; Usage
      | $.isBoolean(false); // True
      | $.isBoolean(3); // False
     \*/
     isBoolean: function (obj) {
-      return Kimbo.typeOf(obj) === 'boolean';
+      return Kimbo.typeOf(obj) === &#039;boolean&#039;;
     }
   });
 

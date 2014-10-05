@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title>Plato - css.js</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
@@ -13,9 +13,8 @@
   <![endif]-->
 
   <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
-  <link href="../../assets/css/vendor/bootstrap-3.0.0-wip.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
   <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
-  <link href="../../assets/css/vendor/font-awesome-ie7.css" rel="stylesheet">
   <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
   <link href="../../assets/css/plato.css" rel="stylesheet">
   <link href="../../assets/css/plato-file.css" rel="stylesheet">
@@ -26,8 +25,8 @@
 
 <div class="navbar navbar-fixed-top">
   <div class="container">
-    <a class="brand" href="http://github.com/jsoverson/plato">Plato on Github</a>
-    <ul class="nav">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
       <li>
         <a href="../../index.html">Report Home</a>
       </li>
@@ -43,30 +42,30 @@
 
 <div class="container aggregate-stats">
   <div class="row">
-    <div class="span6">
-      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
       <p class="stat">67.84</p>
     </div>
-    <div class="span6">
-      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
       <p class="stat">188</p>
     </div>
   </div>
   <div class="row historical">
-    <div class="span6">
+    <div class="col-md-6">
       <p id="chart_historical_maint" class="chart"></p>
     </div>
-    <div class="span6">
+    <div class="col-md-6">
       <p id="chart_historical_sloc" class="chart"></p>
     </div>
   </div>
   <div class="row">
-    <div class="span6">
-      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
       <p class="stat">25.16</p>
     </div>
-    <div class="span6">
-      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
       <p class="stat">0.86</p>
     </div>
   </div>
@@ -77,12 +76,12 @@
     <h2 class="header">Function weight</h2>
   </div>
   <div class="row">
-    <div class="span6">
-      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity"></i></a></h3>
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
       <div id="fn-by-complexity" class="stat"></div>
     </div>
-    <div class="span6">
-      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h3>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
       <div id="fn-by-sloc" class="stat"></div>
     </div>
   </div>
@@ -90,11 +89,11 @@
 
 <div class="container">
   <div class="row">
-    <textarea id="file-source" class="span12">Kimbo.define('css', function (_) {
+    <textarea id="file-source" class="col-md-12">Kimbo.define(&#039;css&#039;, function (_) {
 
-  'use strict';
+  &#039;use strict&#039;;
 
-  // Properties without 'px' at the end
+  // Properties without &#039;px&#039; at the end
   var CSS_NO_PX = {
     fontWeight: true,
     lineHeight: true,
@@ -106,7 +105,7 @@
   var _getComputedStyle = function (element, property) {
 
     // Support both camelCase and dashed property names
-    property = property.replace(/([A-Z])/g, '-$1').toLowerCase();
+    property = property.replace(/([A-Z])/g, &#039;-$1&#039;).toLowerCase();
 
     return window.getComputedStyle(element, null).getPropertyValue(property);
   };
@@ -114,7 +113,7 @@
   var iframe = null;
 
   var createIframe = function () {
-    iframe = _.document.createElement('iframe');
+    iframe = _.document.createElement(&#039;iframe&#039;);
     _.document.documentElement.appendChild(iframe);
     return iframe;
   };
@@ -129,7 +128,7 @@
     doc.body.appendChild(elem);
 
     // Get display
-    display = _getComputedStyle(elem, 'display');
+    display = _getComputedStyle(elem, &#039;display&#039;);
 
     // Remove it from the dom
     elem.parentNode.removeChild(elem);
@@ -145,12 +144,12 @@
      [ method ]
      * Display all matched elements.
      = (object) Original matched collection.
-     > Usage
-     | <p style="display: none;">Lorem</p>
+     &gt; Usage
+     | &lt;p style=&quot;display: none;&quot;&gt;Lorem&lt;/p&gt;
      * Show it
-     | $('p').show();
-     * Now it's visible
-     | <p style="display: block;">Lorem</p>
+     | $(&#039;p&#039;).show();
+     * Now it&#039;s visible
+     | &lt;p style=&quot;display: block;&quot;&gt;Lorem&lt;/p&gt;
     \*/
     show: function () {
       return this.each(function (el) {
@@ -162,13 +161,13 @@
           display = getActualDisplay(nodeName);
 
           // If still fails for some css rule try creating the element in an isolated iframe
-          if (display === 'none' || !display) {
+          if (display === &#039;none&#039; || !display) {
 
             // Use the already-created iframe if possible
             iframe = (iframe || createIframe());
 
             doc = (iframe.contentWindow || iframe.contentDocument).document;
-            doc.write('<!doctype html><html><body>');
+            doc.write(&#039;&lt;!doctype html&gt;&lt;html&gt;&lt;body&gt;&#039;);
             doc.close();
             display = getActualDisplay(nodeName, doc);
             iframe.parentNode.removeChild(iframe);
@@ -178,7 +177,7 @@
           elementsDisplay[nodeName] = display;
         }
 
-        el.style.display = display || 'block';
+        el.style.display = display || &#039;block&#039;;
       });
     },
 
@@ -187,12 +186,12 @@
      [ method ]
      * Hide all matched elements.
      = (object) Original matched collection.
-     > Usage
-     | <p>Lorem</p>
+     &gt; Usage
+     | &lt;p&gt;Lorem&lt;/p&gt;
      * Hide it
-     | $('p').hide();
-     * Now it's hidden
-     | <p style="display: none;">Lorem</p>
+     | $(&#039;p&#039;).hide();
+     * Now it&#039;s hidden
+     | &lt;p style=&quot;display: none;&quot;&gt;Lorem&lt;/p&gt;
     \*/
     hide: function () {
       return this.each(function (el) {
@@ -200,15 +199,15 @@
         var display = elementsDisplay[nodeName];
 
         if (!display) {
-          display = _getComputedStyle(el, 'display');
+          display = _getComputedStyle(el, &#039;display&#039;);
           elementsDisplay[nodeName] = display;
         } else {
           display = el.style.display;
         }
 
         // Only hide if not already hidden
-        if (display !== 'none') {
-          el.style.display = 'none';
+        if (display !== &#039;none&#039;) {
+          el.style.display = &#039;none&#039;;
         }
       });
     },
@@ -217,38 +216,38 @@
      * $(…).css
      [ method ]
      * Get the css value of a property from one element or set a css property to all matched elements.
-     > Parameters
+     &gt; Parameters
      - property (string|object) Name of the css property.
      - value (string|number) #optional Value for the property.
      = (object) Original matched collection.
-     > Usage
-     | <p>Hello dude!</p>
+     &gt; Usage
+     | &lt;p&gt;Hello dude!&lt;/p&gt;
      * Modify some styles
-     | $('p').css('color', 'red'); // Now the text is red
+     | $(&#039;p&#039;).css(&#039;color&#039;, &#039;red&#039;); // Now the text is red
      * The HTML will look like this:
-     | <p style="color: red;">Hello dude!</p>
+     | &lt;p style=&quot;color: red;&quot;&gt;Hello dude!&lt;/p&gt;
      * You can also pass an object for setting multiple properties at the same time
-     | $('p').css({
-     |   color: 'red',
-     |   'font-size': '30px',
-     |   backgroundColor: 'blue'
+     | $(&#039;p&#039;).css({
+     |   color: &#039;red&#039;,
+     |   &#039;font-size&#039;: &#039;30px&#039;,
+     |   backgroundColor: &#039;blue&#039;
      | });
      * Properties can be dash-separated (add quotes) or camelCase.
-     | <p style="color: red; font-size: 30px; background-color: blue">Hello dude!</p>
+     | &lt;p style=&quot;color: red; font-size: 30px; background-color: blue&quot;&gt;Hello dude!&lt;/p&gt;
     \*/
     css: function (property, value) {
       var that = this;
       var setCss;
 
-      if (!this.length || (!Kimbo.isString(property) && !Kimbo.isObject(property))) {
+      if (!this.length || (!Kimbo.isString(property) &amp;&amp; !Kimbo.isObject(property))) {
         return this;
       }
 
       setCss = function (name, value) {
 
-        // If it's a number add 'px' except for some properties
-        if (Kimbo.isNumeric(value) && !CSS_NO_PX[Kimbo.camelCase(name)]) {
-          value += 'px';
+        // If it&#039;s a number add &#039;px&#039; except for some properties
+        if (Kimbo.isNumeric(value) &amp;&amp; !CSS_NO_PX[Kimbo.camelCase(name)]) {
+          value += &#039;px&#039;;
         }
 
         // Apply styles to all elements in the set

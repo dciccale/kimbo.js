@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title>Plato - event.js</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
@@ -13,9 +13,8 @@
   <![endif]-->
 
   <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
-  <link href="../../assets/css/vendor/bootstrap-3.0.0-wip.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
   <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
-  <link href="../../assets/css/vendor/font-awesome-ie7.css" rel="stylesheet">
   <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
   <link href="../../assets/css/plato.css" rel="stylesheet">
   <link href="../../assets/css/plato-file.css" rel="stylesheet">
@@ -26,8 +25,8 @@
 
 <div class="navbar navbar-fixed-top">
   <div class="container">
-    <a class="brand" href="http://github.com/jsoverson/plato">Plato on Github</a>
-    <ul class="nav">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
       <li>
         <a href="../../index.html">Report Home</a>
       </li>
@@ -43,30 +42,30 @@
 
 <div class="container aggregate-stats">
   <div class="row">
-    <div class="span6">
-      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
       <p class="stat">63.31</p>
     </div>
-    <div class="span6">
-      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
-      <p class="stat">625</p>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">619</p>
     </div>
   </div>
   <div class="row historical">
-    <div class="span6">
+    <div class="col-md-6">
       <p id="chart_historical_maint" class="chart"></p>
     </div>
-    <div class="span6">
+    <div class="col-md-6">
       <p id="chart_historical_sloc" class="chart"></p>
     </div>
   </div>
   <div class="row">
-    <div class="span6">
-      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
       <p class="stat">56.61</p>
     </div>
-    <div class="span6">
-      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
       <p class="stat">3.77</p>
     </div>
   </div>
@@ -77,12 +76,12 @@
     <h2 class="header">Function weight</h2>
   </div>
   <div class="row">
-    <div class="span6">
-      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity"></i></a></h3>
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
       <div id="fn-by-complexity" class="stat"></div>
     </div>
-    <div class="span6">
-      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h3>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
       <div id="fn-by-sloc" class="stat"></div>
     </div>
   </div>
@@ -90,40 +89,33 @@
 
 <div class="container">
   <div class="row">
-    <textarea id="file-source" class="span12">Kimbo.define('events', function (_) {
+    <textarea id="file-source" class="col-md-12">Kimbo.define(&#039;events&#039;, function (_) {
 
-  'use strict';
+  &#039;use strict&#039;;
 
-  var query = Kimbo.require('query');
-
+  var query = Kimbo.require(&#039;query&#039;);
   var _guid = 1;
-
   var MOUSE_EVENT_RE = /^(?:mouse|menu)|click/;
-
   var KEY_EVENT_RE = /^key/;
-
   var DEFAULT_EVENT_PROPS = [
-    'altKey', 'bubbles', 'cancelable', 'ctrlKey', 'currentTarget', 'defaultPrevented', 'eventPhase',
-    'metaKey', 'relatedTarget', 'shiftKey', 'target', 'timeStamp', 'type', 'view', 'which'
+    &#039;altKey&#039;, &#039;bubbles&#039;, &#039;cancelable&#039;, &#039;ctrlKey&#039;, &#039;currentTarget&#039;, &#039;defaultPrevented&#039;, &#039;eventPhase&#039;,
+    &#039;metaKey&#039;, &#039;relatedTarget&#039;, &#039;shiftKey&#039;, &#039;target&#039;, &#039;timeStamp&#039;, &#039;type&#039;, &#039;view&#039;, &#039;which&#039;
   ];
-
   var MOUSE_EVENT_PROPS = [
-    'button', 'buttons', 'clientX', 'clientY', 'fromElement',
-    'offsetX', 'offsetY', 'screenX', 'screenY', 'toElement'
+    &#039;button&#039;, &#039;buttons&#039;, &#039;clientX&#039;, &#039;clientY&#039;, &#039;fromElement&#039;,
+    &#039;offsetX&#039;, &#039;offsetY&#039;, &#039;screenX&#039;, &#039;screenY&#039;, &#039;toElement&#039;
   ];
-
-  var KEY_EVENT_PROPS = ['char', 'charCode', 'key', 'keyCode'];
+  var KEY_EVENT_PROPS = [&#039;char&#039;, &#039;charCode&#039;, &#039;key&#039;, &#039;keyCode&#039;];
 
   // Gestures fallback for not mobile environment
   var GESTURES_FALLBACK = Kimbo.isMobile() ? {} : {
-    touchstart: 'mousedown',
-    touchmove: 'mousemove',
-    touchend: 'mouseup',
-    touch: 'click',
-    doubletap: 'dblclick',
-    orientationchange: 'resize'
+    touchstart: &#039;mousedown&#039;,
+    touchmove: &#039;mousemove&#039;,
+    touchend: &#039;mouseup&#039;,
+    touch: &#039;click&#039;,
+    doubletap: &#039;dblclick&#039;,
+    orientationchange: &#039;resize&#039;
   };
-
   var handlersHash = {};
   var fixEventProps = {};
   var specialEvents = {};
@@ -239,7 +231,7 @@
     handlers = _getHandlers(elementId, type);
 
     // Return if no handlers for the current event type
-    if (type && !handlers.length) {
+    if (type &amp;&amp; !handlers.length) {
       return;
     }
 
@@ -253,9 +245,9 @@
     }
 
     // Remove handlers that match
-    for (i = 0; i < handlers.length; i++) {
+    for (i = 0; i &lt; handlers.length; i++) {
       handleObj = handlers[i];
-      if ((!callback || callback === handleObj.callback) && (!selector || selector === handleObj.selector)) {
+      if ((!callback || callback === handleObj.callback) &amp;&amp; (!selector || selector === handleObj.selector)) {
 
         // Remove current handler from stack
         handlers.splice(i--, 1);
@@ -286,14 +278,15 @@
     /* jshint validthis: true */
     var currentElement, lastElement, eventTree, elementId, event;
 
-    // Don't do events if element is text or comment node
+    // Don&#039;t do events if element is text or comment node
     // Or if there is no event type at all or type is not a string
-    if ((element && (element.nodeType === 3 || element.nodeType === 8)) || !type || !Kimbo.isString(type)) {
-      return this;
+    if ((element &amp;&amp; (element.nodeType === 3 || element.nodeType === 8)) ||
+      !type || !Kimbo.isString(type)) {
+        return this;
     }
 
     // Try triggering native focus and blur events
-    if (type === 'focus' || type === 'blur') {
+    if (type === &#039;focus&#039; || type === &#039;blur&#039;) {
       try {
         return element[type]();
       } catch (e) {}
@@ -327,7 +320,7 @@
       }
 
       // Only add window object if we got to document (e.g., not plain obj or detached DOM)
-      if (lastElement && lastElement === element.ownerDocument) {
+      if (lastElement &amp;&amp; lastElement === element.ownerDocument) {
         eventTree.push([window, type]);
       }
     }
@@ -345,7 +338,7 @@
       elementId = currentElement._guid;
 
       // If the current element has events of the specified type, dispatch them
-      if (elementId && _getHandlers(elementId, type)) {
+      if (elementId &amp;&amp; _getHandlers(elementId, type)) {
         handlersHash[elementId].handler.apply(currentElement, data);
       }
     });
@@ -377,13 +370,13 @@
       // Go up to the dom finding the elements that matches the current selector from delegated event
       for (currentElement = event.target; currentElement !== this; currentElement = currentElement.parentNode || this) {
 
-        // Don't do events on disabled elements
-        if (currentElement.disabled !== true || event.type !== 'click') {
+        // Don&#039;t do events on disabled elements
+        if (currentElement.disabled !== true || event.type !== &#039;click&#039;) {
           selMatch = {};
           matches = [];
 
           // Loop throgh delegated events
-          for (i = 0; i < delegateCount; i++) {
+          for (i = 0; i &lt; delegateCount; i++) {
 
             // Get its handler
             handleObj = handlers[i];
@@ -408,7 +401,7 @@
     }
 
     // Add the remaining not delegated handlers
-    if (handlers.length > delegateCount) {
+    if (handlers.length &gt; delegateCount) {
       handlerQueue.push({elem: this, matches: handlers.slice(delegateCount)});
     }
 
@@ -453,7 +446,7 @@
   Kimbo.Event = function (event) {
 
     // Is event object
-    if (event && event.type) {
+    if (event &amp;&amp; event.type) {
       this.originalEvent = event;
       this.type = event.type;
 
@@ -470,8 +463,8 @@
       this.type = event;
     }
 
-    // Create a timestamp if doesn't have one
-    this.timeStamp = (event && event.timeStamp) || Date.now();
+    // Create a timestamp if doesn&#039;t have one
+    this.timeStamp = (event &amp;&amp; event.timeStamp) || Date.now();
 
     // Made by kimbo, yeah
     this[Kimbo.ref] = true;
@@ -514,37 +507,37 @@
      * $(…).on
      [ method ]
      * Add an event handler to the selected elements.
-     > Parameters
+     &gt; Parameters
      - type (string) A string name for the event to register.
      - selector (string) #optional Delegate an event providing a string selector.
      - data (any) #optional Data to be passed to the handler in `event.data` when an event is triggered.
      - callback (function) A callback function to execute when the event is triggered.
-     > Usage
+     &gt; Usage
      * Suppose a button element:
-     | <button id='btn'>click me</button>
+     | &lt;button id=&#039;btn&#039;&gt;click me&lt;/button&gt;
      * Register a click event handler
-     | $('#btn').on('click', function (event) {
-     |   console.log('clicked!', event);
+     | $(&#039;#btn&#039;).on(&#039;click&#039;, function (event) {
+     |   console.log(&#039;clicked!&#039;, event);
      | });
      * There are shorthands for all events for example:
-     | $('#btn').click(function (event) {
-     |   console.log('clicked!', event);
+     | $(&#039;#btn&#039;).click(function (event) {
+     |   console.log(&#039;clicked!&#039;, event);
      | });
      * Passing some data when registering the handler:
-     | $('#btn').on('click', { name: 'denis' }, function (event) {
+     | $(&#039;#btn&#039;).on(&#039;click&#039;, { name: &#039;denis&#039; }, function (event) {
      |   // Data passed is inside event.data
-     |   console.log('name:', event.data.name);
+     |   console.log(&#039;name:&#039;, event.data.name);
      | });
      * Here is a list for all the shorthand methods available:
-     | 'blur', 'change', 'click', 'contextmenu', 'dblclick', 'error',
-     | 'focus', 'keydown', 'keypress', 'keyup', 'load', 'mousedown', 'mouseenter', 'mouseleave',
-     | 'mousemove', 'mouseout', 'mouseup', 'mouseover', 'resize', 'scroll', 'select', 'submit', 'unload'
+     | &#039;blur&#039;, &#039;change&#039;, &#039;click&#039;, &#039;contextmenu&#039;, &#039;dblclick&#039;, &#039;error&#039;,
+     | &#039;focus&#039;, &#039;keydown&#039;, &#039;keypress&#039;, &#039;keyup&#039;, &#039;load&#039;, &#039;mousedown&#039;, &#039;mouseenter&#039;, &#039;mouseleave&#039;,
+     | &#039;mousemove&#039;, &#039;mouseout&#039;, &#039;mouseup&#039;, &#039;mouseover&#039;, &#039;resize&#039;, &#039;scroll&#039;, &#039;select&#039;, &#039;submit&#039;, &#039;unload&#039;
     \*/
     on: function (type, selector, data, callback) {
       // Prepare the arguments
 
       // (type, callback)
-      if (!data && !callback) {
+      if (!data &amp;&amp; !callback) {
         callback = selector;
         data = selector = undefined;
 
@@ -562,7 +555,7 @@
         }
       }
 
-      // Don't add events if no callback
+      // Don&#039;t add events if no callback
       if (!callback) {
         return this;
       }
@@ -579,27 +572,27 @@
      * $(…).off
      [ method ]
      * Remove an event handler to the selected elements for the specified type, or all of them if no type defined.
-     > Parameters
+     &gt; Parameters
      - type (string) #optional A string name for the event to remove, or All if none specified.
      - selector (string) #optional A string selector to undelegate an event from that element.
      - callback (function) #optional A specific callback function if there are multiple registered under the same event type
-     > Usage
+     &gt; Usage
      * Suppose a button element:
-     | <button id='btn'>click me</button>
+     | &lt;button id=&#039;btn&#039;&gt;click me&lt;/button&gt;
      * Register a click event handler
-     | $('#btn').on('click', function (event) {
-     |   console.log('clicked!', event);
+     | $(&#039;#btn&#039;).on(&#039;click&#039;, function (event) {
+     |   console.log(&#039;clicked!&#039;, event);
      | });
      * Remove the handler
-     | $('#btn').off('click');
+     | $(&#039;#btn&#039;).off(&#039;click&#039;);
      * Also you could specify the handler for example:
-     | var firstFunction = function () { console.log('first fn'); };
-     | var secondFunction = function () { console.log('second fn'); };
-     | var btn = $('#btn');
+     | var firstFunction = function () { console.log(&#039;first fn&#039;); };
+     | var secondFunction = function () { console.log(&#039;second fn&#039;); };
+     | var btn = $(&#039;#btn&#039;);
      | btn.click(firstFunction);
      | btn.click(secondFunction);
      * If you want to remove the click event only for the second function, do this:
-     | btn.off('click', secondFunction);
+     | btn.off(&#039;click&#039;, secondFunction);
      * Or if you want to remove All handlers (click and any other attached):
      | btn.off();
     \*/
@@ -623,25 +616,25 @@
      * $(…).trigger
      [ method ]
      * Execute all handlers attached to the matched elements for the fiven event type.
-     > Parameters
+     &gt; Parameters
      - type (string) #optional A string name for the event to remove, or All if none specified.
      - data (any) #optional Additional parameters to be passed to the handler in `event.data` when an event is triggered.
-     > Usage
+     &gt; Usage
      * Suppose a button element:
-     | <button id='btn'>click me</button>
+     | &lt;button id=&#039;btn&#039;&gt;click me&lt;/button&gt;
      * Register a click event handler
-     | $('#btn').on('click', function (event, data) {
-     |   console.log('name', data.name);
+     | $(&#039;#btn&#039;).on(&#039;click&#039;, function (event, data) {
+     |   console.log(&#039;name&#039;, data.name);
      | });
      * Trigger the event programatically passing some data:
-     | $('#btn').trigger('click', { name: 'denis' });
-     | // 'name denis'
+     | $(&#039;#btn&#039;).trigger(&#039;click&#039;, { name: &#039;denis&#039; });
+     | // &#039;name denis&#039;
      * Allow the handler to recieve multiple data:
-     | $('#btn').on('click', function (event, name, last) {
-     |   console.log('name', name);
-     |   console.log('last', last);
+     | $(&#039;#btn&#039;).on(&#039;click&#039;, function (event, name, last) {
+     |   console.log(&#039;name&#039;, name);
+     |   console.log(&#039;last&#039;, last);
      | });
-     | $('#btn').trigger('click', ['denis', 'ciccale']);
+     | $(&#039;#btn&#039;).trigger(&#039;click&#039;, [&#039;denis&#039;, &#039;ciccale&#039;]);
      | // Name denis
      | // Last ciccale
     \*/
@@ -655,21 +648,21 @@
      * $(…).hover
      [ method ]
      * A shortcut method to register moseenter and/or mouseleave event handlers to the matched elements.
-     > Parameters
+     &gt; Parameters
      - fnOver (function) A function to execute when the cursor enters the element.
      - fnOut (function) #optional A function to execute when the cursor leaves the element.
-     > Usage
+     &gt; Usage
      * Suppose a div element:
-     | <div id='box'></div>
+     | &lt;div id=&#039;box&#039;&gt;&lt;/div&gt;
      * Register hover event
-     | var fnOver = function () { console.log('enter'); };
-     | var fnOut = function () { console.log('leave'); };
+     | var fnOver = function () { console.log(&#039;enter&#039;); };
+     | var fnOut = function () { console.log(&#039;leave&#039;); };
      |
-     | $('.box').hover(fnOver, fnOut);
+     | $(&#039;.box&#039;).hover(fnOver, fnOut);
      * When the cursor enters the `.box` element the console will log:
-     | 'enter'
+     | &#039;enter&#039;
      * When the cursor leaves the `.box` element the console will log:
-     | 'leave'
+     | &#039;leave&#039;
     \*/
     hover: function (fnOver, fnOut) {
       return this.mouseenter(fnOver).mouseleave(fnOut || fnOver);
@@ -677,12 +670,12 @@
   });
 
   // Shortcut methods for each event type
-  Kimbo.forEach(['blur', 'change', 'click', 'contextmenu', 'dblclick', 'error',
-    'focus', 'keydown', 'keypress', 'keyup', 'load', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove',
-    'mouseout', 'mouseup', 'mouseover', 'resize', 'scroll', 'select', 'submit', 'unload'], function (type) {
+  Kimbo.forEach([&#039;blur&#039;, &#039;change&#039;, &#039;click&#039;, &#039;contextmenu&#039;, &#039;dblclick&#039;, &#039;error&#039;,
+    &#039;focus&#039;, &#039;keydown&#039;, &#039;keypress&#039;, &#039;keyup&#039;, &#039;load&#039;, &#039;mousedown&#039;, &#039;mouseenter&#039;, &#039;mouseleave&#039;, &#039;mousemove&#039;,
+    &#039;mouseout&#039;, &#039;mouseup&#039;, &#039;mouseover&#039;, &#039;resize&#039;, &#039;scroll&#039;, &#039;select&#039;, &#039;submit&#039;, &#039;unload&#039;], function (type) {
 
     Kimbo.fn[type] = function (data, callback) {
-      return arguments.length > 0 ? this.on(type, null, data, callback) : this.trigger(type);
+      return arguments.length &gt; 0 ? this.on(type, null, data, callback) : this.trigger(type);
     };
 
     // Set event props for the specific type
@@ -691,8 +684,8 @@
 
   // Fix mouseover and mouseout events to use mouseenter mouseleave
   Kimbo.forEach({
-    mouseenter: 'mouseover',
-    mouseleave: 'mouseout'
+    mouseenter: &#039;mouseover&#039;,
+    mouseleave: &#039;mouseout&#039;
   }, function (orig, fix) {
     specialEvents[orig] = {
       origType: fix,
@@ -703,7 +696,7 @@
         var handleObj = event.handleObj;
         var ret;
 
-        if (!related || (related !== target && !query.contains(target, related))) {
+        if (!related || (related !== target &amp;&amp; !query.contains(target, related))) {
           event.type = handleObj.origType;
           ret = handleObj.callback.apply(this, arguments);
           event.type = fix;

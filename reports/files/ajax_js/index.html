@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title>Plato - ajax.js</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
@@ -13,9 +13,8 @@
   <![endif]-->
 
   <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
-  <link href="../../assets/css/vendor/bootstrap-3.0.0-wip.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
   <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
-  <link href="../../assets/css/vendor/font-awesome-ie7.css" rel="stylesheet">
   <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
   <link href="../../assets/css/plato.css" rel="stylesheet">
   <link href="../../assets/css/plato-file.css" rel="stylesheet">
@@ -26,8 +25,8 @@
 
 <div class="navbar navbar-fixed-top">
   <div class="container">
-    <a class="brand" href="http://github.com/jsoverson/plato">Plato on Github</a>
-    <ul class="nav">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
       <li>
         <a href="../../index.html">Report Home</a>
       </li>
@@ -43,30 +42,30 @@
 
 <div class="container aggregate-stats">
   <div class="row">
-    <div class="span6">
-      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
       <p class="stat">67.81</p>
     </div>
-    <div class="span6">
-      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
       <p class="stat">424</p>
     </div>
   </div>
   <div class="row historical">
-    <div class="span6">
+    <div class="col-md-6">
       <p id="chart_historical_maint" class="chart"></p>
     </div>
-    <div class="span6">
+    <div class="col-md-6">
       <p id="chart_historical_sloc" class="chart"></p>
     </div>
   </div>
   <div class="row">
-    <div class="span6">
-      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
       <p class="stat">45.58</p>
     </div>
-    <div class="span6">
-      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
       <p class="stat">2.06</p>
     </div>
   </div>
@@ -77,12 +76,12 @@
     <h2 class="header">Function weight</h2>
   </div>
   <div class="row">
-    <div class="span6">
-      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity"></i></a></h3>
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
       <div id="fn-by-complexity" class="stat"></div>
     </div>
-    <div class="span6">
-      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h3>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
       <div id="fn-by-sloc" class="stat"></div>
     </div>
   </div>
@@ -90,18 +89,18 @@
 
 <div class="container">
   <div class="row">
-    <textarea id="file-source" class="span12">Kimbo.define('ajax', function (_) {
+    <textarea id="file-source" class="col-md-12">Kimbo.define(&#039;ajax&#039;, function (_) {
 
-  'use strict';
+  &#039;use strict&#039;;
 
-  var JSONP_RE = /(\=)\?(&|$)|\?\?/i;
+  var JSONP_RE = /(\=)\?(&amp;|$)|\?\?/i;
 
   var MIME_TYPES = {
-    html: 'text/html',
-    json: 'application/json',
-    script: 'text/javascript, application/javascript',
-    text: 'text/plain',
-    xml: 'application/xml, text/xml'
+    html: &#039;text/html&#039;,
+    json: &#039;application/json&#039;,
+    script: &#039;text/javascript, application/javascript&#039;,
+    text: &#039;text/plain&#039;,
+    xml: &#039;application/xml, text/xml&#039;
   };
 
   var dataParse = {
@@ -112,7 +111,7 @@
   var xhrCallbacks = {};
 
   // Success and error callbacks
-  Kimbo.forEach(['success', 'error'], function (type) {
+  Kimbo.forEach([&#039;success&#039;, &#039;error&#039;], function (type) {
     xhrCallbacks[type] = function (res, msg, xhr, settings) {
       settings = settings || xhr;
       if (Kimbo.isFunction(settings[type])) {
@@ -130,7 +129,7 @@
 
     // Set dataType if missing
     if (!settings.dataType) {
-      contentType = xhr.getResponseHeader('Content-Type');
+      contentType = xhr.getResponseHeader(&#039;Content-Type&#039;);
 
       Kimbo.forEach(MIME_TYPES, function (name, type) {
         if (type.match(contentType)) {
@@ -147,28 +146,28 @@
       response = _getResponse(xhr.responseText, settings.dataType);
     } catch (e) {
       response = false;
-      xhrCallbacks.error('parseerror', e, xhr, settings);
+      xhrCallbacks.error(&#039;parseerror&#039;, e, xhr, settings);
     }
 
     return response;
   };
 
   var _setHeaders = function (settings) {
-    if (!settings.crossDomain && !settings.headers['X-Requested-With']) {
-      settings.headers['X-Requested-With'] = 'XMLHttpRequest';
+    if (!settings.crossDomain &amp;&amp; !settings.headers[&#039;X-Requested-With&#039;]) {
+      settings.headers[&#039;X-Requested-With&#039;] = &#039;XMLHttpRequest&#039;;
     }
 
     if (settings.contentType) {
-      settings.headers['Content-Type'] = settings.contentType;
+      settings.headers[&#039;Content-Type&#039;] = settings.contentType;
     }
 
-    settings.headers.Accept = MIME_TYPES[settings.dataType] || '*/*';
+    settings.headers.Accept = MIME_TYPES[settings.dataType] || &#039;*/*&#039;;
   };
 
   var _timeout = function (xhr, settings) {
     xhr.onreadystatechange = null;
     xhr.abort();
-    xhrCallbacks.error('error', 'timeout', xhr, settings);
+    xhrCallbacks.error(&#039;error&#039;, &#039;timeout&#039;, xhr, settings);
   };
 
   var _createAbortTimeout = function (xhr, settings) {
@@ -181,7 +180,7 @@
    * $.ajaxSettings
    [ property ]
    * Default ajax settings object.
-   > Usage
+   &gt; Usage
    * If you want to change the global and default ajax settings, change this object properties:
    | $.ajaxSettings.error = function () {
    |   // Handle any failed ajax request in your app
@@ -189,7 +188,7 @@
    | $.ajaxSettings.timeout = 1000; // 1 second
   \*/
   Kimbo.ajaxSettings = {
-    type: 'GET',
+    type: &#039;GET&#039;,
     async: true,
     success: {},
     error: {},
@@ -198,7 +197,7 @@
     data: null,
     crossDomain: false,
     timeout: 0,
-    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+    contentType: &#039;application/x-www-form-urlencoded; charset=UTF-8&#039;,
     xhr: function () {
       return new window.XMLHttpRequest();
     }
@@ -208,11 +207,11 @@
    * $.ajax
    [ method ]
    * Perform an asynchronous HTTP (Ajax) request.
-   > Parameters
+   &gt; Parameters
    - options (object) #optional An object with options
    o {
    o   url (string) Url to make the request.
-   o   type (string) #optional Type of request. Could be `'GET'` or `'POST'`. Default value is `'GET'`.
+   o   type (string) #optional Type of request. Could be `&#039;GET&#039;` or `&#039;POST&#039;`. Default value is `&#039;GET&#039;`.
    o   async (boolean) #optional Default value is `true` if you want synchronous requests set option to `false`.
    o   success (function) #optional A function that will be called if the request succeeds. Recieving (response, responseMessage, xhr, settings).
    o   error (function) #optional A function that will be called if the request fails. Recieving (response, responseMessage, xhr, settings).
@@ -222,13 +221,13 @@
    o   xhr (function) #optional A function that returns a `new XMLHttpRequest()` object by default.
    o   crossDomain (boolean) #optional Indicate wether you want to force crossDomain requests. `false` by defualt.
    o   timeout (number) #optional Set a default timeout in milliseconds for the request.
-   o   contentType (string) #optional The default and finest contentType for most cases is `'application/x-www-form-urlencoded; charset=UTF-8'`.
+   o   contentType (string) #optional The default and finest contentType for most cases is `&#039;application/x-www-form-urlencoded; charset=UTF-8&#039;`.
    o }
    = (object) The native xhr object.
-   > Usage
+   &gt; Usage
    * Get a username passing an id to the /users url
    | $.ajax({
-   |   url '/users',
+   |   url &#039;/users&#039;,
    |   data: {
    |     id: 3
    |   },
@@ -246,7 +245,7 @@
 
     // Add data to url
     if (settings.data) {
-      settings.url += (/\?/.test(settings.url) ? '&' : '?') +
+      settings.url += (/\?/.test(settings.url) ? &#039;&amp;&#039; : &#039;?&#039;) +
         Kimbo.param(settings.data);
       delete settings.data;
     }
@@ -265,7 +264,7 @@
     xhr = settings.xhr();
 
     // User specified timeout
-    if (settings.timeout > 0) {
+    if (settings.timeout &gt; 0) {
       abortTimeout = _createAbortTimeout(xhr, settings);
     }
 
@@ -281,7 +280,7 @@
         window.clearTimeout(abortTimeout);
 
         // Scuccess
-        if ((status >= 200 && status < 300) || status === 304) {
+        if ((status &gt;= 200 &amp;&amp; status &lt; 300) || status === 304) {
           if (settings.async) {
             response = _handleResponse(xhr, settings);
             if (response !== false) {
@@ -291,7 +290,7 @@
 
         // Fail
         } else {
-          xhrCallbacks.error('error', xhr.statusText, xhr, settings);
+          xhrCallbacks.error(&#039;error&#039;, xhr.statusText, xhr, settings);
         }
       }
     };
@@ -320,15 +319,15 @@
    * $.get
    [ method ]
    * Load data from the server using HTTP GET request.
-   > Parameters
+   &gt; Parameters
    - url (string) A string containing the URL to which the request is sent.
    - data (string|object) #optional An option string or object with data params to send to the server.
    - callback (function) A callback function to execute if the request succeeds.
    - type (string) #optional String with the type of the data to send (intelligent guess by default).
-   > Usage
-   | $.get('url/users.php', { id: '123' }, function (data) {
+   &gt; Usage
+   | $.get(&#039;url/users.php&#039;, { id: &#039;123&#039; }, function (data) {
    |   // Success
-   |   console.log('response:', data);
+   |   console.log(&#039;response:&#039;, data);
    | });
    * This method is a shorthand for the $.ajax
    | $.ajax({
@@ -343,26 +342,26 @@
    * $.post
    [ method ]
    * Load data from the server using HTTP POST request.
-   > Parameters
+   &gt; Parameters
    - url (string) A string containing the URL to which the request is sent.
    - data (string|object) #optional An option string or object with data params to send to the server.
    - callback (function) A callback function to execute if the request succeeds.
    - type (string) #optional String with the type of the data to send (intelligent guess by default).
-   > Usage
-   | $.post('url/users.php', { user: 'denis', pass: '123' }, function (data) {
+   &gt; Usage
+   | $.post(&#039;url/users.php&#039;, { user: &#039;denis&#039;, pass: &#039;123&#039; }, function (data) {
    |   // Success
-   |   console.log('response:', data);
+   |   console.log(&#039;response:&#039;, data);
    | });
    * This method is a shorthand for the $.ajax
    | $.ajax({
-   |   type: 'POST',
+   |   type: &#039;POST&#039;,
    |   url: url,
    |   data: data,
    |   success: success,
    |   dataType: dataType
    | });
   \*/
-  Kimbo.forEach(['get', 'post'], function (method) {
+  Kimbo.forEach([&#039;get&#039;, &#039;post&#039;], function (method) {
     Kimbo[method] = function (url, data, callback, type) {
 
       // Prepare arguments
@@ -388,59 +387,59 @@
     * $.getScript
     [ method ]
     * Load a JavaScript file from the server using a GET HTTP request, then execute it.
-    > Parameters
+    &gt; Parameters
     - url (string) A string containing the URL to which the request is sent.
     - callback (function) A callback function to execute if the request succeeds.
-    > Usage
-    | $.getScript('url/script.js', function (data) {
+    &gt; Usage
+    | $.getScript(&#039;url/script.js&#039;, function (data) {
     |   // Success
-    |   console.log('response:', data);
+    |   console.log(&#039;response:&#039;, data);
     | });
     * This method is a shorthand for the $.ajax
     | $.ajax({
     |   url: url,
-    |   dataType: 'script',
+    |   dataType: &#039;script&#039;,
     |   success: success
     | });
    \*/
     getScript: function (url, callback) {
-      return Kimbo.get(url, callback, 'script');
+      return Kimbo.get(url, callback, &#039;script&#039;);
     },
 
    /*\
     * $.getJSON
     [ method ]
     * Load data from the server using HTTP POST request.
-    > Parameters
+    &gt; Parameters
     - url (string) A string containing the URL to which the request is sent.
     - data (string|object) #optional An option string or object with data params to send to the server.
     - callback (function) A callback function to execute if the request succeeds.
     - type (string) #optional String with the type of the data to send (intelligent guess by default).
-    > Usage
-    | $.getJSON('url/test.json', { id: '2' }, function (data) {
+    &gt; Usage
+    | $.getJSON(&#039;url/test.json&#039;, { id: &#039;2&#039; }, function (data) {
     |   // Success
-    |   console.log('response:', data);
+    |   console.log(&#039;response:&#039;, data);
     | });
     * This method is a shorthand for the $.ajax
     | $.ajax({
     |   url: url,
-    |   dataType: 'json',
+    |   dataType: &#039;json&#039;,
     |   success: success
     | });
     * To get json data with jsonp:
-    | $.getJSON('http://search.twitter.com/search.json?callback=?', 'q=#javascript', function (data) {
+    | $.getJSON(&#039;http://search.twitter.com/search.json?callback=?&#039;, &#039;q=#javascript&#039;, function (data) {
     |   console.log(data);
     | });
    \*/
     getJSON: function (url, data, callback) {
-      return Kimbo.get(url, data, callback, 'json');
+      return Kimbo.get(url, data, callback, &#039;json&#039;);
     }
   });
 
   // getJSONP internal use
   var _getJSONP = function (settings) {
-    var jsonpCallback = Kimbo.ref + '_' + Date.now();
-    var script = _.document.createElement('script');
+    var jsonpCallback = Kimbo.ref + &#039;_&#039; + Date.now();
+    var script = _.document.createElement(&#039;script&#039;);
     var head = _.document.head;
     var xhr = {
       abort: function () {
@@ -452,12 +451,12 @@
     var abortTimeout;
 
     // User specified timeout
-    if (settings.timeout > 0) {
+    if (settings.timeout &gt; 0) {
       abortTimeout = _createAbortTimeout(xhr, settings);
     }
 
     // Set url
-    script.src = settings.url.replace(JSONP_RE, '$1' + jsonpCallback + '$2');
+    script.src = settings.url.replace(JSONP_RE, &#039;$1&#039; + jsonpCallback + &#039;$2&#039;);
 
     // Jsonp callback
     window[jsonpCallback] = function (response) {
@@ -467,7 +466,7 @@
 
       // Fake xhr
       Kimbo.extend(xhr, {
-        statusText: 'OK',
+        statusText: &#039;OK&#039;,
         status: 200,
         response: response,
         headers: settings.headers
@@ -491,27 +490,27 @@
    * $.param
    [ method ]
    * Create a serialized representation of an array or object, suitable for use in a URL query string or Ajax request.
-   > Parameters
+   &gt; Parameters
    - data (string|object) A string or object to serialize.
-   > Usage
-   | var obj = { name: 'Denis', last: 'Ciccale' };
-   | var serialized = $.param(obj); // 'name=Denis&last=Ciccale'
+   &gt; Usage
+   | var obj = { name: &#039;Denis&#039;, last: &#039;Ciccale&#039; };
+   | var serialized = $.param(obj); // &#039;name=Denis&amp;last=Ciccale&#039;
   \*/
   Kimbo.param = function (data) {
-    var params = '';
+    var params = &#039;&#039;;
 
     if (Kimbo.isObject(data)) {
       Kimbo.forEach(data, function (name, value) {
-        params += name + '=' + value + '&';
+        params += name + &#039;=&#039; + value + &#039;&amp;&#039;;
       });
     } else {
       params = data;
     }
 
     return window.encodeURIComponent(params)
-      .replace(/%20/g, '+')
+      .replace(/%20/g, &#039;+&#039;)
       .replace(/%\d[D6F]/g, window.unescape)
-      .replace(/^\?|&$/g, '');
+      .replace(/^\?|&amp;$/g, &#039;&#039;);
   };
 });</textarea>
   </div>

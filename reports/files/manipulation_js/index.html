@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title>Plato - manipulation.js</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
@@ -13,9 +13,8 @@
   <![endif]-->
 
   <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
-  <link href="../../assets/css/vendor/bootstrap-3.0.0-wip.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
   <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
-  <link href="../../assets/css/vendor/font-awesome-ie7.css" rel="stylesheet">
   <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
   <link href="../../assets/css/plato.css" rel="stylesheet">
   <link href="../../assets/css/plato-file.css" rel="stylesheet">
@@ -26,8 +25,8 @@
 
 <div class="navbar navbar-fixed-top">
   <div class="container">
-    <a class="brand" href="http://github.com/jsoverson/plato">Plato on Github</a>
-    <ul class="nav">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
       <li>
         <a href="../../index.html">Report Home</a>
       </li>
@@ -43,31 +42,31 @@
 
 <div class="container aggregate-stats">
   <div class="row">
-    <div class="span6">
-      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"></i></a></h2>
-      <p class="stat">75.67</p>
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">75.65</p>
     </div>
-    <div class="span6">
-      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h2>
-      <p class="stat">536</p>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">537</p>
     </div>
   </div>
   <div class="row historical">
-    <div class="span6">
+    <div class="col-md-6">
       <p id="chart_historical_maint" class="chart"></p>
     </div>
-    <div class="span6">
+    <div class="col-md-6">
       <p id="chart_historical_sloc" class="chart"></p>
     </div>
   </div>
   <div class="row">
-    <div class="span6">
-      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty"></i></a></h2>
-      <p class="stat">40.11</p>
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">38.57</p>
     </div>
-    <div class="span6">
-      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs"></i></a></h2>
-      <p class="stat">1.57</p>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">1.60</p>
     </div>
   </div>
 </div>
@@ -77,12 +76,12 @@
     <h2 class="header">Function weight</h2>
   </div>
   <div class="row">
-    <div class="span6">
-      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity"></i></a></h3>
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
       <div id="fn-by-complexity" class="stat"></div>
     </div>
-    <div class="span6">
-      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC"></i></h3>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
       <div id="fn-by-sloc" class="stat"></div>
     </div>
   </div>
@@ -90,82 +89,83 @@
 
 <div class="container">
   <div class="row">
-    <textarea id="file-source" class="span12">Kimbo.define('manipulation', function (_) {
+    <textarea id="file-source" class="col-md-12">Kimbo.define(&#039;manipulation&#039;, function (_) {
 
-  'use strict';
+  &#039;use strict&#039;;
 
   var SPACE_RE = /\s+/;
 
   var BOOLEAN_ATTR = {};
-  Kimbo.forEach('multiple,selected,checked,disabled,readOnly,required,open'.split(','), function (value) {
-    BOOLEAN_ATTR[value.toLowerCase()] = value;
-  });
+  Kimbo.forEach([&#039;multiple&#039;, &#039;selected&#039;, &#039;checked&#039;, &#039;disabled&#039;, &#039;readOnly&#039;, &#039;required&#039;, &#039;open&#039;],
+    function (value) {
+      BOOLEAN_ATTR[value.toLowerCase()] = value;
+    });
 
   // Browser native classList
   var _hasClass = function (el, name) {
-    return (el.nodeType === 1 && el.classList.contains(name));
+    return (el.nodeType === 1 &amp;&amp; el.classList.contains(name));
   };
 
   /*\
    * $(…).text
    [ method ]
    * Get the text of the first element in the set or set the text of all the matched elements.
-   > Parameters
+   &gt; Parameters
    - value (string) #optional A string of text to set as the text content of all matched elements.
    = (string) string value of the text content of the element if no parameter passed.
    = (object) current Kimbo object.
-   > Usage
+   &gt; Usage
    * Get the text content of an element
-   | <p>Demo text</p>
+   | &lt;p&gt;Demo text&lt;/p&gt;
    * without passing any parameter to the function:
-   | $('p').text(); // 'Demo text'
+   | $(&#039;p&#039;).text(); // &#039;Demo text&#039;
    * To replace the text of the paragraph pass a string parameter to the function:
-   | $('p').text('Another text');
+   | $(&#039;p&#039;).text(&#039;Another text&#039;);
    * Now the text content was replaced:
-   | <p>Another text</p>
+   | &lt;p&gt;Another text&lt;/p&gt;
   \*/
 
   /*\
    * $(…).html
    [ method ]
    * Get the HTML content of the first element in the set or set the HTML content of all the matched elements.
-   > Parameters
+   &gt; Parameters
    - value (string) #optional A string of HTML to set as the HTML content of all matched elements.
    = (string) a string value of the HTML content of the element if no parameter passed.
    = (object) current Kimbo object.
-   > Usage
+   &gt; Usage
    * Get the HTML content of an element
-   | <p><span>Demo text<span></p>
+   | &lt;p&gt;&lt;span&gt;Demo text&lt;span&gt;&lt;/p&gt;
    * without passing any parameter to the function:
-   | $('p').html(); // '<span>Demo tetxt</span>'
+   | $(&#039;p&#039;).html(); // &#039;&lt;span&gt;Demo tetxt&lt;/span&gt;&#039;
    * To replace the HTML content of the paragraph pass a string parameter to the function:
-   | $('p').html('<strong>Another content</strong>');
+   | $(&#039;p&#039;).html(&#039;&lt;strong&gt;Another content&lt;/strong&gt;&#039;);
    * Now the text content was replaced:
-   | <p><strong>Another content</strong></p>
+   | &lt;p&gt;&lt;strong&gt;Another content&lt;/strong&gt;&lt;/p&gt;
   \*/
 
   /*\
    * $(…).val
    [ method ]
    * Get the current value of the first element in the set or set the value of all the matched elements.
-   > Parameters
+   &gt; Parameters
    - value (string) #optional A string of text to set as the value of all matched elements.
    = (string) the current value of the first element if no parameter passed
    = (object) current Kimbo object
-   > Usage
+   &gt; Usage
    * Get the value of a form element:
-   | <input type="text" name="color" value="red" />
+   | &lt;input type=&quot;text&quot; name=&quot;color&quot; value=&quot;red&quot; /&gt;
    * without passing any parameter to the function:
-   | $('input').val(); // 'red'
+   | $(&#039;input&#039;).val(); // &#039;red&#039;
    * To change the value of the input pass a string parameter to the function:
-   | $('input').val('blue');
+   | $(&#039;input&#039;).val(&#039;blue&#039;);
    * Now the value was changed:
-   | $('input').val(); // 'blue'
+   | $(&#039;input&#039;).val(); // &#039;blue&#039;
   \*/
   Kimbo.forEach({
-    text: 'textContent',
-    html: 'innerHTML',
-    val: 'value'
+    text: &#039;textContent&#039;,
+    html: &#039;innerHTML&#039;,
+    val: &#039;value&#039;
   }, function (method, prop) {
     Kimbo.fn[method] = function (value) {
       // TODO: If we are using html method make sure to remove events and data from all chilNnodes
@@ -192,59 +192,59 @@
    * $(…).addClass
    [ method ]
    * Adds a class to all matched elements.
-   > Parameters
+   &gt; Parameters
    - name (string) Name of the class to add.
    = (object) Original matched collection.
-   > Usage
-   | <p>I want to be green</p>
-   | <script>
-   | $('p').addClass('green');
-   | </script>
-   * Now it's green
-   | <p class="green">I want to be green</p>
+   &gt; Usage
+   | &lt;p&gt;I want to be green&lt;/p&gt;
+   | &lt;script&gt;
+   | $(&#039;p&#039;).addClass(&#039;green&#039;);
+   | &lt;/script&gt;
+   * Now it&#039;s green
+   | &lt;p class=&quot;green&quot;&gt;I want to be green&lt;/p&gt;
    * You can add multiple classes separated by a space
-   | <p>Add classes to me</p>
-   | <script>
-   | $('p').addClass('green big width100');
-   | </script>
-   * All classes added and they won't be repetead if you try to add an existing one
-   | <p class="green big width100">Add classes to me</p>
+   | &lt;p&gt;Add classes to me&lt;/p&gt;
+   | &lt;script&gt;
+   | $(&#039;p&#039;).addClass(&#039;green big width100&#039;);
+   | &lt;/script&gt;
+   * All classes added and they won&#039;t be repetead if you try to add an existing one
+   | &lt;p class=&quot;green big width100&quot;&gt;Add classes to me&lt;/p&gt;
   \*/
 
   /*\
    * $(…).removeClass
    [ method ]
    * Removes a class to all matched elements.
-   > Parameters
+   &gt; Parameters
    - name (string) Name of the class to remove.
    = (object) Original matched collection.
-   > Usage
-   | <p class="big green title float-rigth">Lorem ipsum</p>
+   &gt; Usage
+   | &lt;p class=&quot;big green title float-rigth&quot;&gt;Lorem ipsum&lt;/p&gt;
    * Remove a specific class from the paragraph:
-   | $('p').removeClass('green');
+   | $(&#039;p&#039;).removeClass(&#039;green&#039;);
    * The specified class was removed:
-   | <p class="big title float-right">Lorem ipsum</p>
+   | &lt;p class=&quot;big title float-right&quot;&gt;Lorem ipsum&lt;/p&gt;
    * You can remove multiple classes separating them by a space when calling the function:
-   | $('p').removeClass('big title');
+   | $(&#039;p&#039;).removeClass(&#039;big title&#039;);
    * Now only one class left:
-   | <p class="float-right">Lorem ipsum</p>
+   | &lt;p class=&quot;float-right&quot;&gt;Lorem ipsum&lt;/p&gt;
    * You can remove all classes just calling .removeClass() without parameters
-   | $('p').removeClass();
+   | $(&#039;p&#039;).removeClass();
    * All classes were removed including the class attribute:
-   | <p>Lorem ipsum</p>
+   | &lt;p&gt;Lorem ipsum&lt;/p&gt;
   \*/
 
   // Generate addClass and removeClass methods
   // Use native classList
   // Mdn: https://developer.mozilla.org/en-US/docs/DOM/element.classList
   // Spec: http://www.whatwg.org/specs/web-apps/current-work/multipage/elements.html#dom-classlist
-  Kimbo.forEach(['add', 'remove'], function (method, i) {
-    var isRemove = i > 0;
+  Kimbo.forEach([&#039;add&#039;, &#039;remove&#039;], function (method, i) {
+    var isRemove = i &gt; 0;
 
-    Kimbo.fn[method + 'Class'] = function (name) {
+    Kimbo.fn[method + &#039;Class&#039;] = function (name) {
       var classNames;
 
-      if (name && Kimbo.isString(name)) {
+      if (name &amp;&amp; Kimbo.isString(name)) {
         classNames = name.split(SPACE_RE);
         this.each(function (el) {
 
@@ -259,8 +259,8 @@
         });
 
         // Remove all element classes if no classname specified
-      } else if (!name && isRemove) {
-        this.removeAttr('class');
+      } else if (!name &amp;&amp; isRemove) {
+        this.removeAttr(&#039;class&#039;);
       }
 
       return this;
@@ -271,63 +271,63 @@
    * $(…).append
    [ method ]
    * Insert content to the end of all elements matched by Kimbo.
-   > Parameters
+   &gt; Parameters
    - value (string|object) HTML string, DOM element, or Kimbo object to insert.
    = (object) Original matched collection.
-   > Usage
-   | <div class="container">
-   |   <p class="lorem">Lorem </p>
-   |   <p class="lorem">Lorem </p>
-   | </div>
+   &gt; Usage
+   | &lt;div class=&quot;container&quot;&gt;
+   |   &lt;p class=&quot;lorem&quot;&gt;Lorem &lt;/p&gt;
+   |   &lt;p class=&quot;lorem&quot;&gt;Lorem &lt;/p&gt;
+   | &lt;/div&gt;
    * Insert content
-   | $('.lorem').append('<em>ipsum</em>')
+   | $(&#039;.lorem&#039;).append(&#039;&lt;em&gt;ipsum&lt;/em&gt;&#039;)
    * Each element gets the content
-   | <div class="container">
-   |   <p class="lorem">Lorem <em>ipsum</em></p>
-   |   <p class="lorem">Lorem <em>ipsum</em></p>
-   | </div>
+   | &lt;div class=&quot;container&quot;&gt;
+   |   &lt;p class=&quot;lorem&quot;&gt;Lorem &lt;em&gt;ipsum&lt;/em&gt;&lt;/p&gt;
+   |   &lt;p class=&quot;lorem&quot;&gt;Lorem &lt;em&gt;ipsum&lt;/em&gt;&lt;/p&gt;
+   | &lt;/div&gt;
    * You can also get an element and insert it elsewhere
-   | $('.container').append($('.ipsum'))
+   | $(&#039;.container&#039;).append($(&#039;.ipsum&#039;))
    * The selected element will be moved, not cloned.
-   | <div class="container">
-   |   <p class="lorem">Lorem</p>
-   |   <p class="lorem">Lorem</p>
-   |   <p class="ipsum">Ipsum</p>
-   | </div>
+   | &lt;div class=&quot;container&quot;&gt;
+   |   &lt;p class=&quot;lorem&quot;&gt;Lorem&lt;/p&gt;
+   |   &lt;p class=&quot;lorem&quot;&gt;Lorem&lt;/p&gt;
+   |   &lt;p class=&quot;ipsum&quot;&gt;Ipsum&lt;/p&gt;
+   | &lt;/div&gt;
   \*/
 
   /*\
    * $(…).prepend
    [ method ]
    * Insert content to the beginning of all elements matched by Kimbo.
-   > Parameters
+   &gt; Parameters
    - value (string|object) HTML string, DOM element, or Kimbo object to insert.
    = (object) Original matched collection.
-   > Usage
-   | <div class="container">
-   |   <p class="lorem"> Lorem</p>
-   |   <p class="lorem"> Lorem</p>
-   | </div>
+   &gt; Usage
+   | &lt;div class=&quot;container&quot;&gt;
+   |   &lt;p class=&quot;lorem&quot;&gt; Lorem&lt;/p&gt;
+   |   &lt;p class=&quot;lorem&quot;&gt; Lorem&lt;/p&gt;
+   | &lt;/div&gt;
    * Insert content
-   | $('.lorem').prepend('<em>ipsum</em>')
+   | $(&#039;.lorem&#039;).prepend(&#039;&lt;em&gt;ipsum&lt;/em&gt;&#039;)
    * Each element gets the content
-   | <div class="container">
-   |   <p class="lorem"><em>ipsum</em> Lorem</p>
-   |   <p class="lorem"><em>ipsum</em> Lorem</p>
-   | </div>
+   | &lt;div class=&quot;container&quot;&gt;
+   |   &lt;p class=&quot;lorem&quot;&gt;&lt;em&gt;ipsum&lt;/em&gt; Lorem&lt;/p&gt;
+   |   &lt;p class=&quot;lorem&quot;&gt;&lt;em&gt;ipsum&lt;/em&gt; Lorem&lt;/p&gt;
+   | &lt;/div&gt;
    * You can also get an element and insert it elsewhere
-   | $('.container').prepend($('.ipsum'))
+   | $(&#039;.container&#039;).prepend($(&#039;.ipsum&#039;))
    * The selected element will be moved, not cloned.
-   | <div class="container">
-   |   <p class="ipsum">Ipsum</p>
-   |   <p class="lorem">Lorem</p>
-   |   <p class="lorem">Lorem</p>
-   | </div>
+   | &lt;div class=&quot;container&quot;&gt;
+   |   &lt;p class=&quot;ipsum&quot;&gt;Ipsum&lt;/p&gt;
+   |   &lt;p class=&quot;lorem&quot;&gt;Lorem&lt;/p&gt;
+   |   &lt;p class=&quot;lorem&quot;&gt;Lorem&lt;/p&gt;
+   | &lt;/div&gt;
   \*/
 
   // Generate append and prepend methods
-  Kimbo.forEach(['append', 'prepend'], function (method, i) {
-    var isPrepend = i > 0;
+  Kimbo.forEach([&#039;append&#039;, &#039;prepend&#039;], function (method, i) {
+    var isPrepend = i &gt; 0;
 
     Kimbo.fn[method] = function (value) {
       var div;
@@ -341,7 +341,7 @@
       if (Kimbo.isString(value)) {
 
         // Placeholder element
-        div = document.createElement('div');
+        div = document.createElement(&#039;div&#039;);
         div.innerHTML = value;
         value = div.firstChild;
       }
@@ -367,15 +367,15 @@
      [ method ]
      * Remove all child nodes from the DOM of the elements in the collection.
      = (object) Original matched collection.
-     > Usage
-     | <div class="container">
-     |   <p class="lorem">Lorem</p>
-     |   <p class="lorem">Lorem</p>
-     | </div>
+     &gt; Usage
+     | &lt;div class=&quot;container&quot;&gt;
+     |   &lt;p class=&quot;lorem&quot;&gt;Lorem&lt;/p&gt;
+     |   &lt;p class=&quot;lorem&quot;&gt;Lorem&lt;/p&gt;
+     | &lt;/div&gt;
      * Empty .container
-     | $('.container').empty();
-     * All elements inside ".container" are removed from the DOM
-     | <div class="container"></div>
+     | $(&#039;.container&#039;).empty();
+     * All elements inside &quot;.container&quot; are removed from the DOM
+     | &lt;div class=&quot;container&quot;&gt;&lt;/div&gt;
     \*/
     empty: function () {
       return this.each(function (el) {
@@ -391,17 +391,17 @@
      * Remove all matched elements from the DOM.
      * Similar to @$(…).empty but .remove() removes the element itself
      = (object) Original matched collection.
-     > Usage
-     | <div class="container">
-     |   <p class="lorem">Lorem</p>
-     |   <p>Lorem</p>
-     | </div>
+     &gt; Usage
+     | &lt;div class=&quot;container&quot;&gt;
+     |   &lt;p class=&quot;lorem&quot;&gt;Lorem&lt;/p&gt;
+     |   &lt;p&gt;Lorem&lt;/p&gt;
+     | &lt;/div&gt;
      * Remove one element
-     | $('.lorem').remove();
+     | $(&#039;.lorem&#039;).remove();
      * The result element is:
-     | <div class="container">
-     |   <p>Lorem</p>
-     | </div>
+     | &lt;div class=&quot;container&quot;&gt;
+     |   &lt;p&gt;Lorem&lt;/p&gt;
+     | &lt;/div&gt;
     \*/
     remove: function () {
       return this.each(function (el) {
@@ -416,19 +416,19 @@
      * $(…).attr
      [ method ]
      * Get an attribute value from one element or set attributes to all matched elements.
-     > Parameters
+     &gt; Parameters
      - name (string) Name of the attribute.
      - value (string) #optional Value for the attribute.
      = (string) Attribute value, only if name was passed.
      = (object) Original matched collection when setting a value.
-     > Usage
-     | <a href="http://kimbojs.com">Go to Kimbojs.com</a>
+     &gt; Usage
+     | &lt;a href=&quot;http://kimbojs.com&quot;&gt;Go to Kimbojs.com&lt;/a&gt;
      * Get href attribute
-     | $('a').attr('href'); // Http://kimbojs.com
+     | $(&#039;a&#039;).attr(&#039;href&#039;); // Http://kimbojs.com
      * Set a new attribute
-     | $('a').attr('title', 'Go to Kimbojs.com');
+     | $(&#039;a&#039;).attr(&#039;title&#039;, &#039;Go to Kimbojs.com&#039;);
      * Now element has a title attribute
-     | <a href="http://kimbojs.com" title="Go to Kimbojs.com">Go to Kimbojs.com</a>
+     | &lt;a href=&quot;http://kimbojs.com&quot; title=&quot;Go to Kimbojs.com&quot;&gt;Go to Kimbojs.com&lt;/a&gt;
     \*/
     attr: function (name, value) {
       var lowercasedName = name.toLowerCase();
@@ -438,7 +438,7 @@
         return this;
       }
 
-      if (Kimbo.isString(name) && value === undefined) {
+      if (Kimbo.isString(name) &amp;&amp; value === undefined) {
         if (BOOLEAN_ATTR[lowercasedName]) {
           return (el[name] || (el.attributes.getNamedItem(name)|| {}).specified) ? lowercasedName : undefined;
         }
@@ -464,15 +464,15 @@
      * $(…).removeAttr
      [ method ]
      * Removes an attribute from all matched elements.
-     > Parameters
+     &gt; Parameters
      - name (string) Name of the attribute to remove.
      = (object) Original matched collection.
-     > Usage
-     | <a href="http://kimbojs.com" title="Go to Kimbojs.com">Go to Kimbojs.com</a>
+     &gt; Usage
+     | &lt;a href=&quot;http://kimbojs.com&quot; title=&quot;Go to Kimbojs.com&quot;&gt;Go to Kimbojs.com&lt;/a&gt;
      * Remove the title attribute
-     | $('a').removeAttr('title');
+     | $(&#039;a&#039;).removeAttr(&#039;title&#039;);
      * Now the element has no title
-     | <a href="http://kimbojs.com">Go to Kimbojs.com</a>
+     | &lt;a href=&quot;http://kimbojs.com&quot;&gt;Go to Kimbojs.com&lt;/a&gt;
     \*/
     removeAttr: function (name) {
       return this.each(function (el) {
@@ -484,22 +484,22 @@
      * $(…).toggleClass
      [ method ]
      * Removes a class to all matched elements.
-     > Parameters
+     &gt; Parameters
      - name (string) Name of the class to toggle.
      - state (boolean) #optional If state is true the class will be added, if false, removed.
      = (object) Original matched collection.
-     > Usage
-     | <p class="foo">Lorem ipsum.</p>
-     | <script>
-     | $('p').toggleClass('foo');
-     | </script>
+     &gt; Usage
+     | &lt;p class=&quot;foo&quot;&gt;Lorem ipsum.&lt;/p&gt;
+     | &lt;script&gt;
+     | $(&#039;p&#039;).toggleClass(&#039;foo&#039;);
+     | &lt;/script&gt;
      * The `p` element has the class foo soo it will be removed
-     | <p>Lorem ipsum.</p>
+     | &lt;p&gt;Lorem ipsum.&lt;/p&gt;
     \*/
     toggleClass: function (name, state) {
       var classNames;
 
-      if (this.length && name && Kimbo.isString(name)) {
+      if (this.length &amp;&amp; name &amp;&amp; Kimbo.isString(name)) {
 
         classNames = name.split(SPACE_RE);
 
@@ -508,7 +508,7 @@
 
             // Use custom toggle (anyway it uses classList.add/remove)
             state = Kimbo.isBoolean(state) ? state : !_hasClass(el, name);
-            _.kimbo(el)[state ? 'addClass' : 'removeClass'](name);
+            _.kimbo(el)[state ? &#039;addClass&#039; : &#039;removeClass&#039;](name);
           });
         });
       }
@@ -520,21 +520,21 @@
      * $(…).hasClass
      [ method ]
      * Determine whether any matched elements has the given class.
-     > Parameters
+     &gt; Parameters
      - name (string) Name of the class to search for.
      = (object) Original matched collection.
-     > Usage
-     | <p class="asd foo qwe">Lorem ipsum.</p>
-     * Check if the element has the class 'foo'
-     | $('p').hasClass('foo'); // True
+     &gt; Usage
+     | &lt;p class=&quot;asd foo qwe&quot;&gt;Lorem ipsum.&lt;/p&gt;
+     * Check if the element has the class &#039;foo&#039;
+     | $(&#039;p&#039;).hasClass(&#039;foo&#039;); // True
      * You could also check if it has multiple classes
-     | $('p').hasClass('qwe asd'); // True
+     | $(&#039;p&#039;).hasClass(&#039;qwe asd&#039;); // True
     \*/
     hasClass: function (name) {
       var has = false;
       var classNames;
 
-      if (this.length && name && Kimbo.isString(name)) {
+      if (this.length &amp;&amp; name &amp;&amp; Kimbo.isString(name)) {
 
         classNames = name.trim().split(SPACE_RE);
 
@@ -559,11 +559,11 @@
      * $(…).clone
      [ method ]
      * Clones a DOM node.
-     > Parameters
+     &gt; Parameters
      = (object) Original matched collection.
-     > Usage
-     | <p class="asd foo qwe">Lorem ipsum.</p>
-     | var p1 = $('p'); // Grab the p element
+     &gt; Usage
+     | &lt;p class=&quot;asd foo qwe&quot;&gt;Lorem ipsum.&lt;/p&gt;
+     | var p1 = $(&#039;p&#039;); // Grab the p element
      | var p2 = p1.clone(); // Clone p1 into p2
      | console.log(p2 === p1); // False
     \*/
@@ -579,44 +579,44 @@
    * $(…).width
    [ method ]
    * Get the current width of the first element or set the width of all matched elements.
-   > Parameters
+   &gt; Parameters
    - value (number|string) #optional An integer indicating the width of the element or a string width a unit of measure.
    = (number) the actual width of the element if no parameter passed.
    = (object) Kimbo object.
-   > Usage
-   | <style>
+   &gt; Usage
+   | &lt;style&gt;
    |   div { width: 100px; }
-   | </style>
-   | <div>Actual width is 100px</div>
+   | &lt;/style&gt;
+   | &lt;div&gt;Actual width is 100px&lt;/div&gt;
    * Get the width:
-   | $('div').width(); // 100
+   | $(&#039;div&#039;).width(); // 100
    * Change the width:
-   | $('div').width(200); // Now its width is 200
+   | $(&#039;div&#039;).width(200); // Now its width is 200
    * Or passing a specific unit:
-   | $('div').width('50%'); // Now its width is 50%
+   | $(&#039;div&#039;).width(&#039;50%&#039;); // Now its width is 50%
   \*/
 
   /*\
    * $(…).height
    [ method ]
    * Get the current height of the first element or set the height of all matched elements.
-   > Parameters
+   &gt; Parameters
    - value (number|string) #optional An integer indicating the height of the element or a string height a unit of measure.
    = (number) the actual height of the element if no parameter passed.
    = (object) Kimbo object.
-   > Usage
-   | <style>
+   &gt; Usage
+   | &lt;style&gt;
    |   div { height: 100px; }
-   | </style>
-   | <div>Actual height is 100px</div>
+   | &lt;/style&gt;
+   | &lt;div&gt;Actual height is 100px&lt;/div&gt;
    * Get the height:
-   | $('div').height(); // 100
+   | $(&#039;div&#039;).height(); // 100
    * Change the height:
-   | $('div').height(200); // Now its height is 200
+   | $(&#039;div&#039;).height(200); // Now its height is 200
    * Or passing a specific unit:
-   | $('div').height('50%'); // Now its height is 50%
+   | $(&#039;div&#039;).height(&#039;50%&#039;); // Now its height is 50%
   \*/
-  Kimbo.forEach(['width', 'height'], function (dimension) {
+  Kimbo.forEach([&#039;width&#039;, &#039;height&#039;], function (dimension) {
     Kimbo.fn[dimension] = function (value) {
       if (!value) {
         return parseInt(this.css(dimension), 10);
