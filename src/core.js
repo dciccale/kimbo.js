@@ -224,8 +224,8 @@
   \*/
   Kimbo.forEach = function (obj, callback) {
     var l = obj.length;
-    var isArrayLike = Array.isArray(obj) || obj instanceof Kimbo || obj instanceof window.NodeList ||
-      !((l !== undefined) || !l);
+    var isArrayLike = Array.isArray(obj) || obj instanceof Kimbo ||
+      obj instanceof window.NodeList || !((l !== undefined) || !l);
     var i;
 
     if (isArrayLike) {

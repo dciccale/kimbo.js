@@ -1,4 +1,5 @@
 describe 'manipulation', ->
+  $el = null
   $li_first = null
   $li_second = null
   $input = null
@@ -7,9 +8,15 @@ describe 'manipulation', ->
     el[0].className.trim().split(/\s+/)
 
   beforeEach ->
+    $el = $('<div></div>').html(window.__html__['test/fixtures/fixture.html'])
+    $(document.body).append($el)
     $li_first = $('li.first')
     $li_second = $('li#second')
     $input = $('#name')
+
+  afterEach ->
+    $el.remove()
+    $el = null
 
   describe 'text()', ->
     it 'should not fail when called on an empty set', ->

@@ -3,23 +3,17 @@ Kimbo.define('events', function (_) {
   'use strict';
 
   var query = Kimbo.require('query');
-
   var _guid = 1;
-
   var MOUSE_EVENT_RE = /^(?:mouse|menu)|click/;
-
   var KEY_EVENT_RE = /^key/;
-
   var DEFAULT_EVENT_PROPS = [
     'altKey', 'bubbles', 'cancelable', 'ctrlKey', 'currentTarget', 'defaultPrevented', 'eventPhase',
     'metaKey', 'relatedTarget', 'shiftKey', 'target', 'timeStamp', 'type', 'view', 'which'
   ];
-
   var MOUSE_EVENT_PROPS = [
     'button', 'buttons', 'clientX', 'clientY', 'fromElement',
     'offsetX', 'offsetY', 'screenX', 'screenY', 'toElement'
   ];
-
   var KEY_EVENT_PROPS = ['char', 'charCode', 'key', 'keyCode'];
 
   // Gestures fallback for not mobile environment
@@ -31,7 +25,6 @@ Kimbo.define('events', function (_) {
     doubletap: 'dblclick',
     orientationchange: 'resize'
   };
-
   var handlersHash = {};
   var fixEventProps = {};
   var specialEvents = {};
@@ -196,8 +189,9 @@ Kimbo.define('events', function (_) {
 
     // Don't do events if element is text or comment node
     // Or if there is no event type at all or type is not a string
-    if ((element && (element.nodeType === 3 || element.nodeType === 8)) || !type || !Kimbo.isString(type)) {
-      return this;
+    if ((element && (element.nodeType === 3 || element.nodeType === 8)) ||
+      !type || !Kimbo.isString(type)) {
+        return this;
     }
 
     // Try triggering native focus and blur events

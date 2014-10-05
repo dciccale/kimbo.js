@@ -32,3 +32,13 @@ describe 'core', ->
   it 'a DOM element in the collection should be an actual DOM node', ->
     $obj = $(document.body)
     expect($obj[0].nodeType).toEqual(1)
+
+  it 'should create a DOM element from a string', ->
+    $obj = $('<div>')
+    expect($obj[0].nodeType).toEqual(1)
+
+  it 'should recieve a function to be executed when the DOM is ready', ->
+    obj = { fn: -> return true }
+    spyOn(obj, 'fn')
+    $obj = $(obj.fn)
+    expect(obj.fn).toHaveBeenCalled()

@@ -1,4 +1,13 @@
 describe 'query', ->
+  $el = null
+
+  beforeEach ->
+    $el = $('<div></div>').html(window.__html__['test/fixtures/fixture.html'])
+    $(document.body).append($el)
+
+  afterEach ->
+    $el.remove()
+    $el = null
 
   it 'should support ID selector', ->
     el = $('#list')

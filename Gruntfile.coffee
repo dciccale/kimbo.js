@@ -4,8 +4,6 @@ module.exports = ->
 
   @initConfig
     SRC_DIR: 'src/'
-    TESTS_DIR: 'test/'
-    SPEC_DIR: '<%= TESTS_DIR %>spec/'
     DIST_FILE: 'dist/<%= PKG.name %>'
     WEB_DIR: 'www/'
     PKG: @file.readJSON 'package.json'
@@ -35,38 +33,6 @@ module.exports = ->
           ' */\n'
         separator: '\n\n'
 
-    jshint:
-      src:
-        options:
-          jshintrc: '<%= SRC_DIR %>.jshintrc'
-        src: ['<%= SRC_DIR %>*.js']
-
-      lib:
-        options:
-          jshintrc: '<%= SRC_DIR %>.jshintrc'
-        src: ['<%= DIST_FILE %>.js']
-
-      tests:
-        options:
-          jshintrc: '<%= TESTS_DIR %>.jshintrc'
-        src: ['<%= SPEC_DIR %>*.js']
-
-    coffee:
-      compile:
-        src: ['*.coffee']
-        cwd: '<%= SPEC_DIR %>'
-        ext: '.js'
-        expand: true
-        dest: '<%= SPEC_DIR %>/'
-
-    jasmine:
-      test:
-        options:
-          specs: ['<%= SPEC_DIR %>*.js']
-          helpers: '<%= TESTS_DIR %>spec-helper.js'
-          template: '<%= TESTS_DIR %>runner.tmpl'
-        src: ['<%= DIST_FILE %>.js']
-
     uglify:
       dist:
         files:
@@ -79,15 +45,11 @@ module.exports = ->
     watch:
       dev:
         files: ['<%= SRC_DIR %>*.js']
-        tasks: ['jshint:src', 'concat', 'jshint:lib']
+        tasks: ['concat']
 
       src:
         files: ['<%= SRC_DIR %>*.js']
-        tasks: ['jshint:src', 'concat', 'test']
-
-      test:
-        files: ['<%= SPEC_DIR %>*.coffee']
-        tasks: ['test', 'jshint:tests']
+        tasks: ['concat']
 
     committers:
       options:
@@ -102,5 +64,4 @@ module.exports = ->
           '<%= WEB_DIR %>reports': ['<%= SRC_DIR %>*.js']
 
   @registerTask 'build', ['concat', 'uglify']
-  @registerTask 'test', ['concat', 'coffee', 'jasmine']
-  @registerTask 'default', ['build', 'jshint', 'test', 'committers', 'plato']
+  @registerTask 'default', ['build', 'committers', 'plato']

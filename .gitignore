@@ -3,6 +3,8 @@ demo/
 dist/
 src/resources/
 www/
-test/spec/*.js
+test/*.js
+coverage/
 reports/
 npm-debug.log
+.DS_Store
