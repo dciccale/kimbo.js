@@ -5,3 +5,4 @@ dist
 www
 test/
 npm-debug.log
+.DS_Store
