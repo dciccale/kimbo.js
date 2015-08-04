@@ -10,12 +10,11 @@
   "unused": true,
   "trailing": true,
   "browser": true,
+  "mocha": true,
   "globals": {
-    "jasmine": true,
-    "describe": true,
-    "it": true,
+    "sinon": true,
+    "spec": true,
     "expect": true,
-    "beforeEach": true,
     "Kimbo": true,
     "$": true
   }

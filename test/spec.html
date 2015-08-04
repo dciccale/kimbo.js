@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+  <head>
+    <title>demo</title>
+
+    <link rel="stylesheet" href="../node_modules/mocha/mocha.css">
+  </head>
+
+  <body>
+
+    <div id="mocha"></div>
+
+    <script id="fixture" type="text/template">
+      <section hidden>
+        <form>
+          <input type="text" name="name" id="name" value="test">
+        </form>
+
+        <ul id="list">
+          <li class="first active">uno</li>
+          <li id="second"><strong>dos</strong></li>
+          <li>tres</li>
+        </ul>
+
+        <ul id="list2">
+          <li>one</li>
+          <li>two</li>
+          <li>three</li>
+        </ul>
+      </section>
+    </script>
+
+    <script src="../node_modules/mocha/mocha.js"></script>
+    <script src="../node_modules/chai/chai.js"></script>
+    <script src="../node_modules/sinon/pkg/sinon-1.15.4.js"></script>
+    <script>
+      mocha.ui('bdd');
+      mocha.reporter('html');
+      var expect = chai.expect;
+    </script>
+    <script src="../dist/kimbo.js"></script>
+    <script src="spec.js"></script>
+    <script src="core.js"></script>
+    <script src="query.js"></script>
+    <script src="data.js"></script>
+    <script src="css.js"></script>
+    <script src="manipulation.js"></script>
+    <script src="traversing.js"></script>
+    <script src="utilities.js"></script>
+    <script src="events.js"></script>
+    <script src="ajax.js"></script>
+
+    <script>
+      mocha.run();
+    </script>
+  </body>
+</html>
+

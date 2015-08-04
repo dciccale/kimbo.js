@@ -13,8 +13,8 @@ Kimbo.define('query', function (_) {
     var els = [], sel;
 
     // #id
-    if (element === _.document && (sel = ID_RE.exec(selector))) {
-      els = element.getElementById(sel[1]);
+    if (element === document && (sel = ID_RE.exec(selector))) {
+      els = [element.getElementById(sel[1])];
 
     // .class
     } else if ((sel = CLASS_RE.exec(selector))) {
