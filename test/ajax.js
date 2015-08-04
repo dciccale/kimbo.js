@@ -1,0 +1,2 @@
+describe('ajax', function () {
+});
