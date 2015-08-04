@@ -19,11 +19,13 @@
     }
   ],
   "scripts": {
-    "test": "make test"
+    "test": "gulp test",
+    "coveralls": "npm run coverage && cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
   },
   "dependencies": {},
   "devDependencies": {
     "chai": "^3.2.0",
+    "coveralls": "^2.11.3",
     "dateformat": "^1.0.11",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",

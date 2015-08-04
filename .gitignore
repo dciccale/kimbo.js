@@ -3,7 +3,6 @@ demo/
 dist/
 src/resources/
 www/
-test/*.js
 coverage/
 reports/
 npm-debug.log
