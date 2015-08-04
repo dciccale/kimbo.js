@@ -2,18 +2,18 @@ doctype
 meta(charset="utf-8")
 title Performance test: #{title}
 link(href="http://yui.yahooapis.com/3.8.1/build/cssreset/cssreset-min.css", rel="stylesheet")
-link(href="css/css.min.css", rel="stylesheet")
+link(href="css/css.css", rel="stylesheet")
 
 body.performance-chart
 
   p.show
     span #{version}
-    a(href="http://jsperf.com/#{url}", target="_blank") Run tests in jsperf.com
+    a(href="http://jsperf.com/#{url}", target="_blank") Run in jsperf.com
 
   #bs-results
 
   script(src="http://kimbojs.com/dist/kimbo.min.js")
-  script(src="http://a.jsperf.com/benchmark-2.js")
+  script(src="http://jsperf.com/benchmark-47.js")
   script.
     (function () {
       ui.browserscope.key = '#{key}';
