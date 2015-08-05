@@ -1,0 +1,1902 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/event.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../prettify.css">
+    <link rel="stylesheet" href="../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">src/event.js</span></h1>
+    <h2>
+        Statements: <span class="metric">14.5% <small>(29 / 200)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">3.5% <small>(5 / 143)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">10% <small>(3 / 30)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">14.5% <small>(29 / 200)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">src/</a> &#187; event.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">Kimbo.define('events', function (_) {
+&nbsp;
+  'use strict';
+&nbsp;
+  var query = Kimbo.require('query');
+  var _guid = 1;
+  var MOUSE_EVENT_RE = /^(?:mouse|menu)|click/;
+  var KEY_EVENT_RE = /^key/;
+  var DEFAULT_EVENT_PROPS = [
+    'altKey', 'bubbles', 'cancelable', 'ctrlKey', 'currentTarget', 'defaultPrevented', 'eventPhase',
+    'metaKey', 'relatedTarget', 'shiftKey', 'target', 'timeStamp', 'type', 'view', 'which'
+  ];
+  var MOUSE_EVENT_PROPS = [
+    'button', 'buttons', 'clientX', 'clientY', 'fromElement',
+    'offsetX', 'offsetY', 'screenX', 'screenY', 'toElement'
+  ];
+  var KEY_EVENT_PROPS = ['char', 'charCode', 'key', 'keyCode'];
+&nbsp;
+  // Gestures fallback for not mobile environment
+  var GESTURES_FALLBACK = Kimbo.isMobile() ? <span class="branch-0 cbranch-no" title="branch not covered" >{} </span>: {
+    touchstart: 'mousedown',
+    touchmove: 'mousemove',
+    touchend: 'mouseup',
+    touch: 'click',
+    doubletap: 'dblclick',
+    orientationchange: 'resize'
+  };
+  var handlersHash = {};
+  var fixEventProps = {};
+  var specialEvents = {};
+&nbsp;
+  var _fixEvent = <span class="fstat-no" title="function not covered" >function (event) {</span>
+<span class="cstat-no" title="statement not covered" >    var originalEvent, eventProps, props;</span>
+&nbsp;
+    // Already fixed
+<span class="cstat-no" title="statement not covered" >    if (event[Kimbo.ref]) {</span>
+<span class="cstat-no" title="statement not covered" >      return event;</span>
+    }
+&nbsp;
+    // Get event properties
+<span class="cstat-no" title="statement not covered" >    originalEvent = event;</span>
+<span class="cstat-no" title="statement not covered" >    eventProps = fixEventProps[event.type] || [];</span>
+<span class="cstat-no" title="statement not covered" >    props = DEFAULT_EVENT_PROPS.concat(eventProps);</span>
+&nbsp;
+    // Create a new event writable custom event object
+<span class="cstat-no" title="statement not covered" >    event = new Kimbo.Event(originalEvent);</span>
+&nbsp;
+    // Set event props to Kimbo.Event object
+<span class="cstat-no" title="statement not covered" >    Kimbo.forEach(props, <span class="fstat-no" title="function not covered" >function (prop) {</span></span>
+<span class="cstat-no" title="statement not covered" >      event[prop] = originalEvent[prop];</span>
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return event;</span>
+  };
+&nbsp;
+  // Return element id
+  var _getElementId = <span class="fstat-no" title="function not covered" >function (element) {</span>
+<span class="cstat-no" title="statement not covered" >    return element._guid || (element._guid = _guid++);</span>
+  };
+&nbsp;
+  // Get element handlers for the specified type
+  var _getHandlers = <span class="fstat-no" title="function not covered" >function (elementId, type) {</span>
+<span class="cstat-no" title="statement not covered" >    var events = ((handlersHash[elementId] || {}).events || {});</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return (type ? events[type] : events) || [];</span>
+  };
+&nbsp;
+  // Register events to dom elements
+  var _addEvent = <span class="fstat-no" title="function not covered" >function (element, type, callback, data, selector) {</span>
+&nbsp;
+    // TODO: element should use Kimbo.ref and the handler the _guid
+<span class="cstat-no" title="statement not covered" >    var elementId = _getElementId(element);</span>
+<span class="cstat-no" title="statement not covered" >    var elementHandlers = handlersHash[elementId];</span>
+<span class="cstat-no" title="statement not covered" >    var origType = type;</span>
+<span class="cstat-no" title="statement not covered" >    var events, handlers, handleObj, handler;</span>
+&nbsp;
+    // Could be a special type like mouseenter/mouseleave
+<span class="cstat-no" title="statement not covered" >    type = specialEvents[type] ? specialEvents[type].origType : type;</span>
+&nbsp;
+    // Create hash for this element if first init
+<span class="cstat-no" title="statement not covered" >    if (!elementHandlers) {</span>
+<span class="cstat-no" title="statement not covered" >      handlersHash[elementId] = elementHandlers = {};</span>
+    }
+&nbsp;
+    // Create events object if first init
+<span class="cstat-no" title="statement not covered" >    events = elementHandlers.events;</span>
+<span class="cstat-no" title="statement not covered" >    if (!events) {</span>
+<span class="cstat-no" title="statement not covered" >      elementHandlers.events = events = {};</span>
+    }
+&nbsp;
+    // Create the handler for this element if first init
+<span class="cstat-no" title="statement not covered" >    handler = elementHandlers.handler;</span>
+<span class="cstat-no" title="statement not covered" >    if (!handler) {</span>
+<span class="cstat-no" title="statement not covered" >      elementHandlers.handler = handler = <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >        return _dispatchEvent.apply(element, arguments);</span>
+      };
+    }
+&nbsp;
+    // Create handler object
+<span class="cstat-no" title="statement not covered" >    handleObj = {</span>
+      type: type,
+      origType: origType,
+      data: data,
+      callback: callback,
+      selector: selector
+    };
+&nbsp;
+    // Only add an event listener one time for each type of event
+<span class="cstat-no" title="statement not covered" >    handlers = events[type];</span>
+<span class="cstat-no" title="statement not covered" >    if (!handlers) {</span>
+&nbsp;
+      // Array of handlers for the current type
+<span class="cstat-no" title="statement not covered" >      handlers = events[type] = [];</span>
+<span class="cstat-no" title="statement not covered" >      handlers.delegateCount = 0;</span>
+&nbsp;
+      // Add event
+<span class="cstat-no" title="statement not covered" >      if (element.addEventListener) {</span>
+<span class="cstat-no" title="statement not covered" >        element.addEventListener(type, handler, false);</span>
+      }
+    }
+&nbsp;
+    // Add to handlers hash, delegates first
+<span class="cstat-no" title="statement not covered" >    if (selector) {</span>
+<span class="cstat-no" title="statement not covered" >      handlers.splice(handlers.delegateCount++, 0, handleObj);</span>
+&nbsp;
+    } else {
+<span class="cstat-no" title="statement not covered" >      handlers.push(handleObj);</span>
+    }
+  };
+&nbsp;
+  // Unregister events from dom elements
+  var _removeEvent = <span class="fstat-no" title="function not covered" >function (element, type, callback, selector) {</span>
+<span class="cstat-no" title="statement not covered" >    var elementId = _getElementId(element);</span>
+<span class="cstat-no" title="statement not covered" >    var handleObj, handlers, name, i;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (!elementId) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    handlers = _getHandlers(elementId, type);</span>
+&nbsp;
+    // Return if no handlers for the current event type
+<span class="cstat-no" title="statement not covered" >    if (type &amp;&amp; !handlers.length) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+&nbsp;
+    // Remove all handlers if no type provided
+<span class="cstat-no" title="statement not covered" >    if (!type) {</span>
+<span class="cstat-no" title="statement not covered" >      for (name in handlers) {</span>
+<span class="cstat-no" title="statement not covered" >        if (handlers.hasOwnProperty(name)) {</span>
+<span class="cstat-no" title="statement not covered" >          _removeEvent(element, name, callback, selector);</span>
+        }
+      }
+    }
+&nbsp;
+    // Remove handlers that match
+<span class="cstat-no" title="statement not covered" >    for (i = 0; i &lt; handlers.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      handleObj = handlers[i];</span>
+<span class="cstat-no" title="statement not covered" >      if ((!callback || callback === handleObj.callback) &amp;&amp; (!selector || selector === handleObj.selector)) {</span>
+&nbsp;
+        // Remove current handler from stack
+<span class="cstat-no" title="statement not covered" >        handlers.splice(i--, 1);</span>
+&nbsp;
+        // Decrement delegate count
+<span class="cstat-no" title="statement not covered" >        if (handleObj.selector) {</span>
+<span class="cstat-no" title="statement not covered" >          handlers.delegateCount--;</span>
+        }
+      }
+    }
+&nbsp;
+    // If no more events for the current type remove the listener and delete its hash
+<span class="cstat-no" title="statement not covered" >    if (!handlers.length) {</span>
+<span class="cstat-no" title="statement not covered" >      element.removeEventListener(type, handlersHash[elementId].handler, false);</span>
+<span class="cstat-no" title="statement not covered" >      delete handlersHash[elementId].events[type];</span>
+    }
+&nbsp;
+    // Remove kimbo reference if element have no more events
+    // If (Kimbo.isEmptyObject(handlersHash[elementId].events)) {
+    //   delete handlersHash[elementId];
+    //   delete element._guid;
+    // }
+  };
+&nbsp;
+  // Triggers a provided event type
+  var _triggerEvent = <span class="fstat-no" title="function not covered" >function (element, type, data) {</span>
+&nbsp;
+    /* jshint validthis: true */
+<span class="cstat-no" title="statement not covered" >    var currentElement, lastElement, eventTree, elementId, event;</span>
+&nbsp;
+    // Don't do events if element is text or comment node
+    // Or if there is no event type at all or type is not a string
+<span class="cstat-no" title="statement not covered" >    if ((element &amp;&amp; (element.nodeType === 3 || element.nodeType === 8)) ||</span>
+      !type || !Kimbo.isString(type)) {
+<span class="cstat-no" title="statement not covered" >        return this;</span>
+    }
+&nbsp;
+    // Try triggering native focus and blur events
+<span class="cstat-no" title="statement not covered" >    if (type === 'focus' || type === 'blur') {</span>
+<span class="cstat-no" title="statement not covered" >      try {</span>
+<span class="cstat-no" title="statement not covered" >        return element[type]();</span>
+      } catch (e) {}
+    }
+&nbsp;
+    // Create a new writable custom event object
+<span class="cstat-no" title="statement not covered" >    event = new Kimbo.Event(type);</span>
+&nbsp;
+    // Triggered programatically
+<span class="cstat-no" title="statement not covered" >    event.isTrigger = true;</span>
+&nbsp;
+    // Set the target
+<span class="cstat-no" title="statement not covered" >    if (!event.target) {</span>
+<span class="cstat-no" title="statement not covered" >      event.target = element;</span>
+    }
+&nbsp;
+    // Include data if any
+<span class="cstat-no" title="statement not covered" >    data = data ? Kimbo.makeArray(data) : [];</span>
+&nbsp;
+    // Event goes first
+<span class="cstat-no" title="statement not covered" >    data.unshift(event);</span>
+&nbsp;
+    // Generate a stack of [element, event] to be triggered
+<span class="cstat-no" title="statement not covered" >    eventTree = [[element, type]];</span>
+<span class="cstat-no" title="statement not covered" >    if (!Kimbo.isWindow(element)) {</span>
+&nbsp;
+      // Get all parent elements to bubble event later
+<span class="cstat-no" title="statement not covered" >      for (currentElement = element.parentNode; currentElement; currentElement = currentElement.parentNode) {</span>
+<span class="cstat-no" title="statement not covered" >        eventTree.push([currentElement, type]);</span>
+<span class="cstat-no" title="statement not covered" >        lastElement = currentElement;</span>
+      }
+&nbsp;
+      // Only add window object if we got to document (e.g., not plain obj or detached DOM)
+<span class="cstat-no" title="statement not covered" >      if (lastElement &amp;&amp; lastElement === element.ownerDocument) {</span>
+<span class="cstat-no" title="statement not covered" >        eventTree.push([window, type]);</span>
+      }
+    }
+&nbsp;
+    // Fire handlers up to the document (or the last element)
+<span class="cstat-no" title="statement not covered" >    Kimbo.forEach(eventTree, <span class="fstat-no" title="function not covered" >function (branch) {</span></span>
+&nbsp;
+      // Element
+<span class="cstat-no" title="statement not covered" >      currentElement = branch[0];</span>
+&nbsp;
+      // Type
+<span class="cstat-no" title="statement not covered" >      event.type = branch[1];</span>
+&nbsp;
+      // Get element id
+<span class="cstat-no" title="statement not covered" >      elementId = currentElement._guid;</span>
+&nbsp;
+      // If the current element has events of the specified type, dispatch them
+<span class="cstat-no" title="statement not covered" >      if (elementId &amp;&amp; _getHandlers(elementId, type)) {</span>
+<span class="cstat-no" title="statement not covered" >        handlersHash[elementId].handler.apply(currentElement, data);</span>
+      }
+    });
+  };
+&nbsp;
+  // Own defined dispatchEvent()
+  var _dispatchEvent = <span class="fstat-no" title="function not covered" >function (event) {</span>
+    /* jshint -W040 */
+&nbsp;
+    // Use own event object
+<span class="cstat-no" title="statement not covered" >    event = _fixEvent(event);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    var elementId = _getElementId(this);</span>
+<span class="cstat-no" title="statement not covered" >    var handlers = _getHandlers(elementId, event.type);</span>
+<span class="cstat-no" title="statement not covered" >    var delegateCount = handlers.delegateCount;</span>
+<span class="cstat-no" title="statement not covered" >    var args = _.slice.call(arguments);</span>
+<span class="cstat-no" title="statement not covered" >    var handlerQueue = [];</span>
+<span class="cstat-no" title="statement not covered" >    var currentElement, ret, selMatch, matches, handleObj, selector, i;</span>
+&nbsp;
+    // Set the native event to be the fixed event
+<span class="cstat-no" title="statement not covered" >    args[0] = event;</span>
+&nbsp;
+    // Save the delegate target element
+<span class="cstat-no" title="statement not covered" >    event.delegateTarget = this;</span>
+&nbsp;
+    // Get delegated handlers if any
+<span class="cstat-no" title="statement not covered" >    if (delegateCount) {</span>
+&nbsp;
+      // Go up to the dom finding the elements that matches the current selector from delegated event
+<span class="cstat-no" title="statement not covered" >      for (currentElement = event.target; currentElement !== this; currentElement = currentElement.parentNode || this) {</span>
+&nbsp;
+        // Don't do events on disabled elements
+<span class="cstat-no" title="statement not covered" >        if (currentElement.disabled !== true || event.type !== 'click') {</span>
+<span class="cstat-no" title="statement not covered" >          selMatch = {};</span>
+<span class="cstat-no" title="statement not covered" >          matches = [];</span>
+&nbsp;
+          // Loop throgh delegated events
+<span class="cstat-no" title="statement not covered" >          for (i = 0; i &lt; delegateCount; i++) {</span>
+&nbsp;
+            // Get its handler
+<span class="cstat-no" title="statement not covered" >            handleObj = handlers[i];</span>
+&nbsp;
+            // Get its selector
+<span class="cstat-no" title="statement not covered" >            selector = handleObj.selector;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            if (!selMatch[selector]) {</span>
+<span class="cstat-no" title="statement not covered" >              selMatch[selector] = _.kimbo(currentElement).is(selector);</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            if (selMatch[selector]) {</span>
+<span class="cstat-no" title="statement not covered" >              matches.push(handleObj);</span>
+            }
+          }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >          if (matches.length) {</span>
+<span class="cstat-no" title="statement not covered" >            handlerQueue.push({elem: currentElement, matches: matches});</span>
+          }
+        }
+      }
+    }
+&nbsp;
+    // Add the remaining not delegated handlers
+<span class="cstat-no" title="statement not covered" >    if (handlers.length &gt; delegateCount) {</span>
+<span class="cstat-no" title="statement not covered" >      handlerQueue.push({elem: this, matches: handlers.slice(delegateCount)});</span>
+    }
+&nbsp;
+    // Fire callbacks queue
+<span class="cstat-no" title="statement not covered" >    Kimbo.forEach(handlerQueue, <span class="fstat-no" title="function not covered" >function (handler) {</span></span>
+&nbsp;
+      // Only fire handler if event wasnt stopped
+<span class="cstat-no" title="statement not covered" >      if (!event.isPropagationStopped()) {</span>
+<span class="cstat-no" title="statement not covered" >        event.currentTarget = handler.elem;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        Kimbo.forEach(handler.matches, <span class="fstat-no" title="function not covered" >function (handleObj) {</span></span>
+&nbsp;
+          // Only fire bubble if not stopped
+<span class="cstat-no" title="statement not covered" >          if (!event.isImmediatePropagationStopped()) {</span>
+<span class="cstat-no" title="statement not covered" >            event.data = handleObj.data;</span>
+<span class="cstat-no" title="statement not covered" >            event.handleObj = handleObj;</span>
+&nbsp;
+            // Call original callback, check if its an special event first
+<span class="cstat-no" title="statement not covered" >            ret = ((specialEvents[handleObj.origType] || {}).handle || handleObj.callback).apply(handler.elem, args);</span>
+&nbsp;
+            // If callback returns false, stop the event
+<span class="cstat-no" title="statement not covered" >            if (ret === false) {</span>
+<span class="cstat-no" title="statement not covered" >              event.preventDefault();</span>
+<span class="cstat-no" title="statement not covered" >              event.stopPropagation();</span>
+            }
+          }
+        });
+      }
+    });
+&nbsp;
+    /* jshint +W040 */
+  };
+&nbsp;
+  var _returnFalse = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >    return false;</span>
+  };
+&nbsp;
+  var _returnTrue = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >    return true;</span>
+  };
+&nbsp;
+  Kimbo.Event = <span class="fstat-no" title="function not covered" >function (event) {</span>
+&nbsp;
+    // Is event object
+<span class="cstat-no" title="statement not covered" >    if (event &amp;&amp; event.type) {</span>
+<span class="cstat-no" title="statement not covered" >      this.originalEvent = event;</span>
+<span class="cstat-no" title="statement not covered" >      this.type = event.type;</span>
+&nbsp;
+      // The event may have been prevented
+      // Check dom level 3 new attribute and set proper value
+<span class="cstat-no" title="statement not covered" >      if (event.defaultPrevented) {</span>
+<span class="cstat-no" title="statement not covered" >        this.isDefaultPrevented = _returnTrue;</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        this.isDefaultPrevented = _returnFalse;</span>
+      }
+&nbsp;
+    // Is event type
+    } else {
+<span class="cstat-no" title="statement not covered" >      this.type = event;</span>
+    }
+&nbsp;
+    // Create a timestamp if doesn't have one
+<span class="cstat-no" title="statement not covered" >    this.timeStamp = (event &amp;&amp; event.timeStamp) || Date.now();</span>
+&nbsp;
+    // Made by kimbo, yeah
+<span class="cstat-no" title="statement not covered" >    this[Kimbo.ref] = true;</span>
+  };
+&nbsp;
+  // Dom-Level-3-Events compliant
+  Kimbo.Event.prototype = {
+    isDefaultPrevented: _returnFalse,
+    isPropagationStopped: _returnFalse,
+    isImmediatePropagationStopped: _returnFalse,
+&nbsp;
+    preventDefault: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >      this.isDefaultPrevented = _returnTrue;</span>
+&nbsp;
+      // Original event is not present when trigger is called
+<span class="cstat-no" title="statement not covered" >      if (!this.isTrigger) {</span>
+<span class="cstat-no" title="statement not covered" >        this.originalEvent.preventDefault();</span>
+      }
+    },
+&nbsp;
+    stopPropagation: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >      this.isPropagationStopped = _returnTrue;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if (!this.isTrigger) {</span>
+<span class="cstat-no" title="statement not covered" >        this.originalEvent.stopPropagation();</span>
+      }
+    },
+&nbsp;
+    stopImmediatePropagation: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >      this.isImmediatePropagationStopped = _returnTrue;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if (!this.isTrigger) {</span>
+<span class="cstat-no" title="statement not covered" >        this.originalEvent.stopImmediatePropagation();</span>
+      }
+    }
+  };
+&nbsp;
+  Kimbo.fn.extend({
+    /*\
+     * $(…).on
+     [ method ]
+     * Add an event handler to the selected elements.
+     &gt; Parameters
+     - type (string) A string name for the event to register.
+     - selector (string) #optional Delegate an event providing a string selector.
+     - data (any) #optional Data to be passed to the handler in `event.data` when an event is triggered.
+     - callback (function) A callback function to execute when the event is triggered.
+     &gt; Usage
+     * Suppose a button element:
+     | &lt;button id='btn'&gt;click me&lt;/button&gt;
+     * Register a click event handler
+     | $('#btn').on('click', function (event) {
+     |   console.log('clicked!', event);
+     | });
+     * There are shorthands for all events for example:
+     | $('#btn').click(function (event) {
+     |   console.log('clicked!', event);
+     | });
+     * Passing some data when registering the handler:
+     | $('#btn').on('click', { name: 'denis' }, function (event) {
+     |   // Data passed is inside event.data
+     |   console.log('name:', event.data.name);
+     | });
+     * Here is a list for all the shorthand methods available:
+     | 'blur', 'change', 'click', 'contextmenu', 'dblclick', 'error',
+     | 'focus', 'keydown', 'keypress', 'keyup', 'load', 'mousedown', 'mouseenter', 'mouseleave',
+     | 'mousemove', 'mouseout', 'mouseup', 'mouseover', 'resize', 'scroll', 'select', 'submit', 'unload'
+    \*/
+    on: <span class="fstat-no" title="function not covered" >function (type, selector, data, callback) {</span>
+      // Prepare the arguments
+&nbsp;
+      // (type, callback)
+<span class="cstat-no" title="statement not covered" >      if (!data &amp;&amp; !callback) {</span>
+<span class="cstat-no" title="statement not covered" >        callback = selector;</span>
+<span class="cstat-no" title="statement not covered" >        data = selector = undefined;</span>
+&nbsp;
+      // (type, selector, callback)
+      } else <span class="cstat-no" title="statement not covered" >if (!callback) {</span>
+<span class="cstat-no" title="statement not covered" >        if (Kimbo.isString(selector)) {</span>
+<span class="cstat-no" title="statement not covered" >          callback = data;</span>
+<span class="cstat-no" title="statement not covered" >          data = undefined;</span>
+&nbsp;
+        // (type, data, callback)
+        } else {
+<span class="cstat-no" title="statement not covered" >          callback = data;</span>
+<span class="cstat-no" title="statement not covered" >          data = selector;</span>
+<span class="cstat-no" title="statement not covered" >          selector = undefined;</span>
+        }
+      }
+&nbsp;
+      // Don't add events if no callback
+<span class="cstat-no" title="statement not covered" >      if (!callback) {</span>
+<span class="cstat-no" title="statement not covered" >        return this;</span>
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      type = GESTURES_FALLBACK[type] || type;</span>
+&nbsp;
+      // Add the event
+<span class="cstat-no" title="statement not covered" >      return this.each(<span class="fstat-no" title="function not covered" >function (el) {</span></span>
+<span class="cstat-no" title="statement not covered" >        _addEvent(el, type, callback, data, selector);</span>
+      });
+    },
+&nbsp;
+    /*\
+     * $(…).off
+     [ method ]
+     * Remove an event handler to the selected elements for the specified type, or all of them if no type defined.
+     &gt; Parameters
+     - type (string) #optional A string name for the event to remove, or All if none specified.
+     - selector (string) #optional A string selector to undelegate an event from that element.
+     - callback (function) #optional A specific callback function if there are multiple registered under the same event type
+     &gt; Usage
+     * Suppose a button element:
+     | &lt;button id='btn'&gt;click me&lt;/button&gt;
+     * Register a click event handler
+     | $('#btn').on('click', function (event) {
+     |   console.log('clicked!', event);
+     | });
+     * Remove the handler
+     | $('#btn').off('click');
+     * Also you could specify the handler for example:
+     | var firstFunction = function () { console.log('first fn'); };
+     | var secondFunction = function () { console.log('second fn'); };
+     | var btn = $('#btn');
+     | btn.click(firstFunction);
+     | btn.click(secondFunction);
+     * If you want to remove the click event only for the second function, do this:
+     | btn.off('click', secondFunction);
+     * Or if you want to remove All handlers (click and any other attached):
+     | btn.off();
+    \*/
+    off: <span class="fstat-no" title="function not covered" >function (type, selector, callback) {</span>
+&nbsp;
+      // Prepare the arguments
+&nbsp;
+      // (type, callback)
+<span class="cstat-no" title="statement not covered" >      if (Kimbo.isFunction(selector)) {</span>
+<span class="cstat-no" title="statement not covered" >        callback = selector;</span>
+<span class="cstat-no" title="statement not covered" >        selector = undefined;</span>
+      }
+&nbsp;
+      // Remove the event
+<span class="cstat-no" title="statement not covered" >      return this.each(<span class="fstat-no" title="function not covered" >function (el) {</span></span>
+<span class="cstat-no" title="statement not covered" >        _removeEvent(el, type, callback, selector);</span>
+      });
+    },
+&nbsp;
+    /*\
+     * $(…).trigger
+     [ method ]
+     * Execute all handlers attached to the matched elements for the fiven event type.
+     &gt; Parameters
+     - type (string) #optional A string name for the event to remove, or All if none specified.
+     - data (any) #optional Additional parameters to be passed to the handler in `event.data` when an event is triggered.
+     &gt; Usage
+     * Suppose a button element:
+     | &lt;button id='btn'&gt;click me&lt;/button&gt;
+     * Register a click event handler
+     | $('#btn').on('click', function (event, data) {
+     |   console.log('name', data.name);
+     | });
+     * Trigger the event programatically passing some data:
+     | $('#btn').trigger('click', { name: 'denis' });
+     | // 'name denis'
+     * Allow the handler to recieve multiple data:
+     | $('#btn').on('click', function (event, name, last) {
+     |   console.log('name', name);
+     |   console.log('last', last);
+     | });
+     | $('#btn').trigger('click', ['denis', 'ciccale']);
+     | // Name denis
+     | // Last ciccale
+    \*/
+    trigger: <span class="fstat-no" title="function not covered" >function (type, data) {</span>
+<span class="cstat-no" title="statement not covered" >      return this.each(<span class="fstat-no" title="function not covered" >function (el) {</span></span>
+<span class="cstat-no" title="statement not covered" >        _triggerEvent(el, type, data);</span>
+      });
+    },
+&nbsp;
+    /*\
+     * $(…).hover
+     [ method ]
+     * A shortcut method to register moseenter and/or mouseleave event handlers to the matched elements.
+     &gt; Parameters
+     - fnOver (function) A function to execute when the cursor enters the element.
+     - fnOut (function) #optional A function to execute when the cursor leaves the element.
+     &gt; Usage
+     * Suppose a div element:
+     | &lt;div id='box'&gt;&lt;/div&gt;
+     * Register hover event
+     | var fnOver = function () { console.log('enter'); };
+     | var fnOut = function () { console.log('leave'); };
+     |
+     | $('.box').hover(fnOver, fnOut);
+     * When the cursor enters the `.box` element the console will log:
+     | 'enter'
+     * When the cursor leaves the `.box` element the console will log:
+     | 'leave'
+    \*/
+    hover: <span class="fstat-no" title="function not covered" >function (fnOver, fnOut) {</span>
+<span class="cstat-no" title="statement not covered" >      return this.mouseenter(fnOver).mouseleave(fnOut || fnOver);</span>
+    }
+  });
+&nbsp;
+  // Shortcut methods for each event type
+  Kimbo.forEach(['blur', 'change', 'click', 'contextmenu', 'dblclick', 'error',
+    'focus', 'keydown', 'keypress', 'keyup', 'load', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove',
+    'mouseout', 'mouseup', 'mouseover', 'resize', 'scroll', 'select', 'submit', 'unload'], function (type) {
+&nbsp;
+    Kimbo.fn[type] = <span class="fstat-no" title="function not covered" >function (data, callback) {</span>
+<span class="cstat-no" title="statement not covered" >      return arguments.length &gt; 0 ? this.on(type, null, data, callback) : this.trigger(type);</span>
+    };
+&nbsp;
+    // Set event props for the specific type
+    fixEventProps[type] = KEY_EVENT_RE.test(type) ? KEY_EVENT_PROPS : MOUSE_EVENT_RE.test(type) ? MOUSE_EVENT_PROPS : null;
+  });
+&nbsp;
+  // Fix mouseover and mouseout events to use mouseenter mouseleave
+  Kimbo.forEach({
+    mouseenter: 'mouseover',
+    mouseleave: 'mouseout'
+  }, function (orig, fix) {
+    specialEvents[orig] = {
+      origType: fix,
+&nbsp;
+      handle: <span class="fstat-no" title="function not covered" >function (event) {</span>
+<span class="cstat-no" title="statement not covered" >        var target = this;</span>
+<span class="cstat-no" title="statement not covered" >        var related = event.relatedTarget;</span>
+<span class="cstat-no" title="statement not covered" >        var handleObj = event.handleObj;</span>
+<span class="cstat-no" title="statement not covered" >        var ret;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (!related || (related !== target &amp;&amp; !query.contains(target, related))) {</span>
+<span class="cstat-no" title="statement not covered" >          event.type = handleObj.origType;</span>
+<span class="cstat-no" title="statement not covered" >          ret = handleObj.callback.apply(this, arguments);</span>
+<span class="cstat-no" title="statement not covered" >          event.type = fix;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return ret;</span>
+      }
+    };
+  });
+&nbsp;
+});
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Aug 05 2015 16:30:09 GMT+0200 (CEST)</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

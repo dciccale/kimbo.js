@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/css.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../prettify.css">
+    <link rel="stylesheet" href="../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header high">
+    <h1>Code coverage report for <span class="entity">src/css.js</span></h1>
+    <h2>
+        Statements: <span class="metric">84.75% <small>(50 / 59)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">75.76% <small>(25 / 33)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">90.91% <small>(10 / 11)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">84.75% <small>(50 / 59)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">src/</a> &#187; css.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">Kimbo.define('css', function () {
+&nbsp;
+  'use strict';
+&nbsp;
+  // Properties without 'px' at the end
+  var CSS_NO_PX = {
+    fontWeight: true,
+    lineHeight: true,
+    opacity: true,
+    zIndex: true
+  };
+&nbsp;
+  var iframe = null;
+  var elementsDisplay = {};
+&nbsp;
+  // Wrap native to extend behavoiur
+  function _getComputedStyle(element, property) {
+&nbsp;
+    // Support both camelCase and dashed property names
+    property = property.replace(/([A-Z])/g, '-$1').toLowerCase();
+&nbsp;
+    return window.getComputedStyle(element, null).getPropertyValue(property);
+  }
+&nbsp;
+&nbsp;
+<span class="fstat-no" title="function not covered" >  function _createIframe() {</span>
+<span class="cstat-no" title="statement not covered" >    iframe = document.createElement('iframe');</span>
+<span class="cstat-no" title="statement not covered" >    document.documentElement.appendChild(iframe);</span>
+<span class="cstat-no" title="statement not covered" >    return iframe;</span>
+  }
+&nbsp;
+  function _getActualDisplay(nodeName, doc) {
+    doc = doc || document;
+&nbsp;
+    var elem, display;
+&nbsp;
+    // Create and append the node
+    elem = doc.createElement(nodeName);
+    doc.body.appendChild(elem);
+&nbsp;
+    // Get display
+    display = _getComputedStyle(elem, 'display');
+&nbsp;
+    // Remove it from the dom
+    elem.parentNode.removeChild(elem);
+&nbsp;
+    return display;
+  }
+&nbsp;
+  Kimbo.fn.extend({
+    /*\
+     * $(…).show
+     [ method ]
+     * Display all matched elements.
+     = (object) Original matched collection.
+     &gt; Usage
+     | &lt;p style="display: none;"&gt;Lorem&lt;/p&gt;
+     * Show it
+     | $('p').show();
+     * Now it's visible
+     | &lt;p style="display: block;"&gt;Lorem&lt;/p&gt;
+    \*/
+    show: function () {
+      return this.each(function (el) {
+        var nodeName = el.nodeName;
+        var display = elementsDisplay[nodeName];
+        var doc;
+&nbsp;
+        if (!display) {
+          display = _getActualDisplay(nodeName);
+&nbsp;
+          // If still fails for some css rule try creating the element in an isolated iframe
+          <span class="missing-if-branch" title="if path not taken" >I</span>if (display === 'none' || !display) {
+&nbsp;
+            // Use the already-created iframe if possible
+<span class="cstat-no" title="statement not covered" >            iframe = (iframe || _createIframe());</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            doc = (iframe.contentWindow || iframe.contentDocument).document;</span>
+<span class="cstat-no" title="statement not covered" >            doc.write('&lt;!doctype html&gt;&lt;html&gt;&lt;body&gt;');</span>
+<span class="cstat-no" title="statement not covered" >            doc.close();</span>
+<span class="cstat-no" title="statement not covered" >            display = _getActualDisplay(nodeName, doc);</span>
+<span class="cstat-no" title="statement not covered" >            iframe.parentNode.removeChild(iframe);</span>
+          }
+&nbsp;
+          // Save the default display for this element
+          elementsDisplay[nodeName] = display;
+        }
+&nbsp;
+        el.style.display = display || <span class="branch-1 cbranch-no" title="branch not covered" >'block';</span>
+      });
+    },
+&nbsp;
+    /*\
+     * $(…).hide
+     [ method ]
+     * Hide all matched elements.
+     = (object) Original matched collection.
+     &gt; Usage
+     | &lt;p&gt;Lorem&lt;/p&gt;
+     * Hide it
+     | $('p').hide();
+     * Now it's hidden
+     | &lt;p style="display: none;"&gt;Lorem&lt;/p&gt;
+    \*/
+    hide: function () {
+      return this.each(function (el) {
+        var nodeName = el.nodeName;
+        var display = elementsDisplay[nodeName];
+&nbsp;
+        if (!display) {
+          display = _getComputedStyle(el, 'display');
+          elementsDisplay[nodeName] = display;
+        } else {
+          display = el.style.display;
+        }
+&nbsp;
+        // Only hide if not already hidden
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (display !== 'none') {
+          el.style.display = 'none';
+        }
+      });
+    },
+&nbsp;
+    /*\
+     * $(…).css
+     [ method ]
+     * Get the css value of a property from one element or set a css property to all matched elements.
+     &gt; Parameters
+     - property (string|object) Name of the css property.
+     - value (string|number) #optional Value for the property.
+     = (object) Original matched collection.
+     &gt; Usage
+     | &lt;p&gt;Hello dude!&lt;/p&gt;
+     * Modify some styles
+     | $('p').css('color', 'red'); // Now the text is red
+     * The HTML will look like this:
+     | &lt;p style="color: red;"&gt;Hello dude!&lt;/p&gt;
+     * You can also pass an object for setting multiple properties at the same time
+     | $('p').css({
+     |   color: 'red',
+     |   'font-size': '30px',
+     |   backgroundColor: 'blue'
+     | });
+     * Properties can be dash-separated (add quotes) or camelCase.
+     | &lt;p style="color: red; font-size: 30px; background-color: blue"&gt;Hello dude!&lt;/p&gt;
+    \*/
+    css: function (property, value) {
+      var that = this;
+&nbsp;
+      if (!this.length || (!Kimbo.isString(property) &amp;&amp; !Kimbo.isObject(property))) {
+        return this;
+      }
+&nbsp;
+      function _applyCss(name, value) {
+&nbsp;
+        // If it's a number add 'px' except for some properties
+        if (Kimbo.isNumeric(value) &amp;&amp; !CSS_NO_PX[Kimbo.camelCase(name)]) {
+          value += 'px';
+        }
+&nbsp;
+        // Apply styles to all elements in the set
+        that.each(function (el) {
+          el.style[name] = value;
+        });
+      }
+&nbsp;
+      // Setting one property
+      if (Kimbo.isString(property)) {
+&nbsp;
+        // Get
+        if (value === undefined) {
+          return _getComputedStyle(this[0], property);
+&nbsp;
+        // Set
+        } else {
+          _applyCss(property, value);
+        }
+&nbsp;
+      // Multiple properties with an object
+      } else <span class="missing-if-branch" title="else path not taken" >E</span>if (Kimbo.isObject(property)) {
+        Kimbo.forEach(property, _applyCss);
+      }
+&nbsp;
+      return this;
+    }
+  });
+});
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Aug 05 2015 16:30:09 GMT+0200 (CEST)</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

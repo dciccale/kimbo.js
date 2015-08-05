@@ -1,0 +1,1314 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/ajax.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../prettify.css">
+    <link rel="stylesheet" href="../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">src/ajax.js</span></h1>
+    <h2>
+        Statements: <span class="metric">17.59% <small>(19 / 108)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">0% <small>(0 / 49)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">13.04% <small>(3 / 23)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">17.59% <small>(19 / 108)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">src/</a> &#187; ajax.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">Kimbo.define('ajax', function () {
+&nbsp;
+  'use strict';
+&nbsp;
+  var JSONP_RE = /(\=)\?(&amp;|$)|\?\?/i;
+&nbsp;
+  var MIME_TYPES = {
+    html: 'text/html',
+    json: 'application/json',
+    script: 'text/javascript, application/javascript',
+    text: 'text/plain',
+    xml: 'application/xml, text/xml'
+  };
+&nbsp;
+  var dataParse = {
+    json: Kimbo.parseJSON,
+    xml: Kimbo.parseXML
+  };
+&nbsp;
+  var xhrCallbacks = {};
+&nbsp;
+  // Success and error callbacks
+  Kimbo.forEach(['success', 'error'], function (type) {
+    xhrCallbacks[type] = <span class="fstat-no" title="function not covered" >function (res, msg, xhr, settings) {</span>
+<span class="cstat-no" title="statement not covered" >      settings = settings || xhr;</span>
+<span class="cstat-no" title="statement not covered" >      if (Kimbo.isFunction(settings[type])) {</span>
+<span class="cstat-no" title="statement not covered" >        settings[type].apply(settings.context, arguments);</span>
+      }
+    };
+  });
+&nbsp;
+<span class="fstat-no" title="function not covered" >  function _getResponse(response, type) {</span>
+<span class="cstat-no" title="statement not covered" >    return (dataParse[type] ? dataParse[type](response) : response);</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  function _handleResponse(xhr, settings) {</span>
+<span class="cstat-no" title="statement not covered" >    var response, contentType;</span>
+&nbsp;
+    // Set dataType if missing
+<span class="cstat-no" title="statement not covered" >    if (!settings.dataType) {</span>
+<span class="cstat-no" title="statement not covered" >      contentType = xhr.getResponseHeader('Content-Type');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      Kimbo.forEach(MIME_TYPES, <span class="fstat-no" title="function not covered" >function (name, type) {</span></span>
+<span class="cstat-no" title="statement not covered" >        if (type.match(contentType)) {</span>
+<span class="cstat-no" title="statement not covered" >          settings.dataType = name;</span>
+<span class="cstat-no" title="statement not covered" >          return false;</span>
+        }
+      });
+&nbsp;
+      // Fix settings headers
+<span class="cstat-no" title="statement not covered" >      _setHeaders(settings);</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    try {</span>
+<span class="cstat-no" title="statement not covered" >      response = _getResponse(xhr.responseText, settings.dataType);</span>
+    } catch (e) {
+<span class="cstat-no" title="statement not covered" >      response = false;</span>
+<span class="cstat-no" title="statement not covered" >      xhrCallbacks.error('parseerror', e, xhr, settings);</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return response;</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  function _setHeaders(settings) {</span>
+<span class="cstat-no" title="statement not covered" >    if (!settings.crossDomain &amp;&amp; !settings.headers['X-Requested-With']) {</span>
+<span class="cstat-no" title="statement not covered" >      settings.headers['X-Requested-With'] = 'XMLHttpRequest';</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (settings.contentType) {</span>
+<span class="cstat-no" title="statement not covered" >      settings.headers['Content-Type'] = settings.contentType;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    settings.headers.Accept = MIME_TYPES[settings.dataType] || '*/*';</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  function _timeout(xhr, settings) {</span>
+<span class="cstat-no" title="statement not covered" >    xhr.onreadystatechange = null;</span>
+<span class="cstat-no" title="statement not covered" >    xhr.abort();</span>
+<span class="cstat-no" title="statement not covered" >    xhrCallbacks.error('error', 'timeout', xhr, settings);</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  function _createAbortTimeout(xhr, settings) {</span>
+<span class="cstat-no" title="statement not covered" >    return window.setTimeout(<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >      _timeout(xhr, settings);</span>
+    }, settings.timeout);
+  }
+&nbsp;
+  /*\
+   * $.ajaxSettings
+   [ property ]
+   * Default ajax settings object.
+   &gt; Usage
+   * If you want to change the global and default ajax settings, change this object properties:
+   | $.ajaxSettings.error = function () {
+   |   // Handle any failed ajax request in your app
+   | };
+   | $.ajaxSettings.timeout = 1000; // 1 second
+  \*/
+  Kimbo.ajaxSettings = {
+    type: 'GET',
+    async: true,
+    success: {},
+    error: {},
+    context: null,
+    headers: {},
+    data: null,
+    crossDomain: false,
+    timeout: 0,
+    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+    xhr: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >      return new window.XMLHttpRequest();</span>
+    }
+  };
+&nbsp;
+  /*\
+   * $.ajax
+   [ method ]
+   * Perform an asynchronous HTTP (Ajax) request.
+   &gt; Parameters
+   - options (object) #optional An object with options
+   o {
+   o   url (string) Url to make the request.
+   o   type (string) #optional Type of request. Could be `'GET'` or `'POST'`. Default value is `'GET'`.
+   o   async (boolean) #optional Default value is `true` if you want synchronous requests set option to `false`.
+   o   success (function) #optional A function that will be called if the request succeeds. Recieving (response, responseMessage, xhr, settings).
+   o   error (function) #optional A function that will be called if the request fails. Recieving (response, responseMessage, xhr, settings).
+   o   context (object) #optional The context in which all ajax request are made. By default the context are the settings object. Could be any DOM element.
+   o   headers (object) #optional An object with additional header key/value pairs to send along with the request.
+   o   data (string|object) #optional Additional data to send with the request, if it is an object is converted to a query string.
+   o   xhr (function) #optional A function that returns a `new XMLHttpRequest()` object by default.
+   o   crossDomain (boolean) #optional Indicate wether you want to force crossDomain requests. `false` by defualt.
+   o   timeout (number) #optional Set a default timeout in milliseconds for the request.
+   o   contentType (string) #optional The default and finest contentType for most cases is `'application/x-www-form-urlencoded; charset=UTF-8'`.
+   o }
+   = (object) The native xhr object.
+   &gt; Usage
+   * Get a username passing an id to the /users url
+   | $.ajax({
+   |   url '/users',
+   |   data: {
+   |     id: 3
+   |   },
+   |   success: function (response, responseMessage, xhr, settings) {
+   |     // Success...
+   |   },
+   |   error: function (response, responseMessage, xhr, settings) {
+   |     // Error...
+   |   }
+   | });
+  \*/
+  Kimbo.ajax = <span class="fstat-no" title="function not covered" >function (options) {</span>
+<span class="cstat-no" title="statement not covered" >    var settings = Kimbo.extend({}, Kimbo.ajaxSettings, options);</span>
+<span class="cstat-no" title="statement not covered" >    var xhr, abortTimeout, callback;</span>
+&nbsp;
+    // Add data to url
+<span class="cstat-no" title="statement not covered" >    if (settings.data) {</span>
+<span class="cstat-no" title="statement not covered" >      settings.url += (/\?/.test(settings.url) ? '&amp;' : '?') + Kimbo.param(settings.data);</span>
+<span class="cstat-no" title="statement not covered" >      delete settings.data;</span>
+    }
+&nbsp;
+    // Set default context
+<span class="cstat-no" title="statement not covered" >    if (!settings.context) {</span>
+<span class="cstat-no" title="statement not covered" >      settings.context = settings;</span>
+    }
+&nbsp;
+    // Check if its jsonp
+<span class="cstat-no" title="statement not covered" >    if (JSONP_RE.test(settings.url)) {</span>
+<span class="cstat-no" title="statement not covered" >      return _getJSONP(settings);</span>
+    }
+&nbsp;
+    // Create new instance
+<span class="cstat-no" title="statement not covered" >    xhr = settings.xhr();</span>
+&nbsp;
+    // User specified timeout
+<span class="cstat-no" title="statement not covered" >    if (settings.timeout &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >      abortTimeout = _createAbortTimeout(xhr, settings);</span>
+    }
+&nbsp;
+    // On complete callback
+<span class="cstat-no" title="statement not covered" >    callback = <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >      var response, status;</span>
+&nbsp;
+      // Request complete
+<span class="cstat-no" title="statement not covered" >      if (xhr.readyState === 4) {</span>
+<span class="cstat-no" title="statement not covered" >        status = xhr.status;</span>
+&nbsp;
+        // Clear timeout
+<span class="cstat-no" title="statement not covered" >        window.clearTimeout(abortTimeout);</span>
+&nbsp;
+        // Scuccess
+<span class="cstat-no" title="statement not covered" >        if ((status &gt;= 200 &amp;&amp; status &lt; 300) || status === 304) {</span>
+<span class="cstat-no" title="statement not covered" >          if (settings.async) {</span>
+<span class="cstat-no" title="statement not covered" >            response = _handleResponse(xhr, settings);</span>
+<span class="cstat-no" title="statement not covered" >            if (response !== false) {</span>
+<span class="cstat-no" title="statement not covered" >              xhrCallbacks.success(response, xhr, settings);</span>
+            }
+          }
+&nbsp;
+        // Fail
+        } else {
+<span class="cstat-no" title="statement not covered" >          xhrCallbacks.error('error', xhr.statusText, xhr, settings);</span>
+        }
+      }
+    };
+&nbsp;
+    // Listen for response
+<span class="cstat-no" title="statement not covered" >    xhr.onreadystatechange = callback;</span>
+&nbsp;
+    // Init request
+<span class="cstat-no" title="statement not covered" >    xhr.open(settings.type, settings.url, settings.async);</span>
+&nbsp;
+    // Set settings headers
+<span class="cstat-no" title="statement not covered" >    _setHeaders(settings);</span>
+&nbsp;
+    // Set xhr headers
+<span class="cstat-no" title="statement not covered" >    Kimbo.forEach(settings.headers, <span class="fstat-no" title="function not covered" >function (header, value) {</span></span>
+<span class="cstat-no" title="statement not covered" >      xhr.setRequestHeader(header, value);</span>
+    });
+&nbsp;
+    // Try to send request
+<span class="cstat-no" title="statement not covered" >    xhr.send(settings.data);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return (settings.async) ? xhr : callback();</span>
+  };
+&nbsp;
+  /*\
+   * $.get
+   [ method ]
+   * Load data from the server using HTTP GET request.
+   &gt; Parameters
+   - url (string) A string containing the URL to which the request is sent.
+   - data (string|object) #optional An option string or object with data params to send to the server.
+   - callback (function) A callback function to execute if the request succeeds.
+   - type (string) #optional String with the type of the data to send (intelligent guess by default).
+   &gt; Usage
+   | $.get('url/users.php', { id: '123' }, function (data) {
+   |   // Success
+   |   console.log('response:', data);
+   | });
+   * This method is a shorthand for the $.ajax
+   | $.ajax({
+   |   url: url,
+   |   data: data,
+   |   success: success,
+   |   dataType: dataType
+   | });
+  \*/
+&nbsp;
+  /*\
+   * $.post
+   [ method ]
+   * Load data from the server using HTTP POST request.
+   &gt; Parameters
+   - url (string) A string containing the URL to which the request is sent.
+   - data (string|object) #optional An option string or object with data params to send to the server.
+   - callback (function) A callback function to execute if the request succeeds.
+   - type (string) #optional String with the type of the data to send (intelligent guess by default).
+   &gt; Usage
+   | $.post('url/users.php', { user: 'denis', pass: '123' }, function (data) {
+   |   // Success
+   |   console.log('response:', data);
+   | });
+   * This method is a shorthand for the $.ajax
+   | $.ajax({
+   |   type: 'POST',
+   |   url: url,
+   |   data: data,
+   |   success: success,
+   |   dataType: dataType
+   | });
+  \*/
+  Kimbo.forEach(['get', 'post'], function (method) {
+    Kimbo[method] = <span class="fstat-no" title="function not covered" >function (url, data, callback, type) {</span>
+&nbsp;
+      // Prepare arguments
+<span class="cstat-no" title="statement not covered" >      if (Kimbo.isFunction(data)) {</span>
+<span class="cstat-no" title="statement not covered" >        type = type || callback;</span>
+<span class="cstat-no" title="statement not covered" >        callback = data;</span>
+<span class="cstat-no" title="statement not covered" >        data = null;</span>
+      }
+&nbsp;
+      // Call ajax
+<span class="cstat-no" title="statement not covered" >      return Kimbo.ajax({</span>
+        type: method.toUpperCase(),
+        url: url,
+        data: data,
+        success: callback,
+        dataType: type
+      });
+    };
+  });
+&nbsp;
+  Kimbo.extend({
+   /*\
+    * $.getScript
+    [ method ]
+    * Load a JavaScript file from the server using a GET HTTP request, then execute it.
+    &gt; Parameters
+    - url (string) A string containing the URL to which the request is sent.
+    - callback (function) A callback function to execute if the request succeeds.
+    &gt; Usage
+    | $.getScript('url/script.js', function (data) {
+    |   // Success
+    |   console.log('response:', data);
+    | });
+    * This method is a shorthand for the $.ajax
+    | $.ajax({
+    |   url: url,
+    |   dataType: 'script',
+    |   success: success
+    | });
+   \*/
+    getScript: <span class="fstat-no" title="function not covered" >function (url, callback) {</span>
+<span class="cstat-no" title="statement not covered" >      return Kimbo.get(url, callback, 'script');</span>
+    },
+&nbsp;
+   /*\
+    * $.getJSON
+    [ method ]
+    * Load data from the server using HTTP POST request.
+    &gt; Parameters
+    - url (string) A string containing the URL to which the request is sent.
+    - data (string|object) #optional An option string or object with data params to send to the server.
+    - callback (function) A callback function to execute if the request succeeds.
+    - type (string) #optional String with the type of the data to send (intelligent guess by default).
+    &gt; Usage
+    | $.getJSON('url/test.json', { id: '2' }, function (data) {
+    |   // Success
+    |   console.log('response:', data);
+    | });
+    * This method is a shorthand for the $.ajax
+    | $.ajax({
+    |   url: url,
+    |   dataType: 'json',
+    |   success: success
+    | });
+    * To get json data with jsonp:
+    | $.getJSON('http://search.twitter.com/search.json?callback=?', 'q=#javascript', function (data) {
+    |   console.log(data);
+    | });
+   \*/
+    getJSON: <span class="fstat-no" title="function not covered" >function (url, data, callback) {</span>
+<span class="cstat-no" title="statement not covered" >      return Kimbo.get(url, data, callback, 'json');</span>
+    }
+  });
+&nbsp;
+  // getJSONP internal use
+<span class="fstat-no" title="function not covered" >  function _getJSONP(settings) {</span>
+<span class="cstat-no" title="statement not covered" >    var jsonpCallback = Kimbo.ref + '_' + Date.now();</span>
+<span class="cstat-no" title="statement not covered" >    var script = document.createElement('script');</span>
+<span class="cstat-no" title="statement not covered" >    var head = document.head;</span>
+<span class="cstat-no" title="statement not covered" >    var xhr = {</span>
+      abort: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        window.clearTimeout(abortTimeout);</span>
+<span class="cstat-no" title="statement not covered" >        head.removeChild(script);</span>
+<span class="cstat-no" title="statement not covered" >        delete window[jsonpCallback];</span>
+      }
+    };
+<span class="cstat-no" title="statement not covered" >    var abortTimeout;</span>
+&nbsp;
+    // User specified timeout
+<span class="cstat-no" title="statement not covered" >    if (settings.timeout &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >      abortTimeout = _createAbortTimeout(xhr, settings);</span>
+    }
+&nbsp;
+    // Set url
+<span class="cstat-no" title="statement not covered" >    script.src = settings.url.replace(JSONP_RE, '$1' + jsonpCallback + '$2');</span>
+&nbsp;
+    // Jsonp callback
+<span class="cstat-no" title="statement not covered" >    window[jsonpCallback] = <span class="fstat-no" title="function not covered" >function (response) {</span></span>
+&nbsp;
+      // Remove script
+<span class="cstat-no" title="statement not covered" >      xhr.abort();</span>
+&nbsp;
+      // Fake xhr
+<span class="cstat-no" title="statement not covered" >      Kimbo.extend(xhr, {</span>
+        statusText: 'OK',
+        status: 200,
+        response: response,
+        headers: settings.headers
+      });
+&nbsp;
+      // Success
+<span class="cstat-no" title="statement not covered" >      xhrCallbacks.success(response, xhr, settings);</span>
+    };
+&nbsp;
+    // Set settings headers
+<span class="cstat-no" title="statement not covered" >    _setHeaders(settings);</span>
+&nbsp;
+    // Apend script to head to make the request
+<span class="cstat-no" title="statement not covered" >    head.appendChild(script);</span>
+&nbsp;
+    // Return fake xhr object to abort manually
+<span class="cstat-no" title="statement not covered" >    return xhr;</span>
+  }
+&nbsp;
+  /*\
+   * $.param
+   [ method ]
+   * Create a serialized representation of an array or object, suitable for use in a URL query string or Ajax request.
+   &gt; Parameters
+   - data (string|object) A string or object to serialize.
+   &gt; Usage
+   | var obj = { name: 'Denis', last: 'Ciccale' };
+   | var serialized = $.param(obj); // 'name=Denis&amp;last=Ciccale'
+  \*/
+  Kimbo.param = <span class="fstat-no" title="function not covered" >function (data) {</span>
+<span class="cstat-no" title="statement not covered" >    var params = '';</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (Kimbo.isObject(data)) {</span>
+<span class="cstat-no" title="statement not covered" >      Kimbo.forEach(data, <span class="fstat-no" title="function not covered" >function (name, value) {</span></span>
+<span class="cstat-no" title="statement not covered" >        params += name + '=' + value + '&amp;';</span>
+      });
+    } else {
+<span class="cstat-no" title="statement not covered" >      params = data;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return window.encodeURIComponent(params)</span>
+      .replace(/%20/g, '+')
+      .replace(/%\d[D6F]/g, window.unescape)
+      .replace(/^\?|&amp;$/g, '');
+  };
+});
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Aug 05 2015 16:30:09 GMT+0200 (CEST)</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

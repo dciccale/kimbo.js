@@ -1,0 +1,1029 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/core.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../prettify.css">
+    <link rel="stylesheet" href="../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header high">
+    <h1>Code coverage report for <span class="entity">src/core.js</span></h1>
+    <h2>
+        Statements: <span class="metric">87.5% <small>(77 / 88)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">78.69% <small>(48 / 61)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">84.62% <small>(11 / 13)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">87.5% <small>(77 / 88)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">src/</a> &#187; core.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">193</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">642</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">642</span>
+<span class="cline-any cline-yes">224</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">418</span>
+<span class="cline-any cline-yes">156</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">262</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">203</span>
+<span class="cline-any cline-yes">203</span>
+<span class="cline-any cline-yes">52</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52</span>
+<span class="cline-any cline-yes">38</span>
+<span class="cline-any cline-yes">38</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">151</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">150</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">150</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">59</span>
+<span class="cline-any cline-yes">24</span>
+<span class="cline-any cline-yes">24</span>
+<span class="cline-any cline-yes">24</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">35</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">34</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">48</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">126</span>
+<span class="cline-any cline-yes">126</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">126</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">126</span>
+<span class="cline-any cline-yes">115</span>
+<span class="cline-any cline-yes">192</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">60</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">126</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">46</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">46</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">46</span>
+<span class="cline-any cline-yes">46</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function (window, document) {
+&nbsp;
+  'use strict';
+&nbsp;
+  /*\
+   * $
+   [ object ]
+   * Global namespace for using Kimbo functions
+  \*/
+&nbsp;
+  // Kimbo modules
+  var modules = {};
+&nbsp;
+  // Common helpers
+  var _ = {
+&nbsp;
+    // Array methods
+    push: Array.prototype.push,
+    slice: Array.prototype.slice,
+&nbsp;
+    // Reference to the current document
+    rootContext: document,
+&nbsp;
+    // Creates and returns a new Kimbo object
+    kimbo: function (element, context) {
+      return new Kimbo(element, context);
+    }
+  };
+&nbsp;
+  /*\
+   * $(…)
+   * Kimbo object collection.
+   * All methods called from a Kimbo collection affects all elements in it.
+  \*/
+  var Kimbo = function (selector, context) {
+    var match, div, fragment;
+&nbsp;
+    // Auto create a new instance of Kimbo if needed
+    if (!(this instanceof Kimbo)) {
+      return new Kimbo(selector, context);
+    }
+&nbsp;
+    // No selector, return empty Kimbo object
+    if (!selector) {
+      return this;
+    }
+&nbsp;
+    // Asume a css selector or html string
+    if (typeof selector === 'string') {
+&nbsp;
+      // Handle faster $('#id');
+      match = /^#([\w\-]+)$/.exec(selector);
+      if (match &amp;&amp; match[1]) {
+        match = document.getElementById(match[1]);
+&nbsp;
+        if (match) {
+          this[0] = match;
+          this.length = 1;
+        }
+&nbsp;
+        return this;
+&nbsp;
+      // Create html from string
+      } else if (selector.charAt(0) === '&lt;') {
+        div = document.createElement('div');
+        div.innerHTML = selector;
+        this.add(div.childNodes);
+        fragment = new Kimbo(document.createDocumentFragment());
+        // Detach the elements from the temporary DOM div.
+        fragment.append(this);
+&nbsp;
+        return this;
+&nbsp;
+      // All other selectors
+      } else {
+&nbsp;
+        context = context ? _.kimbo(context) : _.rootContext;
+&nbsp;
+        return context.find(selector);
+      }
+    }
+&nbsp;
+    // Already a dom element
+    if (selector.nodeType) {
+      this[0] = selector;
+      this.length = 1;
+      return this;
+    }
+&nbsp;
+    // Is a function, call it when DOM is ready
+    if (Kimbo.isFunction(selector)) {
+      return _.rootContext.ready(selector);
+    }
+&nbsp;
+    // Handle kimbo object, plain objects or other objects
+    return Kimbo.makeArray(selector, this);
+  };
+&nbsp;
+  Kimbo.require = function (module) {
+    return modules[module];
+  };
+&nbsp;
+  Kimbo.define = function (module, fn) {
+    modules[module] = fn(_);
+  };
+&nbsp;
+  /*
+   * Kimbo prototype aliased as fn
+   */
+  Kimbo.prototype = Kimbo.fn = {
+&nbsp;
+    /*\
+     * $(…).length
+     [ property ]
+     * The length of the current Kimbo collection.
+     = (number) Integer representing the lenght of the current collection.
+     &gt; Usage
+     * Having these paragraphs:
+     | &lt;p&gt;one&lt;/p&gt;
+     | &lt;p&gt;two&lt;/p&gt;
+     | &lt;p&gt;three&lt;/p&gt;
+     * Grab them and check for the length property:
+     | $('p').length; // 3
+    \*/
+    length: 0,
+&nbsp;
+    /*\
+     * $(…).ready
+     [ method ]
+     * Execute a callback after de DOM is completely loaded
+     &gt; Parameters
+     - callback (function) A function to call after de DOM is ready
+     = (object) The original element
+     &gt; Usage
+     | $(document).ready(function () {
+     |   console.log('the DOM is loaded!');
+     | });
+     * Or using the shortcut (recommended)
+     | $(function () {
+     |   console.log('the DOM is loaded!);
+     | });
+    \*/
+    ready: function (callback) {
+      var completed;
+&nbsp;
+      // First check if already loaded, interactive or complete state so the t is enough
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (/t/.test(document.readyState)) {
+&nbsp;
+        // Execute the callback
+        callback.call(document);
+&nbsp;
+      // If not listen for when it loads
+      } else {
+<span class="cstat-no" title="statement not covered" >        completed = <span class="fstat-no" title="function not covered" >function () {</span></span>
+&nbsp;
+          // When completed remove the listener
+<span class="cstat-no" title="statement not covered" >          document.removeEventListener('DOMContentLoaded', completed, false);</span>
+&nbsp;
+          // Execute the callback
+<span class="cstat-no" title="statement not covered" >          callback.call(document);</span>
+        };
+&nbsp;
+        // Register the event
+<span class="cstat-no" title="statement not covered" >        document.addEventListener('DOMContentLoaded', completed, false);</span>
+      }
+&nbsp;
+      // Return the Kimbo wrapped document
+      return _.rootContext;
+    },
+&nbsp;
+    /*\
+     * $(…).get
+     [ method ]
+     * Retrieve native DOM elements from the current collection
+     &gt; Parameters
+     - index (number) #optional A zero-based integer indicating which element to retrieve, supports going backwards with negative index.
+     = (array|object) An array of the native DOM elements or the specified element by index matched by Kimbo.
+     &gt; Usage
+     | &lt;ul&gt;
+     |   &lt;li id="foo"&gt;&lt;/li&gt;
+     |   &lt;li id="bar"&gt;&lt;/li&gt;
+     | &lt;/ul&gt;
+     * Get standard array of elements
+     | $('li').get(); // [&lt;li id="foo"&gt;, &lt;li id="bar"&gt;]
+     * Get the first element
+     | $('li').get(0); // &lt;li id="foo"&gt;
+     * Get the last element
+     | $('li').get(-1); // &lt;li id="bar"&gt;
+    \*/
+    get: function (index) {
+      if (!this.length) {
+        return;
+      }
+&nbsp;
+      // If no index specified return a new set
+      // Else return the element in the specified positive index or backwards if negative
+      return (!arguments.length) ? _.slice.call(this) :
+        (index &lt; 0 ? this[this.length + index] : this[index]);
+    },
+&nbsp;
+    // Needed to have an array-like object
+    splice: Array.prototype.splice
+  };
+&nbsp;
+  /*\
+   * $.forEach
+   [ method ]
+   * Iterator function that can be used to seamlessly iterate over both objects and arrays.
+   &gt; Parameters
+   - obj (object) Object or array to iterate
+   - callback (function) Function that will be executed on each iteration
+   = (object) The original array or object
+   &gt; Usage
+   | // Iterating array
+   | $.forEach(['a', 'b', 'c'], function (value, index) {
+   |   alert(value + ': ' + index);
+   | });
+   |
+   | // Iterating object
+   | $.forEach({name: 'Denis', surname: 'Ciccale'}, function (key, value) {
+   |   alert(key + ': ' + value);
+   | });
+  \*/
+  Kimbo.forEach = function (obj, callback) {
+    var l = obj.length;
+    var isArrayLike = Array.isArray(obj) || obj instanceof Kimbo ||
+      obj instanceof window.NodeList || !((l !== undefined) || !l);
+    var i;
+&nbsp;
+    if (isArrayLike) {
+      for (i = 0; i &lt; l; i++) {
+        if (callback.call(obj[i], obj[i], i, obj) === false) {
+          break;
+        }
+      }
+    } else {
+      for (i in obj) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (obj.hasOwnProperty(i) &amp;&amp; callback.call(obj[i], i, obj[i], obj) === false) {
+<span class="cstat-no" title="statement not covered" >          break;</span>
+        }
+      }
+    }
+&nbsp;
+    // Return original obj
+    return obj;
+  };
+&nbsp;
+&nbsp;
+  /*\
+   * $.extend
+   [ method ]
+   * Merge the contents of two or more objects together into the first object.
+   &gt; Parameters
+   - target (object|boolean) Object that will receive the merged properties if objects are passed, or target will extend Kimbo object. If target is `true` the passed objects will be recursively merged.
+   - objectN (object) #optional One or more objects with additional properties.
+   = (object) The extended target or a new copy if target is an empty object.
+   &gt; Usage
+   * When passing two or more objects, all properties will be merged into the target object.
+   | var obj1 = { msg: 'hi', info: { from: 'Denis' }};
+   | var obj2 = { msg: 'Hi!', info: { time: '22:00PM' }};
+   |
+   | // Merge obj1 into obj2
+   | $.extend(obj1, obj2);
+   |
+   | // Now obj1 is equal to:
+   | { msg: 'Hi!', info: { time: '22:00PM' }}
+   * If an empty target object is passed, none of the other objects will be directly modified
+   | // Pass an empty target
+   | var obj3 = $.extend({}, obj1, obj);
+   * To do a recursive merge, pass true as first argument, then the objects to merge
+   | $.extend(true, obj1, obj2);
+   | // Obj1 will be:
+   | { msg: 'Hi!', info: { from: 'Denis', time: '22:00PM' }}
+  \*/
+  Kimbo.extend = Kimbo.fn.extend = function () {
+    var objs = arguments;
+    var target = objs[0] || <span class="branch-1 cbranch-no" title="branch not covered" >{};</span>
+    var deep = (target === true);
+    var cut = 1;
+&nbsp;
+    // Check for deep copy
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (deep) {
+<span class="cstat-no" title="statement not covered" >      target = objs[1] || {};</span>
+<span class="cstat-no" title="statement not covered" >      cut = 2;</span>
+&nbsp;
+    // Extend Kimbo itself if only one argument is passed
+    } else <span class="missing-if-branch" title="else path not taken" >E</span>if (objs.length === 1) {
+      target = this;
+      cut = 0;
+    }
+&nbsp;
+    // Make an array from the arguments removing the target and/or the deep boolean
+    objs = _.slice.call(objs, cut);
+&nbsp;
+    // Loop through the objects
+    Kimbo.forEach(objs, function (source) {
+&nbsp;
+      // Populate target from source
+      Kimbo.forEach(source, function (key, value) {
+        var src;
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (deep &amp;&amp; (<span class="branch-1 cbranch-no" title="branch not covered" >Kimbo.isObject(value) </span>|| <span class="branch-2 cbranch-no" title="branch not covered" >Kimbo.isArray(value))</span>) {
+<span class="cstat-no" title="statement not covered" >          src = target[key];</span>
+<span class="cstat-no" title="statement not covered" >          target[key] = Kimbo.extend(deep, src, value);</span>
+&nbsp;
+        } else <span class="missing-if-branch" title="else path not taken" >E</span>if (value !== undefined) {
+          target[key] = value;
+        }
+      });
+    });
+&nbsp;
+    return target;
+  };
+&nbsp;
+  // Unique reference for the current instance of Kimbo
+  Kimbo.ref = 'kimbo' + ('1' + Math.random()).replace(/\D/g, '');
+&nbsp;
+  // Expose Kimbo as an AMD module
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof window.define === 'function' &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >window.define.amd)</span> {
+<span class="cstat-no" title="statement not covered" >    window.define('kimbo', [], <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >      return Kimbo;</span>
+    });
+  }
+&nbsp;
+  // Expose Kimbo to global object
+  window.Kimbo = window.$ = Kimbo;
+&nbsp;
+}(window, window.document));
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Aug 05 2015 16:30:09 GMT+0200 (CEST)</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
