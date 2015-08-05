@@ -20,17 +20,18 @@ Give it a try and start using a robust, light-weight and modern library today.
 Please [visit the documentation](http://kimbojs.com/api) to see how easy is to use with its jQuery-like API.
 
 ## Build
-In order to run the build task you'll need [NodeJS](http://nodejs.org/) and [Grunt.js](http://gruntjs.com/).
+In order to run the build task you'll need [NodeJS](http://nodejs.org/) and [Gulp](http://gulpjs.com/).
 
 After installing NodeJS, clone the project by running:
+
 ```bash
 $ git clone git://github.com/dciccale/kimbo.js.git
 ```
 
-Install grunt-cli:
+Install gulp
 
 ```bash
-$ npm install -g grunt-cli
+$ npm install -g gulp
 ```
 
 Enter kimbo.js directory and install local dependencies:
@@ -42,7 +43,7 @@ $ cd kimbo.js && npm install
 Now to run the full build task just run:
 
 ```bash
-$ grunt
+$ gulp
 ```
 
 A `dist/` folder will be created containing development and production build of kimbo.js including a source map file.
@@ -51,28 +52,11 @@ A `dist/` folder will be created containing development and production build of 
 
 ### In the Browser
 
-Run `grunt coffee` task to compile `.coffee` spec files and open `test/SpecRunner.html`.
-
-```bash
-$ grunt coffee && open test/index.html
-```
+Open `test/spec.html`
 
 ### In PhantomJS
 
-Run `grunt test` and you will see the output.
-
-
-```bash
-$ grunt test
-```
-
-### Developing
-
-Run `grunt watch` to work with the library, build and tests will be run automatically.
-
-```bash
-$ grunt watch
-```
+Run `gulp test`
 
 ## Support
 
@@ -100,7 +84,3 @@ Denis Ciccale ([@tdecs](http://twitter.com/tdecs))
 
 ## License
 See [LICENSE.txt](https://raw.github.com/dciccale/kimbo.js/master/LICENSE.txt)
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/dciccale/kimbo.js/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
