@@ -26,6 +26,10 @@ describe('css', function () {
   });
 
   describe('hide()', function () {
+    it('should be defined', function () {
+      expect($.fn.hide).to.be.defined;
+    });
+
     it('should hide an element', function () {
       var $section = $('section');
       $section.hide();

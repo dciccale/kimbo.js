@@ -133,10 +133,6 @@ Kimbo.define('events', function (_) {
     var elementId = _getElementId(element);
     var handleObj, handlers, name, i;
 
-    if (!elementId) {
-      return;
-    }
-
     handlers = _getHandlers(elementId, type);
 
     // Return if no handlers for the current event type

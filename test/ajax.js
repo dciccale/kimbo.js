@@ -20,6 +20,62 @@ describe('ajax', function () {
     xhr && xhr.restore && xhr.restore();
   });
 
+  describe('ajax()', function () {
+    it('should be defined', function () {
+      expect($.ajax).to.be.defined;
+    });
+
+    it('should make a request', function () {
+      var cb = sinon.spy();
+      $.ajax({
+        type: 'GET',
+        url: 'my/url',
+        success: cb
+      });
+
+      expect(requests.length).to.equal(1);
+      requests[0].respond(200, {'Content-Type': 'test/html'}, 'hello');
+      expect(cb.called).to.be.true;
+    });
+
+    it('should allow sending data', function () {
+      var cb = sinon.spy();
+      $.ajax({
+        type: 'POST',
+        url: 'my/url',
+        success: cb,
+        data: {name: 'new'}
+      });
+
+      expect(requests.length).to.equal(1);
+      requests[0].respond(200, {'Content-Type': 'test/html'}, 'hello');
+      expect(cb.called).to.be.true;
+    });
+
+    it('should be able to define a custom timeout', function (done) {
+      this.timeout(800);
+      var cb = sinon.spy();
+
+      server.respondWith(function (xhr) {
+        xhr.respond(200, null, 'hello');
+      });
+
+      $.ajax({
+        type: 'GET',
+        url: 'my/url',
+        success: cb,
+        timeout: 500
+      });
+
+      server.respond();
+
+      window.setTimeout(function () {
+        expect(cb.called).to.be.false;
+        done();
+      } , 600);
+    });
+  });
+
   describe('get()', function () {
     it('should be defined', function () {
       expect($.get).to.be.defined;
@@ -99,6 +155,20 @@ describe('ajax', function () {
       $.getJSON('test.json', callback);
       expect(requests.length).to.equal(1);
       requests[0].respond(200, {'Content-Type': 'application/json'}, '{"test": true}');
+    });
+
+    it('should fail if json is not well formatted', function () {
+      var cb = sinon.spy();
+      $.ajax({
+        type: 'GET',
+        url: 'my/url',
+        error: cb,
+        dataType: 'json'
+      });
+
+      expect(requests.length).to.equal(1);
+      requests[0].respond(200, {'Content-Type': 'application/json'}, '{"test: "asd"}');
+      expect(cb.called).to.be.true;
     });
   });
 

@@ -46,6 +46,48 @@ describe('event', function () {
       spec.trigger($li[0], 'click');
       expect(cb.called).to.be.true;
     });
+
+    it('should not add register listener if no callback passed', function () {
+      var $li = $('#second');
+      $li.on('click');
+    });
+
+    it('should handle preventDefault()', function () {
+      var $ul = $('#list');
+      var $li = $('#second');
+      $li.on('click', function (ev) {
+        ev.preventDefault();
+      });
+      $ul.on('click', function (ev) {
+        expect(ev.isDefaultPrevented()).to.be.true;
+      });
+      spec.trigger($li[0], 'click');
+    });
+
+    it('should handle stopPropagation()', function () {
+      var $ul = $('#list');
+      var $li = $('#second');
+      var cb = sinon.spy();
+      $li.on('click', function (ev) {
+        ev.stopPropagation();
+      });
+      $ul.on('click', cb);
+      spec.trigger($li[0], 'click');
+      expect(cb.called).to.be.false;
+    });
+
+    it('should handle stopImmediatePropagation()', function () {
+      var $li = $('#second');
+      var lastClick = 'click1';
+      $li.on('click', function (ev) {
+        ev.stopImmediatePropagation();
+      });
+      $li.on('click', function () {
+        lastClick = 'click2';
+      });
+      spec.trigger($li[0], 'click');
+      expect(lastClick).to.equal('click1');
+    });
   });
 
   describe('off()', function () {
@@ -63,6 +105,30 @@ describe('event', function () {
       $li.off('click', cb);
       spec.trigger($li[0], 'click');
       expect(cb.called).to.be.false;
+    });
+
+    it('should remove all handlers if no event type provided', function () {
+      var $li = $('#second');
+      var cb = sinon.spy();
+      var cb2 = sinon.spy();
+      $li.on('click', cb);
+      $li.on('dblclick', cb2);
+      spec.trigger($li[0], 'click');
+      spec.trigger($li[0], 'dblclick');
+      expect(cb.called).to.be.true;
+      expect(cb2.called).to.be.true;
+
+      cb.called = false;
+      cb2.called = false;
+      $li.off();
+      spec.trigger($li[0], 'click');
+      spec.trigger($li[0], 'dblclick');
+      expect(cb.called).to.be.false;
+      expect(cb2.called).to.be.false;
+    });
+
+    it('should not try to remove an event handlers if the element has none for specified event type', function () {
+      $('#second').off('click');
     });
   });
 
