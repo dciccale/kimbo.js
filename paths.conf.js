@@ -4,6 +4,8 @@ module.exports = function () {
   var srcdir = 'src/';
   var testdir = 'test/';
   var fixturesdir = testdir + 'fixtures/';
+  var www = 'www/';
+  var coverage = 'coverage/';
 
   var files = [
     'core.js',
@@ -39,7 +41,11 @@ module.exports = function () {
     },
     dist: 'dist/',
     gulpfile: 'gulpfile.js',
-    plato: 'www/reports/'
+    coverage: coverage,
+    reports: {
+      coverage: www + coverage,
+      plato: www + 'reports/'
+    }
   };
 
   return paths;

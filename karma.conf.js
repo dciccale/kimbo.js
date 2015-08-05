@@ -11,7 +11,7 @@ module.exports = function (config) {
     },
     reporters: ['progress', 'coverage'],
     coverageReporter: {
-      dir: 'coverage/',
+      dir: paths.coverage,
       reporters: [
         {type: 'html'},
         {type: 'lcovonly', subdir: '.', file: 'lcov.info'}

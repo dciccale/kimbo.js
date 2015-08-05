@@ -11,6 +11,7 @@ var rimraf = require('rimraf');
 var karma = require('karma').server;
 var karmaConfPath = path.join(__dirname, 'karma.conf.js');
 var paths = require('./paths.conf')();
+var shell = require('shelljs');
 
 gulp.task('test', ['lint'], function (done) {
   karma.start({
@@ -31,12 +32,21 @@ gulp.task('lint', function () {
     .pipe($.jshint.reporter('jshint-stylish'));
 });
 
+gulp.task('coverage-report', ['test'], function (done) {
+  shell.exec('rm -rf ' + paths.reports.coverage);
+  shell.exec('mkdir ' + paths.reports.coverage);
+  shell.exec('cp -r ' + paths.coverage + '**/* ' + paths.reports.coverage);
+  done();
+});
+
 gulp.task('plato', function () {
   return gulp.src(paths.src.all)
-    .pipe($.plato(paths.plato, {
+    .pipe($.plato(paths.reports.plato, {
       jshint: JSON.parse(fs.readFileSync(paths.src.jshintrc))
     }));
 });
+
+gulp.task('reports', ['coverage-report', 'plato']);
 
 gulp.task('clean', function (done) {
   rimraf(paths.dist, done);
