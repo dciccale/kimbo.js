@@ -2,6 +2,7 @@
 'use strict';
 
 var path = require('path');
+var fs = require('fs');
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')({lazy: false});
 var pkg = require('./package.json');
@@ -24,9 +25,16 @@ gulp.task('test-ci', function (done) {
 });
 
 gulp.task('lint', function () {
-  gulp.src(['src/*.js', 'test/*.js', 'gulpfile.js'])
+  return gulp.src(['src/*.js', 'test/*.js', 'gulpfile.js'])
     .pipe($.jshint())
     .pipe($.jshint.reporter('jshint-stylish'));
+});
+
+gulp.task('plato', function () {
+  return gulp.src('src/*.js')
+    .pipe($.plato('www/reports', {
+      jshint: JSON.parse(fs.readFileSync('src/.jshintrc'))
+    }));
 });
 
 gulp.task('clean', function (done) {
