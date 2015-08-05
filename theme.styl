@@ -1,0 +1,138 @@
+// ==========================================================================
+// Template VARIABLES
+// ==========================================================================
+
+$img-path = '../img/'
+
+$global-sep = 10px
+
+//---------------------------------------------------------------------------
+// Body bg
+//---------------------------------------------------------------------------
+
+$body-bg = #f8f8f8 url($img-path + 'body-bg.png')
+$body-text-color = #32392b
+
+$text-selection-bg = rgba(154, 163, 135, .5)
+$text-selection-fg = #444
+
+
+//---------------------------------------------------------------------------
+// Nav
+//---------------------------------------------------------------------------
+
+$nav-width = 275px
+
+// Nav links
+$nav-link-color = #4c9242
+$nav-link-color-hover = #084501
+$nav-link-bg-color-hover = rgba(8, 69, 1, 0.1)
+$nav-link-bg-color-hover-ie = #dfe6df
+$nav-link-color-selected = #fff
+$nav-link-bg-color-selected-ie = #4e7949
+$nav-link-bg-color-selected = rgba(8, 69, 1, 0.7)
+$input-border-input-color = #ABABAB
+
+
+//---------------------------------------------------------------------------
+// Header
+//---------------------------------------------------------------------------
+
+$header-height = 60px
+$header-bg = #4c9242 url($img-path + 'header-bg.png') 0 31px
+
+
+//---------------------------------------------------------------------------
+// Toc
+//---------------------------------------------------------------------------
+
+$toc-width = $nav-width - $global-sep
+$toc-item-width = $toc-width - $global-sep
+
+
+//---------------------------------------------------------------------------
+// Nav header
+//---------------------------------------------------------------------------
+
+$nav-header-border-bottom-color = #BABABA
+$nav-header-height = 25px + $global-sep
+
+
+//---------------------------------------------------------------------------
+// Filter input
+//---------------------------------------------------------------------------
+
+$search-input-bg = #EDEDED url($img-path + 'search.png') no-repeat 7px 5px
+$search-input-bg-focus = #fff
+$search-input-border-color = #ABABAB
+$search-input-color = #333
+$search-input-focus-color = black
+
+
+//---------------------------------------------------------------------------
+// Section
+//---------------------------------------------------------------------------
+
+$section-border-color = #ddd
+$cjs-sourceline-color = #4E5745
+
+$cjs-header-color = #495241
+
+$cjs-return-border-color = #DDD
+
+//---------------------------------------------------------------------------
+// Object types
+//---------------------------------------------------------------------------
+
+$cjs-default-type-color = #ccc
+$cjs-type-string-color = #F1E2A3
+$cjs-type-boolean-color = #A6CAA9
+$cjs-type-number-color = #A9C5EB
+$cjs-type-function-color = #EDA9BC
+$cjs-type-object-color = #CFB1ED
+$cjs-type-array-color = #FFC48E
+$cjs-type-optional-color = rgba(255, 255, 255, 0.5)
+
+
+//---------------------------------------------------------------------------
+// Scrollbar
+//---------------------------------------------------------------------------
+
+// Size
+$scrollbar-size = 10px
+$scrollbar-bg = transparent
+$scrollbar-thumb-min-height = 50px
+$scrollbar-thumb-bg = rgba(0, 0, 0, 0.1)
+$scrollbar-thumb-bg-hover = rgba(0, 0, 0, 0.2)
+$scrollbar-thumb-bg-active = rgba(0, 0, 0, 0.3)
+$scrollbar-thumb-border-color = #ABABAB
+$scrollbar-thumb-border-color-hover = #969696
+$scrollbar-thumb-border-color-active = #7d7d7d
+
+// Substract scrollbar size to toc item
+// to make a space between item and scrollbar
+$toc-item-width -= $scrollbar-size
+
+//---------------------------------------------------------------------------
+// General syntax highlight
+//---------------------------------------------------------------------------
+
+$hi-bg-color = #272822
+$hi-plain = #f8f8f2
+$hi-line-number-color = #797976
+$hi-line-number-color-hover = #fff
+$hi-selection-color = rgba(130, 120, 130, .3)
+$code-font = "Menlo", "Consolas", "Monaco", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace
+
+// javascript syntax highlight
+$hi-comment = #7C7C7C
+$hi-keyword = #E3584D
+$hi-string = #E4FF9B
+$hi-number = #B190EC
+$hi-operator = $hi-keyword
+$hi-punctuation = $hi-plain
+
+// html syntax highlight
+$hi-tag = $hi-keyword
+$hi-attribute = #BBDE57
+$hi-attribute-value = $hi-string
