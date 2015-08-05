@@ -104,6 +104,115 @@ describe('manipulation', function () {
     });
   });
 
+  describe('prepend()', function () {
+    it('should be defined', function () {
+      expect($.fn.prepend).to.be.defined;
+    });
+
+    it('should insert content to the begining of elements in the collection', function () {
+      var $ul = $('#list');
+      $ul.prepend('<li>prepended</li>');
+      expect($ul.children()[0].textContent).to.equal('prepended');
+    });
+
+    it('should return on empty set', function () {
+      var $ul = $('#noexists');
+      $ul.prepend('<li>prepended</li>');
+      expect($ul.length).to.equal(0);
+      expect($ul).to.be.instanceof(Kimbo);
+    });
+  });
+
+  describe('append()', function () {
+    it('should be defined', function () {
+      expect($.fn.append).to.be.defined;
+    });
+
+    it('should insert content to the begining of elements in the collection', function () {
+      var $ul = $('#list');
+      $ul.append('<li>appended</li>');
+      expect($ul.children().last()[0].textContent).to.equal('appended');
+    });
+
+    it('should return on empty set', function () {
+      var $ul = $('#noexists');
+      $ul.append('<li>appended</li>');
+      expect($ul.length).to.equal(0);
+      expect($ul).to.be.instanceof(Kimbo);
+    });
+  });
+
+  describe('empty()', function () {
+    it('should be defined', function () {
+      expect($.fn.empty).to.be.defined;
+    });
+
+    it('should remove all child elements', function () {
+      var $ul = $('#list');
+      expect($ul.children().length).to.equal(3);
+      $ul.empty();
+      expect($ul.children().length).to.equal(0);
+    });
+
+    it('should return on empty set', function () {
+      var $ul = $('#noexists');
+      $ul.empty();
+      expect($ul.length).to.equal(0);
+      expect($ul).to.be.instanceof(Kimbo);
+    });
+  });
+
+  describe('remove()', function () {
+    it('should be defined', function () {
+      expect($.fn.remove).to.be.defined;
+    });
+
+    it('should remove the matched element from the dom', function () {
+      var $ul = $('#list');
+      expect($ul.length).to.equal(1);
+      $ul.remove();
+      expect($('#list').length).to.equal(0);
+    });
+
+    it('should return on remove set', function () {
+      var $ul = $('#noexists');
+      $ul.remove();
+      expect($ul.length).to.equal(0);
+      expect($ul).to.be.instanceof(Kimbo);
+    });
+  });
+
+  describe('attr()', function () {
+    it('should be defined', function () {
+      expect($.fn.attr).to.be.defined;
+    });
+
+    it('should get an attribute from a dom element', function () {
+      expect($liFirst.attr('class')).to.equal('first active');
+    });
+
+    it('should set an attribute to a dom element', function () {
+      $liFirst.attr('data-test', 'yes');
+      expect($liFirst.attr('data-test')).to.equal('yes');
+    });
+
+    it('should set boolean attributes to true', function () {
+      $input.attr('disabled', true);
+      expect($input.attr('disabled')).to.equal('disabled');
+    });
+
+    it('should set boolean attributes to false', function () {
+      $input.attr('disabled', false);
+      expect($input.attr('disabled')).to.equal(void 0);
+    });
+
+    it('should return on empty set', function () {
+      var ret = $('#noexists').attr('data-fun', 'yes');
+      expect(ret.length).to.equal(0);
+      expect(ret).to.be.instanceof(Kimbo);
+    });
+  });
+
   describe('addClass()', function () {
     it('should not fail when called on an empty set', function () {
       expect(function () {
@@ -311,4 +420,18 @@ describe('manipulation', function () {
     });
   });
 
+  describe('clone()', function () {
+    it('should be defined', function () {
+      expect($.fn.clone).to.be.defined;
+    });
+
+    it('should recursively clone a dom element', function () {
+      var $ul = $('#list');
+      var $cloned = $ul.clone();
+      expect($ul.children().length).to.equal(3);
+      expect($cloned.children().length).to.equal(3);
+      expect($ul.children('#second').length).to.equal(1);
+      expect($cloned.children('#second').length).to.equal(1);
+    });
+  });
 });

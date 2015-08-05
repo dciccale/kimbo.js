@@ -2,7 +2,7 @@ Kimbo.define('ajax', function () {
 
   'use strict';
 
-  var JSONP_RE = /(\=)\?(&|$)|\?\?/i;
+  var JSONP_RE = /(\=)\?(?=&|$)|\?\?/i;
 
   var MIME_TYPES = {
     html: 'text/html',
@@ -397,7 +397,7 @@ Kimbo.define('ajax', function () {
   /*\
    * $.param
    [ method ]
-   * Create a serialized representation of an array or object, suitable for use in a URL query string or Ajax request.
+   * Create a serialized representation of an object, suitable for use in a URL query string or Ajax request.
    > Parameters
    - data (string|object) A string or object to serialize.
    > Usage

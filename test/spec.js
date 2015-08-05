@@ -16,6 +16,13 @@
         div.innerHTML = fixture.innerHTML.trim();
       }
       return div.firstChild;
+    },
+
+    trigger: function (el, eventType) {
+      var ev = document.createEvent('MouseEvents');
+      ev.initMouseEvent(eventType, true, true);
+      el.dispatchEvent(ev);
+      return ev;
     }
   };
 
