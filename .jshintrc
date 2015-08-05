@@ -1,13 +1,4 @@
 {
-  "latedef": true,
-  "noempty": true,
-  "curly": true,
-  "eqeqeq": true,
-  "immed": true,
-  "noarg": true,
-  "quotmark": "single",
-  "undef": true,
-  "unused": true,
-  "trailing": true,
+  "extends": ".jshintrc-base",
   "node": true
 }

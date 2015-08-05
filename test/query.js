@@ -1,5 +1,7 @@
 /*jshint -W030 */
 describe('query', function () {
+  'use strict';
+
   var el = null;
   var query = null;
   var fixture = spec.getFixture();

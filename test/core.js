@@ -1,5 +1,7 @@
 /*jshint -W030 */
 describe('core', function () {
+  'use strict';
+
   var el = null;
   var fixture = spec.getFixture();
 

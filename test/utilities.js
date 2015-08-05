@@ -1,4 +1,6 @@
 describe('utilities', function () {
+  'use strict';
+
   describe('typeOf()', function () {
     var MyString = String;
     var MyNumber = Number;
@@ -290,7 +292,7 @@ describe('utilities', function () {
 
   describe('parseJSON()', function () {
     it('should parse a json string', function () {
-      expect($.parseJSON('{"a": 1}')).to.deep.equal({"a": 1});
+      expect($.parseJSON('{"a": 1}')).to.deep.equal({'a': 1});
     });
   });
 

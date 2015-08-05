@@ -1,4 +1,6 @@
 describe('data', function () {
+  'use strict';
+
   it('should store data in elements', function () {
     var $el = $(document.createElement('div'));
     expect($el.data('key')).to.equal(void 0);
