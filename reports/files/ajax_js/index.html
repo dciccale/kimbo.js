@@ -93,7 +93,7 @@
 
   &#039;use strict&#039;;
 
-  var JSONP_RE = /(\=)\?(&amp;|$)|\?\?/i;
+  var JSONP_RE = /(\=)\?(?=&amp;|$)|\?\?/i;
 
   var MIME_TYPES = {
     html: &#039;text/html&#039;,
@@ -488,7 +488,7 @@
   /*\
    * $.param
    [ method ]
-   * Create a serialized representation of an array or object, suitable for use in a URL query string or Ajax request.
+   * Create a serialized representation of an object, suitable for use in a URL query string or Ajax request.
    &gt; Parameters
    - data (string|object) A string or object to serialize.
    &gt; Usage
