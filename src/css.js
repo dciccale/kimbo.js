@@ -10,8 +10,11 @@ Kimbo.define('css', function (_) {
     zIndex: true
   };
 
+  var iframe = null;
+  var elementsDisplay = {};
+
   // Wrap native to extend behavoiur
-  var _getComputedStyle = function (element, property) {
+  function _getComputedStyle(element, property) {
 
     // Support both camelCase and dashed property names
     property = property.replace(/([A-Z])/g, '-$1').toLowerCase();
@@ -19,16 +22,15 @@ Kimbo.define('css', function (_) {
     return window.getComputedStyle(element, null).getPropertyValue(property);
   };
 
-  var iframe = null;
 
-  var createIframe = function () {
-    iframe = _.document.createElement('iframe');
-    _.document.documentElement.appendChild(iframe);
+  function _createIframe() {
+    iframe = document.createElement('iframe');
+    document.documentElement.appendChild(iframe);
     return iframe;
   };
 
-  var getActualDisplay = function (nodeName, doc) {
-    doc = doc || _.document;
+  function _getActualDisplay(nodeName, doc) {
+    doc = doc || document;
 
     var elem, display;
 
@@ -44,8 +46,6 @@ Kimbo.define('css', function (_) {
 
     return display;
   };
-
-  var elementsDisplay = {};
 
   Kimbo.fn.extend({
     /*\
@@ -67,18 +67,18 @@ Kimbo.define('css', function (_) {
         var doc;
 
         if (!display) {
-          display = getActualDisplay(nodeName);
+          display = _getActualDisplay(nodeName);
 
           // If still fails for some css rule try creating the element in an isolated iframe
           if (display === 'none' || !display) {
 
             // Use the already-created iframe if possible
-            iframe = (iframe || createIframe());
+            iframe = (iframe || _createIframe());
 
             doc = (iframe.contentWindow || iframe.contentDocument).document;
             doc.write('<!doctype html><html><body>');
             doc.close();
-            display = getActualDisplay(nodeName, doc);
+            display = _getActualDisplay(nodeName, doc);
             iframe.parentNode.removeChild(iframe);
           }
 
@@ -146,13 +146,12 @@ Kimbo.define('css', function (_) {
     \*/
     css: function (property, value) {
       var that = this;
-      var setCss;
 
       if (!this.length || (!Kimbo.isString(property) && !Kimbo.isObject(property))) {
         return this;
       }
 
-      setCss = function (name, value) {
+      function _applyCss(name, value) {
 
         // If it's a number add 'px' except for some properties
         if (Kimbo.isNumeric(value) && !CSS_NO_PX[Kimbo.camelCase(name)]) {
@@ -174,12 +173,12 @@ Kimbo.define('css', function (_) {
 
         // Set
         } else {
-          setCss(property, value);
+          _applyCss(property, value);
         }
 
       // Multiple properties with an object
       } else if (Kimbo.isObject(property)) {
-        Kimbo.forEach(property, setCss);
+        Kimbo.forEach(property, _applyCss);
       }
 
       return this;

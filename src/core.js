@@ -19,7 +19,6 @@
     slice: Array.prototype.slice,
 
     // Reference to the current document
-    document: document,
     rootContext: document,
 
     // Creates and returns a new Kimbo object

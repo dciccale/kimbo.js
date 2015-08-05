@@ -26,6 +26,9 @@ describe('manipulation', function () {
   afterEach(function () {
     el.parentNode.removeChild(el);
     el = null;
+    $liFirst = null;
+    $liSecond = null;
+    $input = null;
     query = null;
   });
 

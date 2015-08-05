@@ -294,6 +294,10 @@ describe('utilities', function () {
     it('should parse a json string', function () {
       expect($.parseJSON('{"a": 1}')).to.deep.equal({'a': 1});
     });
+
+    it('should return undefined if no data passed', function () {
+      expect($.parseJSON()).to.equal(void 0);
+    });
   });
 
   describe('parseXML()', function () {
@@ -314,6 +318,62 @@ describe('utilities', function () {
         e = _error;
         expect(e.message, 'Invalid XML: <p>Test <strong>parse</strong> xml string');
       }
+    });
+  });
+
+  describe('map()', function () {
+    it('should map values', function () {
+      var values = ['v1', 'v2'];
+      var mappedValues = Kimbo.map(values, function (v) {
+        return v + '-mapped';
+      });
+      Kimbo.forEach(mappedValues, function (v, i) {
+        expect(v).to.equal(values[i] + '-mapped');
+      });
+    });
+
+    it('should return empty array if no values passed', function () {
+      var ar = Kimbo.map();
+      expect(ar.length).to.equal(0);
+      expect(Kimbo.typeOf(ar)).to.equal('array');
+    });
+
+    it('should skip undefined or null values', function () {
+      var ar = [undefined, 'val', null];
+      var mappedAr = Kimbo.map(ar, function (v) { return v; });
+
+      expect(mappedAr.length).to.equal(1);
+      expect(mappedAr[0]).to.equal(ar[1]);
+    });
+  });
+
+  describe('merge()', function () {
+    it('should merge two arrays', function () {
+      var ar1 = ['one'];
+      var ar2 = ['two'];
+      expect(Kimbo.merge(ar1, ar2)).to.deep.equal(['one', 'two']);
+    });
+  });
+
+  describe('camelCase()', function () {
+    it('should transform a dashed separated word into camelCase', function () {
+      expect(Kimbo.camelCase('dashed-word')).to.deep.equal('dashedWord');
+    });
+  });
+
+  describe('isObject()', function () {
+    it('should check if argument is an object', function () {
+      expect(Kimbo.isObject({})).to.be.true;
+      expect(Kimbo.isObject([])).to.be.false;
+      expect(Kimbo.isObject('test')).to.be.false;
+    });
+  });
+
+  describe('isBoolean()', function () {
+    it('should check if argument is a boolean', function () {
+      expect(Kimbo.isBoolean(false)).to.be.true;
+      expect(Kimbo.isBoolean(3)).to.be.false;
+      expect(Kimbo.isBoolean('test')).to.be.false;
     });
   });
 });

@@ -51,7 +51,7 @@ gulp.task('default', ['test', 'build']);
 
 gulp.task('build', ['clean'], function () {
   var h = header();
-  gulp.src(paths.src.all)
+  gulp.src(paths.src.files)
   .pipe($.concat(pkg.name + '.js'))
   .pipe($.header(h.long, h))
   .pipe(gulp.dest('dist'))

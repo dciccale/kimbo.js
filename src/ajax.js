@@ -29,11 +29,11 @@ Kimbo.define('ajax', function (_) {
     };
   });
 
-  var _getResponse = function (response, type) {
+  function _getResponse(response, type) {
     return (dataParse[type] ? dataParse[type](response) : response);
   };
 
-  var _handleResponse = function (xhr, settings) {
+  function _handleResponse(xhr, settings) {
     var response, contentType;
 
     // Set dataType if missing
@@ -61,7 +61,7 @@ Kimbo.define('ajax', function (_) {
     return response;
   };
 
-  var _setHeaders = function (settings) {
+  function _setHeaders(settings) {
     if (!settings.crossDomain && !settings.headers['X-Requested-With']) {
       settings.headers['X-Requested-With'] = 'XMLHttpRequest';
     }
@@ -73,13 +73,13 @@ Kimbo.define('ajax', function (_) {
     settings.headers.Accept = MIME_TYPES[settings.dataType] || '*/*';
   };
 
-  var _timeout = function (xhr, settings) {
+  function _timeout(xhr, settings) {
     xhr.onreadystatechange = null;
     xhr.abort();
     xhrCallbacks.error('error', 'timeout', xhr, settings);
   };
 
-  var _createAbortTimeout = function (xhr, settings) {
+  function _createAbortTimeout(xhr, settings) {
     return window.setTimeout(function () {
       _timeout(xhr, settings);
     }, settings.timeout);
@@ -154,8 +154,7 @@ Kimbo.define('ajax', function (_) {
 
     // Add data to url
     if (settings.data) {
-      settings.url += (/\?/.test(settings.url) ? '&' : '?') +
-        Kimbo.param(settings.data);
+      settings.url += (/\?/.test(settings.url) ? '&' : '?') + Kimbo.param(settings.data);
       delete settings.data;
     }
 
@@ -346,10 +345,10 @@ Kimbo.define('ajax', function (_) {
   });
 
   // getJSONP internal use
-  var _getJSONP = function (settings) {
+  function _getJSONP(settings) {
     var jsonpCallback = Kimbo.ref + '_' + Date.now();
-    var script = _.document.createElement('script');
-    var head = _.document.head;
+    var script = document.createElement('script');
+    var head = document.head;
     var xhr = {
       abort: function () {
         window.clearTimeout(abortTimeout);

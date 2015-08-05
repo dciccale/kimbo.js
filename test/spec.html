@@ -11,7 +11,7 @@
     <div id="mocha"></div>
 
     <script id="fixture" type="text/template">
-      <section hidden>
+      <section id="fixture-html">
         <form>
           <input type="text" name="name" id="name" value="test">
         </form>
@@ -27,6 +27,8 @@
           <li>two</li>
           <li>three</li>
         </ul>
+
+        <iframe id="iframe"></iframe>
       </section>
     </script>
 
@@ -38,7 +40,17 @@
       mocha.reporter('html');
       var expect = chai.expect;
     </script>
-    <script src="../dist/kimbo.js"></script>
+    <!-- <script src="../dist/kimbo.js"></script> -->
+    <script src="../src/core.js"></script>
+    <script src="../src/query.js"></script>
+    <script src="../src/data.js"></script>
+    <script src="../src/css.js"></script>
+    <script src="../src/manipulation.js"></script>
+    <script src="../src/traversing.js"></script>
+    <script src="../src/utilities.js"></script>
+    <script src="../src/event.js"></script>
+    <script src="../src/ajax.js"></script>
+
     <script src="spec.js"></script>
     <script src="core.js"></script>
     <script src="query.js"></script>
@@ -47,7 +59,7 @@
     <script src="manipulation.js"></script>
     <script src="traversing.js"></script>
     <script src="utilities.js"></script>
-    <script src="events.js"></script>
+    <script src="event.js"></script>
     <script src="ajax.js"></script>
 
     <script>

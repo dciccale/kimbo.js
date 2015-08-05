@@ -11,7 +11,7 @@ Kimbo.define('manipulation', function (_) {
     });
 
   // Browser native classList
-  var _hasClass = function (el, name) {
+  function _hasClass(el, name) {
     return (el.nodeType === 1 && el.classList.contains(name));
   };
 
@@ -148,7 +148,7 @@ Kimbo.define('manipulation', function (_) {
   // Mdn: https://developer.mozilla.org/en-US/docs/DOM/element.classList
   // Spec: http://www.whatwg.org/specs/web-apps/current-work/multipage/elements.html#dom-classlist
   Kimbo.forEach(['add', 'remove'], function (method, i) {
-    var isRemove = i > 0;
+    var isRemove = method === 'remove';
 
     Kimbo.fn[method + 'Class'] = function (name) {
       var classNames;
@@ -236,12 +236,12 @@ Kimbo.define('manipulation', function (_) {
 
   // Generate append and prepend methods
   Kimbo.forEach(['append', 'prepend'], function (method, i) {
-    var isPrepend = i > 0;
+    var isPrepend = method === 'prepend';
 
     Kimbo.fn[method] = function (value) {
       var div;
 
-      // Exit if no value passed
+      // Exit if no set or value passed
       if (!this.length || !value) {
         return this;
       }
@@ -251,7 +251,7 @@ Kimbo.define('manipulation', function (_) {
 
         // Placeholder element
         div = document.createElement('div');
-        div.innerHTML = value;
+        div.innerHTML = value.trim();
         value = div.firstChild;
       }
 
@@ -481,57 +481,5 @@ Kimbo.define('manipulation', function (_) {
         return el.cloneNode(true);
       });
     }
-  });
-
-  // Generate get/set .width() and .height() methods
-  /*\
-   * $(…).width
-   [ method ]
-   * Get the current width of the first element or set the width of all matched elements.
-   > Parameters
-   - value (number|string) #optional An integer indicating the width of the element or a string width a unit of measure.
-   = (number) the actual width of the element if no parameter passed.
-   = (object) Kimbo object.
-   > Usage
-   | <style>
-   |   div { width: 100px; }
-   | </style>
-   | <div>Actual width is 100px</div>
-   * Get the width:
-   | $('div').width(); // 100
-   * Change the width:
-   | $('div').width(200); // Now its width is 200
-   * Or passing a specific unit:
-   | $('div').width('50%'); // Now its width is 50%
-  \*/
-
-  /*\
-   * $(…).height
-   [ method ]
-   * Get the current height of the first element or set the height of all matched elements.
-   > Parameters
-   - value (number|string) #optional An integer indicating the height of the element or a string height a unit of measure.
-   = (number) the actual height of the element if no parameter passed.
-   = (object) Kimbo object.
-   > Usage
-   | <style>
-   |   div { height: 100px; }
-   | </style>
-   | <div>Actual height is 100px</div>
-   * Get the height:
-   | $('div').height(); // 100
-   * Change the height:
-   | $('div').height(200); // Now its height is 200
-   * Or passing a specific unit:
-   | $('div').height('50%'); // Now its height is 50%
-  \*/
-  Kimbo.forEach(['width', 'height'], function (dimension) {
-    Kimbo.fn[dimension] = function (value) {
-      if (!value) {
-        return parseInt(this.css(dimension), 10);
-      }
-
-      return this.css(dimension, value);
-    };
   });
 });
