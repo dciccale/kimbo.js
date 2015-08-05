@@ -34,10 +34,11 @@ $(function(){
 
   function drawFileCharts() {
     // @todo make a jQuery plugin to accomodate the horizontalBar function
-    $('.js-file-chart').each(function(){
-      var el = $(this),
-          width = el.width() - 130; // @todo establish max width of graph in plugin
-
+    // @todo establish max width of graph in plugin
+    var charts = $('.js-file-chart'),
+        width = charts.width() - 130; // cache chart width
+    charts.each(function() {
+      var el = $(this);
       el.empty();
 
       var value = el.data('complexity');
@@ -125,7 +126,7 @@ $(function(){
       // If the i is not set, we jump to the last file in the list. This
       // preserves a behavior from Morris v1. I expect Plato V1 to be deprecated
       // and this hack is mearly to preserve the casper tests.
-      if (!i || isNaN(i)) { i = __report.reports.length - 1; }
+      if (i == null || isNaN(i)) { i = __report.reports.length - 1; }
       document.location = __report.reports[i].info.link;
     }
 

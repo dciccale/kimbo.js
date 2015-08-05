@@ -48,7 +48,7 @@
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">607</p>
+      <p class="stat">612</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">68.10</p>
+      <p class="stat">65.57</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">2.01</p>
+      <p class="stat">1.96</p>
     </div>
   </div>
 </div>
@@ -97,6 +97,7 @@
 
   var _filter = Array.prototype.filter;
 
+  // Functions that should return a unique set
   var IS_UNIQUE = {
     children: true,
     contents: true,
@@ -105,23 +106,23 @@
   };
 
   // Use native matchesSelector
-  var _matchesSelector = _.document.documentElement.webkitMatchesSelector ||
-    _.document.documentElement.mozMatchesSelector ||
-    _.document.documentElement.oMatchesSelector ||
-    _.document.documentElement.matchesSelector;
+  var _matchesSelector = document.documentElement.matchesSelector ||
+    document.documentElement.webkitMatchesSelector ||
+    document.documentElement.mozMatchesSelector ||
+    document.documentElement.oMatchesSelector;
 
-  var _matches = function (elem, selector) {
+  function _matches(elem, selector) {
     return (!elem || elem.nodeType !== 1) ? false : _matchesSelector.call(elem, selector);
-  };
+  }
 
   // Remove duplicates from an array
-  var _unique = function (array) {
+  function _unique(array) {
     return array.filter(function (item, index) {
       return array.indexOf(item) === index;
     });
-  };
+  }
 
-  var _sibling = function (node, elem) {
+  function _sibling(node, elem) {
     var result = [];
     for (; node; node = node.nextSibling) {
       if (node.nodeType === 1 &amp;&amp; node !== elem ) {
@@ -129,15 +130,15 @@
       }
     }
     return result;
-  };
+  }
 
-  var _singleSibling = function (node, prop) {
+  function _singleSibling(node, prop) {
     do {
       node = node[prop];
     } while (node &amp;&amp; node.nodeType !== 1);
 
     return node;
-  };
+  }
 
   Kimbo.fn.extend({
     /*\
@@ -182,7 +183,7 @@
         var ret;
 
         if (Kimbo.isFunction(selector)) {
-          ret = !!selector.call(elem, i, elem);
+          ret = !!selector.call(elem, elem, i);
         } else if (Kimbo.isString(selector)) {
           ret = _matches(elem, selector);
         } else if (selector.nodeType) {
@@ -364,11 +365,11 @@
       var result = _.kimbo();
       var l = this.length;
 
-      var i, length, n, r, elems;
+      var i, len, n, r, elems;
 
       // Could use Kimbo.forEach, but this is a bit faster..
       for (i = 0; i &lt; l; i++) {
-        length = result.length;
+        len = result.length;
 
         // Get elements
         elems = query.find(this[i], selector);
@@ -379,8 +380,8 @@
         if (i) {
 
           // Make results unique
-          for (n = length; n &lt; result.length; n++) {
-            for (r = 0; r &lt; length; r++) {
+          for (n = len; n &lt; result.length; n++) {
+            for (r = 0; r &lt; len; r++) {
               if (result[r] === result[n]) {
                 result.splice(n--, 1);
                 break;
@@ -420,26 +421,28 @@
     closest: function (selector, context) {
       var l = this.length;
       var result = [];
-      var closest = function (node) {
-
-        // Check selector match and grab the element
-        while (node &amp;&amp; !_matches(node, selector)) {
-          node = node !== context &amp;&amp; node !== _.document &amp;&amp; node.parentNode;
-        }
-        return node;
-      };
 
       if (!l) {
         return this;
+      }
 
-      // Get closest only for one element
-      } else if (l === 1) {
-        result = closest(this[0]);
+      function _closest(node) {
+
+        // Check selector match and grab the element
+        while (node &amp;&amp; !_matches(node, selector)) {
+          node = node !== context &amp;&amp; node !== document &amp;&amp; node.parentNode;
+        }
+        return node;
+      }
+
+      // Optimize closest for 1 element
+      if (l === 1) {
+        result = _closest(this[0]);
 
       // Get closest from all elements in the set
       } else {
         Kimbo.forEach(this, function (node) {
-          node = closest(node);
+          node = _closest(node);
           if (node) {
             result.push(node);
           }
@@ -507,7 +510,7 @@
      | $(&#039;#menu1 li&#039;).add($(&#039;#menu2 li&#039;));
     \*/
     add: function (selector, context) {
-      var set;
+      var set, all;
 
       if (selector) {
         if (Kimbo.isString(selector)) {
@@ -518,10 +521,12 @@
           set = selector;
         }
 
-        var all = Kimbo.merge(this, set);
+        all = Kimbo.merge(this, set);
 
         return _.kimbo(all);
       }
+
+      return this;
     },
 
     /*\
@@ -568,7 +573,6 @@
     \*/
     parent: function (elem) {
       var parent = elem.parentNode;
-
       return parent &amp;&amp; parent.nodeType !== 11 ? parent : null;
     },
 
@@ -673,20 +677,21 @@
      | $(&#039;iframe&#039;).contents().find(&#039;body&#039;);
     \*/
     contents: function (elem) {
-      return elem.nodeName.toLowerCase() === &#039;iframe&#039; ? elem.contentDocument || elem.contentWindow[_.document] : Kimbo.makeArray(elem.childNodes);
+      return elem.nodeName.toLowerCase() === &#039;iframe&#039; ? elem.contentDocument || elem.contentWindow[document] : Kimbo.makeArray(elem.childNodes);
     }
   }, function (name, fn) {
     Kimbo.fn[name] = function (selector) {
+      var l = this.length;
       var ret;
 
-      if (!this.length) {
+      if (!l) {
         return this;
       }
 
       ret = Kimbo.map(this, fn);
 
       // Clean collection
-      ret = this.length &gt; 1 &amp;&amp; !IS_UNIQUE[name] ? _unique(ret) : ret;
+      ret = l &gt; 1 &amp;&amp; !IS_UNIQUE[name] ? _unique(ret) : ret;
 
       if (Kimbo.isString(selector)) {
         ret = _.kimbo(ret).filter(selector);

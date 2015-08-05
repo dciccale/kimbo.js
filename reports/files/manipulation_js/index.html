@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">75.64</p>
+      <p class="stat">75.48</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">537</p>
+      <p class="stat">485</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">38.57</p>
+      <p class="stat">36.96</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">1.60</p>
+      <p class="stat">1.48</p>
     </div>
   </div>
 </div>
@@ -102,9 +102,9 @@
     });
 
   // Browser native classList
-  var _hasClass = function (el, name) {
+  function _hasClass(el, name) {
     return (el.nodeType === 1 &amp;&amp; el.classList.contains(name));
-  };
+  }
 
   /*\
    * $(…).text
@@ -238,8 +238,8 @@
   // Use native classList
   // Mdn: https://developer.mozilla.org/en-US/docs/DOM/element.classList
   // Spec: http://www.whatwg.org/specs/web-apps/current-work/multipage/elements.html#dom-classlist
-  Kimbo.forEach([&#039;add&#039;, &#039;remove&#039;], function (method, i) {
-    var isRemove = i &gt; 0;
+  Kimbo.forEach([&#039;add&#039;, &#039;remove&#039;], function (method) {
+    var isRemove = method === &#039;remove&#039;;
 
     Kimbo.fn[method + &#039;Class&#039;] = function (name) {
       var classNames;
@@ -326,13 +326,13 @@
   \*/
 
   // Generate append and prepend methods
-  Kimbo.forEach([&#039;append&#039;, &#039;prepend&#039;], function (method, i) {
-    var isPrepend = i &gt; 0;
+  Kimbo.forEach([&#039;append&#039;, &#039;prepend&#039;], function (method) {
+    var isPrepend = method === &#039;prepend&#039;;
 
     Kimbo.fn[method] = function (value) {
       var div;
 
-      // Exit if no value passed
+      // Exit if no set or value passed
       if (!this.length || !value) {
         return this;
       }
@@ -342,7 +342,7 @@
 
         // Placeholder element
         div = document.createElement(&#039;div&#039;);
-        div.innerHTML = value;
+        div.innerHTML = value.trim();
         value = div.firstChild;
       }
 
@@ -572,58 +572,6 @@
         return el.cloneNode(true);
       });
     }
-  });
-
-  // Generate get/set .width() and .height() methods
-  /*\
-   * $(…).width
-   [ method ]
-   * Get the current width of the first element or set the width of all matched elements.
-   &gt; Parameters
-   - value (number|string) #optional An integer indicating the width of the element or a string width a unit of measure.
-   = (number) the actual width of the element if no parameter passed.
-   = (object) Kimbo object.
-   &gt; Usage
-   | &lt;style&gt;
-   |   div { width: 100px; }
-   | &lt;/style&gt;
-   | &lt;div&gt;Actual width is 100px&lt;/div&gt;
-   * Get the width:
-   | $(&#039;div&#039;).width(); // 100
-   * Change the width:
-   | $(&#039;div&#039;).width(200); // Now its width is 200
-   * Or passing a specific unit:
-   | $(&#039;div&#039;).width(&#039;50%&#039;); // Now its width is 50%
-  \*/
-
-  /*\
-   * $(…).height
-   [ method ]
-   * Get the current height of the first element or set the height of all matched elements.
-   &gt; Parameters
-   - value (number|string) #optional An integer indicating the height of the element or a string height a unit of measure.
-   = (number) the actual height of the element if no parameter passed.
-   = (object) Kimbo object.
-   &gt; Usage
-   | &lt;style&gt;
-   |   div { height: 100px; }
-   | &lt;/style&gt;
-   | &lt;div&gt;Actual height is 100px&lt;/div&gt;
-   * Get the height:
-   | $(&#039;div&#039;).height(); // 100
-   * Change the height:
-   | $(&#039;div&#039;).height(200); // Now its height is 200
-   * Or passing a specific unit:
-   | $(&#039;div&#039;).height(&#039;50%&#039;); // Now its height is 50%
-  \*/
-  Kimbo.forEach([&#039;width&#039;, &#039;height&#039;], function (dimension) {
-    Kimbo.fn[dimension] = function (value) {
-      if (!value) {
-        return parseInt(this.css(dimension), 10);
-      }
-
-      return this.css(dimension, value);
-    };
   });
 });</textarea>
   </div>

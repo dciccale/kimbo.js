@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">67.80</p>
+      <p class="stat">68.08</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">188</p>
+      <p class="stat">187</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">25.16</p>
+      <p class="stat">24.47</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">0.86</p>
+      <p class="stat">0.81</p>
     </div>
   </div>
 </div>
@@ -89,7 +89,7 @@
 
 <div class="container">
   <div class="row">
-    <textarea id="file-source" class="col-md-12">Kimbo.define(&#039;css&#039;, function (_) {
+    <textarea id="file-source" class="col-md-12">Kimbo.define(&#039;css&#039;, function () {
 
   &#039;use strict&#039;;
 
@@ -101,25 +101,27 @@
     zIndex: true
   };
 
+  var iframe = null;
+  var elementsDisplay = {};
+
   // Wrap native to extend behavoiur
-  var _getComputedStyle = function (element, property) {
+  function _getComputedStyle(element, property) {
 
     // Support both camelCase and dashed property names
     property = property.replace(/([A-Z])/g, &#039;-$1&#039;).toLowerCase();
 
     return window.getComputedStyle(element, null).getPropertyValue(property);
-  };
+  }
 
-  var iframe = null;
 
-  var createIframe = function () {
-    iframe = _.document.createElement(&#039;iframe&#039;);
-    _.document.documentElement.appendChild(iframe);
+  function _createIframe() {
+    iframe = document.createElement(&#039;iframe&#039;);
+    document.documentElement.appendChild(iframe);
     return iframe;
-  };
+  }
 
-  var getActualDisplay = function (nodeName, doc) {
-    doc = doc || _.document;
+  function _getActualDisplay(nodeName, doc) {
+    doc = doc || document;
 
     var elem, display;
 
@@ -134,9 +136,7 @@
     elem.parentNode.removeChild(elem);
 
     return display;
-  };
-
-  var elementsDisplay = {};
+  }
 
   Kimbo.fn.extend({
     /*\
@@ -158,18 +158,18 @@
         var doc;
 
         if (!display) {
-          display = getActualDisplay(nodeName);
+          display = _getActualDisplay(nodeName);
 
           // If still fails for some css rule try creating the element in an isolated iframe
           if (display === &#039;none&#039; || !display) {
 
             // Use the already-created iframe if possible
-            iframe = (iframe || createIframe());
+            iframe = (iframe || _createIframe());
 
             doc = (iframe.contentWindow || iframe.contentDocument).document;
             doc.write(&#039;&lt;!doctype html&gt;&lt;html&gt;&lt;body&gt;&#039;);
             doc.close();
-            display = getActualDisplay(nodeName, doc);
+            display = _getActualDisplay(nodeName, doc);
             iframe.parentNode.removeChild(iframe);
           }
 
@@ -237,13 +237,12 @@
     \*/
     css: function (property, value) {
       var that = this;
-      var setCss;
 
       if (!this.length || (!Kimbo.isString(property) &amp;&amp; !Kimbo.isObject(property))) {
         return this;
       }
 
-      setCss = function (name, value) {
+      function _applyCss(name, value) {
 
         // If it&#039;s a number add &#039;px&#039; except for some properties
         if (Kimbo.isNumeric(value) &amp;&amp; !CSS_NO_PX[Kimbo.camelCase(name)]) {
@@ -254,7 +253,7 @@
         that.each(function (el) {
           el.style[name] = value;
         });
-      };
+      }
 
       // Setting one property
       if (Kimbo.isString(property)) {
@@ -265,12 +264,12 @@
 
         // Set
         } else {
-          setCss(property, value);
+          _applyCss(property, value);
         }
 
       // Multiple properties with an object
       } else if (Kimbo.isObject(property)) {
-        Kimbo.forEach(property, setCss);
+        Kimbo.forEach(property, _applyCss);
       }
 
       return this;
