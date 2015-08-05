@@ -1,9 +1,15 @@
-<p align="right"><a href="https://travis-ci.org/dciccale/kimbo.js"><img src="https://travis-ci.org/dciccale/kimbo.js.png?branch=master" alt="Build Status" style="max-width:100%;"></a></p>
+<p align="right">
+  <a href="https://travis-ci.org/dciccale/kimbo.js">
+    <img src="https://img.shields.io/travis/dciccale/kimbo.js.svg?style=flat-square" alt="Build Status" style="max-width:100%;">
+  </a>
+  <a href="https://coveralls.io/github/dciccale/kimbo.js">
+    <img src="https://img.shields.io/coveralls/dciccale/kimbo.js.svg?style=flat-square" alt="Build Status" style="max-width:100%;">
+  </a>
+</p>
 
 <p align="center"><a href="http://kimbojs.com"><img src="http://kimbojs.com/img/logo.png" width="409" height="120" alt="kimbo.js logo"></a></p>
 
 <h3 align="center">An ECMAScript 5 only-compatible JavaScript library</h3>
-
 
 The goal of this light-weight JavaScript library is to provide a nice, shorter and extended API using latest native compliant JavaScript and DOM APIs.
 Taking advantage of amazing native speed, of course only in modern browsers, and no more adding extra bytes for older ones.
