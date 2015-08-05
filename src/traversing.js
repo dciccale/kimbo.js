@@ -22,14 +22,14 @@ Kimbo.define('traversing', function (_) {
 
   function _matches(elem, selector) {
     return (!elem || elem.nodeType !== 1) ? false : _matchesSelector.call(elem, selector);
-  };
+  }
 
   // Remove duplicates from an array
   function _unique(array) {
     return array.filter(function (item, index) {
       return array.indexOf(item) === index;
     });
-  };
+  }
 
   function _sibling(node, elem) {
     var result = [];
@@ -39,7 +39,7 @@ Kimbo.define('traversing', function (_) {
       }
     }
     return result;
-  };
+  }
 
   function _singleSibling(node, prop) {
     do {
@@ -47,7 +47,7 @@ Kimbo.define('traversing', function (_) {
     } while (node && node.nodeType !== 1);
 
     return node;
-  };
+  }
 
   Kimbo.fn.extend({
     /*\

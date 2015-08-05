@@ -1,4 +1,4 @@
-Kimbo.define('css', function (_) {
+Kimbo.define('css', function () {
 
   'use strict';
 
@@ -20,14 +20,14 @@ Kimbo.define('css', function (_) {
     property = property.replace(/([A-Z])/g, '-$1').toLowerCase();
 
     return window.getComputedStyle(element, null).getPropertyValue(property);
-  };
+  }
 
 
   function _createIframe() {
     iframe = document.createElement('iframe');
     document.documentElement.appendChild(iframe);
     return iframe;
-  };
+  }
 
   function _getActualDisplay(nodeName, doc) {
     doc = doc || document;
@@ -45,7 +45,7 @@ Kimbo.define('css', function (_) {
     elem.parentNode.removeChild(elem);
 
     return display;
-  };
+  }
 
   Kimbo.fn.extend({
     /*\
@@ -162,7 +162,7 @@ Kimbo.define('css', function (_) {
         that.each(function (el) {
           el.style[name] = value;
         });
-      };
+      }
 
       // Setting one property
       if (Kimbo.isString(property)) {

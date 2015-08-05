@@ -1,3 +1,4 @@
+/*jshint -W030 */
 describe('traversing', function () {
   'use strict';
 
@@ -24,7 +25,7 @@ describe('traversing', function () {
 
     it('should filter elements in a collection by function', function () {
       expect($lis.length).to.equal(6);
-      var $second = $lis.filter(function (el, i) {
+      var $second = $lis.filter(function (el) {
         return el.id === 'second';
       });
       expect($second.length).to.equal(1);
@@ -109,7 +110,7 @@ describe('traversing', function () {
     });
 
     it('should be apply a function to each element in the collection and return a new set', function () {
-      var mapped = $lis.map(function (el, i) {
+      var mapped = $lis.map(function (el) {
         return el.nodeName.toLowerCase();
       });
       expect(mapped).to.be.instanceof(Kimbo);
@@ -167,7 +168,6 @@ describe('traversing', function () {
 
     it('should add elements to the current collection', function () {
       var $collection = $();
-      var $second = $('#fixture-html #second');
       $collection.add($lis[0]);
       $collection.add('#fixture-html #second');
       $collection.add();
@@ -187,7 +187,7 @@ describe('traversing', function () {
     });
 
     it('should test the current collection against a function', function () {
-      expect($lis.is(function (el, i) {
+      expect($lis.is(function (el) {
         return el.nodeName.toLowerCase() === 'li';
       })).to.be.true;
     });

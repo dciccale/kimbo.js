@@ -13,7 +13,7 @@ Kimbo.define('manipulation', function (_) {
   // Browser native classList
   function _hasClass(el, name) {
     return (el.nodeType === 1 && el.classList.contains(name));
-  };
+  }
 
   /*\
    * $(…).text
@@ -147,7 +147,7 @@ Kimbo.define('manipulation', function (_) {
   // Use native classList
   // Mdn: https://developer.mozilla.org/en-US/docs/DOM/element.classList
   // Spec: http://www.whatwg.org/specs/web-apps/current-work/multipage/elements.html#dom-classlist
-  Kimbo.forEach(['add', 'remove'], function (method, i) {
+  Kimbo.forEach(['add', 'remove'], function (method) {
     var isRemove = method === 'remove';
 
     Kimbo.fn[method + 'Class'] = function (name) {
@@ -235,7 +235,7 @@ Kimbo.define('manipulation', function (_) {
   \*/
 
   // Generate append and prepend methods
-  Kimbo.forEach(['append', 'prepend'], function (method, i) {
+  Kimbo.forEach(['append', 'prepend'], function (method) {
     var isPrepend = method === 'prepend';
 
     Kimbo.fn[method] = function (value) {

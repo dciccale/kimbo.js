@@ -1,4 +1,4 @@
-Kimbo.define('ajax', function (_) {
+Kimbo.define('ajax', function () {
 
   'use strict';
 
@@ -31,7 +31,7 @@ Kimbo.define('ajax', function (_) {
 
   function _getResponse(response, type) {
     return (dataParse[type] ? dataParse[type](response) : response);
-  };
+  }
 
   function _handleResponse(xhr, settings) {
     var response, contentType;
@@ -59,7 +59,7 @@ Kimbo.define('ajax', function (_) {
     }
 
     return response;
-  };
+  }
 
   function _setHeaders(settings) {
     if (!settings.crossDomain && !settings.headers['X-Requested-With']) {
@@ -71,19 +71,19 @@ Kimbo.define('ajax', function (_) {
     }
 
     settings.headers.Accept = MIME_TYPES[settings.dataType] || '*/*';
-  };
+  }
 
   function _timeout(xhr, settings) {
     xhr.onreadystatechange = null;
     xhr.abort();
     xhrCallbacks.error('error', 'timeout', xhr, settings);
-  };
+  }
 
   function _createAbortTimeout(xhr, settings) {
     return window.setTimeout(function () {
       _timeout(xhr, settings);
     }, settings.timeout);
-  };
+  }
 
   /*\
    * $.ajaxSettings
@@ -392,7 +392,7 @@ Kimbo.define('ajax', function (_) {
 
     // Return fake xhr object to abort manually
     return xhr;
-  };
+  }
 
   /*\
    * $.param

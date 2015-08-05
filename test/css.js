@@ -1,3 +1,4 @@
+/*jshint -W030 */
 describe('css', function () {
   'use strict';
 

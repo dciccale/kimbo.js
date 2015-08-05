@@ -1,3 +1,4 @@
+/*jshint -W030 */
 describe('utilities', function () {
   'use strict';
 

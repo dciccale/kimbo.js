@@ -12,7 +12,7 @@ var karma = require('karma').server;
 var karmaConfPath = path.join(__dirname, 'karma.conf.js');
 var paths = require('./paths.conf')();
 
-gulp.task('test', function (done) {
+gulp.task('test', ['lint'], function (done) {
   karma.start({
     configFile: karmaConfPath,
     singleRun: true
