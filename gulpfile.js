@@ -10,6 +10,7 @@ var dateformat = require('dateformat');
 var rimraf = require('rimraf');
 var karma = require('karma').server;
 var karmaConfPath = path.join(__dirname, 'karma.conf.js');
+var paths = require('./paths.conf')();
 
 gulp.task('test', function (done) {
   karma.start({
@@ -25,20 +26,20 @@ gulp.task('test-ci', function (done) {
 });
 
 gulp.task('lint', function () {
-  return gulp.src(['src/*.js', 'test/*.js', 'gulpfile.js'])
+  return gulp.src([paths.src.all, paths.test.all, paths.gulpfile])
     .pipe($.jshint())
     .pipe($.jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('plato', function () {
-  return gulp.src('src/*.js')
-    .pipe($.plato('www/reports', {
-      jshint: JSON.parse(fs.readFileSync('src/.jshintrc'))
+  return gulp.src(paths.src.all)
+    .pipe($.plato(paths.plato, {
+      jshint: JSON.parse(fs.readFileSync(paths.src.jshintrc))
     }));
 });
 
 gulp.task('clean', function (done) {
-  rimraf('dist', done);
+  rimraf(paths.dist, done);
 });
 
 gulp.task('committers', function () {
@@ -50,26 +51,16 @@ gulp.task('default', ['test', 'build']);
 
 gulp.task('build', ['clean'], function () {
   var h = header();
-  gulp.src([
-    'src/core.js',
-    'src/query.js',
-    'src/data.js',
-    'src/css.js',
-    'src/manipulation.js',
-    'src/traversing.js',
-    'src/utilities.js',
-    'src/event.js',
-    'src/ajax.js'
-  ])
-  .pipe($.concat('kimbo.js'))
+  gulp.src(paths.src.all)
+  .pipe($.concat(pkg.name + '.js'))
   .pipe($.header(h.long, h))
   .pipe(gulp.dest('dist'))
   .pipe($.sourcemaps.init())
   .pipe($.uglify())
   .pipe($.header(h.short, h))
   .pipe($.rename({extname: '.min.js'}))
-  .pipe($.sourcemaps.write('../dist'))
-  .pipe(gulp.dest('dist'));
+  .pipe($.sourcemaps.write('../' + paths.dist))
+  .pipe(gulp.dest(paths.dist));
 });
 
 function header() {

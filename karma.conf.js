@@ -1,36 +1,10 @@
 module.exports = function (config) {
+  var paths = require('./paths.conf')();
+
   config.set({
     basePath: '',
     frameworks: ['mocha', 'chai', 'sinon'],
-    files: [
-      // fixtures
-      'test/fixtures/*.html',
-
-      // spec helper
-      'test/spec.js',
-
-      // tests
-      'test/core.js',
-      'test/query.js',
-      'test/data.js',
-      'test/css.js',
-      'test/manipulation.js',
-      'test/traversing.js',
-      'test/utilities.js',
-      'test/event.js',
-      'test/ajax.js',
-
-      // source
-      'src/core.js',
-      'src/query.js',
-      'src/data.js',
-      'src/css.js',
-      'src/manipulation.js',
-      'src/traversing.js',
-      'src/utilities.js',
-      'src/event.js',
-      'src/ajax.js'
-    ],
+    files: [].concat(paths.test.fixtures, paths.test.helper, paths.test.files, paths.src.files),
     preprocessors: {
       'src/*.js': ['coverage'],
       'test/fixtures/*.html': ['html2js']
