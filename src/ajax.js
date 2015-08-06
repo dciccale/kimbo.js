@@ -100,8 +100,8 @@ Kimbo.define('ajax', function () {
   Kimbo.ajaxSettings = {
     type: 'GET',
     async: true,
-    success: {},
-    error: {},
+    success: null,
+    error: null,
     context: null,
     headers: {},
     data: null,
@@ -160,7 +160,7 @@ Kimbo.define('ajax', function () {
       settings.data = Kimbo.param(settings.data);
     }
 
-    if (!hasContent) {
+    if (settings.data && !hasContent) {
       settings.url += (/\?/.test(settings.url) ? '&' : '?') + settings.data;
       delete settings.data;
     }
@@ -187,33 +187,27 @@ Kimbo.define('ajax', function () {
 
     // On complete callback
     callback = function () {
-      var response, status;
+      var status = xhr.status;
+      var response;
 
-      // Request complete
-      if (xhr.readyState === 4) {
-        status = xhr.status;
+      // Clear timeout
+      window.clearTimeout(abortTimeout);
 
-        // Clear timeout
-        window.clearTimeout(abortTimeout);
-
-        // Scuccess
-        if ((status >= 200 && status < 300) || status === 304) {
-          if (settings.async) {
-            response = _handleResponse(xhr, settings);
-            if (response !== false) {
-              xhrCallbacks.success(response, xhr, settings);
-            }
-          }
-
-        // Fail
-        } else {
-          xhrCallbacks.error('error', xhr.statusText, xhr, settings);
+      // Scuccess
+      if ((status >= 200 && status < 300) || status === 304) {
+        response = _handleResponse(xhr, settings);
+        if (response !== false) {
+          xhrCallbacks.success(response, xhr, settings);
         }
+
+      // Fail
+      } else {
+        xhrCallbacks.error('error', xhr.statusText, xhr, settings);
       }
     };
 
     // Listen for response
-    xhr.onreadystatechange = callback;
+    xhr.onload = callback;
 
     // Init request
     xhr.open(settings.type, settings.url, settings.async);
@@ -229,7 +223,7 @@ Kimbo.define('ajax', function () {
     // Try to send request
     xhr.send(settings.data);
 
-    return (settings.async) ? xhr : callback();
+    return xhr;
   };
 
   /*\
@@ -373,7 +367,7 @@ Kimbo.define('ajax', function () {
     }
 
     // Set url
-    script.src = settings.url.replace(JSONP_RE, '$1' + jsonpCallback + '$2');
+    script.src = settings.url.replace(JSONP_RE, '$1' + jsonpCallback);
 
     // Jsonp callback
     window[jsonpCallback] = function (response) {
