@@ -307,7 +307,7 @@ Kimbo.define('utilities', function (_) {
      | 'backgroundColor'
     \*/
     camelCase: function (str) {
-      return str.replace(/-+(.)?/g, function (wholeMatch, character) {
+      return str.replace(/-+(.)?/g, function (all, character) {
         return character.toUpperCase();
       });
     },

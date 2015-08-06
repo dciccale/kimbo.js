@@ -189,9 +189,7 @@ Kimbo.define('events', function (_) {
 
   // Triggers a provided event type
   function _triggerEvent(element, type, data) {
-
-    /* jshint validthis: true */
-    var currentElement, lastElement, eventTree, elementId, event, special;
+    var currentElement, lastElement, eventTree, event, special;
 
     // Don't do events if element is text or comment node
     // Or if there is no event type at all or type is not a string
@@ -200,10 +198,8 @@ Kimbo.define('events', function (_) {
     }
 
     // Try triggering native focus and blur events
-    if (type === 'focus' || type === 'blur') {
-      try {
-        return element[type]();
-      } catch (e) {}
+    if ((type === 'focus' || type === 'blur') && element[type]) {
+      return element[type]();
     }
 
     // Create a new writable custom event object
@@ -220,6 +216,7 @@ Kimbo.define('events', function (_) {
     // Include data if any
     data = data ? Kimbo.makeArray(data) : [];
 
+    // Check if it's a special event
     special = specialEvents[type] || {};
 
     // Event goes first
@@ -243,15 +240,9 @@ Kimbo.define('events', function (_) {
 
     // Fire handlers up to the document (or the last element)
     Kimbo.forEach(eventTree, function (branch) {
-
-      // Element
-      currentElement = branch[0];
-
-      // Type
+      var currentElement = branch[0];
+      var elementId = currentElement._guid;
       event.type = special.origType || branch[1];
-
-      // Get element id
-      elementId = currentElement._guid;
 
       // If the current element has events of the specified type, dispatch them
       if (elementId && _getHandlers(elementId, type)) {
@@ -293,11 +284,7 @@ Kimbo.define('events', function (_) {
 
           // Loop throgh delegated events
           for (i = 0; i < delegateCount; i++) {
-
-            // Get its handler
             handleObj = handlers[i];
-
-            // Get its selector
             selector = handleObj.selector;
 
             if (!selMatch[selector]) {
@@ -310,7 +297,7 @@ Kimbo.define('events', function (_) {
           }
 
           if (matches.length) {
-            handlerQueue.push({elem: currentElement, matches: matches});
+            handlerQueue.push({element: currentElement, matches: matches});
           }
         }
       }
@@ -318,15 +305,15 @@ Kimbo.define('events', function (_) {
 
     // Add the remaining not delegated handlers
     if (handlers.length > delegateCount) {
-      handlerQueue.push({elem: this, matches: handlers.slice(delegateCount)});
+      handlerQueue.push({element: this, matches: handlers.slice(delegateCount)});
     }
 
     // Fire callbacks queue
     Kimbo.forEach(handlerQueue, function (handler) {
 
-      // Only fire handler if event wasnt stopped
+      // Only fire handler if event wasn't stopped
       if (!event.isPropagationStopped()) {
-        event.currentTarget = handler.elem;
+        event.currentTarget = handler.element;
 
         Kimbo.forEach(handler.matches, function (handleObj) {
 
@@ -336,7 +323,7 @@ Kimbo.define('events', function (_) {
             event.handleObj = handleObj;
 
             // Call original callback, check if its an special event first
-            ret = ((specialEvents[handleObj.origType] || {}).handle || handleObj.callback).apply(handler.elem, args);
+            ret = ((specialEvents[handleObj.origType] || {}).handle || handleObj.callback).apply(handler.element, args);
 
             // If callback returns false, stop the event
             if (ret === false) {

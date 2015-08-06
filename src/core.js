@@ -32,7 +32,7 @@
    * Kimbo object collection.
    * All methods called from a Kimbo collection affects all elements in it.
   \*/
-  var Kimbo = function (selector, context) {
+  function Kimbo(selector, context) {
     var match, div, fragment;
 
     // Auto create a new instance of Kimbo if needed
@@ -59,9 +59,10 @@
         }
 
         return this;
+      }
 
       // Create html from string
-      } else if (selector.charAt(0) === '<') {
+      if (selector.charAt(0) === '<') {
         div = document.createElement('div');
         div.innerHTML = selector;
         this.add(div.childNodes);
@@ -70,14 +71,11 @@
         fragment.append(this);
 
         return this;
+      }
 
       // All other selectors
-      } else {
-
-        context = context ? _.kimbo(context) : _.rootContext;
-
-        return context.find(selector);
-      }
+      context = context ? _.kimbo(context) : _.rootContext;
+      return context.find(selector);
     }
 
     // Already a dom element
@@ -94,7 +92,7 @@
 
     // Handle kimbo object, plain objects or other objects
     return Kimbo.makeArray(selector, this);
-  };
+  }
 
   Kimbo.require = function (module) {
     return modules[module];
@@ -107,7 +105,8 @@
   /*
    * Kimbo prototype aliased as fn
    */
-  Kimbo.prototype = Kimbo.fn = {
+  Kimbo.fn = Kimbo.prototype = {
+    constructor: Kimbo,
 
     /*\
      * $(…).length
@@ -141,7 +140,10 @@
      | });
     \*/
     ready: function (callback) {
-      var completed;
+      function _completed() {
+        document.removeEventListener('DOMContentLoaded', _completed, false);
+        callback.call(document);
+      }
 
       // First check if already loaded, interactive or complete state so the t is enough
       if (/t/.test(document.readyState)) {
@@ -151,17 +153,9 @@
 
       // If not listen for when it loads
       } else {
-        completed = function () {
-
-          // When completed remove the listener
-          document.removeEventListener('DOMContentLoaded', completed, false);
-
-          // Execute the callback
-          callback.call(document);
-        };
 
         // Register the event
-        document.addEventListener('DOMContentLoaded', completed, false);
+        document.addEventListener('DOMContentLoaded', _completed, false);
       }
 
       // Return the Kimbo wrapped document
