@@ -23,14 +23,14 @@ Kimbo.define('utilities', function (_) {
   var isMobile = null;
 
   var objectTypes = {};
+  var toString = Object.prototype.toString;
 
   // Map object types
-  Kimbo.forEach([ 'Array', 'Boolean', 'Date', 'Error', 'Function',
+  Kimbo.forEach(['Array', 'Boolean', 'Date', 'Error', 'Function',
     'Number', 'Object', 'RegExp', 'String'
   ], function (type) {
-      objectTypes['[object ' + type + ']'] = type.toLowerCase();
-    }
-  );
+    objectTypes['[object ' + type + ']'] = type.toLowerCase();
+  });
 
   Kimbo.extend({
     /*\
@@ -60,10 +60,10 @@ Kimbo.define('utilities', function (_) {
         type = String(obj);
 
       } else {
-        type = (objectTypes[Object.prototype.toString.call(obj)] || 'object');
+        type = objectTypes[toString.call(obj)];
       }
 
-      return type;
+      return type || 'object';
     },
 
     /*\
