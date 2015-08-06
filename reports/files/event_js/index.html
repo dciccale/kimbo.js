@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">63.12</p>
+      <p class="stat">62.59</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">591</p>
+      <p class="stat">602</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">56.12</p>
+      <p class="stat">57.62</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">3.63</p>
+      <p class="stat">3.71</p>
     </div>
   </div>
 </div>
@@ -95,11 +95,11 @@
 
   var query = Kimbo.require(&#039;query&#039;);
   var _guid = 1;
-  var MOUSE_EVENT_RE = /^(?:mouse|menu)|click/;
+  var MOUSE_EVENT_RE = /^(?:mouse|pointer|contextmenu|drag|drop)|click/;
   var KEY_EVENT_RE = /^key/;
   var DEFAULT_EVENT_PROPS = [
-    &#039;altKey&#039;, &#039;bubbles&#039;, &#039;cancelable&#039;, &#039;ctrlKey&#039;, &#039;currentTarget&#039;, &#039;defaultPrevented&#039;, &#039;eventPhase&#039;,
-    &#039;metaKey&#039;, &#039;relatedTarget&#039;, &#039;shiftKey&#039;, &#039;target&#039;, &#039;timeStamp&#039;, &#039;type&#039;, &#039;view&#039;, &#039;which&#039;
+    &#039;altKey&#039;, &#039;bubbles&#039;, &#039;cancelable&#039;, &#039;ctrlKey&#039;, &#039;currentTarget&#039;, &#039;eventPhase&#039;,
+    &#039;metaKey&#039;, &#039;relatedTarget&#039;, &#039;shiftKey&#039;, &#039;target&#039;, &#039;timeStamp&#039;, &#039;view&#039;, &#039;which&#039;
   ];
   var MOUSE_EVENT_PROPS = [
     &#039;button&#039;, &#039;buttons&#039;, &#039;clientX&#039;, &#039;clientY&#039;, &#039;fromElement&#039;,
@@ -116,6 +116,7 @@
     doubletap: &#039;dblclick&#039;,
     orientationchange: &#039;resize&#039;
   };
+
   var handlersHash = {};
   var fixEventProps = {};
   var specialEvents = {};
@@ -158,14 +159,22 @@
 
   // Register events to dom elements
   function _addEvent(element, type, callback, data, selector) {
-
-    // TODO: element should use Kimbo.ref and the handler the _guid
-    var elementId = _getElementId(element);
-    var elementHandlers = handlersHash[elementId];
-    var origType = type;
+    var elementId, elementHandlers, origType;
     var events, handlers, handleObj, handler;
 
+    // Don&#039;t add listener if element is a text or comment node
+    // or type is not a string
+    if ((element &amp;&amp; (element.nodeType === 3 || element.nodeType === 8)) || !Kimbo.isString(type)) {
+      return;
+    }
+
+    // TODO: element should use Kimbo.ref and the handler the _guid
+    elementId = _getElementId(element);
+    elementHandlers = handlersHash[elementId];
+
+
     // Could be a special type like mouseenter/mouseleave
+    origType = type;
     type = specialEvents[type] ? specialEvents[type].origType : type;
 
     // Create hash for this element if first init
@@ -238,6 +247,7 @@
           _removeEvent(element, name, callback, selector);
         }
       }
+      return;
     }
 
     // Remove handlers that match
@@ -272,13 +282,12 @@
   function _triggerEvent(element, type, data) {
 
     /* jshint validthis: true */
-    var currentElement, lastElement, eventTree, elementId, event;
+    var currentElement, lastElement, eventTree, elementId, event, special;
 
     // Don&#039;t do events if element is text or comment node
     // Or if there is no event type at all or type is not a string
-    if ((element &amp;&amp; (element.nodeType === 3 || element.nodeType === 8)) ||
-      !type || !Kimbo.isString(type)) {
-        return this;
+    if ((element &amp;&amp; (element.nodeType === 3 || element.nodeType === 8)) || !type || !Kimbo.isString(type)) {
+      return;
     }
 
     // Try triggering native focus and blur events
@@ -301,6 +310,8 @@
 
     // Include data if any
     data = data ? Kimbo.makeArray(data) : [];
+
+    special = specialEvents[type] || {};
 
     // Event goes first
     data.unshift(event);
@@ -328,7 +339,7 @@
       currentElement = branch[0];
 
       // Type
-      event.type = branch[1];
+      event.type = special.origType || branch[1];
 
       // Get element id
       elementId = currentElement._guid;
