@@ -3,15 +3,15 @@ describe('css', function () {
   'use strict';
 
   var el = null;
-  var fixture = spec.getFixture();
+  spec.fixture.init();
 
   beforeEach(function () {
-    el = fixture.cloneNode(true);
+    el = spec.fixture.get();
     document.body.appendChild(el);
   });
 
   afterEach(function () {
-    el.parentNode.removeChild(el);
+    spec.fixture.restore(el);
     el = null;
   });
 
@@ -22,6 +22,17 @@ describe('css', function () {
       expect($list[0].style.display).to.equal('none');
       $list.show();
       expect($list[0].style.display).to.equal('block');
+    });
+
+    it('should successfuly get default display even if cluttered by a css property', function () {
+      var css = 'input {display: none !important;}';
+      var style = document.createElement('style');
+      style.appendChild(document.createTextNode(css));
+      document.head.appendChild(style);
+      var $input = $('#name');
+      $input.show();
+      expect($input[0].style.display).to.equal('inline-block');
+      style.parentNode.removeChild(style);
     });
   });
 

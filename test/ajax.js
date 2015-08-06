@@ -53,7 +53,7 @@ describe('ajax', function () {
     });
 
     it('should be able to define a custom timeout', function (done) {
-      this.timeout(800);
+      this.timeout(700);
       var cb = sinon.spy();
 
       server.respondWith(function (xhr) {
@@ -64,7 +64,7 @@ describe('ajax', function () {
         type: 'GET',
         url: 'my/url',
         success: cb,
-        timeout: 500
+        timeout: 300
       });
 
       server.respond();
@@ -72,7 +72,7 @@ describe('ajax', function () {
       window.setTimeout(function () {
         expect(cb.called).to.be.false;
         done();
-      } , 600);
+      } , 500);
     });
   });
 
@@ -103,7 +103,7 @@ describe('ajax', function () {
 
     it('should handle erros', function () {
       function callback(res, msg) {
-        expect(res).to.equal('500');
+        expect(res).to.equal('error');
         expect(msg).to.equal('Internal Server Error');
       }
       $.ajax({
@@ -125,6 +125,33 @@ describe('ajax', function () {
       $.get('test.json?callback=?', callback);
       server.respond();
     });
+
+    it('should be able to abort a JSONP request', function () {
+      server.respondWith('GET', /\/test.json\?callback=.*/, [200, {'Content-Type': 'application/json'}, '{"test": "jsonp"}']);
+      var cb = sinon.spy();
+      var xhr = $.get('test.json?callback=?', cb);
+      server.respond();
+      xhr.abort();
+    });
+
+    it('should be able to set custom timeout', function (done) {
+      this.timeout(700);
+      server.respondWith('GET', /\/test.json\?callback=.*/, [200, {'Content-Type': 'application/json'}, '{"test": "jsonp"}']);
+      var cb = sinon.spy();
+      $.ajax({
+        type: 'GET',
+        url: 'test.json?callback=?',
+        success: cb,
+        timeout: 300,
+        dataType: 'json'
+      });
+      server.respond();
+
+      window.setTimeout(function () {
+        expect(cb.called).to.be.false;
+        done();
+      } , 500);
+    });
   });
 
   describe('post()', function () {
@@ -140,6 +167,21 @@ describe('ajax', function () {
       expect(requests.length).to.equal(1);
 
       requests[0].respond(200, {'Content-Type': 'application/json'}, '{"name": "test"}');
+    });
+  });
+
+  describe('getScript()', function () {
+    it('should be defined', function () {
+      expect($.getScript).to.be.defined;
+    });
+
+    it('should make a get request', function () {
+      function cb(res) {
+        expect(res).to.equal('var a = this;');
+      }
+      $.getScript('script.js', cb);
+      expect(requests.length).to.equal(1);
+      requests[0].respond(200, {'Content-Type': 'application/javascript'}, 'var a = this;');
     });
   });
 

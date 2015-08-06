@@ -5,6 +5,7 @@ describe('data', function () {
 
   beforeEach(function () {
     $el = $(document.createElement('div'));
+    $el.removeData();
   });
 
   afterEach(function () {
@@ -41,6 +42,16 @@ describe('data', function () {
     it('should return this if trying to operate on an empty set', function () {
       var $empty = $([]);
       expect($empty.removeData('key')).to.deep.equal($empty);
+    });
+
+    it('should remove all data if called without key', function () {
+      $el.data('k1', 'v1');
+      $el.data('k2', 'v2');
+      expect($el.data('k1')).to.equal('v1');
+      expect($el.data('k2')).to.equal('v2');
+      $el.removeData();
+      expect($el.data('k1')).to.equal(void 0);
+      expect($el.data('k2')).to.equal(void 0);
     });
   });
 });

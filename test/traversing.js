@@ -4,16 +4,17 @@ describe('traversing', function () {
 
   var el = null;
   var $lis = null;
-  var fixture = spec.getFixture();
+
+  spec.fixture.init();
 
   beforeEach(function () {
-    el = fixture.cloneNode(true);
+    el = spec.fixture.get();
     document.body.appendChild(el);
     $lis = $('#fixture-html li');
   });
 
   afterEach(function () {
-    el.parentNode.removeChild(el);
+    spec.fixture.restore(el);
     el = null;
     $lis = null;
   });
@@ -121,6 +122,12 @@ describe('traversing', function () {
   describe('find()', function () {
     it('should be defined', function () {
       expect($.fn.find).to.be.defined;
+    });
+
+    it('should return a unique collection', function () {
+      var $uls = $('#fixture-html ul').add('#fixture-html');
+      var $lis = $uls.find('li');
+      expect($lis.length).to.equal(6);
     });
   });
 

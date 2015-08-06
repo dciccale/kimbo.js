@@ -7,14 +7,15 @@ describe('manipulation', function () {
   var $liFirst = null;
   var $liSecond = null;
   var $input = null;
-  var fixture = spec.getFixture();
+
+  spec.fixture.init();
 
   function getClass(el) {
     return el[0].className.trim().split(/\s+/);
   }
 
   beforeEach(function () {
-    el = fixture.cloneNode(true);
+    el = spec.fixture.get();
     document.body.appendChild(el);
 
     $liFirst = $('li.first');
@@ -24,7 +25,7 @@ describe('manipulation', function () {
   });
 
   afterEach(function () {
-    el.parentNode.removeChild(el);
+    spec.fixture.restore(el);
     el = null;
     $liFirst = null;
     $liSecond = null;

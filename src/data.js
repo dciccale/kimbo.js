@@ -40,10 +40,15 @@ Kimbo.define('data', function () {
     },
 
     remove: function (el, key) {
-      if (key === undefined) {
-        cache[el._dataId] = {};
-      } else {
-        delete cache[el._dataId][key];
+      var dataCache = cache[el._dataId];
+      if (dataCache) {
+        if (key) {
+          key = Kimbo.camelCase(key);
+          delete cache[el._dataId][key];
+          return;
+        }
+
+        delete cache[el._dataId];
       }
     }
   };
@@ -102,11 +107,9 @@ Kimbo.define('data', function () {
      | $('#panel').data('isOpen'); // Undefined
     \*/
     removeData: function (key) {
-      if (!this.length || !Kimbo.isString(key)) {
+      if (!this.length) {
         return this;
       }
-
-      key = Kimbo.camelCase(key);
 
       return this.each(function (el) {
         data.remove(el, key);

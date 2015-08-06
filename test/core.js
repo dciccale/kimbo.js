@@ -3,15 +3,15 @@ describe('core', function () {
   'use strict';
 
   var el = null;
-  var fixture = spec.getFixture();
+  spec.fixture.init();
 
   beforeEach(function () {
-    el = fixture.cloneNode(true);
+    el = spec.fixture.get();
     document.body.appendChild(el);
   });
 
   afterEach(function () {
-    el.parentNode.removeChild(el);
+    spec.fixture.restore(el);
     el = null;
   });
 
@@ -70,6 +70,12 @@ describe('core', function () {
 
   it('should receive a function to be executed when the DOM is ready', function () {
     var callback = sinon.spy();
+    spec.onDOMLoaded(callback);
+    expect(callback.called).to.be.true;
+  });
+
+  it('should receive a function to be executed if DOM is already loaded', function () {
+    var callback = sinon.spy();
     $(callback);
     expect(callback.called).to.be.true;
   });
@@ -92,5 +98,34 @@ describe('core', function () {
   it('should get an element from the stack by negative index', function () {
     var $li = $('li');
     expect($li.get(-1)).to.equal($li[$li.length - 1]);
+  });
+
+  describe('extend()', function () {
+    it('should extend deep objects', function () {
+      var obj1 = {
+        address: {
+          zip: 123,
+          details: {
+            street: 's',
+            number: 3
+          }
+        }
+      };
+      var obj2 = {
+        address: {
+          details: {
+            apartment: 23
+          }
+        }
+      };
+
+      var obj3 = $.extend(true, obj1, obj2);
+      expect(obj3.address.details.apartment).to.equal(23);
+      expect(obj3.address.details.street).to.equal('s');
+    });
+  });
+
+  it('should export to amd', function () {
+    expect(spec.fakeamd()).to.equal(Kimbo);
   });
 });

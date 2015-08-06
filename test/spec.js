@@ -4,26 +4,40 @@
   var document = window.document;
 
   var spec = {
-    isPhantomJS: /PhantomJS/i.test(window.navigator.userAgent),
-
-    getFixture: function () {
-      var div = document.createElement('div');
-      var fixture;
-      if (this.isPhantomJS) {
-        div.innerHTML = window.__html__['test/fixtures/fixture.html'];
-      } else {
-        fixture = document.getElementById('fixture');
-        div.innerHTML = fixture.innerHTML.trim();
-      }
-      return div.firstChild;
-    },
-
     trigger: function (el, eventType) {
       var ev = document.createEvent('MouseEvents');
       ev.initMouseEvent(eventType, true, true);
       el.dispatchEvent(ev);
       return ev;
-    }
+    },
+
+    onDOMLoaded: (function () {
+      var cb = null;
+      document.addEventListener('DOMContentLoaded', function () {
+        if (cb) {
+          cb();
+        }
+      });
+
+      return function (callback) {
+        cb = callback;
+        var ev = document.createEvent('UIEvents');
+        ev.initUIEvent('DOMContentLoaded', true, true);
+        document.dispatchEvent(ev);
+      };
+    }()),
+
+    fakeamd: (function () {
+      var module = null;
+      window.define = function (name, deps, cb) {
+        module = cb();
+      };
+      window.define.amd = true;
+
+      return function () {
+        return module;
+      };
+    }())
   };
 
   window.spec = spec;

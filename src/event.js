@@ -4,11 +4,11 @@ Kimbo.define('events', function (_) {
 
   var query = Kimbo.require('query');
   var _guid = 1;
-  var MOUSE_EVENT_RE = /^(?:mouse|menu)|click/;
+  var MOUSE_EVENT_RE = /^(?:mouse|pointer|contextmenu|drag|drop)|click/;
   var KEY_EVENT_RE = /^key/;
   var DEFAULT_EVENT_PROPS = [
-    'altKey', 'bubbles', 'cancelable', 'ctrlKey', 'currentTarget', 'defaultPrevented', 'eventPhase',
-    'metaKey', 'relatedTarget', 'shiftKey', 'target', 'timeStamp', 'type', 'view', 'which'
+    'altKey', 'bubbles', 'cancelable', 'ctrlKey', 'currentTarget', 'eventPhase',
+    'metaKey', 'relatedTarget', 'shiftKey', 'target', 'timeStamp', 'view', 'which'
   ];
   var MOUSE_EVENT_PROPS = [
     'button', 'buttons', 'clientX', 'clientY', 'fromElement',
@@ -25,6 +25,7 @@ Kimbo.define('events', function (_) {
     doubletap: 'dblclick',
     orientationchange: 'resize'
   };
+
   var handlersHash = {};
   var fixEventProps = {};
   var specialEvents = {};
@@ -67,14 +68,22 @@ Kimbo.define('events', function (_) {
 
   // Register events to dom elements
   function _addEvent(element, type, callback, data, selector) {
-
-    // TODO: element should use Kimbo.ref and the handler the _guid
-    var elementId = _getElementId(element);
-    var elementHandlers = handlersHash[elementId];
-    var origType = type;
+    var elementId, elementHandlers, origType;
     var events, handlers, handleObj, handler;
 
+    // Don't add listener if element is a text or comment node
+    // or type is not a string
+    if ((element && (element.nodeType === 3 || element.nodeType === 8)) || !Kimbo.isString(type)) {
+      return;
+    }
+
+    // TODO: element should use Kimbo.ref and the handler the _guid
+    elementId = _getElementId(element);
+    elementHandlers = handlersHash[elementId];
+
+
     // Could be a special type like mouseenter/mouseleave
+    origType = type;
     type = specialEvents[type] ? specialEvents[type].origType : type;
 
     // Create hash for this element if first init
@@ -147,6 +156,7 @@ Kimbo.define('events', function (_) {
           _removeEvent(element, name, callback, selector);
         }
       }
+      return;
     }
 
     // Remove handlers that match
@@ -181,13 +191,12 @@ Kimbo.define('events', function (_) {
   function _triggerEvent(element, type, data) {
 
     /* jshint validthis: true */
-    var currentElement, lastElement, eventTree, elementId, event;
+    var currentElement, lastElement, eventTree, elementId, event, special;
 
     // Don't do events if element is text or comment node
     // Or if there is no event type at all or type is not a string
-    if ((element && (element.nodeType === 3 || element.nodeType === 8)) ||
-      !type || !Kimbo.isString(type)) {
-        return this;
+    if ((element && (element.nodeType === 3 || element.nodeType === 8)) || !type || !Kimbo.isString(type)) {
+      return;
     }
 
     // Try triggering native focus and blur events
@@ -210,6 +219,8 @@ Kimbo.define('events', function (_) {
 
     // Include data if any
     data = data ? Kimbo.makeArray(data) : [];
+
+    special = specialEvents[type] || {};
 
     // Event goes first
     data.unshift(event);
@@ -237,7 +248,7 @@ Kimbo.define('events', function (_) {
       currentElement = branch[0];
 
       // Type
-      event.type = branch[1];
+      event.type = special.origType || branch[1];
 
       // Get element id
       elementId = currentElement._guid;

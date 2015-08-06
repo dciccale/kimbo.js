@@ -4,7 +4,7 @@ module.exports = function (config) {
   config.set({
     basePath: '',
     frameworks: ['mocha', 'chai', 'sinon'],
-    files: [].concat(paths.test.fixtures, paths.test.helper, paths.test.files, paths.src.files),
+    files: [].concat(paths.test.fixtures, paths.test.helper, paths.src.files, 'test/fixture.js', paths.test.files),
     preprocessors: {
       'src/*.js': ['coverage'],
       'test/fixtures/*.html': ['html2js']

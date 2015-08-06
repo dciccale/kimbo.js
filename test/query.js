@@ -4,16 +4,17 @@ describe('query', function () {
 
   var el = null;
   var query = null;
-  var fixture = spec.getFixture();
+
+  spec.fixture.init();
 
   beforeEach(function () {
-    el = fixture.cloneNode(true);
+    el = spec.fixture.get();
     query = Kimbo.require('query');
     document.body.appendChild(el);
   });
 
   afterEach(function () {
-    el.parentNode.removeChild(el);
+    spec.fixture.restore(el);
     el = null;
     query = null;
   });
