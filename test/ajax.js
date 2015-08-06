@@ -52,6 +52,20 @@ describe('ajax', function () {
       expect(cb.called).to.be.true;
     });
 
+    it('should allow passing data', function () {
+      var cb = sinon.spy();
+      $.ajax({
+        type: 'GET',
+        url: 'my/url',
+        data: 'name=test&last=too',
+        success: cb
+      });
+
+      expect(requests.length).to.equal(1);
+      requests[0].respond(200, {'Content-Type': 'test/html'}, 'hello');
+      expect(cb.called).to.be.true;
+    });
+
     it('should be able to define a custom timeout', function (done) {
       this.timeout(700);
       var cb = sinon.spy();
@@ -73,6 +87,20 @@ describe('ajax', function () {
         expect(cb.called).to.be.false;
         done();
       } , 500);
+    });
+
+    it('should run callback immediately if async is false', function () {
+      var cb = sinon.spy();
+      $.ajax({
+        async: false,
+        type: 'GET',
+        url: 'my/url',
+        success: cb
+      });
+
+      expect(requests.length).to.equal(1);
+      requests[0].respond(200, {'Content-Type': 'test/html'}, 'hello');
+      expect(cb.called).to.be.true;
     });
   });
 

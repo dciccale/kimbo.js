@@ -69,12 +69,6 @@ describe('core', function () {
     expect($obj[0].nodeName.toLowerCase()).to.equal('div');
   });
 
-  it('should receive a function to be executed when the DOM is ready', function () {
-    var callback = sinon.spy();
-    spec.onDOMLoaded(callback);
-    expect(callback.called).to.be.true;
-  });
-
   it('should receive a function to be executed if DOM is already loaded', function () {
     var callback = sinon.spy();
     $(callback);

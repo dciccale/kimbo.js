@@ -11,22 +11,6 @@
       return ev;
     },
 
-    onDOMLoaded: (function () {
-      var cb = null;
-      document.addEventListener('DOMContentLoaded', function () {
-        if (cb) {
-          cb();
-        }
-      });
-
-      return function (callback) {
-        cb = callback;
-        var ev = document.createEvent('UIEvents');
-        ev.initUIEvent('DOMContentLoaded', true, true);
-        document.dispatchEvent(ev);
-      };
-    }()),
-
     fakeamd: (function () {
       var module = null;
       window.define = function (name, deps, cb) {
