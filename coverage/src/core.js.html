@@ -15,10 +15,10 @@
 <div class="header high">
     <h1>Code coverage report for <span class="entity">src/core.js</span></h1>
     <h2>
-        Statements: <span class="metric">95.45% <small>(84 / 88)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">96.55% <small>(84 / 87)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Branches: <span class="metric">93.44% <small>(57 / 61)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Functions: <span class="metric">92.31% <small>(12 / 13)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">95.45% <small>(84 / 88)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">96.55% <small>(84 / 87)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">src/</a> &#187; core.js</div>
@@ -347,13 +347,7 @@
 320
 321
 322
-323
-324
-325
-326
-327
-328
-329</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+323</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -416,6 +410,7 @@
 <span class="cline-any cline-yes">102</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">193</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
@@ -428,11 +423,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">192</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">192</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -496,23 +488,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -715,7 +703,7 @@
    * Kimbo object collection.
    * All methods called from a Kimbo collection affects all elements in it.
   \*/
-  var Kimbo = function (selector, context) {
+  function Kimbo(selector, context) {
     var match, div, fragment;
 &nbsp;
     // Auto create a new instance of Kimbo if needed
@@ -742,9 +730,10 @@
         }
 &nbsp;
         return this;
+      }
 &nbsp;
       // Create html from string
-      } else if (selector.charAt(0) === '&lt;') {
+      if (selector.charAt(0) === '&lt;') {
         div = document.createElement('div');
         div.innerHTML = selector;
         this.add(div.childNodes);
@@ -753,14 +742,11 @@
         fragment.append(this);
 &nbsp;
         return this;
+      }
 &nbsp;
       // All other selectors
-      } else {
-&nbsp;
-        context = context ? _.kimbo(context) : _.rootContext;
-&nbsp;
-        return context.find(selector);
-      }
+      context = context ? _.kimbo(context) : _.rootContext;
+      return context.find(selector);
     }
 &nbsp;
     // Already a dom element
@@ -777,7 +763,7 @@
 &nbsp;
     // Handle kimbo object, plain objects or other objects
     return Kimbo.makeArray(selector, this);
-  };
+  }
 &nbsp;
   Kimbo.require = function (module) {
     return modules[module];
@@ -790,7 +776,8 @@
   /*
    * Kimbo prototype aliased as fn
    */
-  Kimbo.prototype = Kimbo.fn = {
+  Kimbo.fn = Kimbo.prototype = {
+    constructor: Kimbo,
 &nbsp;
     /*\
      * $(…).length
@@ -824,7 +811,10 @@
      | });
     \*/
     ready: function (callback) {
-      var completed;
+<span class="fstat-no" title="function not covered" >      function _completed() {</span>
+<span class="cstat-no" title="statement not covered" >        document.removeEventListener('DOMContentLoaded', _completed, false);</span>
+<span class="cstat-no" title="statement not covered" >        callback.call(document);</span>
+      }
 &nbsp;
       // First check if already loaded, interactive or complete state so the t is enough
       <span class="missing-if-branch" title="else path not taken" >E</span>if (/t/.test(document.readyState)) {
@@ -834,17 +824,9 @@
 &nbsp;
       // If not listen for when it loads
       } else {
-<span class="cstat-no" title="statement not covered" >        completed = <span class="fstat-no" title="function not covered" >function () {</span></span>
-&nbsp;
-          // When completed remove the listener
-<span class="cstat-no" title="statement not covered" >          document.removeEventListener('DOMContentLoaded', completed, false);</span>
-&nbsp;
-          // Execute the callback
-<span class="cstat-no" title="statement not covered" >          callback.call(document);</span>
-        };
 &nbsp;
         // Register the event
-<span class="cstat-no" title="statement not covered" >        document.addEventListener('DOMContentLoaded', completed, false);</span>
+<span class="cstat-no" title="statement not covered" >        document.addEventListener('DOMContentLoaded', _completed, false);</span>
       }
 &nbsp;
       // Return the Kimbo wrapped document
@@ -1014,7 +996,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Aug 06 2015 03:09:40 GMT+0200 (CEST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Aug 06 2015 11:27:35 GMT+0200 (CEST)</div>
 </div>
 <script src="../prettify.js"></script>
 <script>

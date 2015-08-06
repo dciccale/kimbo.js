@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">62.59</p>
+      <p class="stat">62.70</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">602</p>
+      <p class="stat">589</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,7 +62,7 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">57.62</p>
+      <p class="stat">56.01</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
@@ -280,9 +280,7 @@
 
   // Triggers a provided event type
   function _triggerEvent(element, type, data) {
-
-    /* jshint validthis: true */
-    var currentElement, lastElement, eventTree, elementId, event, special;
+    var currentElement, lastElement, eventTree, event, special;
 
     // Don&#039;t do events if element is text or comment node
     // Or if there is no event type at all or type is not a string
@@ -291,10 +289,8 @@
     }
 
     // Try triggering native focus and blur events
-    if (type === &#039;focus&#039; || type === &#039;blur&#039;) {
-      try {
-        return element[type]();
-      } catch (e) {}
+    if ((type === &#039;focus&#039; || type === &#039;blur&#039;) &amp;&amp; element[type]) {
+      return element[type]();
     }
 
     // Create a new writable custom event object
@@ -311,6 +307,7 @@
     // Include data if any
     data = data ? Kimbo.makeArray(data) : [];
 
+    // Check if it&#039;s a special event
     special = specialEvents[type] || {};
 
     // Event goes first
@@ -334,15 +331,9 @@
 
     // Fire handlers up to the document (or the last element)
     Kimbo.forEach(eventTree, function (branch) {
-
-      // Element
-      currentElement = branch[0];
-
-      // Type
+      var currentElement = branch[0];
+      var elementId = currentElement._guid;
       event.type = special.origType || branch[1];
-
-      // Get element id
-      elementId = currentElement._guid;
 
       // If the current element has events of the specified type, dispatch them
       if (elementId &amp;&amp; _getHandlers(elementId, type)) {
@@ -384,11 +375,7 @@
 
           // Loop throgh delegated events
           for (i = 0; i &lt; delegateCount; i++) {
-
-            // Get its handler
             handleObj = handlers[i];
-
-            // Get its selector
             selector = handleObj.selector;
 
             if (!selMatch[selector]) {
@@ -401,7 +388,7 @@
           }
 
           if (matches.length) {
-            handlerQueue.push({elem: currentElement, matches: matches});
+            handlerQueue.push({element: currentElement, matches: matches});
           }
         }
       }
@@ -409,15 +396,15 @@
 
     // Add the remaining not delegated handlers
     if (handlers.length &gt; delegateCount) {
-      handlerQueue.push({elem: this, matches: handlers.slice(delegateCount)});
+      handlerQueue.push({element: this, matches: handlers.slice(delegateCount)});
     }
 
     // Fire callbacks queue
     Kimbo.forEach(handlerQueue, function (handler) {
 
-      // Only fire handler if event wasnt stopped
+      // Only fire handler if event wasn&#039;t stopped
       if (!event.isPropagationStopped()) {
-        event.currentTarget = handler.elem;
+        event.currentTarget = handler.element;
 
         Kimbo.forEach(handler.matches, function (handleObj) {
 
@@ -427,7 +414,7 @@
             event.handleObj = handleObj;
 
             // Call original callback, check if its an special event first
-            ret = ((specialEvents[handleObj.origType] || {}).handle || handleObj.callback).apply(handler.elem, args);
+            ret = ((specialEvents[handleObj.origType] || {}).handle || handleObj.callback).apply(handler.element, args);
 
             // If callback returns false, stop the event
             if (ret === false) {

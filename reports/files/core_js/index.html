@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">63.69</p>
+      <p class="stat">63.96</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">328</p>
+      <p class="stat">322</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">48.43</p>
+      <p class="stat">47.76</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">1.43</p>
+      <p class="stat">1.42</p>
     </div>
   </div>
 </div>
@@ -123,7 +123,7 @@
    * Kimbo object collection.
    * All methods called from a Kimbo collection affects all elements in it.
   \*/
-  var Kimbo = function (selector, context) {
+  function Kimbo(selector, context) {
     var match, div, fragment;
 
     // Auto create a new instance of Kimbo if needed
@@ -150,9 +150,10 @@
         }
 
         return this;
+      }
 
       // Create html from string
-      } else if (selector.charAt(0) === &#039;&lt;&#039;) {
+      if (selector.charAt(0) === &#039;&lt;&#039;) {
         div = document.createElement(&#039;div&#039;);
         div.innerHTML = selector;
         this.add(div.childNodes);
@@ -161,14 +162,11 @@
         fragment.append(this);
 
         return this;
+      }
 
       // All other selectors
-      } else {
-
-        context = context ? _.kimbo(context) : _.rootContext;
-
-        return context.find(selector);
-      }
+      context = context ? _.kimbo(context) : _.rootContext;
+      return context.find(selector);
     }
 
     // Already a dom element
@@ -185,7 +183,7 @@
 
     // Handle kimbo object, plain objects or other objects
     return Kimbo.makeArray(selector, this);
-  };
+  }
 
   Kimbo.require = function (module) {
     return modules[module];
@@ -198,7 +196,8 @@
   /*
    * Kimbo prototype aliased as fn
    */
-  Kimbo.prototype = Kimbo.fn = {
+  Kimbo.fn = Kimbo.prototype = {
+    constructor: Kimbo,
 
     /*\
      * $(…).length
@@ -232,7 +231,10 @@
      | });
     \*/
     ready: function (callback) {
-      var completed;
+      function _completed() {
+        document.removeEventListener(&#039;DOMContentLoaded&#039;, _completed, false);
+        callback.call(document);
+      }
 
       // First check if already loaded, interactive or complete state so the t is enough
       if (/t/.test(document.readyState)) {
@@ -242,17 +244,9 @@
 
       // If not listen for when it loads
       } else {
-        completed = function () {
-
-          // When completed remove the listener
-          document.removeEventListener(&#039;DOMContentLoaded&#039;, completed, false);
-
-          // Execute the callback
-          callback.call(document);
-        };
 
         // Register the event
-        document.addEventListener(&#039;DOMContentLoaded&#039;, completed, false);
+        document.addEventListener(&#039;DOMContentLoaded&#039;, _completed, false);
       }
 
       // Return the Kimbo wrapped document

@@ -15,10 +15,10 @@
 <div class="header high">
     <h1>Code coverage report for <span class="entity">src/event.js</span></h1>
     <h2>
-        Statements: <span class="metric">99.5% <small>(201 / 202)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Branches: <span class="metric">85.23% <small>(127 / 149)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">99.5% <small>(200 / 201)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">85.33% <small>(128 / 150)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Functions: <span class="metric">96.55% <small>(28 / 29)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">99.5% <small>(201 / 202)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">99.5% <small>(200 / 201)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">src/</a> &#187; event.js</div>
@@ -614,20 +614,7 @@
 587
 588
 589
-590
-591
-592
-593
-594
-595
-596
-597
-598
-599
-600
-601
-602
-603</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+590</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -818,8 +805,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -831,23 +816,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8</span>
 <span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6</span>
 <span class="cline-any cline-yes">6</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -872,14 +856,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">42</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">42</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">42</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -922,11 +900,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2</span>
@@ -1420,9 +1394,7 @@
 &nbsp;
   // Triggers a provided event type
   function _triggerEvent(element, type, data) {
-&nbsp;
-    /* jshint validthis: true */
-    var currentElement, lastElement, eventTree, elementId, event, special;
+    var currentElement, lastElement, eventTree, event, special;
 &nbsp;
     // Don't do events if element is text or comment node
     // Or if there is no event type at all or type is not a string
@@ -1431,10 +1403,8 @@
     }
 &nbsp;
     // Try triggering native focus and blur events
-    if (type === 'focus' || type === 'blur') {
-      try {
-        return element[type]();
-      } catch (e) {}
+    if ((type === 'focus' || type === 'blur') &amp;&amp; element[type]) {
+      return element[type]();
     }
 &nbsp;
     // Create a new writable custom event object
@@ -1451,6 +1421,7 @@
     // Include data if any
     data = data ? <span class="branch-0 cbranch-no" title="branch not covered" >Kimbo.makeArray(data) </span>: [];
 &nbsp;
+    // Check if it's a special event
     special = specialEvents[type] || {};
 &nbsp;
     // Event goes first
@@ -1474,15 +1445,9 @@
 &nbsp;
     // Fire handlers up to the document (or the last element)
     Kimbo.forEach(eventTree, function (branch) {
-&nbsp;
-      // Element
-      currentElement = branch[0];
-&nbsp;
-      // Type
+      var currentElement = branch[0];
+      var elementId = currentElement._guid;
       event.type = special.origType || branch[1];
-&nbsp;
-      // Get element id
-      elementId = currentElement._guid;
 &nbsp;
       // If the current element has events of the specified type, dispatch them
       if (elementId &amp;&amp; _getHandlers(elementId, type)) {
@@ -1524,11 +1489,7 @@
 &nbsp;
           // Loop throgh delegated events
           for (i = 0; i &lt; delegateCount; i++) {
-&nbsp;
-            // Get its handler
             handleObj = handlers[i];
-&nbsp;
-            // Get its selector
             selector = handleObj.selector;
 &nbsp;
             <span class="missing-if-branch" title="else path not taken" >E</span>if (!selMatch[selector]) {
@@ -1836,7 +1797,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Aug 06 2015 03:09:40 GMT+0200 (CEST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Aug 06 2015 11:27:35 GMT+0200 (CEST)</div>
 </div>
 <script src="../prettify.js"></script>
 <script>
