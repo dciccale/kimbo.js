@@ -2,6 +2,7 @@ Kimbo.define('ajax', function () {
 
   'use strict';
 
+  var NO_CONTENT_RE = /^(?:GET|HEAD)$/;
   var JSONP_RE = /(\=)\?(?=&|$)|\?\?/i;
 
   var MIME_TYPES = {
@@ -152,9 +153,15 @@ Kimbo.define('ajax', function () {
     var settings = Kimbo.extend({}, Kimbo.ajaxSettings, options);
     var xhr, abortTimeout, callback;
 
+    var hasContent = !NO_CONTENT_RE.test(settings.type);
+
     // Add data to url
-    if (settings.data) {
-      settings.url += (/\?/.test(settings.url) ? '&' : '?') + Kimbo.param(settings.data);
+    if (settings.data && typeof settings.data !== 'string') {
+      settings.data = Kimbo.param(settings.data);
+    }
+
+    if (!hasContent) {
+      settings.url += (/\?/.test(settings.url) ? '&' : '?') + settings.data;
       delete settings.data;
     }
 
@@ -175,6 +182,8 @@ Kimbo.define('ajax', function () {
     if (settings.timeout > 0) {
       abortTimeout = _createAbortTimeout(xhr, settings);
     }
+
+    settings.type = settings.type.toUpperCase();
 
     // On complete callback
     callback = function () {
