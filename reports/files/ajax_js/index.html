@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">67.89</p>
+      <p class="stat">67.30</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">423</p>
+      <p class="stat">426</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">45.08</p>
+      <p class="stat">47.34</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">2.00</p>
+      <p class="stat">2.07</p>
     </div>
   </div>
 </div>
@@ -93,6 +93,7 @@
 
   &#039;use strict&#039;;
 
+  var NO_CONTENT_RE = /^(?:GET|HEAD)$/;
   var JSONP_RE = /(\=)\?(?=&amp;|$)|\?\?/i;
 
   var MIME_TYPES = {
@@ -190,8 +191,8 @@
   Kimbo.ajaxSettings = {
     type: &#039;GET&#039;,
     async: true,
-    success: {},
-    error: {},
+    success: null,
+    error: null,
     context: null,
     headers: {},
     data: null,
@@ -243,9 +244,15 @@
     var settings = Kimbo.extend({}, Kimbo.ajaxSettings, options);
     var xhr, abortTimeout, callback;
 
+    var hasContent = !NO_CONTENT_RE.test(settings.type);
+
     // Add data to url
-    if (settings.data) {
-      settings.url += (/\?/.test(settings.url) ? &#039;&amp;&#039; : &#039;?&#039;) + Kimbo.param(settings.data);
+    if (settings.data &amp;&amp; typeof settings.data !== &#039;string&#039;) {
+      settings.data = Kimbo.param(settings.data);
+    }
+
+    if (settings.data &amp;&amp; !hasContent) {
+      settings.url += (/\?/.test(settings.url) ? &#039;&amp;&#039; : &#039;?&#039;) + settings.data;
       delete settings.data;
     }
 
@@ -267,35 +274,31 @@
       abortTimeout = _createAbortTimeout(xhr, settings);
     }
 
+    settings.type = settings.type.toUpperCase();
+
     // On complete callback
     callback = function () {
-      var response, status;
+      var status = xhr.status;
+      var response;
 
-      // Request complete
-      if (xhr.readyState === 4) {
-        status = xhr.status;
+      // Clear timeout
+      window.clearTimeout(abortTimeout);
 
-        // Clear timeout
-        window.clearTimeout(abortTimeout);
-
-        // Scuccess
-        if ((status &gt;= 200 &amp;&amp; status &lt; 300) || status === 304) {
-          if (settings.async) {
-            response = _handleResponse(xhr, settings);
-            if (response !== false) {
-              xhrCallbacks.success(response, xhr, settings);
-            }
-          }
-
-        // Fail
-        } else {
-          xhrCallbacks.error(&#039;error&#039;, xhr.statusText, xhr, settings);
+      // Scuccess
+      if ((status &gt;= 200 &amp;&amp; status &lt; 300) || status === 304) {
+        response = _handleResponse(xhr, settings);
+        if (response !== false) {
+          xhrCallbacks.success(response, xhr, settings);
         }
+
+      // Fail
+      } else {
+        xhrCallbacks.error(&#039;error&#039;, xhr.statusText, xhr, settings);
       }
     };
 
     // Listen for response
-    xhr.onreadystatechange = callback;
+    xhr.onload = callback;
 
     // Init request
     xhr.open(settings.type, settings.url, settings.async);
@@ -311,7 +314,7 @@
     // Try to send request
     xhr.send(settings.data);
 
-    return (settings.async) ? xhr : callback();
+    return xhr;
   };
 
   /*\
@@ -455,7 +458,7 @@
     }
 
     // Set url
-    script.src = settings.url.replace(JSONP_RE, &#039;$1&#039; + jsonpCallback + &#039;$2&#039;);
+    script.src = settings.url.replace(JSONP_RE, &#039;$1&#039; + jsonpCallback);
 
     // Jsonp callback
     window[jsonpCallback] = function (response) {
