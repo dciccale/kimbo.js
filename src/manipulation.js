@@ -5,10 +5,12 @@ Kimbo.define('manipulation', function (_) {
   var SPACE_RE = /\s+/;
 
   var BOOLEAN_ATTR = {};
-  Kimbo.forEach(['multiple', 'selected', 'checked', 'disabled', 'readOnly', 'required', 'open'],
-    function (value) {
-      BOOLEAN_ATTR[value.toLowerCase()] = value;
-    });
+
+  Kimbo.forEach(['multiple', 'selected', 'checked', 'async', 'autofocus', 'autoplay',
+    'controls', 'defer', 'disabled', 'hidden', 'readOnly', 'required', 'open', 'required'
+  ], function (value) {
+    BOOLEAN_ATTR[value.toLowerCase()] = value;
+  });
 
   // Browser native classList
   function _hasClass(el, name) {
