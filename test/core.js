@@ -66,6 +66,7 @@ describe('core', function () {
   it('should create a DOM element from a string', function () {
     var $obj = $('<div>');
     expect($obj[0].nodeType).to.equal(1);
+    expect($obj[0].nodeName.toLowerCase()).to.equal('div');
   });
 
   it('should receive a function to be executed when the DOM is ready', function () {
