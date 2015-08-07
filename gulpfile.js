@@ -57,7 +57,7 @@ gulp.task('committers', function () {
     .pipe(gulp.dest('CONTRIBUTORS.txt'));
 });
 
-gulp.task('default', ['test', 'build']);
+gulp.task('default', ['build']);
 
 gulp.task('build', ['clean'], function () {
   var h = header();
