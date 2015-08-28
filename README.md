@@ -64,17 +64,6 @@ If you're having problems with using the project, use the support forum at Coder
 
 <a href="http://codersclan.net/forum/index.php?repo_id=15"><img src="http://www.codersclan.net/graphics/getSupport_blue_big.png" width="160"></a>
 
-## Current status
-The current version is the first release that even it works pritty well, is still under heavy development.
-For now there isn't a browser compatibility table but have in mind it is intended for (and working) in modern mobile and desktop browsers.
-
-
-### Next steps
-- Increase code coverage ([in progress](https://github.com/dciccale/kimbo.js/tree/master/test))
-- Create gestures module
-- Create touch events module
-- Use XHR2 APIs
-
 Follow [@kimbojs](http://twitter.com/kimbojs) on twitter to get the latest news.
 
 ## Author
