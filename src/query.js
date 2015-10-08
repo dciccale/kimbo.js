@@ -9,7 +9,7 @@ Kimbo.define('query', function (_) {
   var NAME_RE = /^\[name=["']?([\w\-]+)["']?\]$/;
 
   // Use querySelectoAll but optimize for id, class, tagName and name
-  var _find = function (element, selector) {
+  function _find(element, selector) {
     var els = [], sel;
 
     // #id
@@ -35,14 +35,14 @@ Kimbo.define('query', function (_) {
 
     // Return NodeList/Node as an array
     return _.slice.call(els);
-  };
+  }
 
   // DOM Level 4 contains improved
-  var _contains = function (el1, el2) {
+  function _contains(el1, el2) {
     return (el1 === window && (el2 && (el2 === window || el2.nodeType))) ||
       ((el1 && el1.nodeType) &&
      (el2 && el2.nodeType)) ? (el1.contains ? el1.contains(el2) : true) : false;
-  };
+  }
 
   return {
     find: _find,
