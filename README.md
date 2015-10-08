@@ -66,9 +66,6 @@ If you're having problems with using the project, use the support forum at Coder
 
 Follow [@kimbojs](http://twitter.com/kimbojs) on twitter to get the latest news.
 
-## Author
-Denis Ciccale ([@tdecs](http://twitter.com/tdecs))
-
 *Thanks to [Gonzalo Redondo Portero](http://www.behance.net/?search=gonzalo+redondo) for making the logo*
 
 ## License
