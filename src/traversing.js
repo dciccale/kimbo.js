@@ -599,11 +599,13 @@ Kimbo.define('traversing', function (_) {
 
       ret = Kimbo.map(this, fn);
 
-      // Clean collection
-      ret = l > 1 && !IS_UNIQUE[name] ? _unique(ret) : ret;
-
       if (Kimbo.isString(selector)) {
         ret = _.kimbo(ret).filter(selector);
+      }
+
+      // Remove duplicates
+      if (!IS_UNIQUE[name]) {
+        ret = _unique(ret);
       }
 
       return _.kimbo(ret);
