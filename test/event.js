@@ -17,7 +17,7 @@ describe('event', function () {
 
   describe('on()', function () {
     it('should be defined', function () {
-      expect($.fn.on).to.be.defined;
+      expect($.fn.on).to.not.be.undefined;
     });
 
     it('should add an event handler to selected elements', function () {
@@ -117,7 +117,7 @@ describe('event', function () {
 
   describe('off()', function () {
     it('should be defined', function () {
-      expect($.fn.off).to.be.defined;
+      expect($.fn.off).to.not.be.undefined;
     });
 
     it('should remove event handlers from selected elements', function () {
@@ -192,7 +192,7 @@ describe('event', function () {
 
   describe('trigger()', function () {
     it('should be defined', function () {
-      expect($.fn.trigger).to.be.defined;
+      expect($.fn.trigger).to.not.be.undefined;
     });
 
     it('should trigger the handler for the given event type', function () {

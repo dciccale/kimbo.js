@@ -22,7 +22,7 @@ describe('ajax', function () {
 
   describe('ajax()', function () {
     it('should be defined', function () {
-      expect($.ajax).to.be.defined;
+      expect($.ajax).to.not.be.undefined;
     });
 
     it('should make a request', function () {
@@ -106,7 +106,7 @@ describe('ajax', function () {
 
   describe('get()', function () {
     it('should be defined', function () {
-      expect($.get).to.be.defined;
+      expect($.get).to.not.be.undefined;
     });
 
     it('should make a GET request', function () {
@@ -184,7 +184,7 @@ describe('ajax', function () {
 
   describe('post()', function () {
     it('should be defined', function () {
-      expect($.post).to.be.defined;
+      expect($.post).to.not.be.undefined;
     });
 
     it('should make a POST request', function () {
@@ -200,7 +200,7 @@ describe('ajax', function () {
 
   describe('getScript()', function () {
     it('should be defined', function () {
-      expect($.getScript).to.be.defined;
+      expect($.getScript).to.not.be.undefined;
     });
 
     it('should make a get request', function () {
@@ -215,7 +215,7 @@ describe('ajax', function () {
 
   describe('getJSON()', function () {
     it('should be defined', function () {
-      expect($.getJSON).to.be.defined;
+      expect($.getJSON).to.not.be.undefined;
     });
 
     it('should make a get request', function () {
@@ -244,7 +244,7 @@ describe('ajax', function () {
 
   describe('param()', function () {
     it('should be defined', function () {
-      expect(Kimbo.param).to.be.defined;
+      expect(Kimbo.param).to.not.be.undefined;
     });
 
     it('should serialize an object suitable for sending in a URL query', function () {

@@ -38,7 +38,7 @@ describe('css', function () {
 
   describe('hide()', function () {
     it('should be defined', function () {
-      expect($.fn.hide).to.be.defined;
+      expect($.fn.hide).to.not.be.undefined;
     });
 
     it('should hide an element', function () {
@@ -53,7 +53,7 @@ describe('css', function () {
 
   describe('css()', function () {
     it('should be defined', function () {
-      expect($.fn.css).to.be.defined;
+      expect($.fn.css).to.not.be.undefined;
     });
 
     it('should return if no valid arguments passed', function () {

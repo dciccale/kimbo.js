@@ -107,7 +107,7 @@ describe('manipulation', function () {
 
   describe('prepend()', function () {
     it('should be defined', function () {
-      expect($.fn.prepend).to.be.defined;
+      expect($.fn.prepend).to.not.be.undefined;
     });
 
     it('should insert content to the begining of elements in the collection', function () {
@@ -126,7 +126,7 @@ describe('manipulation', function () {
 
   describe('append()', function () {
     it('should be defined', function () {
-      expect($.fn.append).to.be.defined;
+      expect($.fn.append).to.not.be.undefined;
     });
 
     it('should insert content to the begining of elements in the collection', function () {
@@ -145,7 +145,7 @@ describe('manipulation', function () {
 
   describe('empty()', function () {
     it('should be defined', function () {
-      expect($.fn.empty).to.be.defined;
+      expect($.fn.empty).to.not.be.undefined;
     });
 
     it('should remove all child elements', function () {
@@ -165,7 +165,7 @@ describe('manipulation', function () {
 
   describe('remove()', function () {
     it('should be defined', function () {
-      expect($.fn.remove).to.be.defined;
+      expect($.fn.remove).to.not.be.undefined;
     });
 
     it('should remove the matched element from the dom', function () {
@@ -185,7 +185,7 @@ describe('manipulation', function () {
 
   describe('attr()', function () {
     it('should be defined', function () {
-      expect($.fn.attr).to.be.defined;
+      expect($.fn.attr).to.not.be.undefined;
     });
 
     it('should get an attribute from a dom element', function () {
@@ -423,7 +423,7 @@ describe('manipulation', function () {
 
   describe('clone()', function () {
     it('should be defined', function () {
-      expect($.fn.clone).to.be.defined;
+      expect($.fn.clone).to.not.be.undefined;
     });
 
     it('should recursively clone a dom element', function () {

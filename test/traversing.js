@@ -21,7 +21,7 @@ describe('traversing', function () {
 
   describe('filter()', function () {
     it('should be defined', function () {
-      expect($.fn.filter).to.be.defined;
+      expect($.fn.filter).to.not.be.undefined;
     });
 
     it('should filter elements in a collection by function', function () {
@@ -51,7 +51,7 @@ describe('traversing', function () {
 
   describe('eq()', function () {
     it('should be defined', function () {
-      expect($.fn.eq).to.be.defined;
+      expect($.fn.eq).to.not.be.undefined;
     });
 
     it('should reduce the element collection to the specified index', function () {
@@ -66,7 +66,7 @@ describe('traversing', function () {
 
   describe('first()', function () {
     it('should be defined', function () {
-      expect($.fn.first).to.be.defined;
+      expect($.fn.first).to.not.be.undefined;
     });
 
     it('should return the first item in the collection', function () {
@@ -77,7 +77,7 @@ describe('traversing', function () {
 
   describe('last()', function () {
     it('should be defined', function () {
-      expect($.fn.last).to.be.defined;
+      expect($.fn.last).to.not.be.undefined;
     });
 
     it('should return the last item in the collection', function () {
@@ -88,7 +88,7 @@ describe('traversing', function () {
 
   describe('slice()', function () {
     it('should be defined', function () {
-      expect($.fn.slice).to.be.defined;
+      expect($.fn.slice).to.not.be.undefined;
     });
 
     it('should reduce the collection to a subset specified by a range of indices', function () {
@@ -101,13 +101,13 @@ describe('traversing', function () {
 
   describe('each()', function () {
     it('should be defined', function () {
-      expect($.fn.each).to.be.defined;
+      expect($.fn.each).to.not.be.undefined;
     });
   });
 
   describe('map()', function () {
     it('should be defined', function () {
-      expect($.fn.map).to.be.defined;
+      expect($.fn.map).to.not.be.undefined;
     });
 
     it('should be apply a function to each element in the collection and return a new set', function () {
@@ -121,7 +121,7 @@ describe('traversing', function () {
 
   describe('find()', function () {
     it('should be defined', function () {
-      expect($.fn.find).to.be.defined;
+      expect($.fn.find).to.not.be.undefined;
     });
 
     it('should return a unique collection', function () {
@@ -133,7 +133,7 @@ describe('traversing', function () {
 
   describe('closest()', function () {
     it('should be defined', function () {
-      expect($.fn.closest).to.be.defined;
+      expect($.fn.closest).to.not.be.undefined;
     });
 
     it('should return if empty set', function () {
@@ -157,7 +157,7 @@ describe('traversing', function () {
 
   describe('contains()', function () {
     it('should be defined', function () {
-      expect($.fn.contains).to.be.defined;
+      expect($.fn.contains).to.not.be.undefined;
     });
 
     it('should determine if an elementis contained by the current matched element', function () {
@@ -170,7 +170,7 @@ describe('traversing', function () {
 
   describe('add()', function () {
     it('should be defined', function () {
-      expect($.fn.add).to.be.defined;
+      expect($.fn.add).to.not.be.undefined;
     });
 
     it('should add elements to the current collection', function () {
@@ -186,7 +186,7 @@ describe('traversing', function () {
 
   describe('is()', function () {
     it('should be defined', function () {
-      expect($.fn.is).to.be.defined;
+      expect($.fn.is).to.not.be.undefined;
     });
 
     it('should test the current collection against a selector', function () {
@@ -202,7 +202,7 @@ describe('traversing', function () {
 
   describe('parent()', function () {
     it('should be defined', function () {
-      expect($.fn.parent).to.be.defined;
+      expect($.fn.parent).to.not.be.undefined;
     });
 
     it('should get the parent element of each element in the collection', function () {
@@ -216,7 +216,7 @@ describe('traversing', function () {
 
   describe('next()', function () {
     it('should be defined', function () {
-      expect($.fn.next).to.be.defined;
+      expect($.fn.next).to.not.be.undefined;
     });
 
     it('should get the next element of each element in the collection', function () {
@@ -229,7 +229,7 @@ describe('traversing', function () {
 
   describe('prev()', function () {
     it('should be defined', function () {
-      expect($.fn.prev).to.be.defined;
+      expect($.fn.prev).to.not.be.undefined;
     });
 
     it('should get the prev element of each element in the collection', function () {
@@ -242,7 +242,7 @@ describe('traversing', function () {
 
   describe('siblings()', function () {
     it('should be defined', function () {
-      expect($.fn.siblings).to.be.defined;
+      expect($.fn.siblings).to.not.be.undefined;
     });
 
     it('should get the sibling elements of each element in the collection', function () {
@@ -255,7 +255,7 @@ describe('traversing', function () {
 
   describe('children()', function () {
     it('should be defined', function () {
-      expect($.fn.children).to.be.defined;
+      expect($.fn.children).to.not.be.undefined;
     });
 
     it('should get the children elements of all elements in the collection', function () {
@@ -281,7 +281,7 @@ describe('traversing', function () {
 
   describe('contents()', function () {
     it('should be defined', function () {
-      expect($.fn.contents).to.be.defined;
+      expect($.fn.contents).to.not.be.undefined;
     });
 
     it('should get the html document and body of an iframe', function () {

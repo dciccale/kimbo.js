@@ -1,11 +1,12 @@
-sudo: false
+dist: jammy
 language: node_js
 node_js:
-  - "0.10"
-before_script:
-  - npm install -g gulp
+  - "22"
+addons:
+  chrome: stable
 branches:
   only:
     - master
-after_script:
-  - npm run coveralls
+script:
+  - npm test
+  - npx gulp build

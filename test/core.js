@@ -16,7 +16,7 @@ describe('core', function () {
   });
 
   it('Kimbo should be defined', function () {
-    expect(Kimbo).to.be.defined;
+    expect(Kimbo).to.not.be.undefined;
   });
 
   it('$ should be Kimbo', function () {

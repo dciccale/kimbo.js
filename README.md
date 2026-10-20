@@ -2,9 +2,6 @@
   <a href="https://travis-ci.org/dciccale/kimbo.js">
     <img src="https://img.shields.io/travis/dciccale/kimbo.js.svg?style=flat-square" alt="Build Status" style="max-width:100%;">
   </a>
-  <a href="https://coveralls.io/github/dciccale/kimbo.js">
-    <img src="https://img.shields.io/coveralls/dciccale/kimbo.js.svg?style=flat-square" alt="Build Status" style="max-width:100%;">
-  </a>
 </p>
 
 <p align="center"><a href="http://kimbojs.com"><img src="http://kimbojs.com/img/logo.png" width="409" height="120" alt="kimbo.js logo"></a></p>
@@ -20,43 +17,38 @@ Give it a try and start using a robust, light-weight and modern library today.
 Please [visit the documentation](http://kimbojs.com/api) to see how easy is to use with its jQuery-like API.
 
 ## Build
-In order to run the build task you'll need [NodeJS](http://nodejs.org/) and [Gulp](http://gulpjs.com/).
 
-After installing NodeJS, clone the project by running:
+Use Node.js 22 or later and npm 10 or later.
 
-```bash
-$ git clone git://github.com/dciccale/kimbo.js.git
+```sh
+npm ci
+npx gulp build
 ```
 
-Install gulp
+The `dist/` directory contains the development build, the minified build, and its source map.
 
-```bash
-$ npm install -g gulp
+## Test
+
+Install Google Chrome or Chromium, then run:
+
+```sh
+npm test
 ```
 
-Enter kimbo.js directory and install local dependencies:
+Karma runs the browser tests in headless Chrome. Set `CHROME_BIN` if Karma cannot find the browser.
+To run tests in a visible browser, open `test/spec.html`.
+Run `npx gulp coverage-report` to copy the coverage report to `www/coverage/`.
 
-```bash
-$ cd kimbo.js && npm install
-```
+The old Coveralls uploader, Plato report, and contributor-list task have been removed.
+Their dependencies are unmaintained and include vulnerable packages.
 
-Now to run the full build task just run:
+### Remaining development dependency alert
 
-```bash
-$ gulp
-```
-
-A `dist/` folder will be created containing development and production build of kimbo.js including a source map file.
-
-## Running the Unit Tests
-
-### In the Browser
-
-Open `test/spec.html`
-
-### In PhantomJS
-
-Run `gulp test`
+`npm audit` still reports [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm)
+for `braces@3.0.3`. Gulp and Karma depend on this package, and no patched version is published.
+This alert also affects packages that depend on `braces`.
+Do not pass untrusted glob patterns to the development tools.
+The browser library has no runtime npm dependencies.
 
 ## Support
 
