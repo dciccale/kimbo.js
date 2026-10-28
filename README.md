@@ -42,12 +42,7 @@ Run `npx gulp coverage-report` to copy the coverage report to `www/coverage/`.
 The old Coveralls uploader, Plato report, and contributor-list task have been removed.
 Their dependencies are unmaintained and include vulnerable packages.
 
-### Remaining development dependency alert
-
-`npm audit` still reports [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm)
-for `braces@3.0.3`. Gulp and Karma depend on this package, and no patched version is published.
-This alert also affects packages that depend on `braces`.
-Do not pass untrusted glob patterns to the development tools.
+Run `npm audit` to check the development dependencies.
 The browser library has no runtime npm dependencies.
 
 ## Support
