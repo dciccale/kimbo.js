@@ -3,8 +3,6 @@
 
   var document = window.document;
 
-  var IS_PHANTOMJS = /PhantomJS/i.test(window.navigator.userAgent);
-
   var fixture = {
     el: null,
     init: function () {
@@ -14,7 +12,7 @@
         this.restore(this.el);
         this.el = null;
       }
-      if (IS_PHANTOMJS) {
+      if (window.__html__) {
         div.innerHTML = window.__html__['test/fixtures/fixture.html'];
       } else {
         fixture = document.getElementById('fixture');

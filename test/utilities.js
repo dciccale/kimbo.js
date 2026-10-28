@@ -102,7 +102,7 @@ describe('utilities', function () {
       expect($.typeOf(document.createTextNode('foo'))).to.equal('object');
     });
 
-    it('Kimbo.typeOf(document.getElementsByTagName(' * ')) should be object', function () {
+    it('Kimbo.typeOf(document.getElementsByTagName("*")) should be object', function () {
       expect($.typeOf(document.getElementsByTagName('*'))).to.equal('object');
     });
 
